@@ -1,0 +1,34 @@
+{
+    "name": "themosis/framework",
+    "description": "The Themosis framework.",
+    "keywords": ["themosis", "framework", "WordPress", "plugin"],
+    "license": "GPL-2.0+",
+    "authors": [{
+        "name": "Julien Lambé",
+        "email": "julien@themosis.com",
+        "homepage": "http://www.themosis.com/"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Themosis\\": "src/Themosis/"
+        },
+        "files": [
+            "src/Themosis/helpers.php",
+            "resources/helpers.php"
+        ]
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "composer/installers": "^1.0",
+        "twig/twig": "~1.0",
+        "stripe/stripe-php": "2.*",
+        "braintree/braintree_php": "2.40.1",
+        "illuminate/routing": "5.4.*",
+        "illuminate/http": "5.4.*",
+        "illuminate/view": "5.4.*",
+        "guzzlehttp/guzzle": "6.*",
+        "kevinrob/guzzle-cache-middleware": "^2.1",
+        "league/flysystem": "^1.0",
+        "firebase/php-jwt": "^5.0"
+    }
+}
