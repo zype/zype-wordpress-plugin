@@ -22,9 +22,6 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 ## Monetization Supported
 
 - Subscription
-- Purchase
-- Rental
-- Pass Plans
 - Ads
 
 # Installation
