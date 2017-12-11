@@ -2,24 +2,37 @@ Don't know what Zype is? Check this [overview](http://www.zype.com/).
 
 # Zype Wordpress Plugin
 
-This plugin allows you to set up an eye-catching, easy to use wordpress video streaming app integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and Zype API. With minimal setup you can have your website up and running.
+This free plugin allows you to transform your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With minimal setup you can have your website up and running.
 
 Using the plugin you can sell subscriptions to media content keep statistics on video views and audio, create playlists and insert video with shortcode and to display the live broadcast.
 
 The Zype cloud service provides publishing, monetization, streaming, audience management, and analytics software that is integrated into hundreds of web, mobile, and OTT apps and engaged by millions of viewers every month.
 
-## Supported Features
+## Key Features & Capabilities
 
-- Populates your app with content from enhanced playlists
-- Video Search
-- Live Streaming videos
-- Shortcode integration
+- Easily add videos and playlist galleries to any page or post using shortcodes.
+- Responsive design instantly works on mobile and desktop with any theme.
+- Stream your content from a wide range of sources including native video uploads, YouTube, Vimeo, Hulu, and more.
+- Your branding front and center with your own custom branded HTML5 video player.
+- Generate revenue with built-in subscription, purchase, and rental paywalls to make more money from your premium content.
+- Maximize ad revenue with preroll, midroll, and postroll ads, including support for dynamic ad pairing.
+- Broadcast high quality Live Streams anywhere on your website with just a few clicks.
+- Improve discovery and navigation for your audience by displaying playlist galleries showcasing your entire video library.
 
-## Monetizations Supported
+## Monetization Supported
 
-- Braintree SVOD
+- Subscription
+- Ads
 
-## Installation
+# Installation
+
+## Requirements and Prerequisites
+
+- A valid and current Zype account
+- Requires WordPress version: 4.6 or higher | Tested up to: 4.8.3
+- Requires PHP: 5.6
+
+## Manual Installation
 
 After downloading the ZIP file of the zype plugin,
 
@@ -31,16 +44,17 @@ After downloading the ZIP file of the zype plugin,
 4. Click Install Now button.
 5. Click Activate Plugin button for activating the Zype.
 
-## Requirements and Prerequisites
+## Configuration
 
-Requires Wordpress version at least: 4.6 | Tested up to: 4.8.3
-Requires PHP: 5.6
+API Keys & Consumer Settings
+- Following installation you must import API keys from your Zype account. API keys will automatically validate as they are being added.
+- In order to support consumer management, you must also import your consumer OAuth keys and secret.
 
 Enhanced Playlists
-1. To set up enhanced playlists, there needs to be a root playlist set up on the platform. To set the root playlist, you can go to your Apple TV app settings under __Manage Apps__ and set the __Featured Playlist__ to your root playlist's id.
+- To set up enhanced playlists, there needs to be a root playlist set up on the platform. To set the root playlist, you can go to your Apple TV app settings under __Manage Apps__ and set the __Featured Playlist__ to your root playlist's id.
 
 Monetization
-1. In order to use SVOD on the website, Braintree settings need to be configured in the plugin configuration as well as on the Zype platform
+- In order to use SVOD on the website, Braintree settings need to be configured in the plugin configuration as well as on the Zype platform
 
 ## Integration
 
