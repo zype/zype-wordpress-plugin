@@ -53,24 +53,6 @@
           </tr>
           <tr>
             <th scope="row">
-              <label for="oauth-client-id">OAuth Client ID</label>
-            </th>
-            <td>
-              <input type="text" name="oauth_client_id" id="oauth-client-id" class="regular-text" value="<?php echo $options['oauth_client_id']; ?>">
-              <p class="description"></p>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              <label for="oauth-client-secret">OAuth Client Secret</label>
-            </th>
-            <td>
-              <input type="text" name="oauth_client_secret" id="oauth-client-secret" class="regular-text" value="<?php echo $options['oauth_client_secret']; ?>">
-              <p class="description"></p>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
               <label for="subscriptions-enabled">Enable Subscription Management</label>
             </th>
             <td>

@@ -147,6 +147,31 @@ $getvalidation_icon = function($key) use($options){
 			</tr>
 		  </tbody>
 		</table>
+
+        <h3>User Authentification</h3>
+        <table class="form-table">
+          <tbody>
+         <tr>
+            <th scope="row">
+              <label for="oauth-client-id">OAuth Client ID</label>
+            </th>
+            <td>
+              <input type="text" name="oauth_client_id" id="oauth-client-id" class="regular-text" value="<?php echo $options['oauth_client_id']; ?>">
+              <p class="description"></p>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">
+              <label for="oauth-client-secret">OAuth Client Secret</label>
+            </th>
+            <td>
+              <input type="text" name="oauth_client_secret" id="oauth-client-secret" class="regular-text" value="<?php echo $options['oauth_client_secret']; ?>">
+              <p class="description"></p>
+            </td>
+          </tr>
+           </tbody>
+        </table>
+
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
                                  value="Save Changes"></p>
     </form>

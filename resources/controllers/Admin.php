@@ -109,6 +109,9 @@ class Admin extends BaseController {
                 'braintree_private_key'    => isset($_POST['braintree_private_key']) ? trim($_POST['braintree_private_key']) : '',
                 'braintree_public_key'    => isset($_POST['braintree_public_key']) ? trim($_POST['braintree_public_key']) : '',
                 'stripe_pk'    => isset($_POST['stripe_pk']) ? trim($_POST['stripe_pk']) : '',
+    
+                'oauth_client_id'    => isset($_POST['oauth_client_id']) ? trim($_POST['oauth_client_id']) : '',
+                'oauth_client_secret'    => isset($_POST['oauth_client_secret']) ? trim($_POST['oauth_client_secret']) : '',            
             ];
 
             if (isset($_POST['zype_environment']) && isset($this->zypeEnvironmentSettings[$_POST['zype_environment']])) {
@@ -360,8 +363,6 @@ class Admin extends BaseController {
                 'logout_url'             => empty($_POST['logout_url']) ? self::$defaults['logout_url'] : $_POST['logout_url'],
                 'profile_url'            => empty($_POST['profile_url']) ? self::$defaults['profile_url'] : $_POST['profile_url'],
                 'device_link_url'        => empty($_POST['device_link_url']) ? self::$defaults['device_link_url'] : $_POST['device_link_url'],
-                'oauth_client_id'        => empty($_POST['oauth_client_id']) ? self::$defaults['oauth_client_id'] : $_POST['oauth_client_id'],
-                'oauth_client_secret'    => empty($_POST['oauth_client_secret']) ? self::$defaults['oauth_client_secret'] : $_POST['oauth_client_secret'],
                 'subscribe_url'          => empty($_POST['subscribe_url']) ? self::$defaults['subscribe_url'] : $_POST['subscribe_url'],
                 'rental_url'             => empty($_POST['rental_url']) ? self::$defaults['rental_url'] : $_POST['rental_url'],
                 'pass_url'               => empty($_POST['pass_url']) ? self::$defaults['pass_url'] : $_POST['pass_url'],
