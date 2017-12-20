@@ -262,7 +262,8 @@ class Api {
         if ($is_auth) {
             $client = self::$authClient;
         } else if ($cache) {
-            $client = self::$resourceClientCached;
+            // $client = self::$resourceClientCached;
+            $client = self::$resourceClient;
         } else {
             $client = self::$resourceClient;
         }

@@ -20,7 +20,9 @@
 	?>
 	
 	<div class="content-box grid_screen-box">
-
+			<h1 class="home-page grid_screen-box_title " >
+				<a class="grid_screen-box_title--href" href="<?php echo get_permalink() ?>">Home</a>
+			</h1>
 		<?php if ($get_all == 0): ?>
 			
 		<?php endif ?>
@@ -40,7 +42,7 @@
 								<?php if(empty($cont->playlist_type) || !$cont->playlist_type): ?>
 									
 									<div class="view_all_images">
-										<a href="<?php echo get_permalink().'?zype_wp=true&zype_type=video_single&zype_video_id='.$cont->_id ?>"><img src="<?php echo $cont->thumbnails[0]->url ?>" height="525px" width="300px"></a>
+										<a href="<?php echo get_permalink().'?zype_wp=true&zype_type=video_single&zype_video_id='.$cont->_id ?>"><img src="<?php echo $cont->thumbnails[0]->url ?>"></a>
 										
 										<div title="<?php echo $cont->title ?>" class="item_title_block"><?php echo $cont->title ?></div>
 									</div>
@@ -62,7 +64,7 @@
 										<?php foreach ($subcontent as $sub): ?>
 												<?php if (!empty($sub->playlist_type)): ?>
 													<?php if($sub->parent_id == $cont->_id): ?>
-														<div class="slider_slide_first">
+														<div class="slider_slide_first zype-<?php echo $sub->thumbnail_layout ?>">
 																<?php
 																	$id = $sub->_id;
 																	$items = !empty($sub->playlist_item_count)? $sub->playlist_item_count: 0;
@@ -75,7 +77,7 @@
 													<?php endif ?>
 												<?php else: ?>
 													<?php if($sub->parent_id == $cont->_id): ?>
-														<div class="slider_slide_second">
+														<div class="slider_slide_second zype-<?php echo $sub->thumbnail_layout ?>">
 															<?php $id = $sub->_id; ?>
 															<?php $i++ ?>
 															<a href="<?php echo get_permalink().'?zype_wp=true&zype_type=video_single&zype_video_id='.$sub->_id ?>"><img src="<?php echo $sub->thumbnails[0]->url ?>"></a>
@@ -101,7 +103,7 @@
 								<?php if (!empty($cont->playlist_type)): ?>
 									<div class="view_all_images">
 										
-									<a href="<?php echo get_permalink().'?zype_parent='.$id.'&zype_items='.$items?>"><?php if($cont->thumbnails[0]->url): ?><img class="view_all_images-img" src="<?php echo $cont->thumbnails[0]->url ?>" height="100%" width="100%" style="height:100%;"><?php else: ?><img class="view_all_images-img" src="<?php echo plugins_url().'/zype/dist/images/playlist_without_picture.png' ?>" height="100%" width="100%" style="height:100%;"><?php endif ?></a><br>
+									<a href="<?php echo get_permalink().'?zype_parent='.$id.'&zype_items='.$items?>"><?php if($cont->thumbnails[0]->url): ?><img class="view_all_images-img zype-<?php echo $cont->thumbnail_layout ?>" src="<?php echo $cont->thumbnails[0]->url ?>" height="100%" width="100%" style="height:100%;"><?php else: ?><img class="view_all_images-img zype-<?php echo $cont->thumbnail_layout ?>" src="<?php echo plugins_url().'/zype/dist/images/playlist_without_picture.png' ?>" height="100%" width="100%" style="height:100%;"><?php endif ?></a><br>
 									<div class="item_title_block"><?php echo $cont->title ?></div>
 									</div>
 

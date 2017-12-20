@@ -203,16 +203,8 @@ class Auth extends Base
         if ($password != $password_confirmation) {
             return false;
         }
-        if (strlen($password) < 8) {
-            return false;
-        }
-        if (!preg_match('/[A-Z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[a-z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[0-9]/', $password)) {
+
+        if (mb_strlen($password) < 8) {
             return false;
         }
 

@@ -18,10 +18,10 @@
         }
 
         sliderList.slick({
-            dots: true,
+            dots: false,
             infinite: true,
             arrows: true,
-            adaptiveHeight: true,
+            adaptiveHeight: false,
             responsive: slickCalculateResponsive()
         });
 
