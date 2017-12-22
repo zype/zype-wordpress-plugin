@@ -48,14 +48,6 @@
                 <strong class="title">Subscription Plan: </strong>
                 <p><?php echo $zd['current_plan']->name; ?>, $<?php echo $zd['current_plan']->amount; ?> every <?php if($zd['current_plan']->interval_count >1){echo $zd['current_plan']->interval_count.' '; }?><?php echo $zd['current_plan']->interval; ?><?php if($zd['current_plan']->interval_count >1){echo 's'; }?></p>
                 <br>
-                <?php if(!empty($zd['subscription']->stripe_id)){ ?>
-                  <p><strong>Status:</strong> <?php echo $zd['subscription']->status; ?></p>
-                  <p><strong>Start Date:</strong> <?php formatted_time(date('c', $zd['plan_start'])); ?></p>
-                  <?php if(!$zd['cancel_at_period_end']){ ?>
-                    <p><strong>Next Billing Date:</strong> <?php formatted_time(date('c', $zd['plan_end'])); ?></p>
-                  <?php } ?>
-                  <p><strong>Automatic Renewal:</strong> <?php echo $zd['cancel_at_period_end']? 'Disabled' : 'Enabled';?></p>
-                <?php } ?>
               </div>
               <?php if(!empty($zd['subscription']->stripe_id)){ ?>
               <div class="slot">
@@ -84,21 +76,6 @@
                   </form>
                 </p>
               </div>
-              <?php } ?>
-              <?php if(!empty($zd['subscription']->stripe_id)){ ?>
-                <div class="slot">
-                  <strong class="title">payment method</strong>
-                  <p><?php echo $zd['card']->brand; ?> Ending in <?php echo $zd['card']->last4; ?></p>
-                  <div class="btn-holder">
-                    <form id="update_card_form" action="<?php zype_url('profile'); ?>/subscription/change-card/" method="post" class="button-disableable">
-                      <input type="hidden" name="consumer_id" value="<?php echo $zd['consumer_id']; ?>">
-                      <input type="hidden" name="email" value="">
-                      <input type="hidden" name="stripe_card_token" value="">
-                      <button class="customButton btn btn-sm btn-info">Update Credit Card</button>
-                      <div class="button-form-disabler"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></div>
-                    </form>
-                  </div>
-                </div>
               <?php } ?>
               <div class="slot">
                 <strong class="title">Cancel Subscription: </strong>

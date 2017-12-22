@@ -170,7 +170,7 @@ class Auth extends Base
                         $this->form_message = zype_flash_message('times', $message);
                 }
             } else {
-                $message = 'Your password must be at least 8 characters and contain one each of an uppercase letter, a lowercase letter, and a number.';
+                $message = 'Your password must be at least 8 characters.';
                 if($ajax)
                     $errors[] = $message;
                 else
@@ -203,16 +203,8 @@ class Auth extends Base
         if ($password != $password_confirmation) {
             return false;
         }
-        if (strlen($password) < 8) {
-            return false;
-        }
-        if (!preg_match('/[A-Z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[a-z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[0-9]/', $password)) {
+
+        if (mb_strlen($password) < 8) {
             return false;
         }
 

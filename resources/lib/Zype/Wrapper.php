@@ -484,8 +484,7 @@ class Wrapper {
 
     public static function cancel_subscription($subscription_id) {
         $api_params = [
-            'api_key'       => self::$options['admin_key'],
-            'cancel_at_period_end' => 'true',
+            'api_key'       => self::$options['admin_key']
         ];
 
         return Api::cancel_subscription($subscription_id, $api_params);

@@ -242,35 +242,24 @@ class Profile extends BaseController
         $zd['stripe_pk']   = Config::get('zype.stripe_pk');
 
         $zd['subscription'] = \Zype::get_consumer_subscription($zd['consumer_id']);
-        if ($zd['subscription']) {
+        if (!empty($zd['subscription'])) {
             $zd['plans']        = \Zype::get_all_plans();
             $zd['current_plan'] = \Zype::get_plan($zd['subscription']->plan_id);
 
             if (!empty($zd['subscription']->stripe_id)) {
-                $zd['stripe_data']          = \Zype::get_consumer_stripe_data($zd['consumer_id']);
-                $default_source_id          = $zd['stripe_data']->default_source;
                 $zd['cancel_at_period_end'] = isset($zd['subscription']->cancel_at_period_end) ? $zd['subscription']->cancel_at_period_end : false;
-                foreach ($zd['stripe_data']->sources->data as $source) {
-                    if ($source->id == $default_source_id) {
-                        $zd['card'] = $source;
-                        break;
-                    }
-                }
 
-                $full_sub = false;
-                foreach ($zd['stripe_data']->subscriptions->data as $sub) {
-                    if ($sub->id == $zd['subscription']->stripe_id) {
-                        $full_sub = $sub;
-                        break;
-                    }
-                }
+                $full_sub = $sub = $zd['subscription'];
 
-                $zd['plan_start'] = $sub->start;
-                $zd['plan_end']   = $sub->current_period_end;
+                $zd['plan_start'] = $sub->start_at;
+                $zd['plan_end']   = $sub->current_period_end_at;
                 $zd['sub_status'] = ucwords($sub->status);
             }
+        } else {
+            $zd['subscription'] = false;
         }
-
+// var_dump($zd);
+// exit;
         $title = 'Subscription';
 
         print view('auth.subscription', [
@@ -294,7 +283,9 @@ class Profile extends BaseController
         $res  = false;
 
         if ($subscription && isset($post['subscription_id']) && ($subscription->_id == $post['subscription_id'])) {
-            $res = \Zype::change_subscription($subscription->_id, ['plan_id' => $post['new_plan_id'], 'consumer_id' => $consumer_id]);
+            $res = \Zype::change_subscription($subscription->_id, [
+                'plan_id' => $post['new_plan_id']
+            ]);
         }
 
         if ($res) {
@@ -353,16 +344,13 @@ class Profile extends BaseController
             }
         }
 
-        if ($res) {
-            $mailer = new \ZypeMedia\Services\Mailer;
-            $mailer->cancel_subscription($email);
-            $mail_res = $mailer->send();
+        $mailer = new \ZypeMedia\Services\Mailer;
+        $mailer->cancel_subscription($email);
+        $mail_res = $mailer->send();
 
-            $za->sync_cookie();
-            zype_flash_message('success', 'Your subscription has been successfully canceled.');
-        } else {
-            zype_flash_message('error', 'An error has occured. Please try again.');
-        }
+        $za->sync_cookie();
+        zype_flash_message('success', 'Your subscription has been successfully canceled.');
+
         wp_redirect(get_zype_url('profile'));
         die();
     }
