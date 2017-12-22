@@ -5,16 +5,18 @@ use Themosis\Facades\Input;
 use Themosis\Facades\Asset;
 
 add_shortcode('zype_grid', function() {
+    $video = new Consumer\Videos();
     switch (Input::get('zype_type')) {
         case 'video_single':
-            return Consumer\Videos::single();
+            return $video->single();
             break;
         case 'video_index':
-            return Consumer\Videos::index();
+            return $video->index();
             break;
     }
 
-    return Consumer\Gridscreen::index();
+    $grid = new Consumer\Gridscreen();
+    return $grid->index();
 });
 
 if (Config::get('zype.livestream_enabled')) {

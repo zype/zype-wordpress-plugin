@@ -67,7 +67,7 @@
 }
 
 .slider_slide_second {
-    margin: 0 10px;
+    margin: 0 3px;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
@@ -87,6 +87,10 @@
     -o-transition: all 0.3s;
     transition: all 0.3s;
     overflow: hidden;
+}
+
+body:not(.twentyseventeen-front-page) .entry-content {
+    margin: 0 40px !important;
 }
 
 .slider_slide_first:hover {
@@ -167,15 +171,20 @@
 }
 
 .view_all_images {
-    max-width: 280px;
+    /* max-width: 280px;
     height: auto;
-    display: inline-block;
     overflow: hidden;
-    margin: 10px;
-    vertical-align: middle;
+    margin: 0 3px;
+    vertical-align: middle; */
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.view_all_images a {
+    display: inline-block;
 }
 
 .view_all_images:hover {
@@ -206,10 +215,43 @@
     min-width: 100%;
 }
 
-.slider-list .slick-slide.zype-landscape {
-    width: 280px;
-    /* background: #2D2929; */
-    /* opacity: 0.65; */
+.slider-list .slick-slide a {
+    display: block;
+}
+
+.slider-list .slick-slide a:hover {
+    background-color: #2D2929;
+    opacity: 0.35;
+}
+
+.view_all_images.zype-landscape .zype-background-thumbnail {
+    width: 320px;
+    height: 180px;
+}
+
+.slider-list.zype-landscape .slick-slide .zype-background-thumbnail {
+    height: 192px;
+}
+
+.view_all_images.zype-poster .zype-background-thumbnail {
+    width: 200px;
+    height: 300px;
+}
+
+.slider-list.zype-poster .slick-slide .zype-background-thumbnail {
+    height: 253.5px;
+}
+
+.slider-list.zype-landscape .slick-slide .zype-background-thumbnail,
+.slider-list.zype-poster .slick-slide .zype-background-thumbnail,
+.view_all_images.zype-landscape .zype-background-thumbnail,
+.view_all_images.zype-poster .zype-background-thumbnail {
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
 }
 
 .zype_play_sample {
@@ -265,4 +307,10 @@
 .error-section {
     color: #bf0a0a;
     font-weight: 700;
+}
+
+.box-with-content-viewall {
+    display: inherit;
+    flex-flow: wrap;
+    justify-content: start;
 }

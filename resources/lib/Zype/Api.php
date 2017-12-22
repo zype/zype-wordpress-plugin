@@ -15,6 +15,7 @@ class Api {
      */
     private static $authClient;
     private static $resourceClient;
+    private static $resourceClientHttp;
     private static $resourceClientCached;
     private static $options;
 
@@ -27,13 +28,21 @@ class Api {
         try {
             self::$options = $options;
 
+            $authPoint = trim(self::$options['authpoint'], '/') . '/';
+            $endPoint = trim(self::$options['endpoint'], '/') . '/';
+
             self::$authClient = new Client([
-                'base_uri' => trim(self::$options['authpoint'], '/') . '/',
+                'base_uri' => $authPoint,
                 'timeout' => 120,
             ]);
 
             self::$resourceClient = new Client([
-                'base_uri' => trim(self::$options['endpoint'], '/') . '/',
+                'base_uri' => $endPoint,
+                'timeout' => 120,
+            ]);
+
+            self::$resourceClientHttp = new Client([
+                'base_uri' => str_replace('https://', 'http://', $endPoint),
                 'timeout' => 120,
             ]);
             
@@ -65,7 +74,7 @@ class Api {
 
             self::$resourceClientCached = new Client([
                 'handler'  => $stack,
-                'base_uri' => trim(self::$options['endpoint'], '/') . '/',
+                'base_uri' => $endPoint,
                 'timeout' => 120,
             ]);
         } catch (\Exception $e) {}
@@ -228,7 +237,7 @@ class Api {
     }
 
     private static function _cancel_subscription($id, $query) {
-        return self::request("PUT", "subscriptions/{$id}/cancel", $query, false, false);
+        return self::request("DELETE", "subscriptions/{$id}", $query, false, false);
     }
 
     private static function _change_subscription($id, $query) {
@@ -262,10 +271,13 @@ class Api {
         if ($is_auth) {
             $client = self::$authClient;
         } else if ($cache) {
-            // $client = self::$resourceClientCached;
-            $client = self::$resourceClient;
+            $client = self::$resourceClientCached;
         } else {
             $client = self::$resourceClient;
+        }
+
+        if (!$is_auth && in_array($method, ['PUT'])) {
+            $client = self::$resourceClientHttp;
         }
 
         $response = $client->request($method, $endpoint, [
