@@ -7,7 +7,7 @@ $plans = \Zype::get_all_plans();
 
 <div class="wrap zype-admin">
 	<h2><?php echo get_admin_page_title();?></h2>
-    <p>Any active <a href ="https://admin.zype.com/plans" taraget="_blank">subscription 
+    <p>Any active <a href ="https://admin.zype.com/plans" target="_blank">subscription 
     plans created in your Zype account</a> can be made available for 
     purchase on your WordPress website. 
     Simply click below on each plan you would like to feature for sale on
