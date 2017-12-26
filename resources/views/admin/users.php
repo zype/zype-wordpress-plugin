@@ -1,6 +1,21 @@
 <?php if(!defined('ABSPATH')) die(); ?>
 <div class="wrap zype-admin">
     <h2><?php echo get_admin_page_title(); ?></h2>
+    <p>If you monetize with subscriptions or other transaction paywalls, 
+      the Zype plugin allows you to easily add pages for consumer account and 
+      transaction management to your website. These pages allow your consumers
+       to manage their profiles and subscriptions, 
+       link set top devices for universal authentication, and more.
+      </p>
+      <p>Check the box to enable each set of pages below. 
+      They will automatically appear in your website at the URL entered once you save changes.
+       You can modify the URL that each page appears on by changing the URL slug in the accompanying boxes.
+      </p>
+    <h3>Profile Management</h3>
+    <p>Enable Authentication to allow your consumers to update their account, 
+    including changing their login email and password,
+     on the Profile page. This will also provide a dedicated Logout page 
+     allowing consumers to sign out of their accounts.</p>
     <form method="post" action="<?php echo admin_url('admin.php'); ?>">
       <input type="hidden" name="action" value="zype_users">
       <?php wp_nonce_field('zype_users'); ?>
@@ -33,6 +48,16 @@
               <p class="description"></p>
             </td>
           </tr>
+          </tbody>
+	      	</table>
+          <h3>Device Linking</h3>
+          <p>Enable Device Linking if you sell subscription or transaction paywalled 
+          content in set top apps like Apple TV, Roku, or Amazon Fire TV that 
+          feature device linking universal login authentication. 
+          The Device Linking page makes it easy for consumers to log into accounts
+           to view content in your set top apps.</p>
+           <table class="form-table">
+        <tbody>
           <tr>
             <th scope="row">
               <label for="device-link-enabled">Enable Device Linking</label>
@@ -51,6 +76,14 @@
               <p class="description"></p>
             </td>
           </tr>
+          </tbody>
+	      	</table>
+         
+          <h3>Subscription and Paywall Management</h3>
+          <p>Enable Subscription Management to allow consumers to easily manage their
+           subscriptions or purchased content on your website.</p>
+           <table class="form-table">
+        <tbody>
           <tr>
             <th scope="row">
               <label for="subscriptions-enabled">Enable Subscription Management</label>
