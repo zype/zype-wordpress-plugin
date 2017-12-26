@@ -13,29 +13,23 @@ $getvalidation_icon = function($key) use($options){
 <div class="wrap zype-admin">
     <h2><?php echo get_admin_page_title(); ?></h2>
 
-    <p>Proper API keys are required for the plugin to function.</p>
+    <h3>Initial Setup</h3>
+    <p>Welcome to the Zype plugin for WordPress. In order to use the Zype plugin, please enter API keys, 
+    as well as  other credentials and settings from your Zype account.</p>
 
-    <p>Your API keys can be found <a href="https://admin.zype.com/api_keys" target="_blank">here</a>.</p>
+    <p>First, if you haven’t already done so, you’ll want to create a 
+    <a href="https://admin.zype.com/apps/new?type=wordpress" target="_blank">WordPress app profile</a> 
+    in Zype’s admin. Please follow the instructions in Zype to complete the app profile creation.</p>
+
+    <h3>API Keys</h3>
+    <p>Your WordPress App Key and all your other API keys can be found in Zype’s admin in the API keys section. 
+    Please copy and paste each API key listed below from your Zype account admin.</p>
 
     <form method="post" action="<?php echo admin_url('admin.php'); ?>">
         <input type="hidden" name="action" value="zype_api_keys">
         <?php wp_nonce_field('zype_api_keys'); ?>
         <table class="form-table">
             <tbody>
-            <tr>
-                <!--<th scope="row">
-                    <label for="zype_environment">Zype Environment</label>
-                </th>-->
-                <td>
-					<input type="hidden" name="zype_environment" id="zype_environment" class="regular-text" value="Production"><!--</?php echo $options['zype_environment']; ?>-->
-                    <!--<select name="zype_environment" id="zype_environment" class="regular-text" value="</?php echo $options['zype_environment']; ?>">
-                        </?php foreach ($this->zypeEnvironmentSettings as $envName => $environment) { ?>
-                            <option value="</?php echo $envName; ?>" </?php echo ($envName == $options['zype_environment']) ? 'selected="selected"' : '';?>></?php echo $envName; ?></option>
-                        </?php } ?>
-                    </select>-->
-                    <p class="description"></p>
-                </td>
-            </tr>
 			<tr>
 				<th scope="row">
 					 <label for="app-key">App Key*</label>
@@ -86,7 +80,20 @@ $getvalidation_icon = function($key) use($options){
             </tbody>
         </table>
 		<hr>
-		<h3>Stripe</h3>
+
+        <h3>Payment Setup</h3>
+        <p>If you plan on monetizing videos using subscriptions or other paywall settings, 
+        you must set up an account with a supported payment process, configure payment settings in Zype, 
+        and enter your payment provider details below.
+        </p>
+        </p>Visit <a href="https://admin.zype.com/monetization" target="_blank">Zype’s Monetization menu</a>
+         to learn more about setting up subscriptions and other paywalls.
+        </p>
+        <p>If you’ve already created a subscription plan, visit 
+        <a href="https://admin.zype.com/site/edit" target="_blank">Zype’s Settings > Monetization tab </a>
+        to access your Stripe and/or Braintree information to enter below.</p>
+
+		<h4>Stripe</h4>
 		<table class="form-table">
 		  <tbody>
 			<tr>
@@ -102,7 +109,7 @@ $getvalidation_icon = function($key) use($options){
 		  </tbody>
 		</table>
 		<hr>
-		<h3>Braintree</h3>
+		<h4>Braintree</h4>
 		<table class="form-table">
 		  <tbody>
 			<tr> 
@@ -148,7 +155,16 @@ $getvalidation_icon = function($key) use($options){
 		  </tbody>
 		</table>
 
-        <h3>User Authentification</h3>
+        <h3>Consumer Account Management Setup</h3>
+        
+        <p>If you plan on monetizing videos using subscriptions or other paywalls, you should also provide your consumers
+         with the ability to manage their accounts after purchasing your video products. 
+         This way they can update their email addresses, change their subscription settings, and more.</p>
+
+        <p>In order to support Consumer Account Management Pages in WordPress you must enter 
+        OAuth credentials below. To find your OAuth credentials, please visit 
+        <a href="https://admin.zype.com/apps" target="_blank">Zype’s Apps dashboard</a> and look for your “Wordpress App.” 
+        Click into the Wordpress App and look for the “OAuth Credentials:” link. Click on “View Credentials” to expose your Client ID and Client secret.</p>
         <table class="form-table">
           <tbody>
          <tr>
