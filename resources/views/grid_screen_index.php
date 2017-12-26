@@ -20,10 +20,6 @@
 	?>
 	
 	<div class="content-box grid_screen-box">
-		<h1 class="home-page grid_screen-box_title " >
-			<a class="grid_screen-box_title--href" href="<?php echo get_permalink() ?>">Home</a>
-		</h1>
-
 		<div class="box-with-content <?php echo $get_all == 2? 'box-with-content-viewall': '' ?>" >
 			<?php foreach($content as $cont): ?>
 				<?php
