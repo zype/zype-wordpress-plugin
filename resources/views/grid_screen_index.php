@@ -24,6 +24,10 @@
 			<a class="grid_screen-box_title--href" href="<?php echo get_permalink() ?>">Home</a>
 		</h1>
 
+		<?php if ((!empty($_GET['zype_items']) && $_GET['zype_items'] > 0 || $get_all == 2) && $parent_playlist ): ?>
+			<h2 class="playlist-view-title"><?php echo $parent_playlist->title ?></h2>
+		<?php endif ?>
+
 		<div class="box-with-content <?php echo $get_all == 2? 'box-with-content-viewall': '' ?>" >
 			<?php foreach($content as $cont): ?>
 				<?php
@@ -35,6 +39,8 @@
 					<!-- normal mode -->
 					<?php if(empty($cont->playlist_type) || !$cont->playlist_type): ?>
 						<?php
+							$thumbnail_layout = !empty($parent_playlist->thumbnail_layout)? $parent_playlist->thumbnail_layout: 'landscape';
+
 							if (!empty($cont->thumbnails[0]->url)) {
 								$background_image = $cont->thumbnails[0]->url;
 							} else {
@@ -57,7 +63,7 @@
 
 								</div>
 								<div class="get-all-playlists slider_links-all" >
-									<a href="<?php echo get_permalink().'?zype_get_all=2&zype_parent='.$id.'&zype_items='.$items ?>">View All</a>
+									<a href="<?php echo get_permalink().'?zype_get_all=2&zype_parent='.$id.'&zype_items='.$items ?>">See all</a>
 								</div>
 							</div>
 							<div class="slider-list zype-<?php echo $thumbnail_layout ?>">
@@ -109,7 +115,7 @@
 					
 					<?php endif ?>
 						
-				<?php elseif($get_all == 2): ?>
+				<?php elseif ($get_all == 2): ?>
 					<?php
 						$id = $cont->_id;
 						$items = !empty($playlist_item_count->playlist_item_count)? $playlist_item_count->playlist_item_count: 0;

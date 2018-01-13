@@ -1,5 +1,20 @@
 <?php
   $guests = zype_video_zobjects('guest');
+  
+  $hours = floor($video->duration / 3600);
+  $minutes = floor(($video->duration / 60) % 60);
+  $seconds = $video->duration % 60;
+
+  $duration = '';
+  if ($hours) {
+    $duration = "{$minutes}h, {$minutes}m";
+  } else {
+    if (!$minutes) {
+      $duration = "{$seconds}s";
+    } else {
+      $duration = "{$minutes}m";
+    }
+  }
 ?>
 <div class="zype_video">
   <div class="zype_video__wrapper">
@@ -22,8 +37,10 @@
   <?php if ($view == 'full'): ?>
     <section class="episode-main">
       <div class="head">
-        <strong class="title">Episode <?php echo $video->episode; ?> <?php if (function_exists('the_share_buttons')) the_share_buttons(); ?></strong>
-        <time datetime="<?php echo date(DATE_W3C, strtotime($video->published_at?: $video->created_at)); ?>"><?php formatted_time($video->published_at?: $video->created_at); ?></time>
+        <h2><?php echo $video->title; ?></h2>
+      </div>
+      <div class="head">
+        <h5 class="duration-title">Duration <?php echo $duration ?></h5>
       </div>
       <?php if ($guests) { ?>
       <ul class="user-list">
@@ -45,8 +62,7 @@
       </ul>
       <?php } ?>
       <div class="summary">
-        <strong class="title">summary</strong>
-          <p><?php echo $video->description; ?></p>
+        <p><?php echo $video->description; ?></p>
         <ul class="tags">
           <?php foreach($video->keywords as $keyword){ ?>
           <li><a href="<?php zype_url('video'); ?>/?search=<?php echo $keyword; ?>" class="btn btn-sm"><?php echo $keyword; ?></a></li>
