@@ -24,12 +24,29 @@
         }
 
         $.each(sliderList, function() {
+            $(this).on('setPosition', function(event, slick) {
+                var slick_slides = $(this).find('.slick-slide');
+                var variableWidth = slick_slides.first().width();
+
+                if ($(this).hasClass('zype-landscape')) {
+                    var heightRatio = 0.5625;
+                } else {
+                    var heightRatio = 1.5;
+                }
+
+                var resizeHeight = variableWidth * heightRatio;
+
+                $.each($(this).find('.slick-slide'), function() {
+                    $(this).find('.zype-background-thumbnail').height(resizeHeight);
+                });
+            });
+
             $(this).slick({
                 dots: false,
                 infinite: true,
                 arrows: true,
                 adaptiveHeight: false,
-                responsive: slickCalculateResponsive($(this))
+                responsive: slickCalculateResponsive($(this)),
             });
         });
 

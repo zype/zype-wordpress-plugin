@@ -281,7 +281,7 @@ function ZypeWP(env) {
             if (t.data('auto-play') == true) {
                 self.get_player(t);
             } else {
-                t.children('.btn-play').click(function() {
+                t.children('.play-placeholder').click(function() {
                     self.get_player(t);
                 })
             }

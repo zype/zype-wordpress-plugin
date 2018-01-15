@@ -44,7 +44,7 @@ class Gridscreen extends Base {
 		$parent_id = self::$parent_id;
 		$app_key = Config::get('zype.app_key'); 
 		$get_all = Input::get('zype_get_all', 0);
-		$parent_playlist = false;
+		$parent_playlist = \Zype::get_playlist($parent_id);
 
 		if ($get_all == 2) {
 			if ($items == 0) {
@@ -54,7 +54,6 @@ class Gridscreen extends Base {
 				], 1, 500, 'priority', 'asc');
 			} elseif ($items > 0) {
 				self::$content = \Zype::get_playlist_videos($parent_id);
-				$parent_playlist = \Zype::get_playlist($parent_id);
 			}
 			
 		}
