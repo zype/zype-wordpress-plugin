@@ -20,10 +20,6 @@
 	?>
 	
 	<div class="content-box grid_screen-box">
-		<h1 class="home-page grid_screen-box_title " >
-			<a class="grid_screen-box_title--href" href="<?php echo get_permalink() ?>">Home</a>
-		</h1>
-
 		<?php if ((!empty($_GET['zype_items']) && $_GET['zype_items'] > 0 || $get_all == 2) && $parent_playlist ): ?>
 			<h2 class="playlist-view-title"><?php echo $parent_playlist->title ?></h2>
 		<?php endif ?>
