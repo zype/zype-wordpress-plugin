@@ -2,7 +2,7 @@ Don't know what Zype is? [Learn more about Zype here](http://www.zype.com/).
 
 # Zype Wordpress Plugin
 
-This free plugin allows you to transform your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With brief setup you can begin streaming video on your website.
+This free plugin allows you to turn your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With brief setup you can begin streaming video on your website.
 
 Using the plugin you can sell subscriptions for premium video content, track analytics for video engagement, create playlists and insert videos using shortcodes, and even broadcast live events with just a few clicks.
 
@@ -14,7 +14,7 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 - Responsive design instantly works on mobile and desktop with any theme.
 - Stream your content from a wide range of sources including native video uploads, YouTube, Vimeo, Hulu, and more.
 - Your branding front and center with your own custom branded HTML5 video player.
-- Generate revenue with built-in subscription, purchase, and rental paywalls to make more money from your premium content.
+- Generate revenue with built-in subscription paywalls to make more money from your premium content.
 - Maximize ad revenue with preroll, midroll, and postroll ads, including support for dynamic ad pairing.
 - Broadcast high quality Live Streams anywhere on your website with just a few clicks.
 - Improve discovery and navigation for your audience by displaying playlist galleries showcasing your entire video library.
@@ -47,24 +47,24 @@ After downloading the ZIP file of the zype plugin,
 ## Configuration
 
 API Keys & Consumer Settings
-- Following installation you must import API keys from your Zype account. API keys will automatically validate as they are being added.
+- Following installation you must import API and app keys from your Zype account. API and app keys will automatically validate as they are being added.
 - In order to support consumer management, you must also import your consumer OAuth keys and secret.
 
 Enhanced Playlists
 - To set up enhanced playlists, there needs to be a root playlist set up in your Zype account. To create a root playlist, you can visit the [Manage Playlist Relationships](https://admin.zype.com/playlists/relationships) page in Zype and create a parent/child playlist structure.
 
 Monetization
-- In order to use subscription monetization on your Wordpress website, you must have a Braintree account and have your Braintree settings configured in the plugin as well as in the Zype platform.
+- In order to use subscription monetization on your Wordpress website, you must have a Braintree or Stripe account and have your Braintree / Stripe settings configured in the plugin as well as in the Zype platform.
 
 ## Website Integration
 
 ### Shortcodes
 Shortcodes can be inserted anywere on your Wordpress website and will render underlying functionality based on plugin configuration.
-- [zype_auth] Will render login/signup functionality.
-- [zype_signup] Will render signup functionality
 - [zype_video id='Insert Video ID'] Will render a single video from your Zype account
 - [zype_playlist id='Insert Playlist ID'] Will render a playlist and all nested content from your Zype account
 - [zype_playlist id='Insert Playlist ID' zype_type=video_single] Will render all videos within a selected playlist
+- [zype_auth] Will render login/signup functionality.
+- [zype_signup] Will render signup functionality
 
 ### URL rewrites
 URL rewrites add new pages to your website.
