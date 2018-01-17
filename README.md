@@ -32,17 +32,37 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 - Requires WordPress version: 4.6 or higher | Tested up to: 4.8.3
 - Requires PHP: 5.6
 
-## Manual Installation
+## 
 
-After downloading the ZIP file of the zype plugin,
+
+## Installation via prebundled zip archive (recommended)
+
+Download latest release from Google Drice link in releases section in Github
 
 1. Log in to the administrator panel.
 2. Go to Plugins Add > New > Upload.
 3. Click Choose file (Browse) and select the downloaded zip file of the zype plugin.
-*For Mac Users*
-*Go to your Downloads folder and locate the folder with the zype. Right-click on the folder and select Compress. Now you have a newly created .zip file which can be installed as described here.*
 4. Click Install Now button.
 5. Click Activate Plugin button for activating the Zype.
+
+## Installation via cloning the repo
+
+Clone or dowbload zype-wordpress-plugin repo. If you downloaded the ZIP file, you need to unzip the file.
+
+1. Open up **Terminal**. Navigate inside downloaded repo.
+
+```shell
+cd path/to/plugin-folder # change directory to plugin folder
+```
+
+2.  Enter the following command to get the required libraries:
+```shell
+composer install # get the latest version of required libraries with Composer
+```
+
+3. After the libraries have been updated, ZIP the plugin folder.
+
+4. Manually add a new plugin in Wordpress and upload the ZIP file you just zipped.
 
 ## Configuration
 
