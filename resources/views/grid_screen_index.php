@@ -41,11 +41,26 @@
 						<?php
 							$thumbnail_layout = !empty($parent_playlist->thumbnail_layout)? $parent_playlist->thumbnail_layout: 'landscape';
 
-							if (!empty($cont->thumbnails[0]->url)) {
-								$background_image = $cont->thumbnails[0]->url;
-							} else {
-								$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+							$poster_image = '';
+							if( $thumbnail_layout == 'poster' && $cont->images ) {
+								foreach( $cont->images as $image ){
+									if( $image->layout == 'poster'){
+										$poster_image = $image->url;
+										break;
+									}
+								}
 							}
+
+							if( $poster_image ){
+								$background_image = $poster_image;
+							} else {
+								if (!empty($cont->thumbnails[0]->url)) {
+									$background_image = $cont->thumbnails[0]->url;
+								} else {
+									$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+								}
+							}
+							
 						?>
 						<div class="view_all_images zype-<?php echo $thumbnail_layout ?>">
 							<a href="<?php echo get_permalink().'?zype_wp=true&zype_type=video_single&zype_video_id='.$cont->_id ?>">
@@ -70,12 +85,24 @@
 							<?php if ($subcontent): ?>
 								<?php foreach ($subcontent as $sub): ?>
 									<?php
-										$thumbnail_layout = !empty($sub->thumbnail_layout)? $sub->thumbnail_layout: 'landscape';
+										$poster_image = '';
+										if( $thumbnail_layout == 'poster' && $sub->images ) {
+											foreach( $sub->images as $image ){
+												if( $image->layout == 'poster'){
+													$poster_image = $image->url;
+													break;
+												}
+											}
+										}
 
-										if (!empty($sub->thumbnails[0]->url)) {
-											$background_image = $sub->thumbnails[0]->url;
+										if( $poster_image ){
+											$background_image = $poster_image;
 										} else {
-											$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+											if (!empty($sub->thumbnails[0]->url)) {
+												$background_image = $sub->thumbnails[0]->url;
+											} else {
+												$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+											}
 										}
 									?>
 
@@ -121,10 +148,24 @@
 						$items = !empty($playlist_item_count->playlist_item_count)? $playlist_item_count->playlist_item_count: 0;
 						$thumbnail_layout = !empty($parent_playlist->thumbnail_layout)? $parent_playlist->thumbnail_layout: 'landscape';
 
-						if (!empty($cont->thumbnails[0]->url)) {
-							$background_image = $cont->thumbnails[0]->url;
+						$poster_image = '';
+						if( $thumbnail_layout == 'poster' && $cont->images ) {
+							foreach( $cont->images as $image ){
+								if( $image->layout == 'poster'){
+									$poster_image = $image->url;
+									break;
+								}
+							}
+						}
+
+						if( $poster_image ){
+							$background_image = $poster_image;
 						} else {
-							$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+							if (!empty($cont->thumbnails[0]->url)) {
+								$background_image = $cont->thumbnails[0]->url;
+							} else {
+								$background_image = $thumbnail_layout == 'landscape'? asset_url('images/320x180.png'): asset_url('images/200x300.png');
+							}
 						}
 					?>
 
