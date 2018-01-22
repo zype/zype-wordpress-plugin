@@ -37,7 +37,7 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 
 ## Installation via prebundled zip archive (recommended)
 
-Download latest release from Google Drice link in releases section in Github
+Download latest release from Google Drive link in [releases](https://github.com/zype/zype-wordpress-plugin/releases) section in Github
 
 1. Log in to the administrator panel.
 2. Go to Plugins Add > New > Upload.
