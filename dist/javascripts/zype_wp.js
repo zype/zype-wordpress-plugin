@@ -274,20 +274,42 @@ function ZypeWP(env) {
 
     this.non_subscriber_actions = function() {}
 
+
+
     this.do_videos = function() {
+
+        function get_name_browser(){
+	        var ua = navigator.userAgent;    
+
+	        if (ua.search(/Chrome/) > 0) return 'Google Chrome';
+	        if (ua.search(/Firefox/) > 0) return 'Firefox';
+	        if (ua.search(/Opera/) > 0) return 'Opera';
+	        if (ua.search(/Safari/) > 0) return 'Safari';
+	        if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
+
+	        return false;
+        };
+
+        var browser = get_name_browser();
         var self = this;
         jQuery('.zype_player_container').each(function() {
             var t = jQuery(this);
             if (t.data('auto-play') == true) {
                 self.get_player(t);
             } else {
-                t.children('.play-placeholder').click(function() {
+                if(browser=="Safari"){
                     self.get_player(t);
-                })
+  					setTimeout(function () {
+  						jQuery(".vjs-big-play-button").click();
+  					}, 3000);
+                }else{
+                    t.children('.play-placeholder').click(function() {
+                        self.get_player(t);
+                    })
+            }
             }
         });
     }
-
     this.get_player = function(container) {
         var container = container;
         jQuery.ajax({
@@ -321,7 +343,10 @@ function ZypeWP(env) {
         script.src = embed_url;
         container.children('.btn-play').remove();
         container.children('.play-placeholder').remove();
-        container.children('.placeholder').css('display', 'none');
+        container.children('.zype_player').css('position', 'absolute');
+        container.children('.zype_player').css('top', '0px');
+        container.children('.zype_player').css('width', '100%');
+        container.children('.zype_player').css('height', '100%');
         jQuery('.link--watch-now').remove();
         document.body.appendChild(script);
 
