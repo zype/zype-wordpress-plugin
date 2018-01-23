@@ -15,7 +15,7 @@
 <div
     class="zype_player_container"
     data-video-id="<?php echo $video->_id; ?>"
-    data-auto-play="<?php echo $auto_play ? 'true' : 'false'; ?>"
+    data-auto-play="<?php echo !$auto_play ? 'true' : 'false'; ?>"
     data-auth-required="<?php echo $auth_required ? 'true' : 'false'; ?>"
     data-audio-only="<?php echo $audio_only ? 'true' : 'false'; ?>">
     <div class="zype_player">
