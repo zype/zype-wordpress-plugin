@@ -1,3 +1,9 @@
+div.slider_links > div.slider_links-title > a,
+div.slider_links > div.get-all-playlists.slider_links-all > a
+{
+    text-decoration: none !important;
+}
+
 .slick-slide.grid_screen-container {
     padding-top: 20px;
     background: transparent;
@@ -41,21 +47,21 @@
 }
 
 .slider_links a {
-    color: #9D9FA5;
+    color: #9D9FA5 !important;
     font-size: 16px;
 }
 
 .slider_links a:active,
 .slider_links a:focus,
 .slider_links a:hover {
-    color: #BFC3CB;
+    color: #BFC3CB !important;
 }
 
 .slider_links a,
 .slider_links a:hover,
 .slider_links a:active,
 .slider_links a:focus {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .grid_screen-box_title--href:hover {
@@ -167,18 +173,18 @@ body:not(.twentyseventeen-front-page) .entry-content {
 
 .playlist-view-title,
 .slider_links .slider_links-title a {
-    color: #45484C;
+    color: #45484C !important;;
 }
 
 .duration-title {
-    color: #9D9FA5;
+    color: #9D9FA5 !important;;
 }
 
 .playlist-view-title:hover,
 .slider_links .slider_links-title a:focus,
 .slider_links .slider_links-title a:active,
 .slider_links .slider_links-title a:hover {
-    color: #6E7075;
+    color: #6E7075 !important;;
 }
 
 .slider_links-all {

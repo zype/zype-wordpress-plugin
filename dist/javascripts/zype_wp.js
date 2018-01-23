@@ -321,7 +321,10 @@ function ZypeWP(env) {
         script.src = embed_url;
         container.children('.btn-play').remove();
         container.children('.play-placeholder').remove();
-        container.children('.placeholder').css('display', 'none');
+        container.children('.zype_player').css('position', 'absolute');
+        container.children('.zype_player').css('top', '0px');
+        container.children('.zype_player').css('width', '100%');
+        container.children('.zype_player').css('height', '100%');
         jQuery('.link--watch-now').remove();
         document.body.appendChild(script);
 
