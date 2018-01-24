@@ -1,4 +1,4 @@
-Don't know what Zype is? [Learn more about Zype here](http://www.zype.com/).
+Don't know what Zype is? <a href="http://www.zype.com/" target="_blank">Learn more about Zype here</a>.
 
 # Zype Wordpress Plugin
 
@@ -9,7 +9,8 @@ Using the plugin you can sell subscriptions for premium video content, track ana
 The Zype cloud service provides publishing, monetization, streaming, audience management, and analytics software that is integrated into hundreds of web, mobile, and OTT apps and engaged by millions of viewers every month.
 
 ## Demo Website
-Full functionality of the plugin can be viewed on [Zype Plugin](https://zypeplugin.com/) demo website.
+Full functionality of the plugin can be viewed on <a href="https://zypeplugin.com/" target="_blank">Zype Plugin</a> demo website.
+
 <a href="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU"><img src="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
 
 ## Key Features & Capabilities
