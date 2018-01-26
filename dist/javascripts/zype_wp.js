@@ -276,62 +276,86 @@ function ZypeWP(env) {
 
 
 
+
+
     this.do_videos = function() {
 
         function get_name_browser(){
-	        var ua = navigator.userAgent;    
+         var ua = navigator.userAgent;    
 
-	        if (ua.search(/Chrome/) > 0) return 'Google Chrome';
-	        if (ua.search(/Firefox/) > 0) return 'Firefox';
-	        if (ua.search(/Opera/) > 0) return 'Opera';
-	        if (ua.search(/Safari/) > 0) return 'Safari';
-	        if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
+         if (ua.search(/Chrome/) > 0) return 'Google Chrome';
+         if (ua.search(/Firefox/) > 0) return 'Firefox';
+         if (ua.search(/Opera/) > 0) return 'Opera';
+         if (ua.search(/Safari/) > 0) return 'Safari';
+         if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
 
-	        return false;
+         return false;
         };
 
         var browser = get_name_browser();
         var self = this;
+
         jQuery('.zype_player_container').each(function() {
             var t = jQuery(this);
-            if (t.data('auto-play') == true) {
-                self.get_player(t);
-            } else {
-                if(browser=="Safari"){
-                    self.get_player(t);
-  					setTimeout(function () {
-  						jQuery(".vjs-big-play-button").click();
-  					}, 3000);
-                }else{
-                    t.children('.play-placeholder').click(function() {
-                        self.get_player(t);
-                    })
-            }
-            }
-        });
-    }
-    this.get_player = function(container) {
-        var container = container;
-        jQuery.ajax({
-            url: this.env.ajax_endpoint,
-            type: 'post',
-            data: {
-                action: 'zype_player',
-                video_id: container.data('video-id'),
-                auth_required: container.data('auth-required'),
-                audio_only: container.data('audio-only')
-            },
-            context: this,
-            success: function(data) {
-                this.do_embed_success(data, container);
-            },
-            error: function(data) {
-                this.do_embed_error(data, container);
-            }
+            if(browser=="Safari"){
+            		if (t.data('auto-play') == true){
+            		    self.get_player(t).then(
+                            function(response){
+                                setTimeout(function(){
+                                    jQuery(".vjs-big-play-button").click()
+                                }, 2000);
+                            }
+                   		);
+            		} else {
+            		    t.children('.play-placeholder').click(function() {
+            		    	self.get_player(t).then(function(response){
+                                setTimeout(function(){
+                                    jQuery(".vjs-big-play-button").trigger('click');
+                                }, 2000)
+                            });
+                        });
+            		}
+                    
+                } else {
+                 	if (t.data('auto-play') == true) {
+            		    self.get_player(t);
+            		} else {
+            		    t.children('.play-placeholder').click(function() {
+                            self.get_player(t);
+                        })
+            		}   
+                }
+            
         });
     }
 
+
+    this.get_player = function(container) {
+        function abc(resolve, reject) {
+            jQuery.ajax({
+                url: this.env.ajax_endpoint,
+                type: 'post',
+                data: {
+                    action: 'zype_player',
+                    video_id: container.data('video-id'),
+                    auth_required: container.data('auth-required'),
+                    audio_only: container.data('audio-only'),
+                },
+                context: this,
+                success: function(data) {
+                    this.do_embed_success(data, container).then(function(response){resolve('success');});
+                },
+                error: function(data) {
+                    this.do_embed_error(data, container);
+                }
+            });
+        }
+        var abb = abc.bind(this);
+        return new Promise(abb);
+    }
+
     this.do_embed_success = function(data, container) {
+    	return new Promise((resolve, reject) => {
         if (typeof data.embed_url == 'undefined') {
             return;
         }
@@ -349,7 +373,8 @@ function ZypeWP(env) {
         container.children('.zype_player').css('height', '100%');
         jQuery('.link--watch-now').remove();
         document.body.appendChild(script);
-
+        resolve('success');
+    });
     }
 
     this.do_embed_error = function(data, container) {

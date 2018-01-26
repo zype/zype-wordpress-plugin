@@ -29,9 +29,9 @@
       </div>
     </div>
     <?php if (zype_audio_only()): ?>
-        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => true, 'audio_only' => true]); ?>
+        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => true]); ?>
     <?php else: ?>
-        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => true, 'audio_only' => false]); ?>
+        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => false]); ?>
     <?php endif ?>
   </div>
   <?php if ($view == 'full'): ?>
