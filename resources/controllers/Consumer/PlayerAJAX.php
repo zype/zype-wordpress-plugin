@@ -29,7 +29,7 @@ class PlayerAJAX extends BaseAJAX
         $post = filter_var_array($_POST, FILTER_SANITIZE_STRING);
 
         $videoId = isset($post['video_id']) ? $post['video_id'] : 'null';
-        $autoplay = 'autoplay=true';
+        $autoplay = 'autoplay=false';
         $key = 'api_key=' . $this->options['player_key'];
         $audio_only = '';
 

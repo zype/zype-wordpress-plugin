@@ -9,7 +9,7 @@ $videos = get_recent_videos(3);
 <div class="container">
   <div class="col-md-8">
     <?php if($livestream){ ?>
-      <?php zype_player_embed($livestream, ['auth' => $zype_livestream_auth_required, 'auto_play' => true, 'audio_only' => zype_audio_only()]); ?>
+      <?php zype_player_embed($livestream, ['auth' => $zype_livestream_auth_required, 'auto_play' => false, 'audio_only' => zype_audio_only()]); ?>
     <?php } else { ?>
       <div class="off-air">
         <div class="off-air-image" style="background-image:url('https://dn6n6v96hl9ri.cloudfront.net/wp-content/uploads/2015/04/30011945/antblur.jpg');"></div>

@@ -14,7 +14,7 @@ class Player {
         $this->do_embed([
             'video' => $this->video,
             'auth_required' => isset($params['auth']) ? $params['auth'] : false,
-            'auto_play' => isset($params['auto_play']) ? $params['auto_play'] : false,
+            'auto_play' => false,
             'audio_only' => isset($params['audio_only']) ? $params['audio_only'] : false,
         ]);
     }
@@ -54,7 +54,7 @@ class Player {
         $this->do_embed([
             'video' => $this->video,
             'auth_required' => false,
-            'auto_play' => true,
+            'auto_play' => false,
             'audio_only' => false,
         ]);
     }
