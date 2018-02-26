@@ -61,7 +61,9 @@ class HooksService extends ServiceProvider {
         });
 
         // Zype assets
+        Asset::add('zype_checkoutSuccess', 'javascripts/jquery.maskedinput.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
         Asset::add('zype_wp_js', 'javascripts/zype_wp.js', ['jquery'], ZYPE_WP_VERSION, true);
+        Asset::add('zype_stripe_api', 'javascripts/api_stripe.js', false, ZYPE_WP_VERSION, 'all');
         Asset::add('slick-js', 'javascripts/slick/slick.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slider', 'javascripts/slider.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slick', 'javascripts/slick/slick.css', [wp_get_theme()->get('TextDomain') . '-style'], ZYPE_WP_VERSION, true);
@@ -71,7 +73,9 @@ class HooksService extends ServiceProvider {
         Asset::add('zype_login', 'css/zype_forms/loginform.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_sign_up', 'css/zype_forms/regform.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_single_video', 'css/zype_forms/single_video.css', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_plans', 'css/zype_forms/plans.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype-style', 'css/style_plugin.css', ['slick-theme'], '1.0', 'all');
+        Asset::add('zype_checkout', 'https://checkout.stripe.com/checkout.js', false, ZYPE_WP_VERSION, 'all');
 
         // Zype actions
         Action::add('wp_footer', [$this, 'inlineScripts']);
@@ -96,7 +100,7 @@ class HooksService extends ServiceProvider {
 
     public function zype_auth_markup() {
         if (\Input::get('type')) {
-            echo do_shortcode('[zype_auth type="' . \Input::get('type') . '"]');
+            echo do_shortcode('[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . '"]');
         }
         exit;
     }

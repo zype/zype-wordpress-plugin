@@ -34,6 +34,7 @@ add_shortcode('zype_auth', function($attrs = array()) {
 
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
+    $subscriptionsController = new Consumer\Subscriptions();
 
     switch ($type) {
         case 'login':
@@ -42,10 +43,14 @@ add_shortcode('zype_auth', function($attrs = array()) {
             return $loginController->signup();
         case 'forgot':
             return $profileController->forgot_password();
+        case 'plans':
+            return $subscriptionsController->plansView();
+        case 'checkout':
+            return $subscriptionsController->checkoutView(Input::get('planid'));
     }
 });
 
-add_shortcode('zype_signup', function(){
+add_shortcode('zype_signup', function() {
     $loginController = new Consumer\Auth();
     return $loginController->signup();
 });

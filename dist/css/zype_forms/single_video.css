@@ -12,6 +12,7 @@
     position: relative;
     width: 100%;
     color: #2c3c4c;
+    height: 100%;
 }
 
 .site-content .zype_video__wrapper+section.episode-main {
@@ -76,6 +77,17 @@
 .site-content .zype_player_container {
     position: relative;
     cursor: pointer;
+    height: 100%;
+}
+
+.site-content .zype_player_container .overlay_player {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(-180deg, rgba(0,0,0,.37) 0%, rgba(0,0,0,.45) 52%, rgba(0,0,0,.82) 100%);
+    padding: 20px;
+    display: flex;
 }
 
 .site-content .zype_player_container .play-placeholder {
@@ -92,17 +104,14 @@
     display: block;
 }
 
-.site-content .zype_player_container .player-auth-required {
+.site-content .zype_player_container .player-auth-required, .site-content .zype_player_container .player-signup-required {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.98);
     padding: 0 15px 0;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
@@ -111,11 +120,8 @@
 }
 
 .site-content .zype_player_container .player-auth-required-content {
-    width: 100%;
     max-width: 650px;
-    background-color: #f5f5f5;
     padding: 25px 20px;
-    border: 2px solid #ddd;
     cursor: default;
     border-radius: 5px;
     position: relative;
@@ -123,19 +129,17 @@
     bottom: 20px;
     -webkit-transition: top 0.3s ease;
     transition: top 0.3s ease;
+    margin: 0 auto;
 }
 
-.site-content .zype_player_container .player-auth-required-content #zype_video__auth-close {
+.player-auth-required #zype_video__auth-close, .player-signup-required #zype_video__auth-close {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 60px;
+    right: 50px;
     width: 26px;
     height: 26px;
-    border-radius: 50%;
-    border: 2px solid #ddd;
-    background-color: white;
     color: #aaa;
-    font-size: 34px;
+    font-size: 100px;
     font-weight: bold;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -150,7 +154,7 @@
     transition: all 0.3s ease;
 }
 
-.site-content .zype_player_container .player-auth-required-content #zype_video__auth-close:hover {
+.site-content .zype_player_container .player-auth-required #zype_video__auth-close:hover {
     color: #000;
 }
 
@@ -225,6 +229,54 @@
     display: -webkit-box;
     display: -ms-flexbox;
     overflow-y: auto;
+}
+
+.site-content .zype_player_container .overlay-buttons {
+    overflow: auto;
+    vertical-align: bottom;
+    align-self: flex-end;
+}
+
+.site-content .zype_player_container .white-button {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    border-radius: 2px;
+    border: solid 1px #fff;
+    color: #272424;
+    background: #fff;
+    padding: 10px;
+    width: 150px;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+}
+.site-content .zype_player_container .empty-button {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    border-radius: 2px;
+    border: solid 1px #fff;
+    color: #fff;
+    padding: 10px;
+    width: 150px;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.site-content .zype_player_container .overlay-title {
+    align-self: flex-end;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: .2px;
+    margin: 5px;
+}
+
+@media(max-width: 414px) {
+    .site-content .zype_player_container .player-auth-required {
+        background-color: #fff;
+    }
 }
 
 

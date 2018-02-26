@@ -1,0 +1,83 @@
+.zype-price-table {
+    background: #fff;
+    border: 1px solid #d9d8e0;
+    border-radius: 2px;
+    margin: auto;
+    display: inline-block;
+}
+.zype-column-plans {
+    border-top: solid 1px #d9d8e0;
+    display: flex;
+    justify-content: space-between;
+}
+.zype-column-plans:first-child {
+    border-top: none;
+}
+.zype-column-plan {
+    padding: 20px 25px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.zype-column-plan:first-child {
+    text-align: left
+}
+
+.zype-type-plan {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #272424;
+    letter-spacing: 1.3px;
+}
+.zype-title-plan {
+    font-size: 18px;
+    color: #60626b;
+}
+.zype-price-holder {
+    font-size: 18px;
+    color: #60626b;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.zype-btn-container-plan {
+    border-radius: 2px;
+    border: 2px solid #00a5df;
+    display: inline-block;
+    margin-left: 10px;
+    padding: 12px 20px;
+}
+.zype-btn-price-plan {
+    font-size: 12px;
+    color: #00a5df !important;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+.zype-btn-price-plan-mob {
+    display: none;
+}
+.zype-btn-container-plan-mob {
+    border-radius: 2px;
+    border: 2px solid #00a5df;
+    margin-left: 10px;
+    padding: 12px 20px;
+    margin: 0 auto 10px auto;
+    width: 90%;
+}
+
+#zype-card-cvc, #zype-card-date {
+    margin: 0 3px !important;
+    width: 195px !important;
+}
+#zype-card-number {
+    width: 400px !important;
+}
+
+@media(max-width: 414px) {
+    .zype-btn-price-plan {
+        display: none;
+    }
+    .zype-btn-price-plan-mob {
+        display: block;
+    }
+}

@@ -98,7 +98,6 @@
     </div>
   </div>
 </div>
-<script src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 (function($){
   //stripe

@@ -17,7 +17,7 @@ $device_link_url = Config::get('zype.device_link_url');
 if ($subscribe_url && Config::get('zype.subscriptions_enabled')) {
     Route::any("{$subscribe_url}", 'Consumer\Subscriptions@plans');
     Route::any("{$subscribe_url}/checkout", 'Consumer\Subscriptions@checkout');
-    Route::any("{$subscribe_url}/submit", 'Consumer\Subscriptions@checkout_success');
+    Route::any("{$subscribe_url}/submit", 'Consumer\Subscriptions@checkoutSuccess');
 }
 
 // Rss route

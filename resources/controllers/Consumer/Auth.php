@@ -34,8 +34,6 @@ class Auth extends Base
     
     public function login_submit($ajax = false)
     {
-        $redirect_location = get_zype_url('profile');
-        
         if($ajax) {
             $errors = array();
         }
@@ -47,16 +45,7 @@ class Auth extends Base
             $password    = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
             $remember_me = isset($_POST['remember_me']) ? $_POST['remember_me'] : true;
 
-            if ($auther->login($username, $password, $remember_me)) {
-                if (isset($_REQUEST['redirect_to'])) {
-                    $redirect_location = filter_var($_REQUEST['redirect_to'], FILTER_SANITIZE_URL);
-                }
-
-                if (!$ajax) {
-                    wp_redirect($redirect_location);
-                    exit();
-                }
-            } else {
+            if (!$auther->login($username, $password, $remember_me)) {
                 if($ajax)
                     $errors[] = 'Username or password invalid.';
                 else
@@ -74,7 +63,6 @@ class Auth extends Base
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
                 'errors' => $errors,
-                'redirect' => $redirect_location
             ));
             exit();
         }
@@ -114,8 +102,6 @@ class Auth extends Base
     
     public function signup_submit($ajax = false)
     {
-        $redirect_location = get_zype_url('profile');
-        
         if($ajax) {
             $errors = array();
         }
@@ -145,16 +131,6 @@ class Auth extends Base
                         $mailer = new \ZypeMedia\Services\Mailer;
                         $mailer->new_account($email);
                         $mail_res = $mailer->send();
-                        
-                        if (isset($_REQUEST['redirect_to'])) {
-                            $redirect_location = filter_var($_REQUEST['redirect_to'], FILTER_SANITIZE_URL);
-                        }
-
-                        if(!$ajax)
-                        {
-                            wp_redirect($redirect_location);
-                            exit();
-                        }
                     } else {
                         $auther->logout();
                         $this->form_message = zype_flash_message('times', 'An error occured during account authorization. Please try again.');
@@ -189,7 +165,6 @@ class Auth extends Base
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
                 'errors' => $errors,
-                'redirect' => $redirect_location
             ));
             exit();
         }

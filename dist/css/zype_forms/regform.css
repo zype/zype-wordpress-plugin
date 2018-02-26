@@ -177,4 +177,67 @@
   }
 }
 
+.zype-form-center {
+    text-align: center;
+}
+
+.zype-form-center .signup-note {
+    margin-top: 20px;
+    color: #60626b;
+    font-size: 12px !important;
+}
+
+.zype-form-center .signup-note a {
+    color: #00a5df;
+    border-bottom: none;
+}
+.zype-form-center .zype-title {
+  color: #272424 !important;
+  letter-spacing: .3px !important;
+  margin-bottom: 32px !important;
+}
+.zype-form-center .zype-button {
+  text-transform: uppercase !important;
+  color: #00a5df !important;
+  letter-spacing: 1.3px !important;
+  border: 2px solid #00a5df !important;
+  border-radius: 2px !important;
+  padding: 15px 100px !important;
+  margin: 20px 0 0 !important;
+  background: #fff !important;
+  font-size: 12px !important;
+}
+.zype-form-center .zype-button-text {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.zype-form-center .to-sign-in {
+  margin-top: 60px;
+  color: #60626b;
+  font-size: 18px !important;
+}
+
+.zype-form-center .to-sign-in a {
+  color: #00a5df;
+  border-bottom: none;
+  font-weight: bold;
+}
+.zype-form-center .zype-input-wrap {
+  margin: 6px;
+}
+.zype-form-center .zype-input-text {
+  background: #fff !important;
+  border: 1px solid #d9d8e0 !important;
+  border-radius: 2px !important;
+  letter-spacing: .15px !important;
+  color: #272424 !important;
+  margin: 0 !important;
+  width: 500px !important;
+}
+.zype-form-center .zype-input-text::-webkit-input-placeholder,
+.zype-form-center .zype-input-text::-moz-placeholder,
+.zype-form-center .zype-input-text:-ms-input-placeholder,
+.zype-form-center .zype-input-text:-moz-placeholder { /* Chrome/Opera/Safari */
+  color: #c5c3d0;
+}
 /*# sourceMappingURL=regform.css.map */
