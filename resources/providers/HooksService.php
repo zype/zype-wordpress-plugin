@@ -63,7 +63,8 @@ class HooksService extends ServiceProvider {
         // Zype assets
         Asset::add('zype_checkoutSuccess', 'javascripts/jquery.maskedinput.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
         Asset::add('zype_wp_js', 'javascripts/zype_wp.js', ['jquery'], ZYPE_WP_VERSION, true);
-        Asset::add('zype_stripe_api', 'javascripts/api_stripe.js', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_stripe_api', 'https://js.stripe.com/v2/stripe.js', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_braintree_api', 'https://js.braintreegateway.com/web/dropin/1.9.4/js/dropin.min.js', false, ZYPE_WP_VERSION, 'all');
         Asset::add('slick-js', 'javascripts/slick/slick.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slider', 'javascripts/slider.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slick', 'javascripts/slick/slick.css', [wp_get_theme()->get('TextDomain') . '-style'], ZYPE_WP_VERSION, true);

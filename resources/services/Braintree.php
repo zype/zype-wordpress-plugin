@@ -19,15 +19,17 @@ class Braintree extends Component {
         $braintree_token = '';
 
         $params = [];
-        if ($customerId !== null) {
-            try {
+
+        try {
+            if ($customerId !== null) {
                 \Braintree_Customer::find($customerId);
                 $params['customerId'] = $customerId;
-                $braintree_token = \Braintree_ClientToken::generate($params);
             }
-            catch (\Braintree_Exception_NotFound $e) {
-                return false;
-            }
+
+            $braintree_token = \Braintree_ClientToken::generate($params);
+        }
+        catch (\Braintree_Exception_NotFound $e) {
+            return false;
         }
 
         return $braintree_token;

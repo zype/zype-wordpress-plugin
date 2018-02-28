@@ -104,10 +104,9 @@ class Subscriptions extends Base
 
         if (isset($plan_id) && $plan = \Zype::get_plan(filter_var($plan_id, FILTER_SANITIZE_STRING))) {
             $stripe_pk = Config::get('zype.stripe_pk');
-            //var_dump($stripe_pk);
+
             $braintree_id = (new \ZypeMedia\Services\Auth)->get_consumer_braintree_id();
             $braintree_token = (new Braintree)->generateBraintreeToken($braintree_id);
-            //var_dump(self::get_consumer_id());
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
@@ -149,8 +148,12 @@ class Subscriptions extends Base
             $data['errors']['type'] = "Type is required";
         }
 
-        if (!isset($form['stripe_card_token'])) {
+        if ($form['type'] == 'stripe' && empty($form['stripe_card_token'])) {
             $data['errors']['token'] = "Token is required";
+        }
+
+        if ($form['type'] == 'braintree' && empty($form['braintree_payment_nonce'])) {
+            $data['errors']['token'] = "Nonce is required";
         }
 
         if(empty($data['errors'])) {
@@ -165,8 +168,16 @@ class Subscriptions extends Base
                     'plan_id'     => $form['plan_id']
                 ];
 
-                $sub['stripe_card_token'] = $form['stripe_card_token'];
-                $sub['stripe_id'] = Config::get('zype.stripe_pk');
+                switch ($form['type']) {
+                    case 'braintree':
+                        $sub['braintree_payment_nonce'] = $form['braintree_payment_nonce'];
+                        $sub['braintree_id'] = $consumer->braintree_id;
+                        break;
+                    case 'stripe':
+                        $sub['stripe_card_token'] = $form['stripe_card_token'];
+                        $sub['stripe_id'] = Config::get('zype.stripe_pk');
+                        break;
+                }
 
                 $new_sub = \Zype::create_subscription($sub);
 
@@ -179,15 +190,18 @@ class Subscriptions extends Base
 
                     $data['success'] = true;
                 } else {
+                    $data['errors']['cannot'] = 'The purchase could not be completed. Please try again later.';
                     $data['success'] = false;
                 }
             } else {
+                $data['errors']['email'] = 'You do not have an account, purchase is not possible.';
                 $data['success'] = false;
             }
         } else {
             $data['success'] = false;
         }
 
+        // exit('ok');
         echo json_encode($data);
 
         exit();

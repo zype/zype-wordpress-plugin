@@ -1,3 +1,4 @@
+<div id="zype-modal-auth">
 <div class="content-wrap zype-form-center">
   <div class="main-heading inner-heading">
     <h1 class="title text-uppercase zype-title">Sign in</h1>
@@ -31,4 +32,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

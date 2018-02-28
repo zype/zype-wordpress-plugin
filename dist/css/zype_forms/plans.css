@@ -73,6 +73,17 @@
     width: 400px !important;
 }
 
+.braintree-options .braintree-option:first-child {
+    border-top: 2px solid #00a5df;
+}
+
+.braintree-options .braintree-option {
+    border-top: none;
+    border-left: 2px solid #00a5df;
+    border-right: 2px solid #00a5df;
+    border-bottom: 2px solid #00a5df;
+}
+
 @media(max-width: 414px) {
     .zype-btn-price-plan {
         display: none;

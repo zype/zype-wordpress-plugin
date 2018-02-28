@@ -52,17 +52,11 @@ class Auth {
 
     public static function get_consumer_braintree_id()
     {
-        $consumerBraintreeId = null;
-        
-        try {
-            $braintreeData = \Zype::get_consumer_braintree_data(self::get_consumer_id());
+        $cookie       = self::get_cookie();
+        $access_token = self::get_access_token();
+        $consumer     = \Zype::get_consumer($cookie['user_id'], $access_token);
 
-            if ($braintreeData && isset($braintreeData->id)) {
-                $consumerBraintreeId = $braintreeData->id;
-            }
-        } catch (\Exception $e) {}
-
-        return $consumerBraintreeId;
+        return $consumer->braintree_id;
     }
 
     public static function get_email()

@@ -1,4 +1,4 @@
-﻿<?php if (!defined('ABSPATH')) die(); ?>
+<?php if (!defined('ABSPATH')) die(); ?>
 
 <?php 
 $auto_play_   = $auto_play  ? '&autoplay=true' : '&autoplay=false';
@@ -44,6 +44,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                     <div class="login-sub-section">
                         <?php if (!\Auth::logged_in()): ?>
                             <?php echo do_shortcode('[zype_auth]');?>
+                            <?php echo do_shortcode('[zype_signup]');?>
                         <?php else: ?>
                             <?php echo do_shortcode('[zype_auth type="plans"]');?>
                         <?php endif ?>
@@ -58,7 +59,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                     <div class="overlay_player">
                         <div class="overlay-buttons">
                             <div class="overlay-title">Unlock to watch</div>
-                            <div class="white-button sign-in zype_auth_markup" data-type="plans">Let's go</div>
+                            <div class="white-button zype-signin-button zype_auth_markup" data-type="plans">Let's go</div>
                         </div>
                     </div>
                 <? else: ?>
@@ -68,8 +69,8 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                 <div class="overlay_player">
                     <div class="overlay-buttons">
                         <div class="overlay-title">Sign in or join to watch</div>
-                        <div class="white-button zype-signin-button zype_auth_markup" data-type="login">Sign in</div>
-                        <div class="empty-button zype-join-button zype_auth_markup" data-type="register">Join</div>
+                        <div class="white-button zype-signin-button">Sign in</div>
+                        <div class="empty-button zype-join-button">Join</div>
                     </div>
                 </div>
             <?php endif; ?>
