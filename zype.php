@@ -8,7 +8,7 @@ if (!class_exists('Themosis')) {
  * Plugin Name: Zype
  * Plugin URI: https://www.zype.com/
  * Description: Plugin for integration with the platform Zype.com. Using the plugin you can sell subscriptions to media content keep statistics on video views and audio, create playlists and insert video with shortcode and to display the live broadcast.
- * Version: 0.5.0
+ * Version: 0.5.5
  * Author: Zype
  * Author URI: http://zype.com/
  * Text Domain: plugin-textdomain.

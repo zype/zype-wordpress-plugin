@@ -1,6 +1,4 @@
 <?php
-  $guests = zype_video_zobjects('guest');
-  
   $hours = floor($video->duration / 3600);
   $minutes = floor(($video->duration / 60) % 60);
   $seconds = $video->duration % 60;
@@ -42,25 +40,6 @@
       <div class="head">
         <h5 class="duration-title">Duration <?php echo $duration ?></h5>
       </div>
-      <?php if ($guests) { ?>
-      <ul class="user-list">
-        <?php foreach($guests as $guest){ ?>
-          <li>
-            <div class="img">
-              <a href="<?php echo $guest->permalink; ?>/">
-                <span data-picture="" data-alt="image description">
-                  <span data-src="<?php echo $guest->thumbnail_url; ?>"><img src="<?php echo $guest->thumbnail_url; ?>" alt="image description"></span>
-                  <span data-src="<?php echo $guest->thumbnail_url; ?>" data-media="(max-width:1023px)"></span> <!-- retina 1x tablet -->
-                  <span data-src="<?php echo $guest->thumbnail_url; ?>" data-media="(max-width:1023px) and (-webkit-min-device-pixel-ratio:1.5), (max-width:1023px) and (min-resolution:144dpi)"></span> <!-- retina 2x tablet -->
-                  <noscript><img src="<?php echo $guest->thumbnail_url; ?>" height="80" width="80" alt="image description"></noscript>
-                </span>
-              </a>
-            </div>
-            <span class="username"><a href="<?php echo $guest->permalink; ?>/"><?php echo $guest->title; ?></a></span>
-          </li>
-        <?php } ?>
-      </ul>
-      <?php } ?>
       <div class="summary">
         <p><?php echo $video->description; ?></p>
         <ul class="tags">
@@ -68,40 +47,6 @@
           <li><a href="<?php zype_url('video'); ?>/?search=<?php echo $keyword; ?>" class="btn btn-sm"><?php echo $keyword; ?></a></li>
           <?php } ?>
         </ul>
-      </div>
-      <div class="guest-intro">
-        <?php if($guests) { ?>
-          <strong class="title">guest list</strong>
-          <div class="listing">
-            <?php foreach($guests as $guest) { ?>
-              <div class="slot">
-                <div class="image-holder">
-                  <span data-picture="" data-alt="image description">
-                    <span data-src="<?php echo $guest->thumbnail_url; ?>"><img src="<?php echo $guest->thumbnail_url; ?>" alt="image description"></span>
-                    <span data-src="<?php echo $guest->thumbnail_url; ?>" data-media="(max-width:1023px)"></span> <!-- retina 1x tablet -->
-                    <span data-src="<?php echo $guest->thumbnail_url; ?>" data-media="(max-width:1023px) and (-webkit-min-device-pixel-ratio:1.5), (max-width:1023px) and (min-resolution:144dpi)"></span> <!-- retina 2x tablet -->
-                    <noscript><img src="<?php echo $guest->thumbnail_url; ?>" height="80" width="80" alt="image description"></noscript>
-                  </span>
-                </div>
-                <div class="des">
-                  <h2><a href="<?php echo $guest->permalink; ?>/"><?php echo $guest->title; ?></a></h2>
-                  <p><?php echo $guest->description; ?></p>
-                  <ul class="social-networks ss-icon">
-                    <?php if($guest->facebook != ''){ ?>
-                      <li><a href="<?php echo $guest->facebook; ?>" target="_blank"><i class="fa fa-fw fa-facebook-official"></i></a></li>
-                    <?php } ?>
-                    <?php if($guest->twitter != ''){ ?>
-                      <li><a href="<?php echo $guest->twitter; ?>" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
-                    <?php } ?>
-                    <?php if($guest->youtube != ''){ ?>
-                      <li><a href="<?php echo $guest->youtube; ?>" target="_blank"><i class="fa fa-fw fa-youtube-play"></i></a></li>
-                    <?php } ?>
-                  </ul>
-                </div>
-              </div>
-            <?php } ?>
-          </div>
-        <?php } ?>
       </div>
     </section>
     <div class="zype_play_sample">
@@ -111,19 +56,6 @@
         <a href="<?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&audio=true&zype_video_id=<?php echo $video->_id ?>" class="btn btn-lg btn-primary">Listen to Audio</a>
       <?php } ?>
     </div>
-    <section class="timeline">
-      <?php if(isset($video->segments)){ ?>
-        <strong class="title">Timeline</strong>
-        <ul class="list">
-          <?php foreach($video->segments as $segment){ ?> 
-            <li>
-              <span class="meta"><?php zype_ms2hms($segment->start); ?></span>
-              <span class="text"><?php echo $segment->description; ?></span>
-            </li>
-          <?php } ?>
-        </ul>
-      <?php } ?>
-    </section>
   <?php endif ?>
 </div>
 <script type="text/javascript">

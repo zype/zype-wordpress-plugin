@@ -132,9 +132,13 @@ function ZypeWP(env) {
         if (zype_ajax_form.length) {
             zype_ajax_form.off();
             zype_ajax_form.ajaxForm({
-                beforeSubmit: function() {},
+                beforeSubmit: function() {
+                    zype_ajax_form.find('button[type="submit"]').append('<i class="zype-spinner"></i>').prop('disabled', true);
+                },
                 dataType: "json",
                 success: function(response) {
+                    jQuery('.zype-spinner').remove();
+
                     if (response.status == true) {
                         if (response.redirect) {
                             window.location.replace(response.redirect);
@@ -142,6 +146,7 @@ function ZypeWP(env) {
                             window.location.reload();
                         }
                     } else {
+                        zype_ajax_form.find('button[type="submit"]').prop('disabled', false);
                         if (response.errors) {
                             zype_ajax_form.find('.error-section').html(response.errors.join(","));
                             this.initZypeAjaxMarkup();
@@ -149,6 +154,7 @@ function ZypeWP(env) {
                             zype_ajax_form.find('.error-section').html('Something went wrong...');
                         }
                     }
+
                 }
             });
         }
@@ -161,6 +167,21 @@ function ZypeWP(env) {
 
             zype_auth_markup.on('click', function(e) {
                 e.preventDefault();
+
+                if (jQuery(this).hasClass('disabled')) {
+                    return false;
+                }
+
+                jQuery('.zype-spinner').remove();
+
+                if (jQuery(this).hasClass('zype-button')) {
+                    jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                }
+
+                if (jQuery(this).hasClass('zype-btn-price-plan')) {
+                    jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                }
+
                 self.zypeAuthMarkupRequest(
                     jQuery(this).data('type'),
                     jQuery(this).data('planid'),

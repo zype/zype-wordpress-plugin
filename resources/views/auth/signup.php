@@ -22,7 +22,7 @@
                 <input placeholder="Password" type="password" class="form-control required zype-input-text" id="password-signup" name="password">
               </div>
               <div class="signup-note">By clicking Create My Login, you agree to our <a href="<?php echo get_permalink(get_page_by_path('terms-of-service')); ?>">Terms of Service</a></div>
-              <input type="submit" class="zype-button" value="Create my login" />
+              <button type="submit" class="zype-button">Create my login</button>
               <p class="to-sign-in">Already have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0">Sign In</a></p>
               </div>
           </form>

@@ -38,19 +38,6 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
             <img class="placeholder" src="<?php echo $video->thumbnail_url; ?>">
         <?php endif ?>
             <?php if (($auth_required && !\Auth::logged_in()) || (\Auth::logged_in() && $video->subscription_required && !\Auth::subscriber())): ?>
-            <div class="player-auth-required">
-                <div id="zype_video__auth-close">˟</div>
-                <div class="player-auth-required-content">
-                    <div class="login-sub-section">
-                        <?php if (!\Auth::logged_in()): ?>
-                            <?php echo do_shortcode('[zype_auth]');?>
-                            <?php echo do_shortcode('[zype_signup]');?>
-                        <?php else: ?>
-                            <?php echo do_shortcode('[zype_auth type="plans"]');?>
-                        <?php endif ?>
-                    </div>
-                </div>
-            </div>
 
             <?php endif ?>
 
@@ -77,6 +64,17 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
         </div>
     <?php endif; ?>
 
-    
-    
+    <div class="player-auth-required">
+        <div id="zype_video__auth-close">˟</div>
+        <div class="player-auth-required-content">
+            <div class="login-sub-section">
+                <?php if (!\Auth::logged_in()): ?>
+                    <?php echo do_shortcode('[zype_auth]');?>
+                    <?php echo do_shortcode('[zype_signup]');?>
+                <?php else: ?>
+                    <?php echo do_shortcode('[zype_auth type="plans"]');?>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
 </div>

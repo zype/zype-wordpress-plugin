@@ -21,7 +21,7 @@ class Braintree extends Component {
         $params = [];
 
         try {
-            if ($customerId !== null) {
+            if ($customerId) {
                 \Braintree_Customer::find($customerId);
                 $params['customerId'] = $customerId;
             }

@@ -24,7 +24,8 @@ class Subscriptions extends Base
 			}
 		} 
         $this->title    = 'Select a Plan';
-		$plans = $plan;
+        $plans = $plan;
+
         print view('auth.plans', [
             'plans' => $plans,
             'title' => $this->title,
@@ -67,10 +68,13 @@ class Subscriptions extends Base
         global $videoId;
 
         if (isset($_GET['plan_id']) && $plan = \Zype::get_plan(filter_var($_GET['plan_id'], FILTER_SANITIZE_STRING))) {
-            $stripe_pk = Config::get('zype.stripe_pk');
+            $za           = new \ZypeMedia\Services\Auth;
+            $consumer_id  = $za->get_consumer_id();
+            $access_token = $za->get_access_token();
+            $consumer     = \Zype::get_consumer($consumer_id, $access_token);
 
-            $braintree_id = (new \ZypeMedia\Services\Auth)->get_consumer_braintree_id();
-            $braintree_token = (new Braintree())->generateBraintreeToken($braintree_id);
+            $stripe_pk = Config::get('zype.stripe_pk');
+            $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
@@ -103,10 +107,13 @@ class Subscriptions extends Base
         global $videoId;
 
         if (isset($plan_id) && $plan = \Zype::get_plan(filter_var($plan_id, FILTER_SANITIZE_STRING))) {
-            $stripe_pk = Config::get('zype.stripe_pk');
+            $za           = new \ZypeMedia\Services\Auth;
+            $consumer_id  = $za->get_consumer_id();
+            $access_token = $za->get_access_token();
+            $consumer     = \Zype::get_consumer($consumer_id, $access_token);
 
-            $braintree_id = (new \ZypeMedia\Services\Auth)->get_consumer_braintree_id();
-            $braintree_token = (new Braintree)->generateBraintreeToken($braintree_id);
+            $stripe_pk = Config::get('zype.stripe_pk');
+            $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
@@ -161,6 +168,7 @@ class Subscriptions extends Base
             $consumer_id  = $za->get_consumer_id();
             $access_token = $za->get_access_token();
             $consumer     = \Zype::get_consumer($consumer_id, $access_token);
+            $plan         = \Zype::get_plan(filter_var($form['plan_id'], FILTER_SANITIZE_STRING));
 
             if ($consumer && $form['email'] == $consumer->email) {
                 $sub = [
@@ -171,11 +179,11 @@ class Subscriptions extends Base
                 switch ($form['type']) {
                     case 'braintree':
                         $sub['braintree_payment_nonce'] = $form['braintree_payment_nonce'];
-                        $sub['braintree_id'] = $consumer->braintree_id;
+                        $sub['braintree_id'] = $plan->braintree_id;
                         break;
                     case 'stripe':
                         $sub['stripe_card_token'] = $form['stripe_card_token'];
-                        $sub['stripe_id'] = Config::get('zype.stripe_pk');
+                        $sub['stripe_id'] = $plan->stripe_id;
                         break;
                 }
 

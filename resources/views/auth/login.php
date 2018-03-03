@@ -19,7 +19,7 @@
                   <input name="password" type="password" class="form-control required zype-input-text" id="password-login" placeholder="Password">
                 </p>
                 <div class="btn-holder">
-                  <input type="submit" class="zype_get_all_ajax zype-button" value="Sign in"/>
+                  <button type="submit" class="zype_get_all_ajax zype-button">Sign in</button>
                 </div>
               </div>
               <div class="success-section"></div>
