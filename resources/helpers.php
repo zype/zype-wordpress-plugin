@@ -683,16 +683,6 @@ function the_share_buttons($url=null){
     }
 }
 
-/**
-* Notifies Compound Media whenever someone purchases a gift through the /gift
-* form and the PayPal transaction clears.
-*/
-function notify_gift_purchase($buyer, $subscription_amt) {   
-  $address_to_notify = 'erin@compoundmedia.com';
-  $subject = 'CompoundMedia.com Gift Order Received';
-  $message = "$buyer has purchased a gift subscription for {$subscription_amt}";
-  wp_mail($address_to_notify, $subject, $message);
-}
 
 /*
  * Plugin get asset url.

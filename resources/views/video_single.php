@@ -41,12 +41,7 @@
         <h5 class="duration-title">Duration <?php echo $duration ?></h5>
       </div>
       <div class="summary">
-        <p><?php echo $video->description; ?></p>
-        <ul class="tags">
-          <?php foreach($video->keywords as $keyword){ ?>
-          <li><a href="<?php zype_url('video'); ?>/?search=<?php echo $keyword; ?>" class="btn btn-sm"><?php echo $keyword; ?></a></li>
-          <?php } ?>
-        </ul>
+          <p><?php echo $video->description; ?></p>
       </div>
     </section>
     <div class="zype_play_sample">

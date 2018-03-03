@@ -1,12 +1,17 @@
-Don't know what Zype is? Check this [overview](http://www.zype.com/).
+Don't know what Zype is? <a href="http://www.zype.com/" target="_blank">Learn more about Zype here</a>.
 
 # Zype Wordpress Plugin
 
-This free plugin allows you to transform your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With minimal setup you can have your website up and running.
+This free plugin allows you to turn your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With brief setup you can begin streaming video on your website.
 
-Using the plugin you can sell subscriptions to media content keep statistics on video views and audio, create playlists and insert video with shortcode and to display the live broadcast.
+Using the plugin you can sell subscriptions for premium video content, track analytics for video engagement, create playlists and insert videos using shortcodes, and even broadcast live events with just a few clicks.
 
 The Zype cloud service provides publishing, monetization, streaming, audience management, and analytics software that is integrated into hundreds of web, mobile, and OTT apps and engaged by millions of viewers every month.
+
+## Demo Website
+Full functionality of the plugin can be viewed on <a href="https://zypeplugin.com/" target="_blank">Zype Plugin</a> demo website.
+
+<a href="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU"><img src="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
 
 ## Key Features & Capabilities
 
@@ -14,7 +19,7 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 - Responsive design instantly works on mobile and desktop with any theme.
 - Stream your content from a wide range of sources including native video uploads, YouTube, Vimeo, Hulu, and more.
 - Your branding front and center with your own custom branded HTML5 video player.
-- Generate revenue with built-in subscription, purchase, and rental paywalls to make more money from your premium content.
+- Generate revenue with built-in subscription paywalls to make more money from your premium content.
 - Maximize ad revenue with preroll, midroll, and postroll ads, including support for dynamic ad pairing.
 - Broadcast high quality Live Streams anywhere on your website with just a few clicks.
 - Improve discovery and navigation for your audience by displaying playlist galleries showcasing your entire video library.
@@ -32,50 +37,70 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 - Requires WordPress version: 4.6 or higher | Tested up to: 4.8.3
 - Requires PHP: 5.6
 
-## Manual Installation
+## 
 
-After downloading the ZIP file of the zype plugin,
+
+## Installation via prebundled zip archive (recommended)
+
+Download latest release from Google Drive link in [releases](https://github.com/zype/zype-wordpress-plugin/releases) section in Github
 
 1. Log in to the administrator panel.
 2. Go to Plugins Add > New > Upload.
 3. Click Choose file (Browse) and select the downloaded zip file of the zype plugin.
-*For Mac Users*
-*Go to your Downloads folder and locate the folder with the zype. Right-click on the folder and select Compress. Now you have a newly created .zip file which can be installed as described here.*
 4. Click Install Now button.
 5. Click Activate Plugin button for activating the Zype.
+
+## Installation via cloning the repo
+
+Clone or dowbload zype-wordpress-plugin repo. If you downloaded the ZIP file, you need to unzip the file.
+
+1. Open up **Terminal**. Navigate inside downloaded repo.
+
+```shell
+cd path/to/plugin-folder # change directory to plugin folder
+```
+
+2.  Enter the following command to get the required libraries:
+```shell
+composer install # get the latest version of required libraries with Composer
+```
+
+3. After the libraries have been updated, ZIP the plugin folder.
+
+4. Manually add a new plugin in Wordpress and upload the ZIP file you just zipped.
 
 ## Configuration
 
 API Keys & Consumer Settings
-- Following installation you must import API keys from your Zype account. API keys will automatically validate as they are being added.
+- Following installation you must import API and app keys from your Zype account. API and app keys will automatically validate as they are being added.
 - In order to support consumer management, you must also import your consumer OAuth keys and secret.
 
 Enhanced Playlists
-- To set up enhanced playlists, there needs to be a root playlist set up on the platform. To set the root playlist, you can go to your Apple TV app settings under __Manage Apps__ and set the __Featured Playlist__ to your root playlist's id.
+- To set up enhanced playlists, there needs to be a root playlist set up in your Zype account. To create a root playlist, you can visit the [Manage Playlist Relationships](https://admin.zype.com/playlists/relationships) page in Zype and create a parent/child playlist structure.
 
 Monetization
-- In order to use SVOD on the website, Braintree settings need to be configured in the plugin configuration as well as on the Zype platform
+- In order to use subscription monetization on your Wordpress website, you must have a Braintree or Stripe account and have your Braintree / Stripe settings configured in the plugin as well as in the Zype platform.
 
-## Integration
+## Website Integration
 
 ### Shortcodes
-Shortcodes can be inserted anywere in the content and will render underlying functionality based on plugin configuration.
-- [zype_auth] Will render a login/signup functionality.
+Shortcodes can be inserted anywere on your Wordpress website and will render underlying functionality based on plugin configuration.
+- [zype_video id='Insert Video ID'] Will render a single video from your Zype account
+- [zype_playlist id='Insert Playlist ID'] Will render a playlist and all nested content from your Zype account
+- [zype_playlist id='Insert Playlist ID' zype_type=video_single] Will render all videos within a selected playlist
+- [zype_auth] Will render login/signup functionality.
 - [zype_signup] Will render signup functionality
-- [zype_video id='Insert Video ID'] Will render a single video from Zype account
-- [zype_playlist id='Insert Playlist ID'] Will render playlist from Zype account
-- [zype_playlist id='Insert Playlist ID' zype_type=video_single] Will render all videos under selected playlist
 
-### Url rewrites
-URL rewrites adds new pages to your website.
+### URL rewrites
+URL rewrites add new pages to your website.
 
 ## Contributing to the repo
 
-We welcome contributions to Zype Wordpress Plugin. If you have any suggestions or notice any bugs you can raise an issue. If you have any changes to the code base that you want to see added, you can fork the repository, then submit a pull request with your changes explaining what you changed, why you believe it should be added, and how one would test these changes. Thank you to the community!
+We welcome contributions to Zype Wordpress Plugin. If you have any suggestions or notice any bugs you can raise an issue. If you have any changes to the code base that you want to see added, you can fork the repository, then submit a pull request with your changes explaining what you changed, why you believe it should be added, and how one would test these changes. Thank you in advance to the community!
 
 ## Support
 
-If you need more information on how Zype API works, you can read the [documentation here](http://dev.zype.com/api_docs/intro/). If you have any other questions, feel free to contact us at [support@zype.com](mailto:support@zype.com).
+If you need more information on how the Zype API works, you can read [documentation here](http://dev.zype.com/api_docs/intro/). If you have any other questions, feel free to contact us at [support@zype.com](mailto:support@zype.com).
 
 ## Versioning
 
