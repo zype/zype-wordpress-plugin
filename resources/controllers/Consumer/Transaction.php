@@ -6,6 +6,11 @@ use ZypeMedia\Services\Braintree;
 
 class Transaction extends Base
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->form_message = null;
+    }
 
     public function plans()
     {
@@ -53,6 +58,8 @@ class Transaction extends Base
         $consumer_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
 
         $this->title = 'Select a Payment Method';
+
+        return $this;
     }
 
     protected function processTransactionSubmit()

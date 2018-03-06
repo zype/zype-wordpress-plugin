@@ -515,27 +515,9 @@ class Admin extends BaseController {
         //embed_key
         //player_key
         
-       /* if(!$this->check_stripe_pk())
+        if(!$this->check_stripe_pk())
             $invalid_keys[] = 'stripe_pk';
             
-        try{
-            \Braintree_CredentialsParser::assertValidEnvironment( $this->options['braintree_environment'] );
-            \Braintree_Configuration::environment(  $this->options['braintree_environment']      );
-            \Braintree_Configuration::merchantId(   $this->options['braintree_merchant_id']      );
-            \Braintree_Configuration::publicKey(    $this->options['braintree_public_key']       );
-            \Braintree_Configuration::privateKey(   $this->options['braintree_private_key']      );
-            $token = \Braintree_ClientToken::generate();
-        }catch(\Exception $e){
-            switch(get_class($e))://no break is not an error
-                case 'Braintree_Exception_Configuration':
-                    $invalid_keys[] = 'braintree_environment';
-                case 'Braintree_Exception_Authentication':
-                    $invalid_keys[] = 'braintree_merchant_id';
-                case 'Braintree_Exception_Authorization':
-                    $invalid_keys[] = 'braintree_public_key';
-                    $invalid_keys[] = 'braintree_private_key';
-            endswitch;
-        }*/
         // var_dump($this->options,$invalid_keys);exit;
         if(!empty($invalid_keys)){
             $this->update_option('invalid_key',$invalid_keys);

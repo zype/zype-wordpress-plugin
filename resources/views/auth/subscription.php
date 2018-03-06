@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<div class="content-wrap signup-wrap user-action-wrap container">
+<div class="signup-wrap user-action-wrap container">
   <div class="main-heading inner-heading">
     <strong class="title text-uppercase">My Account | Subscription</strong>
   </div>
@@ -90,7 +90,21 @@
               </div>
             <?php } else { ?>
               <p>You do not currently have a subscription.</p>
-              <p><a href="<?php zype_url('subscribe'); ?>/">Click here to subscribe.</a></p>
+              <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to subscribe.</a></p>
+              
+              <div class="player-auth-required">
+                  <div id="zype_video__auth-close">˟</div>
+                  <div class="player-auth-required-content">
+                      <div class="login-sub-section">
+                          <?php if (!\Auth::logged_in()): ?>
+                              <?php echo do_shortcode('[zype_auth]');?>
+                              <?php echo do_shortcode('[zype_signup]');?>
+                          <?php else: ?>
+                              <?php echo do_shortcode('[zype_auth type="plans"]');?>
+                          <?php endif ?>
+                      </div>
+                  </div>
+              </div>
             <?php } ?>
           </div>
         </div>
@@ -98,7 +112,6 @@
     </div>
   </div>
 </div>
-<script src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 (function($){
   //stripe
@@ -131,9 +144,29 @@
   });
 
   $(document).ready(function(){
+    $(document).on('click', '.zype-signin-button', function(e) {
+        e.preventDefault();
+        $('#zype-modal-auth').show();
+        $('#zype-modal-signup').hide();
+    });
+
     $('.button-disableable').submit(function(){
       $(this).children('.button-form-disabler').show();
     });
+  });
+
+  $(document).on('click', '.zype-join-button, .zype-signin-button', function() {
+      $('.player-auth-required').fadeIn();
+      $('.player-auth-required-content').css('top', '10%');
+  });
+  
+  $(document).on('click', '#zype_video__auth-close, #zype_modal_close', function(e){
+      $('.player-auth-required-content').css('top', '-50%');
+      $('.player-auth-required').fadeOut();
+
+      if($('.close_reload').val() === 'reload') {
+        location.reload();
+      }
   });
 
 })(jQuery); 

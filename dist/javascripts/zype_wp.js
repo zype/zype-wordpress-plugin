@@ -13,6 +13,7 @@ function ZypeWP(env) {
         return this;
     };
 
+
     this.initSubscriptionWidget = function() {
         if (self.env.logged_in || self.env.estWidgetEnabled == false) {
             return;
@@ -55,13 +56,14 @@ function ZypeWP(env) {
 
     }
 
-    this.zypeAuthMarkupRequest = function(zype_auth_type) {
+    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_auth_email, zype_auth_paytype, zype_auth_token) {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'get',
             data: {
                 action: 'zype_auth_markup',
-                type: zype_auth_type
+                type: zype_auth_type,
+                planid: zype_auth_plan_id ? zype_auth_plan_id : '0',
             },
             success: function(response) {
                 try {
@@ -120,8 +122,8 @@ function ZypeWP(env) {
             }
         });
 
-        this.initZypeAjaxForms();
-        this.initZypeAjaxMarkup();
+        self.initZypeAjaxForms();
+        self.initZypeAjaxMarkup();
     }
 
     this.initZypeAjaxForms = function() {
@@ -130,9 +132,13 @@ function ZypeWP(env) {
         if (zype_ajax_form.length) {
             zype_ajax_form.off();
             zype_ajax_form.ajaxForm({
-                beforeSubmit: function() {},
+                beforeSubmit: function() {
+                    zype_ajax_form.find('button[type="submit"]').append('<i class="zype-spinner"></i>').prop('disabled', true);
+                },
                 dataType: "json",
                 success: function(response) {
+                    jQuery('.zype-spinner').remove();
+
                     if (response.status == true) {
                         if (response.redirect) {
                             window.location.replace(response.redirect);
@@ -140,6 +146,7 @@ function ZypeWP(env) {
                             window.location.reload();
                         }
                     } else {
+                        zype_ajax_form.find('button[type="submit"]').prop('disabled', false);
                         if (response.errors) {
                             zype_ajax_form.find('.error-section').html(response.errors.join(","));
                             this.initZypeAjaxMarkup();
@@ -147,6 +154,7 @@ function ZypeWP(env) {
                             zype_ajax_form.find('.error-section').html('Something went wrong...');
                         }
                     }
+
                 }
             });
         }
@@ -159,7 +167,25 @@ function ZypeWP(env) {
 
             zype_auth_markup.on('click', function(e) {
                 e.preventDefault();
-                self.zypeAuthMarkupRequest(jQuery(this).data('type'));
+
+                if (jQuery(this).hasClass('disabled')) {
+                    return false;
+                }
+
+                jQuery('.zype-spinner').remove();
+
+                if (jQuery(this).hasClass('zype-button')) {
+                    jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                }
+
+                if (jQuery(this).hasClass('zype-btn-price-plan')) {
+                    jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                }
+
+                self.zypeAuthMarkupRequest(
+                    jQuery(this).data('type'),
+                    jQuery(this).data('planid'),
+                );
             });
         }
     }

@@ -9,8 +9,9 @@
   font-size: 16px;
   line-height: 22px;
   font-weight: 700;
-  color: #505050;
+  color: #272424;
   margin: 0;
+  letter-spacing: .3px;
 }
 #primary.content-area .zype_form__login {
   display: -webkit-box;
@@ -197,6 +198,69 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+}
+
+.zype-form-center {
+    text-align: center;
+}
+.zype-form-center .to-forgot-password {
+  margin-top: 0;
+  margin-bottom: 60px;
+}
+.zype-form-center .to-forgot-password a {
+    color: #60626b;
+    font-size: 11px;
+    border-bottom: none;
+}
+.zype-form-center .to-sign-up {
+    margin-top: 0;
+    color: #60626b;
+    font-size: 18px !important;
+}
+
+.zype-form-center .to-sign-up a {
+    color: #00a5df;
+    border-bottom: none;
+    font-weight: bold;
+}
+.zype-form-center .zype-title {
+  color: #272424 !important;
+  letter-spacing: .3px !important;
+  margin-bottom: 32px !important;
+}
+.zype-form-center .zype-button {
+  text-transform: uppercase !important;
+  color: #00a5df !important;
+  letter-spacing: 1.3px !important;
+  border: 2px solid #00a5df !important;
+  border-radius: 2px !important;
+  padding: 15px 100px !important;
+  margin: 20px 0 0 !important;
+  background: #fff !important;
+  font-size: 12px !important;
+}
+.zype-form-center .zype-button-text {
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 12px !important;
+}
+.zype-form-center .zype-input-wrap {
+  margin: 6px;
+}
+.zype-form-center .zype-input-text {
+  background: #fff !important;
+  border: 1px solid #d9d8e0 !important;
+  border-radius: 2px !important;
+  letter-spacing: .15px !important;
+  color: #272424 !important;
+  margin: 0 !important;
+  width: 500px !important;
+}
+.zype-form-center .zype-input-text::-webkit-input-placeholder,
+.zype-form-center .zype-input-text::-moz-placeholder,
+.zype-form-center .zype-input-text:-ms-input-placeholder,
+.zype-form-center .zype-input-text:-moz-placeholder { /* Chrome/Opera/Safari */
+  color: #c5c3d0;
 }
 
 /*# sourceMappingURL=loginform.css.map */

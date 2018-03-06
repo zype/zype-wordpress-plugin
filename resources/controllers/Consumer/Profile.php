@@ -258,8 +258,7 @@ class Profile extends BaseController
         } else {
             $zd['subscription'] = false;
         }
-// var_dump($zd);
-// exit;
+
         $title = 'Subscription';
 
         print view('auth.subscription', [

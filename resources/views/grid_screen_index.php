@@ -38,7 +38,7 @@
 							$thumbnail_layout = !empty($parent_playlist->thumbnail_layout)? $parent_playlist->thumbnail_layout: 'landscape';
 
 							$poster_image = '';
-							if( $thumbnail_layout == 'poster' && $cont->images ) {
+							if( $thumbnail_layout == 'poster' && !empty($cont->images) ) {
 								foreach( $cont->images as $image ){
 									if( $image->layout == 'poster'){
 										$poster_image = $image->url;
@@ -82,7 +82,7 @@
 								<?php foreach ($subcontent as $sub): ?>
 									<?php
 										$poster_image = '';
-										if( $thumbnail_layout == 'poster' && $sub->images ) {
+										if( $thumbnail_layout == 'poster' && !empty($sub->images) ) {
 											foreach( $sub->images as $image ){
 												if( $image->layout == 'poster'){
 													$poster_image = $image->url;
@@ -145,7 +145,7 @@
 						$thumbnail_layout = !empty($parent_playlist->thumbnail_layout)? $parent_playlist->thumbnail_layout: 'landscape';
 
 						$poster_image = '';
-						if( $thumbnail_layout == 'poster' && $cont->images ) {
+						if( $thumbnail_layout == 'poster' && !empty($cont->images) ) {
 							foreach( $cont->images as $image ){
 								if( $image->layout == 'poster'){
 									$poster_image = $image->url;
