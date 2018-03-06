@@ -36,7 +36,7 @@ defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
  */
 defined('ZYPE_MEDIA') ? ZYPE_MEDIA : define('ZYPE_MEDIA', 'plugin-textdomain');
 
-define('ZYPE_WP_VERSION', '0.5.0');
+define('ZYPE_WP_VERSION', '0.5.5');
 define('ZYPE_PATH', __FILE__ . DS);
 define('ZYPE_WP_OPTIONS', 'zype_wp');
 
