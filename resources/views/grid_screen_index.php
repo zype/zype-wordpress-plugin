@@ -82,7 +82,7 @@
 								<?php foreach ($subcontent as $sub): ?>
 									<?php
 										$poster_image = '';
-										if( $thumbnail_layout == 'poster' && $sub->images ) {
+										if( $thumbnail_layout == 'poster' && !empty($sub->images) ) {
 											foreach( $sub->images as $image ){
 												if( $image->layout == 'poster'){
 													$poster_image = $image->url;

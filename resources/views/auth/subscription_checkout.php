@@ -73,6 +73,7 @@
 <script>
   jQuery(document).ready(function($){
     <?php if (!empty($plan->braintree_id)): ?>
+        var ifFastPay = true;
         var payloadNonce = false;
         braintree.dropin.create({
             authorization: '<?php echo $braintree_token ?>',
@@ -86,30 +87,58 @@
                 return;
             }
 
-            if (instance.isPaymentMethodRequestable()) {
-                $(".zype-checkout-button").prop('disabled', false);
-            }
+            $(".zype-checkout-button").prop('disabled', false);
+
+            instance.on('noPaymentMethodRequestable', function (event) {});
+
+            instance.on('paymentOptionSelected', function (event) {
+                if (event.paymentOption) {
+                    payloadNonce = false;
+                    ifFastPay = false;
+                }
+            });
 
             instance.on('paymentMethodRequestable', function (event) {
-                if (event.stored) {
-                    $(".zype-checkout-button").prop('disabled', false);
+                if (!event.paymentMethodIsSelected) {
+                    payloadNonce = false;
                 }
             });
 
             $(".zype-checkout-button").click(function(e) {
                 e.preventDefault();
 
+                $(this).append('<i class="zype-spinner"></i>');
+                $(".zype-checkout-button").prop('disabled', true);
+
+                if (ifFastPay && instance.isPaymentMethodRequestable() && !payloadNonce) {
+                    ifFastPay = false;
+                    instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+                        if (payload && typeof payload.nonce != 'undefined') {
+                            payloadNonce = payload.nonce;
+                            $('#payment-form').find('input[name="braintree_payment_nonce"]').val(payload.nonce);
+                            sendPaymentRequest();
+                        } else {
+                            $(".zype-checkout-button").prop('disabled', false);
+                            $('.zype-spinner').remove();
+                        }
+                    });
+
+                    return;
+                }
+
+                ifFastPay = false;
+
                 if (payloadNonce) {
                     sendPaymentRequest();
                 } else {
-                    $(this).append('<i class="zype-spinner"></i>');
                     instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-                        $('.zype-spinner').remove();
-
                         if (payload && typeof payload.nonce != 'undefined') {
                             payloadNonce = payload.nonce;
                             $('#payment-form').find('input[name="braintree_payment_nonce"]').val(payload.nonce);
                         }
+
+                        $(".zype-checkout-button").prop('disabled', false);
+                        $('.zype-spinner').remove();
                     });
                 }
             });
@@ -123,6 +152,10 @@
         $(".zype-checkout-button").prop('disabled', false);
 
         $(".zype-checkout-button").click(function(e) {
+            e.preventDefault();
+
+            $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+
             var cardDate = $('#zype-card-date').val();
             Stripe.card.createToken({
                 number: $('#zype-card-number').val(),
@@ -132,21 +165,22 @@
             }, stripeTokenHandler);
 
             return false;
-            e.preventDefault();
         });
 
         function stripeTokenHandler(status, response) {
             if (response.error) {
                 $('.checkout_error').text(response.error.message);
+                $('.zype-checkout-button').prop('disabled', false);
+                $('.zype-spinner').remove();
             } else {
-                sendPaymentRequest();
                 $('#payment-form input[name="stripe_card_token"]').val(response.id);
+                sendPaymentRequest();
             }
         }
     <?php endif ?>
     
     function sendPaymentRequest() {
-        $('.zype-checkout-button').prop('disabled', true).append('<i class="zype-spinner"></i>');
+        $('.checkout_error').text('');
 
         $.ajax({
             url: "<?php zype_url('subscribe');?>/submit",
@@ -155,12 +189,20 @@
             dataType: 'json',
             encode: true
         }).done(function(data) {
+            if (typeof data.errors != 'undefined') {
+                $.each(data.errors, function(index, value) {
+                    $('.checkout_error').append(value + "<br/>");
+                });
+                return;
+            }
+
+            if (data.success) {
+                $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
+                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button type="submit" class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+            }
+
             $('.zype-checkout-button').prop('disabled', false);
             $('.zype-spinner').remove();
-            if(data.success) {
-                $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
-                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button type="submit" class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">')
-            }
         }).fail(function(data) {
             $('.zype-checkout-button').prop('disabled', false);
             $('.zype-spinner').remove();
