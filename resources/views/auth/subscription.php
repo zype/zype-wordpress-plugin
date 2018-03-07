@@ -6,7 +6,7 @@
   <div class="user-wrap">
     <div class="holder-main">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="">
           <ul class="user-action">
             <li class="profile">
               <a href="<?php zype_url('profile'); ?>/">
@@ -40,7 +40,7 @@
             </li>
           </ul>
         </div>
-        <div class="col-sm-6">
+        <div class="">
           <div class="subscription-content">
             <div class="zype_flash_messages"></div>
             <?php if(!empty($zd['subscription'])){ ?>

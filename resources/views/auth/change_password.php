@@ -6,7 +6,7 @@
   <div class="user-wrap">
     <div class="holder-main">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="">
           <ul class="user-action">
             <li class="profile">
               <a href="<?php zype_url('profile'); ?>/">
@@ -40,7 +40,7 @@
             </li>
           </ul>
         </div>
-        <div class="col-sm-6">
+        <div class="">
           <form action="<?php echo admin_url('admin-ajax.php'); ?>" class="user-form nice-form validate-form" method="post">
             <input type="hidden" name="action" value="zype_update_password">
             <div class="success-section"></div>

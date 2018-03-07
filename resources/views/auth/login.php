@@ -6,7 +6,7 @@
   <div class="user-wrap">
     <div class="holder-main">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="">
           <form action="<?php echo admin_url('admin-ajax.php') ?>" class="user-form nice-form zype_ajax_form" method="post">
             <input type="hidden" name="action" value="zype_login">
               <div class="zype_flash_messages"></div>
@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class="success-section"></div>
-              <div class="col-sm-6">
+              <div class="">
                 <p class="to-forgot-password"><a href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>" class="zype_auth_markup" data-type="forgot">Forgot password?</a></p>
                 <p class="to-sign-up">Don’t have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=register" ?>" class="zype_auth_markup" data-type="register">Sign Up</a></p>
               </div>
