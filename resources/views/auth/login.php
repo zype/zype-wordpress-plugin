@@ -1,36 +1,51 @@
-<div id="zype-modal-auth">
-<div class="content-wrap zype-form-center">
+<div class="content-wrap">
   <div class="main-heading inner-heading">
-    <h1 class="title text-uppercase zype-title">Sign in</h1>
+    <strong class="title text-uppercase">Sign In</strong>
   </div>
   <div class="user-wrap">
     <div class="holder-main">
       <div class="row">
         <div class="col-sm-6">
+          <div class="zype_flash_messages_social"></div>
+          <?php do_action('wordpress_social_login'); ?>
+          <div class="stat-whole">
+            <div class="subscribe-sub">
+              <p>Don’t have an account yet? <a href="<?php echo get_permalink() . "?zype_auth_type=register" ?>" class="zype_auth_markup" data-type="register">Sign Up</a></p>
+              <p>Forgot your password? <a href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>" class="zype_auth_markup" data-type="forgot">Click Here</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
           <form action="<?php echo admin_url('admin-ajax.php') ?>" class="user-form nice-form zype_ajax_form" method="post">
             <input type="hidden" name="action" value="zype_login">
+            <fieldset>
               <div class="zype_flash_messages"></div>
               <div class="error-section"></div>
               <div class="field-section">
-                <p class="form-group required-row zype-input-wrap">
-                  <input name="username" type="email" class="form-control required zype-input-text" id="email-login" placeholder="Email">
-                </p>
-                <p class="form-group required-row zype-input-wrap">
-                  <input name="password" type="password" class="form-control required zype-input-text" id="password-login" placeholder="Password">
-                </p>
+                <div class="form-group required-row">
+                  <label class="text-uppercase" for="email">email</label>
+                  <input name="username" type="email" class="form-control required-email" id="email">
+                </div>
+                <div class="form-group required-row">
+                  <label class="text-uppercase" for="password">password</label>
+                  <input name="password" type="password" class="form-control required" id="password">
+                </div>
+                <div class="check-group check-login">
+                  <label for="check-1">
+                    <input name="remember_me" id="check-1" type="checkbox">
+                    <span class="fake-input"></span>
+                    <span class="fake-label text-uppercase"><strong>remember me</strong></span>
+                  </label>
+                </div>
                 <div class="btn-holder">
-                  <button type="submit" class="zype_get_all_ajax zype-button">Sign in</button>
+                  <input type="submit" class="btn btn-primary" value="Login">
                 </div>
               </div>
               <div class="success-section"></div>
-              <div class="col-sm-6">
-                <p class="to-forgot-password"><a href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>" class="zype_auth_markup" data-type="forgot">Forgot password?</a></p>
-                <p class="to-sign-up">Donâ€™t have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=register" ?>" class="zype_auth_markup" data-type="register">Sign Up</a></p>
-              </div>
+            </fieldset>
           </form>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>

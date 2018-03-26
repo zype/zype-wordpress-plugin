@@ -211,6 +211,9 @@
     color: #60626b;
     font-size: 11px;
     border-bottom: none;
+    text-decoration: none !important;
+    transition: none;
+    box-shadow: none;
 }
 .zype-form-center .to-sign-up {
     margin-top: 0;
@@ -222,6 +225,9 @@
     color: #00a5df;
     border-bottom: none;
     font-weight: bold;
+    text-decoration: none !important;
+    transition: none;
+    box-shadow: none;
 }
 .zype-form-center .zype-title {
   color: #272424 !important;
@@ -238,6 +244,9 @@
   margin: 20px 0 0 !important;
   background: #fff !important;
   font-size: 12px !important;
+  height: auto !important;
+  line-height: 20px !important;
+  text-shadow: none !important;
 }
 .zype-form-center .zype-button-text {
   padding: 0 !important;
@@ -255,6 +264,10 @@
   color: #272424 !important;
   margin: 0 !important;
   width: 500px !important;
+  height: 40px !important;
+  text-shadow: none !important;
+  font-size: 15px !important;
+  display: inline-block;
 }
 .zype-form-center .zype-input-text::-webkit-input-placeholder,
 .zype-form-center .zype-input-text::-moz-placeholder,

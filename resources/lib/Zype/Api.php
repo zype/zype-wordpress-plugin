@@ -139,7 +139,7 @@ class Api {
     }
 
     private static function _get_video($id, $query) {
-        return self::request("GET", "videos/{$id}", $query)->response;
+        return self::request("GET", "videos/{$id}", $query, false, false)->response;
     }
 
     private static function _get_zobject_types($query) {
