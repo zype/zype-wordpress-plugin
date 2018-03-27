@@ -1,7 +1,7 @@
 <div id="zype-modal-signup">
 <div class="content-wrap signup-wrap user-action-wrap zype-form-center">
   <div class="main-heading inner-heading">
-    <h1 class="title text-uppercase zype-title">Forgot Password?</h1>
+    <h1 class="title zype-title">Forgot Password?</h1>
   </div>
   <div class="user-wrap">
     <div class="holder-main">
@@ -17,7 +17,7 @@
               </div>
               <button type="submit" class="zype-button">Reset Password</button>
               <p class="to-sign-in">Already have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0">Sign In</a><br>
-              Don’t have an account? <a href="?zype_auth_type=register" class="zype_auth_markup" data-type="register">Sign Up</a></p>
+              Don't have an account? <a href="?zype_auth_type=register" class="zype_auth_markup" data-type="register">Sign Up</a></p>
               </div>
           </form>
         </div>

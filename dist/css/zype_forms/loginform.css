@@ -204,7 +204,7 @@
     text-align: center;
 }
 .zype-form-center .to-forgot-password {
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 60px;
 }
 .zype-form-center .to-forgot-password a {
@@ -219,6 +219,7 @@
     margin-top: 0;
     color: #60626b;
     font-size: 18px !important;
+    line-height: 18px !important;
 }
 
 .zype-form-center .to-sign-up a {
@@ -233,6 +234,14 @@
   color: #272424 !important;
   letter-spacing: .3px !important;
   margin-bottom: 32px !important;
+  line-height: 35px !important;
+  font-size: 35px !important;
+  font-weight: 100 !important;
+  text-transform: lowercase !important;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+}
+.zype-form-center .zype-title:first-letter {
+  text-transform: uppercase !important;
 }
 .zype-form-center .zype-button {
   text-transform: uppercase !important;
@@ -247,6 +256,7 @@
   height: auto !important;
   line-height: 20px !important;
   text-shadow: none !important;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
 .zype-form-center .zype-button-text {
   padding: 0 !important;
@@ -267,7 +277,7 @@
   height: 40px !important;
   text-shadow: none !important;
   font-size: 15px !important;
-  display: inline-block;
+  display: inline-block !important;
 }
 .zype-form-center .zype-input-text::-webkit-input-placeholder,
 .zype-form-center .zype-input-text::-moz-placeholder,
