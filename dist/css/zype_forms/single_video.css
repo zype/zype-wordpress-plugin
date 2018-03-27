@@ -90,7 +90,7 @@
     display: flex;
 }
 
-.site-content .zype_player_container .play-placeholder {
+.site-content .zype_player_container .overlay_player .play-placeholder {
     position: absolute;
     top: 50%;
     left: 50%;
