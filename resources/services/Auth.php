@@ -247,6 +247,12 @@ class Auth {
                         'remember_me'             => self::remember_me(),
                     ]);
 
+
+                    $is_saas_comfortability_mode = Config::get('zype.zype_saas_comfortability');
+
+                    if (!$is_saas_comfortability_mode)
+                        return true;
+
 					if (!$wpUser = get_user_by_email($consumer->email)) {
 						  $password = wp_generate_password(12, false);
 						  $user_id = wp_create_user($consumer->email, $password, $consumer->email);
@@ -259,6 +265,7 @@ class Auth {
 						  );
 
 						  $wpUser = new \WP_User($user_id);
+                          update_user_option( $user_id, 'show_admin_bar_front', false );
 						  $wpUser->set_role('subscriber');
 					}
 

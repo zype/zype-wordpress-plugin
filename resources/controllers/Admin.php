@@ -65,7 +65,7 @@ class Admin extends BaseController {
 
         wp_die();
 	}
-	
+
 	public function admin_grid_screen_page_save()
 	{
 		if (wp_verify_nonce($_POST['_wpnonce'], 'zype_grid_screen')) {
@@ -82,10 +82,10 @@ class Admin extends BaseController {
 		wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
 	}
-	
+
     public function admin_api_keys_page()
     {
-        
+
         echo view('admin.api_keys', [
             'options' => $this->options
         ]);
@@ -103,15 +103,17 @@ class Admin extends BaseController {
                 'embed_key'        => isset($_POST['embed_key']) ? trim($_POST['embed_key']) : '',
                 'player_key'       => isset($_POST['player_key']) ? trim($_POST['player_key']) : '',
                 'read_only_key'    => isset($_POST['read_only_key']) ? trim($_POST['read_only_key']) : '',
-				
+
                 'braintree_environment'    => isset($_POST['braintree_environment']) ? trim($_POST['braintree_environment']) : '',
                 'braintree_merchant_id'    => isset($_POST['braintree_merchant_id']) ? trim($_POST['braintree_merchant_id']) : '',
                 'braintree_private_key'    => isset($_POST['braintree_private_key']) ? trim($_POST['braintree_private_key']) : '',
                 'braintree_public_key'    => isset($_POST['braintree_public_key']) ? trim($_POST['braintree_public_key']) : '',
                 'stripe_pk'    => isset($_POST['stripe_pk']) ? trim($_POST['stripe_pk']) : '',
-    
+
                 'oauth_client_id'    => isset($_POST['oauth_client_id']) ? trim($_POST['oauth_client_id']) : '',
-                'oauth_client_secret'    => isset($_POST['oauth_client_secret']) ? trim($_POST['oauth_client_secret']) : '',            
+                'oauth_client_secret'    => isset($_POST['oauth_client_secret']) ? trim($_POST['oauth_client_secret']) : '',
+
+                'zype_saas_comfortability' => isset($_POST['zype_saas_comfortability']) ? true : false
             ];
 
             if (isset($_POST['zype_environment']) && isset($this->zypeEnvironmentSettings[$_POST['zype_environment']])) {
@@ -124,13 +126,13 @@ class Admin extends BaseController {
 
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
-            
+
             zype_wp_admin_message('updated', 'Changes successfully saved!');
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
         $this->check_keys();
-        
+
         wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -294,14 +296,14 @@ class Admin extends BaseController {
     public function admin_braintree_page_save()
     {
 		if(isset($_POST['subscribe'])){
-			
+
 			$new_options = ['subscribe_select' => $_POST['subscribe']];
-			
+
 			$this->options = array_replace($this->options, $new_options);
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
 		}
-		
+
         if (wp_verify_nonce($_POST['_wpnonce'], 'zype_braintree')) {
             $new_options   = [
                 'braintree_environment' => empty($_POST['braintree_environment']) ? self::$defaults['braintree_environment'] : $_POST['braintree_environment'],
@@ -357,16 +359,17 @@ class Admin extends BaseController {
     {
         if (wp_verify_nonce($_POST['_wpnonce'], 'zype_users')) {
             $new_options = [
-                'authentication_enabled' => isset($_POST['authentication_enabled']) ? true : false,
-                'subscriptions_enabled'  => isset($_POST['subscriptions_enabled']) ? true : false,
-                'device_link_enabled'    => isset($_POST['device_link_enabled']) ? true : false,
-                'logout_url'             => empty($_POST['logout_url']) ? self::$defaults['logout_url'] : $_POST['logout_url'],
-                'profile_url'            => empty($_POST['profile_url']) ? self::$defaults['profile_url'] : $_POST['profile_url'],
-                'device_link_url'        => empty($_POST['device_link_url']) ? self::$defaults['device_link_url'] : $_POST['device_link_url'],
-                'subscribe_url'          => empty($_POST['subscribe_url']) ? self::$defaults['subscribe_url'] : $_POST['subscribe_url'],
-                'rental_url'             => empty($_POST['rental_url']) ? self::$defaults['rental_url'] : $_POST['rental_url'],
-                'pass_url'               => empty($_POST['pass_url']) ? self::$defaults['pass_url'] : $_POST['pass_url'],
-                'flush'                  => true,
+                'authentication_enabled'   => isset($_POST['authentication_enabled']) ? true : false,
+                'subscriptions_enabled'    => isset($_POST['subscriptions_enabled']) ? true : false,
+                'device_link_enabled'      => isset($_POST['device_link_enabled']) ? true : false,
+                'logout_url'               => empty($_POST['logout_url']) ? self::$defaults['logout_url'] : $_POST['logout_url'],
+                'profile_url'              => empty($_POST['profile_url']) ? self::$defaults['profile_url'] : $_POST['profile_url'],
+                'device_link_url'          => empty($_POST['device_link_url']) ? self::$defaults['device_link_url'] : $_POST['device_link_url'],
+                'subscribe_url'            => empty($_POST['subscribe_url']) ? self::$defaults['subscribe_url'] : $_POST['subscribe_url'],
+                'rental_url'               => empty($_POST['rental_url']) ? self::$defaults['rental_url'] : $_POST['rental_url'],
+                'pass_url'                 => empty($_POST['pass_url']) ? self::$defaults['pass_url'] : $_POST['pass_url'],
+                'terms_url'                => empty($_POST['terms_url']) ? '' : $_POST['terms_url'],
+                'flush'                    => true,
             ];
             if ($new_options['authentication_enabled'] == true && $this->options['cookie_key'] == '') {
                 $new_options['cookie_key'] = \ZypeMedia\Services\Auth::generate_cookie_key();
@@ -464,19 +467,19 @@ class Admin extends BaseController {
         curl_setopt($ch, CURLOPT_USERPWD, $publishableKey . ":");
 
         $response = json_decode(curl_exec($ch),true);//expecting invalid card msg
-        
+
         curl_close ($ch);
         if(isset($response["error"]) && substr($response["error"]["message"],0, 24 ) == "Invalid API Key provided"){
             return false;
         }
         return true;
     }
-    
+
     private function check_player_key(){
         $key = 'api_key=' . $this->options['player_key'];
         $video_id = 0;//not exists
         $url = $this->options['playerHost'] . '/embed/' . $video_id . '?' . $key . '&';
-        
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -484,40 +487,40 @@ class Admin extends BaseController {
         $response = json_decode(curl_exec($ch));//expecting invalid video msg
         if($response->message == 'Invalid or missing authentication.')
             return false;
-        
+
         return true;
-        
+
     }
     public function check_keys(){
         $invalid_keys = array();
-        
+
         $wrapper = new \Zype\Core\Wrapper($this->options);//refresh options
-        
+
         $playlists = \Zype\Core\Wrapper::get_playlists_by(array());
         if($playlists === false)
             $invalid_keys[] = 'app_key';
         unset($playlists);
-        
+
         $plans = \Zype\Core\Wrapper::get_all_plans();
         if($plans === false)
             $invalid_keys[] = 'admin_key';
         unset($plans);
-        
+
         $categories = \Zype\Core\Wrapper::get_all_categories();
         if($categories === false)
             $invalid_keys[] = 'read_only_key';
         unset($categories);
-        
+
         if(!$this->check_player_key())
             $invalid_keys[] = 'player_key';
-       
-        
+
+
         //embed_key
         //player_key
-        
+
         if(!$this->check_stripe_pk())
             $invalid_keys[] = 'stripe_pk';
-            
+
         // var_dump($this->options,$invalid_keys);exit;
         if(!empty($invalid_keys)){
             $this->update_option('invalid_key',$invalid_keys);

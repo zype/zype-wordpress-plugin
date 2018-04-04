@@ -276,7 +276,7 @@ class Api {
             $client = self::$resourceClient;
         }
 
-        if (!$is_auth && in_array($method, ['PUT'])) {
+        if (!$is_auth && in_array($method, ['PUT']) && strpos($endpoint, 'consumers') === false) {
             $client = self::$resourceClientHttp;
         }
 

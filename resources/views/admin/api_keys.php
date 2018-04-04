@@ -1,4 +1,4 @@
-<?php if (!defined('ABSPATH')) die(); 
+<?php if (!defined('ABSPATH')) die();
 
 $getvalidation_icon = function($key) use($options){
     if(is_array($options['invalid_key']) && array_search($key,$options['invalid_key']) !== false){
@@ -14,15 +14,15 @@ $getvalidation_icon = function($key) use($options){
     <h2><?php echo get_admin_page_title(); ?></h2>
 
     <h3>Initial Setup</h3>
-    <p>Welcome to the Zype plugin for WordPress. In order to use the Zype plugin, please enter API keys, 
+    <p>Welcome to the Zype plugin for WordPress. In order to use the Zype plugin, please enter API keys,
     as well as  other credentials and settings from your Zype account.</p>
 
-    <p>First, if you haven’t already done so, you’ll want to create a 
-    <a href="https://admin.zype.com/apps/new?type=wordpress" target="_blank">WordPress app profile</a> 
+    <p>First, if you haven’t already done so, you’ll want to create a
+    <a href="https://admin.zype.com/apps/new?type=wordpress" target="_blank">WordPress app profile</a>
     in Zype’s admin. Please follow the instructions in Zype to complete the app profile creation.</p>
 
     <h3>API Keys</h3>
-    <p>Your WordPress App Key and all your other API keys can be found in Zype’s admin in the API keys section. 
+    <p>Your WordPress App Key and all your other API keys can be found in Zype’s admin in the API keys section.
     Please copy and paste each API key listed below from your Zype account admin.</p>
 
     <form method="post" action="<?php echo admin_url('admin.php'); ?>">
@@ -50,7 +50,7 @@ $getvalidation_icon = function($key) use($options){
                            value="<?php echo $options['admin_key']; ?>">
                     <?php echo $getvalidation_icon('admin_key')?>
                     <p class="description"></p>
-                    
+
                 </td>
             </tr>
             <tr>
@@ -74,7 +74,7 @@ $getvalidation_icon = function($key) use($options){
                            value="<?php echo $options['read_only_key']; ?>">
                     <?php echo $getvalidation_icon('read_only_key')?>
                     <p class="description"></p>
-                    
+
                 </td>
             </tr>
             </tbody>
@@ -82,14 +82,14 @@ $getvalidation_icon = function($key) use($options){
 		<hr>
 
         <h3>Payment Setup</h3>
-        <p>If you plan on monetizing videos using subscriptions or other paywall settings, 
-        you must set up an account with a supported payment process, configure payment settings in Zype, 
+        <p>If you plan on monetizing videos using subscriptions or other paywall settings,
+        you must set up an account with a supported payment process, configure payment settings in Zype,
         and enter your payment provider details below.
         </p>
         </p>Visit <a href="https://admin.zype.com/monetization" target="_blank">Zype’s Monetization menu</a>
          to learn more about setting up subscriptions and other paywalls.
         </p>
-        <p>If you’ve already created a subscription plan, visit 
+        <p>If you’ve already created a subscription plan, visit
         <a href="https://admin.zype.com/site/edit" target="_blank">Zype’s Settings > Monetization tab </a>
         to access your Stripe and/or Braintree information to enter below.</p>
 
@@ -112,7 +112,7 @@ $getvalidation_icon = function($key) use($options){
 		<h4>Braintree</h4>
 		<table class="form-table">
 		  <tbody>
-			<tr> 
+			<tr>
 			  <th scope="row">
 				<label for="braintree-environment">Environment</label>
 			  </th>
@@ -156,14 +156,14 @@ $getvalidation_icon = function($key) use($options){
 		</table>
 
         <h3>Consumer Account Management Setup</h3>
-        
+
         <p>If you plan on monetizing videos using subscriptions or other paywalls, you should also provide your consumers
-         with the ability to manage their accounts after purchasing your video products. 
+         with the ability to manage their accounts after purchasing your video products.
          This way they can update their email addresses, change their subscription settings, and more.</p>
 
-        <p>In order to support Consumer Account Management Pages in WordPress you must enter 
-        OAuth credentials below. To find your OAuth credentials, please visit 
-        <a href="https://admin.zype.com/apps" target="_blank">Zype’s Apps dashboard</a> and look for your “Wordpress App.” 
+        <p>In order to support Consumer Account Management Pages in WordPress you must enter
+        OAuth credentials below. To find your OAuth credentials, please visit
+        <a href="https://admin.zype.com/apps" target="_blank">Zype’s Apps dashboard</a> and look for your “Wordpress App.”
         Click into the Wordpress App and look for the “OAuth Credentials:” link. Click on “View Credentials” to expose your Client ID and Client secret.</p>
         <table class="form-table">
           <tbody>
@@ -186,6 +186,21 @@ $getvalidation_icon = function($key) use($options){
             </td>
           </tr>
            </tbody>
+        </table>
+
+        <h3>SaaS</h3>
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <label for="zype-saas-comfortability">SaaS Comfortability</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="zype_saas_comfortability" id="zype-saas-comfortability" class="regular-checkbox"<?= $options['zype_saas_comfortability'] ? 'checked="checked"' : ''; ?>>
+                        <p class="description">Turn on if you using wordpress hosting  like Worpdress.com</p>
+                    </td>
+                </tr>
+            </tbody>
         </table>
 
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"

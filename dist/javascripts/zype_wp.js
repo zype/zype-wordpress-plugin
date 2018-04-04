@@ -149,7 +149,7 @@ function ZypeWP(env) {
                         zype_ajax_form.find('button[type="submit"]').prop('disabled', false);
                         if (response.errors) {
                             zype_ajax_form.find('.error-section').html(response.errors.join(","));
-                            this.initZypeAjaxMarkup();
+                            self.initZypeAjaxMarkup();
                         } else {
                             zype_ajax_form.find('.error-section').html('Something went wrong...');
                         }
@@ -307,7 +307,7 @@ function ZypeWP(env) {
     this.do_videos = function() {
 
         function get_name_browser(){
-         var ua = navigator.userAgent;    
+         var ua = navigator.userAgent;
 
          if (ua.search(/Chrome/) > 0) return 'Google Chrome';
          if (ua.search(/Firefox/) > 0) return 'Firefox';
@@ -341,7 +341,7 @@ function ZypeWP(env) {
                             });
                         });
             		}
-                    
+
                 } else {
                  	if (t.data('auto-play') == true) {
             		    self.get_player(t);
@@ -349,9 +349,9 @@ function ZypeWP(env) {
             		    t.children('.play-placeholder').click(function() {
                             self.get_player(t);
                         })
-            		}   
+            		}
                 }
-            
+
         });
     }
 
