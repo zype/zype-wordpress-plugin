@@ -7,7 +7,7 @@
             <div class="user-wrap">
                 <div class="holder-main">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="">
                             <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back</button>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
             <div class="user-wrap">
                 <div class="holder-main">
                     <div class="row payment-row">
-                        <div class="col-sm-6">
+                        <div class="">
                             <input type="hidden" name="action" value="zype_plans">
 
                             <div class="holder">

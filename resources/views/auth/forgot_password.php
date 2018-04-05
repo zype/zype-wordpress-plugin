@@ -9,7 +9,7 @@
         <div class="">
           <form action="<?php echo admin_url('admin-ajax.php') ?>" class="user-form nice-form zype_ajax_form" method="post">
             <input type="hidden" name="action" value="zype_forgot_password">
-            <div class="error-section"></div>
+            <div class="error-section"><?php echo $zype_message; ?></div>
             <div class="field-section">
               <div class="zype_flash_messages"></div>
               <div class="form-group required-row zype-input-wrap">
