@@ -18,13 +18,13 @@
   <div class="zype_video__wrapper">
     <div class="zype_video__heading">
       <h1><?php echo $video->title; ?></h1>
-      <div class="zype_play_sample">
-        <?php if (zype_audio_only()): ?>
-          <a href="<?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&zype_video_id=<?php echo $video->_id ?>" class="btn btn-lg btn-primary">Watch Video</a>
-        <?php else: ?>
-          <a href="<?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&audio=true&zype_video_id=<?php echo $video->_id ?>" class="btn btn-lg btn-primary">Listen to Audio</a>
-        <?php endif ?>
-      </div>
+      <!-- <div class="zype_play_sample">
+        <!?php if (zype_audio_only()): ?>
+          <a href="<!?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&zype_video_id=<!?php echo $video->_id ?>" class="btn btn-lg btn-primary">Watch Video</a>
+        <!?php else: ?>
+          <a href="<!?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&audio=true&zype_video_id=<!?php echo $video->_id ?>" class="btn btn-lg btn-primary">Listen to Audio</a>
+        <!?php endif ?>
+      </div> -->
     </div>
     <?php if (zype_audio_only()): ?>
         <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => true]); ?>
@@ -73,10 +73,10 @@
         $('#zype-modal-signup').show();
         $('#zype-modal-auth').hide();
   })
-  
+
   $(document).on('click', '.zype-join-button, .zype-signin-button', function() {
       $('.player-auth-required').fadeIn();
       $('.player-auth-required-content').css('top', '10%');
   })
-})(jQuery); 
+})(jQuery);
 </script>

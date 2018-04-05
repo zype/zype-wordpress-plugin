@@ -64,16 +64,17 @@ if (!$zype_wp_options) {
 	  'player_key' => '',
 	  'read_only_key' => '',
 	  'livestream_enabled' => false,
-	  'zobjects' => 
+	  'zobjects' =>
 	  array (),
-	  'categories' => 
+	  'categories' =>
 	  array (),
 	  'audio_only_enabled' => false,
-	  'excluded_categories' => 
+	  'excluded_categories' =>
 	  array (),
 	  'authentication_enabled' => true,
 	  'subscriptions_enabled' => true,
-	  'device_link_enabled' => true,
+      'device_link_enabled' => true,
+	  'zype_saas_comfortability' => false,
 	  'cookie_key' => 'reset_me',
 	  'oauth_client_id' => '',
 	  'oauth_client_secret' => '',
@@ -85,7 +86,8 @@ if (!$zype_wp_options) {
 	  'device_link_url' => 'link',
 	  'subscribe_url' => 'subscribe',
 	  'rental_url' => 'rental',
-	  'pass_url' => 'pass',
+      'pass_url' => 'pass',
+	  'terms_url' => '',
 	  'braintree_environment' => '',
 	  'braintree_merchant_id' => '',
 	  'braintree_private_key' => '',
@@ -108,7 +110,7 @@ if (!$zype_wp_options) {
 	);
 
 	update_option(ZYPE_WP_OPTIONS, $zype_wp_options);
-    
+
     define('zype_check_keys',true);
 }
 

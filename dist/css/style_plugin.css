@@ -1,3 +1,6 @@
+@import "./fontawesome/fontawesome.css";
+
+
 div.slider_links > div.slider_links-title > a,
 div.slider_links > div.get-all-playlists.slider_links-all > a
 {
@@ -472,4 +475,138 @@ body:not(.twentyseventeen-front-page) .entry-content {
     87.5% {
       box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
     }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /** Profile styles **/
+  .user-profile-wrap {
+	  padding-top: 20px !important;
+	  margin-bottom: 20px !important;
+	  text-align: center !important;
+	  width: auto !important;
+	  margin-left: 0 !important;
+	  margin-right: 0 !important;
+  }
+
+  .user-profile-wrap a { color: #00a5df !important; }
+
+  .user-profile-wrap > .main-heading > .title {
+  	display: block !important;
+  	color: #272424 !important;
+  	letter-spacing: .3px !important;
+  	margin-bottom: 32px !important;
+  	line-height: 35px !important;
+  	font-size: 35px !important;
+  	font-weight: 100 !important;
+  	text-transform: lowercase !important;
+  	font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+  }
+  .user-profile-wrap > .main-heading > .title::first-letter { text-transform: uppercase !important; }
+
+  .user-profile-wrap__content {
+  	display: -webkit-box !important;
+      display: -moz-box !important;
+      display: -ms-flexbox !important;
+      display: -webkit-flex !important;
+      display: flex !important;
+
+  	-webkit-box-pack: center !important;
+  	-moz-box-pack: center !important;
+  	-ms-flex-pack: center !important;
+  	-webkit-justify-content: center !important;
+  	justify-content: center !important;
+
+  	-webkit-box-lines: multiple !important;
+  	-moz-box-lines: multiple !important;
+  	-ms-flex-wrap: wrap !important;
+  	-webkit-flex-wrap: wrap !important;
+  	flex-wrap: wrap !important;
+  }
+
+  .user-profile-wrap__block { min-width: 50% !important; }
+
+  .user-profile-wrap__field { margin: 6px !important; }
+
+  .user-profile-wrap__inp {
+  	  background: #fff !important;
+      border: 1px solid #d9d8e0 !important;
+      border-radius: 2px !important;
+      letter-spacing: .15px !important;
+      color: #272424 !important;
+      margin: 0 !important;
+	  min-width: 200px !important;
+      max-width: 500px !important;
+      height: 40px !important;
+      text-shadow: none !important;
+      font-size: 15px !important;
+      display: inline-block !important;
+	  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+  }
+
+  .user-profile-wrap__button {
+  	text-transform: uppercase !important;
+      color: #00a5df !important;
+      letter-spacing: 1.3px !important;
+      border: 2px solid #00a5df !important;
+      border-radius: 2px !important;
+      padding: 15px 100px !important;
+      margin: 20px 0 0 !important;
+      background: #fff !important;
+      font-size: 12px !important;
+      height: auto !important;
+      line-height: 20px !important;
+      text-shadow: none !important;
+  	font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+  }
+
+  .user-profile-wrap__note {
+	max-width: 320px;
+  	color: #60626b;
+  	font-size: 12px !important;
+  	text-align: center !important;
+  	margin: 0 auto !important;
+  }
+
+  .user-profile-wrap__menu {
+  	display: inline-block !important;
+  	margin: 0 !important;
+  	margin-bottom: 32px !important;
+  	list-style: none !important;
+  	text-align: left !important;
+  }
+
+  .user-profile-wrap__menu > li {
+  	border-bottom: 1px solid #efefef !important;
+  	border-top: 1px solid #efefef !important;
+  	padding: 0.5em 0 !important;
+  }
+  .user-profile-wrap__menu > li:first-child { border-top: none !important; }
+
+  .user-profile-wrap__menu > li > a {
+  	color: #00a5df !important;
+      border-bottom: none !important;
+      font-weight: bold !important;
+      text-decoration: none !important;
+      transition: none !important;
+      box-shadow: none !important;
+  	font-family: "Open Sans", "Helvetica Neue", helvetica, arial, sans-serif !important;
+  	font-size: 18px !important;
+      line-height: 1 !important;
   }

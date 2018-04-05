@@ -34,11 +34,11 @@
         <strong class="title">Complete Show Archive</strong>
         <p><a href="<?php zype_url('video'); ?>/">Browse the archives online.</a> We have over 300 hours of content.</p>
       </div>
-      <div class="slot">
+      <!-- <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-rss"></i></span>
         <strong class="title">Podcast RSS Feed</strong>
-        <p><a href="<?php zype_url('profile'); ?>/rss-feeds/">Listen on the go.</a> Every episode, available for easy listening.</p>
-      </div>
+        <p><a href="<!?php zype_url('profile'); ?>/rss-feeds/">Listen on the go.</a> Every episode, available for easy listening.</p>
+      </div> -->
       <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-smile-o"></i></span>
         <p>If we've changed your mind, click the button below.</p>

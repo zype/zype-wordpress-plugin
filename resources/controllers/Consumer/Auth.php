@@ -2,6 +2,8 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
+use Themosis\Facades\Config;
+
 class Auth extends Base
 {
     public function __construct()
@@ -31,13 +33,13 @@ class Auth extends Base
     public function login_submit_ajax() {
         $this->login_submit(true);
     }
-    
+
     public function login_submit($ajax = false)
     {
         if($ajax) {
             $errors = array();
         }
-        
+
         $auther = new \ZypeMedia\Services\Auth();
 
         if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] != '' && $_POST['password'] != '') {
@@ -57,7 +59,7 @@ class Auth extends Base
             else
                 $this->form_message = zype_flash_message('times', 'Please provide an email address and password.');
         }
-        
+
         if($ajax)
         {
             echo json_encode(array(
@@ -88,9 +90,19 @@ class Auth extends Base
 
         $zype_message   = $this->form_message;
 
+        $terms_link = false;
+        $terms_link_opt = trim(Config::get('zype.terms_url'));
+        if ($terms_link_opt) {
+            if (parse_url($terms_link_opt, PHP_URL_SCHEME))
+              $terms_link = $terms_link_opt;
+            else
+              $terms_link = get_home_url().'/'.ltrim($terms_link_opt, '/');
+        }
+
         ob_start();
         $content = view('auth.signup', [
-            'zype_message' => $zype_message
+            'zype_message' => $zype_message,
+            'terms_link' => $terms_link
         ]);
         ob_end_clean();
         return $content;
@@ -99,7 +111,7 @@ class Auth extends Base
     public function signup_submit_ajax() {
         $this->signup_submit(true);
     }
-    
+
     public function signup_submit($ajax = false)
     {
         if($ajax) {
@@ -137,10 +149,10 @@ class Auth extends Base
                     }
                 } else {
                     $auther->logout();
-                    
+
                     $message = 'There was an error creating your account. This email address may already be in use. Please try again. If you have forgotten your password, <a href="' . get_permalink() . '?zype_auth_type=forgot" class="zype_auth_markup" data-type="forgot">click here.</a>';
-                    
-                    if($ajax) 
+
+                    if($ajax)
                         $errors[] = $message;
                     else
                         $this->form_message = zype_flash_message('times', $message);
@@ -154,12 +166,12 @@ class Auth extends Base
             }
         } else {
             $message = 'Please fill out all required fields.';
-            
+
             if($ajax)
                 $errors[] = $message;
             else
                 $this->form_message = zype_flash_message('times', $message);
-        }		
+        }
 
         if ($ajax) {
             echo json_encode(array(

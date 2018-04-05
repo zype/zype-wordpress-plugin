@@ -1,13 +1,13 @@
 <?php get_header(); ?>
-<div class="signup-wrap user-action-wrap container">
+<div class="signup-wrap user-action-wrap container user-profile-wrap">
   <div class="main-heading inner-heading">
     <strong class="title text-uppercase">My Account | Subscription</strong>
   </div>
   <div class="user-wrap">
     <div class="holder-main">
-      <div class="row">
-        <div class="">
-          <ul class="user-action">
+      <div class="user-profile-wrap__content">
+        <div class="user-profile-wrap__block">
+          <ul class="user-action user-profile-wrap__menu">
             <li class="profile">
               <a href="<?php zype_url('profile'); ?>/">
                 <span class="ico"><i class="fa fa-fw fa-user"></i></span>
@@ -20,12 +20,12 @@
                 <span class="text">Change Password</span>
               </a>
             </li>
-            <li class="rss-feeds">
-              <a href="<?php zype_url('profile'); ?>/rss-feeds/">
+            <!-- <li class="rss-feeds">
+              <a href="<!?php zype_url('profile'); ?>/rss-feeds/">
                 <span class="ico"><i class="fa fa-fw fa-rss"></i></span>
                 <span class="text">RSS Feeds</span>
               </a>
-            </li>
+            </li> -->
             <li class="subscription active">
               <a href="<?php zype_url('profile'); ?>/subscription/">
                 <span class="ico"><i class="fa fa-fw fa-dollar"></i></span>
@@ -40,9 +40,8 @@
             </li>
           </ul>
         </div>
-        <div class="">
+        <div class="user-profile-wrap__block">
           <div class="subscription-content">
-            <div class="zype_flash_messages"></div>
             <?php if(!empty($zd['subscription'])){ ?>
               <div class="slot">
                 <strong class="title">Subscription Plan: </strong>
@@ -56,8 +55,8 @@
                 <br>
                 <p>
                   <form action="<?php zype_url('profile'); ?>/subscription/change/" method="post">
-                    <fieldset>
                       <div class="field-section">
+                        <div class="zype_flash_messages"></div>
                         <input type="hidden" name="subscription_id" value="<?php echo $zd['subscription']->_id; ?>">
                         <div class="form-group">
                         <select name="new_plan_id" class="form-control">
@@ -69,10 +68,9 @@
                         </select>
                         </div>
                         <div class="btn-holder">
-                          <input type="submit" class="btn btn-sm btn-success" value="Update Subscription">
+                          <input type="submit" class="btn btn-sm btn-success user-profile-wrap__button" value="Update Subscription">
                         </div>
                       </div>
-                    </fieldset>
                   </form>
                 </p>
               </div>
@@ -91,7 +89,7 @@
             <?php } else { ?>
               <p>You do not currently have a subscription.</p>
               <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to subscribe.</a></p>
-              
+
               <div class="player-auth-required">
                   <div id="zype_video__auth-close">˟</div>
                   <div class="player-auth-required-content">
@@ -128,7 +126,7 @@
 
   $('.customButton').on('click', function(e) {
     form_id = '#'+$(this).parents('form:first').attr('id');
-    
+
     handler.open({
       name: '<?php bloginfo('name'); ?>',
       description: 'Update Card Details',
@@ -159,7 +157,7 @@
       $('.player-auth-required').fadeIn();
       $('.player-auth-required-content').css('top', '10%');
   });
-  
+
   $(document).on('click', '#zype_video__auth-close, #zype_modal_close', function(e){
       $('.player-auth-required-content').css('top', '-50%');
       $('.player-auth-required').fadeOut();
@@ -169,6 +167,6 @@
       }
   });
 
-})(jQuery); 
+})(jQuery);
 </script>
 <?php get_footer(); ?>
