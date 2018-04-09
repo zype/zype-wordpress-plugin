@@ -1,6 +1,6 @@
 <?php if (!defined('ABSPATH')) die(); ?>
 
-<?php 
+<?php
 $auto_play_   = $auto_play  ? '&autoplay=true' : '&autoplay=false';
 $audio_only_  = $audio_only ? '&audio=true' : '';
 $key        = 'api_key=' . Themosis\Facades\Config::get('zype.player_key');
@@ -22,7 +22,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
             data-video-id="<?php echo $video->_id; ?>"
             data-auto-play="<?php echo $auto_play ? 'true' : 'false'; ?>"
             data-auth-required="<?php echo $auth_required ? 'true' : 'false'; ?>"
-            data-audio-only="<?php echo $audio_only ? 'true' : 'false'; ?>"> 
+            data-audio-only="<?php echo $audio_only ? 'true' : 'false'; ?>">
             <img class="placeholder" src="<?php echo $video->thumbnail_url; ?>">
             <div class="zype_player" id="zype_<?php echo $video->_id; ?>"></div>
         <?php else: ?>
@@ -71,6 +71,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                 <?php if (!\Auth::logged_in()): ?>
                     <?php echo do_shortcode('[zype_auth]');?>
                     <?php echo do_shortcode('[zype_signup]');?>
+                    <?php echo do_shortcode('[zype_forgot]');?>
                 <?php else: ?>
                     <?php echo do_shortcode('[zype_auth type="plans"]');?>
                 <?php endif ?>

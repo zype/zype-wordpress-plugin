@@ -38,9 +38,15 @@
                 <span class="text">Link Device</span>
               </a>
             </li>
+            <li class="link-device">
+              <a href="<?php  echo home_url(\Config::get('zype.logout_url')) ?>/">
+                <span class="ico"><i class="fa fa-fw fa-sign-out"></i></span>
+                <span class="text">Logout</span>
+              </a>
+            </li>
           </ul>
         </div>
-        <div class="user-profile-wrap__block">
+        <div class="user-profile-wrap__block user-profile-wrap__block_subscribe">
           <div class="subscription-content">
             <?php if(!empty($zd['subscription'])){ ?>
               <div class="slot">
@@ -68,7 +74,7 @@
                         </select>
                         </div>
                         <div class="btn-holder">
-                          <input type="submit" class="btn btn-sm btn-success user-profile-wrap__button" value="Update Subscription">
+                          <input type="submit" class="btn btn-sm btn-success user-profile-wrap__button user-profile-wrap__button_subscr" value="Update Subscription">
                         </div>
                       </div>
                   </form>
@@ -81,10 +87,8 @@
                   <p>If you cancel your subscription your subscription will terminate immediately and you will not be refunded a prorated amount.</p>
                   <p>You cannot undo this action.</p>
                 <?php } ?>
-                <p></p>
-                <div class="btn-holder">
-                  <a class="btn btn-sm btn-danger" href="<?php zype_url('profile'); ?>/subscription/cancel/">Cancel Subscription</a>
-                </div>
+                <br>
+                <a class="btn btn-sm btn-danger user-profile-wrap__button user-profile-wrap__button_subscr" href="<?php zype_url('profile'); ?>/subscription/cancel/">Cancel Subscription</a>
               </div>
             <?php } else { ?>
               <p>You do not currently have a subscription.</p>
@@ -146,6 +150,7 @@
         e.preventDefault();
         $('#zype-modal-auth').show();
         $('#zype-modal-signup').hide();
+        $('#zype-modal-forgot').hide();
     });
 
     $('.button-disableable').submit(function(){

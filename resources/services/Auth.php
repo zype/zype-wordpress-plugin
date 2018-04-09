@@ -248,9 +248,9 @@ class Auth {
                     ]);
 
 
-                    $is_saas_comfortability_mode = Config::get('zype.zype_saas_comfortability');
+                    $is_saas_compatability_mode = Config::get('zype.zype_saas_compatability');
 
-                    if (!$is_saas_comfortability_mode)
+                    if (!$is_saas_compatability_mode)
                         return true;
 
 					if (!$wpUser = get_user_by_email($consumer->email)) {

@@ -193,10 +193,10 @@ $getvalidation_icon = function($key) use($options){
             <tbody>
                 <tr>
                     <th scope="row">
-                        <label for="zype-saas-comfortability">SaaS Comfortability</label>
+                        <label for="zype-saas-compatability">SaaS Compatability</label>
                     </th>
                     <td>
-                        <input type="checkbox" name="zype_saas_comfortability" id="zype-saas-comfortability" class="regular-checkbox"<?= $options['zype_saas_comfortability'] ? 'checked="checked"' : ''; ?>>
+                        <input type="checkbox" name="zype_saas_compatability" id="zype-saas-compatability" class="regular-checkbox"<?= $options['zype_saas_compatability'] ? 'checked="checked"' : ''; ?>>
                         <p class="description">Turn on if you using wordpress hosting  like Worpdress.com</p>
                     </td>
                 </tr>

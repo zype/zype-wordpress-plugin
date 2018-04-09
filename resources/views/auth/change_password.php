@@ -38,6 +38,12 @@
                 <span class="text">Link Device</span>
               </a>
             </li>
+            <li class="link-device">
+              <a href="<?php  echo home_url(\Config::get('zype.logout_url')) ?>/">
+                <span class="ico"><i class="fa fa-fw fa-sign-out"></i></span>
+                <span class="text">Logout</span>
+              </a>
+            </li>
           </ul>
         </div>
         <div class="user-profile-wrap__block">

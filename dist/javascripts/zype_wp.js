@@ -162,31 +162,61 @@ function ZypeWP(env) {
 
     this.initZypeAjaxMarkup = function() {
         var zype_auth_markup = jQuery('.zype_auth_markup');
+
         if (zype_auth_markup.length) {
             zype_auth_markup.off();
 
-            zype_auth_markup.on('click', function(e) {
-                e.preventDefault();
+			zype_auth_markup.each(function(i, item) {
+				var $item = jQuery(item);
+				var is_in_modal = !!$item.closest('.player-auth-required').length;
 
-                if (jQuery(this).hasClass('disabled')) {
-                    return false;
-                }
+				if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
+					$item.on('click', function(e) {
+						e.preventDefault();
 
-                jQuery('.zype-spinner').remove();
+						switch (jQuery(this).data('type')) {
+							case 'login':
+								jQuery('#zype-modal-auth').show();
+								jQuery('#zype-modal-signup').hide();
+								jQuery('#zype-modal-forgot').hide();
+								break;
+							case 'register':
+								jQuery('#zype-modal-signup').show();
+								jQuery('#zype-modal-auth').hide();
+								jQuery('#zype-modal-forgot').hide();
+								break;
+							case 'forgot':
+								jQuery('#zype-modal-forgot').show();
+								jQuery('#zype-modal-auth').hide();
+								jQuery('#zype-modal-signup').hide();
+								break;
+						}
+					});
+				} else {
+					$item.on('click', function(e) {
+		                e.preventDefault();
 
-                if (jQuery(this).hasClass('zype-button')) {
-                    jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
-                }
+		                if (jQuery(this).hasClass('disabled')) {
+		                    return false;
+		                }
 
-                if (jQuery(this).hasClass('zype-btn-price-plan')) {
-                    jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
-                }
+		                jQuery('.zype-spinner').remove();
 
-                self.zypeAuthMarkupRequest(
-                    jQuery(this).data('type'),
-                    jQuery(this).data('planid'),
-                );
-            });
+		                if (jQuery(this).hasClass('zype-button')) {
+		                    jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+		                }
+
+		                if (jQuery(this).hasClass('zype-btn-price-plan')) {
+		                    jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+		                }
+
+		                self.zypeAuthMarkupRequest(
+		                    jQuery(this).data('type'),
+		                    jQuery(this).data('planid'),
+		                );
+		            });
+				}
+			});
         }
     }
 

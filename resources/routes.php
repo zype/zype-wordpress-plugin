@@ -8,6 +8,7 @@ $rss_url = Config::get('zype.rss_url');
 $profile_url = Config::get('zype.profile_url');
 $subscribe_url = Config::get('zype.subscribe_url');
 $device_link_url = Config::get('zype.device_link_url');
+$auth_url = Config::get('zype.auth_url');
 
 /**
  * Plugin custom routes.
@@ -54,6 +55,9 @@ if (Config::get('zype.authentication_enabled')) {
             exit;
         });
     }
+
+    if ($auth_url)
+        Route::any($auth_url, 'Consumer\Auth@auth_page');
 
     // Profile routes
     if ($profile_url) {

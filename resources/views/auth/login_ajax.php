@@ -39,9 +39,9 @@
       </div>
     </div>
   </div>
-  <script> 
+  <script>
   (function($){
-    $(document).ready(function() { 
+    $(document).ready(function() {
      $("#zype_login_form_ajax").ajaxForm({
       beforeSubmit: function() {
        $("#zype_login_form_ajax .error-section").html("");
@@ -51,10 +51,10 @@
 
        if(data.status == true)
         location.reload();
-      else 
+      else
         $("#zype_login_form_ajax .error-section").html(data.errors.join(","));
     }
   });
    });
-})(jQuery); 
+})(jQuery);
  </script>

@@ -67,11 +67,13 @@
   $(document).on('click', '.zype-signin-button', function() {
         $('#zype-modal-auth').show();
         $('#zype-modal-signup').hide();
+        $('#zype-modal-forgot').hide();
   })
 
   $(document).on('click', '.zype-join-button', function() {
         $('#zype-modal-signup').show();
         $('#zype-modal-auth').hide();
+        $('#zype-modal-forgot').hide();
   })
 
   $(document).on('click', '.zype-join-button, .zype-signin-button', function() {
