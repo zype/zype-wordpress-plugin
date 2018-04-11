@@ -81,7 +81,7 @@ if (!$zype_wp_options) {
 	  'flush' => true,
 	  'livestream_url' => 'livestream',
 	  'video_url' => 'videorewr',
-	  'logout_url' => 'sign-out',
+	  'logout_url' => 'signout',
 	  'profile_url' => 'profile',
 	  'device_link_url' => 'link',
 	  'subscribe_url' => 'subscribe',
