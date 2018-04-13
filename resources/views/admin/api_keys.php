@@ -188,7 +188,7 @@ $getvalidation_icon = function($key) use($options){
            </tbody>
         </table>
 
-        <h3>SaaS</h3>
+        <h3>Hosting Compatibility</h3>
         <table class="form-table">
             <tbody>
                 <tr>
