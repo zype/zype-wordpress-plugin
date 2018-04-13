@@ -22,7 +22,7 @@ class Subscriptions extends Base
 			foreach($this->options['subscribe_select'] as $option){
 				$plan[] = \Zype::get_plan($option);
 			}
-		} 
+		}
         $this->title    = 'Select a Plan';
         $plans = $plan;
 
@@ -45,8 +45,8 @@ class Subscriptions extends Base
 			foreach($this->options['subscribe_select'] as $option){
 				$plan[] = \Zype::get_plan($option);
 			}
-        } 
-        
+        }
+
         $this->title    = 'Select a Plan';
         $plans = $plan;
 
@@ -286,4 +286,3 @@ class Subscriptions extends Base
     }
 
 }
-

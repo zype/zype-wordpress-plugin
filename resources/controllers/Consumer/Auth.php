@@ -30,6 +30,31 @@ class Auth extends Base
         return view('auth.login');
     }
 
+    public function auth_page()
+    {
+        if (\Auth::logged_in()) {
+            wp_redirect(home_url(Config::get('zype.profile_url')));
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['username'])) {
+                $zype_user_email = trim(strtolower(filter_var($_POST['username'], FILTER_SANITIZE_STRING)));
+                zype_form_fields([['f_name'  => 'username',
+                                'f_value' => $zype_user_email,
+                                ],
+                ]);
+            }
+            $this->login_submit();
+        }
+
+        echo view('auth.pre_auth', ['title' => 'Auth']);
+        echo view('auth.login');
+        echo view('auth.post_auth');
+
+        exit;
+    }
+
     public function login_submit_ajax() {
         $this->login_submit(true);
     }

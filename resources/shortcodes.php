@@ -55,6 +55,11 @@ add_shortcode('zype_signup', function() {
     return $loginController->signup();
 });
 
+add_shortcode('zype_forgot', function() {
+    $profileController = new Consumer\Profile();
+    return $profileController->forgot_password();
+});
+
 add_shortcode('zype_video', function($attrs) {
     $id = $attrs['id'];
     $view = !empty($attrs['view'])? $attrs['view']: 'full';

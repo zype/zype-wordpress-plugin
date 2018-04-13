@@ -13,7 +13,7 @@ class Profile extends BaseController
     public function profile()
     {
         if (!\Auth::logged_in()) {
-            wp_redirect(home_url());
+            wp_redirect(home_url(Config::get('zype.auth_url')));
             exit;
         }
 
@@ -92,6 +92,11 @@ class Profile extends BaseController
 
     public function change_password()
     {
+        if (!\Auth::logged_in()) {
+            wp_redirect(home_url(Config::get('zype.auth_url')));
+            exit;
+        }
+
         $title    = 'Change Password';
         print view('auth.change_password', [
             'title' => $title
@@ -233,6 +238,11 @@ class Profile extends BaseController
 
     public function subscription()
     {
+        if (!\Auth::logged_in()) {
+            wp_redirect(home_url(Config::get('zype.auth_url')));
+            exit;
+        }
+
         global $zd;
 
         $zd                = [];
@@ -389,6 +399,11 @@ class Profile extends BaseController
 
     public function device_link()
     {
+        if (!\Auth::logged_in()) {
+            wp_redirect(home_url(Config::get('zype.auth_url')));
+            exit;
+        }
+
         $title    = 'Link Device';
 
         print view('auth.device_link', [

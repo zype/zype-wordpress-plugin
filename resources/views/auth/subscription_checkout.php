@@ -34,7 +34,7 @@
                                     <input name="braintree_payment_nonce" type="hidden">
 
                                     <p class="checkout_error" style='color: red'></p>
-                                    
+
                                     <?php if (!empty($plan->braintree_id)): ?>
                                         <input name="type" type="hidden" value="braintree">
                                         <div id="braintree-form"></div>
@@ -50,7 +50,7 @@
                                             </p>
                                         </div>
                                     <?php endif ?>
-                                    
+
                                     <div class="zype-buttons-row">
                                         <div class="zype-buttons-column">
                                             <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back</button>
@@ -147,7 +147,7 @@
     <?php elseif (!empty($plan->stripe_id)): ?>
         $("#zype-card-date").mask("99/99");
         $("#zype-card-number").mask("9999 9999 9999 9999");
-        
+
         Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
         $(".zype-checkout-button").prop('disabled', false);
 
@@ -178,7 +178,7 @@
             }
         }
     <?php endif ?>
-    
+
     function sendPaymentRequest() {
         $('.checkout_error').text('');
 

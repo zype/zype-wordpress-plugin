@@ -132,7 +132,7 @@
             </th>
             <td>
                 <input type="text" name="terms_url" id="terms-url" class="regular-text" value="<?php echo $options['terms_url']; ?>">
-                <p class="description">You can enter both an absolute and a relative address</p>
+                <p class="description">Enter either a full page URL or a relative URL slug for your Terms of Service page. If you leave this blank, customers will not see a terms of service link during their subscription purchase flow.</p>
             </td>
             </tr>
           </tbody>

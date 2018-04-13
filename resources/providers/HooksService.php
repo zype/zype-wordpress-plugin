@@ -127,7 +127,7 @@ class HooksService extends ServiceProvider {
     }
 
     public function adjustWpMenu() {
-        remove_submenu_page('zype', 'zype'); 
+        remove_submenu_page('zype', 'zype');
     }
 
     public function update_profile()

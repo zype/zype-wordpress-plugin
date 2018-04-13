@@ -542,6 +542,19 @@ body:not(.twentyseventeen-front-page) .entry-content {
 
   .user-profile-wrap__block { min-width: 50% !important; }
 
+  .user-profile-wrap__block_subscribe {
+	  max-width: 50% !important;
+	  padding: 0 1.4% !important;
+	  color: #60626b !important;
+	  font-size: 15px !important;
+  }
+  .user-profile-wrap__block_subscribe * {
+	  color: #60626b !important;
+	  font-size: 15px !important;
+	  font-weight: normal !important;
+  }
+  .user-profile-wrap__block_subscribe strong { font-weight: bold !important; }
+
   .user-profile-wrap__field { margin: 6px !important; }
 
   .user-profile-wrap__inp {
@@ -561,24 +574,33 @@ body:not(.twentyseventeen-front-page) .entry-content {
   }
 
   .user-profile-wrap__button {
-  	text-transform: uppercase !important;
-      color: #00a5df !important;
-      letter-spacing: 1.3px !important;
-      border: 2px solid #00a5df !important;
-      border-radius: 2px !important;
-      padding: 15px 100px !important;
-      margin: 20px 0 0 !important;
-      background: #fff !important;
-      font-size: 12px !important;
-      height: auto !important;
-      line-height: 20px !important;
-      text-shadow: none !important;
-  	font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+		max-width: 100% !important;
+		display: inline-block !important;
+		text-transform: uppercase !important;
+		color: #00a5df !important;
+		letter-spacing: 1.3px !important;
+		border: 2px solid #00a5df !important;
+		border-radius: 2px !important;
+		padding: 15px 100px !important;
+		margin: 20px 0 0 !important;
+		background: #fff !important;
+		font-size: 12px !important;
+		height: auto !important;
+		line-height: 20px !important;
+		text-shadow: none !important;
+		font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+  }
+
+  .user-profile-wrap__button_subscr {
+		max-width: 500px !important;
+		width: 100% !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
   }
 
   .user-profile-wrap__note {
-	max-width: 320px;
-  	color: #60626b;
+	max-width: 320px !important;
+  	color: #60626b !important;
   	font-size: 12px !important;
   	text-align: center !important;
   	margin: 0 auto !important;
@@ -609,4 +631,31 @@ body:not(.twentyseventeen-front-page) .entry-content {
   	font-family: "Open Sans", "Helvetica Neue", helvetica, arial, sans-serif !important;
   	font-size: 18px !important;
       line-height: 1 !important;
+  }
+
+  select.form-control {
+      padding: 0.375em !important;
+	  width: 100% !important;
+	  font-size: 15px !important;
+	  line-height: 1.5 !important;
+      margin: 0 !important;
+	  min-width: 200px !important;
+	  max-width: 500px !important;
+	  vertical-align: baseline !important;
+	  background: #fff !important;
+	  border: 1px solid #d9d8e0 !important;
+	  border-radius: 2px !important;
+	  letter-spacing: .15px !important;
+	  color: #272424 !important;
+	  height: 40px !important;
+	  text-shadow: none !important;
+	  display: inline-block !important;
+	  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+  }
+
+  .error-section, .success-section, .zype_flash_messages {
+	  max-width: 50% !important;
+	  text-align: center !important;
+	  margin-left: auto !important;
+	  margin-right: auto !important;
   }
