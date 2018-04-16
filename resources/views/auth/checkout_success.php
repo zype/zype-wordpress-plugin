@@ -27,7 +27,7 @@
       <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-desktop"></i></span>
         <strong class="title">Start Watching Now</strong>
-//        <p><a href="<?php zype_url('video'); ?>/">Browse the archives online</a> We have over 300 hours of content.</p>
+<!--        <p><a href="<?php zype_url('video'); ?>/">Browse the archives online</a> We have over 300 hours of content.</p> -->
       </div>
     </div>
   </div>
