@@ -1,11 +1,5 @@
 <h3>Subscription Cancellation</h3>
-<p>Sorry to see you go, we hate to lose a subscriber and want to know why.</p>
-<p>Send us an email at <a href="mailto:apps@zype.com">apps@zype.com</a> with your feedback.</p>
+<p>We're very sorry to see you go! This email confirms your subscription has been canceled.</p>
+<p>Please come back to visit if you'd like to subscribe again in the future.</p>
 <p></p>
-<p>
-  Thanks for watching,<br>
-   Zype Staff
-</p>
-<p>
-Zype &amp; zype.com &amp; &copy; <br> 
-</p>
+<p>Thanks</p>
