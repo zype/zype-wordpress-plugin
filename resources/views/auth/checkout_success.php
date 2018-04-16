@@ -21,14 +21,14 @@
   <div class="content-main">
     <div class="text-head">
       <h1>Thank you for Subscribing</h1>
-      <p>You now have full access to all content.</p>
+      <p>You now have access to all content available within the subscription plan you purchased.</p>
     </div>
     <div class="item-list">
       <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-desktop"></i></span>
         <strong class="title">Start Watching Now</strong>
-        <p><a href="<?php zype_url('video'); ?>/">Browse the archives online</a> We have over 300 hours of content.</p>
-      </div>
+<!--         <p><a href="<?php zype_url('video'); ?>/">Browse the archives online</a> We have over 300 hours of content.</p>
+ -->      </div>
     </div>
   </div>
 </div>
