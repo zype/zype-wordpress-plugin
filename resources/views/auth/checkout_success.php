@@ -21,7 +21,7 @@
   <div class="content-main">
     <div class="text-head">
       <h1>Thank you for Subscribing</h1>
-      <p>You now have full access to all content.</p>
+      <p>You now have access to all content available within the subscription plan you purchased.</p>
     </div>
     <div class="item-list">
       <div class="slot">
