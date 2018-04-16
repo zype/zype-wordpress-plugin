@@ -4,7 +4,7 @@ use Themosis\Facades\Page;
 use Themosis\Facades\Action;
 
 ### Icon
-$icon_url = plugins_url('../../dist/images/zype-wp-menu-image.ico', __FILE__);
+$icon_url = 'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="white" d="M34,4H6A2.00587,2.00587,0,0,0,4,6V34a2.00591,2.00591,0,0,0,2,2H34a2.00591,2.00591,0,0,0,2-2V6A2.00587,2.00587,0,0,0,34,4ZM27.24017,20.76819l-13.2,11A.99995.99995,0,0,1,12.4,31V9a1,1,0,0,1,1.64014-.76825l13.2,11a1,1,0,0,1,0,1.53644Z"/></svg>' );
 $options = Config::get('zype');
 
 Page::make('zype', 'Zype')->set([
@@ -29,12 +29,12 @@ Action::add('admin_action_zype_api_keys', 'ZypeMedia\Controllers\Admin@admin_api
 if( isset($options['app_key']) && $options['app_key'] !== '' &&
 	isset($options['admin_key']) && $options['admin_key'] !== '' &&
 	isset($options['player_key']) && $options['player_key'] !== '' &&
-	isset($options['read_only_key']) && $options['read_only_key'] !== ''){	
-		
+	isset($options['read_only_key']) && $options['read_only_key'] !== ''){
+
 	} else {
 		return;
-	} 
-    
+	}
+
 if(!empty($options['invalid_key']))
     return;
 ### Settings page end
