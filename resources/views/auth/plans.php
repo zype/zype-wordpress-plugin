@@ -2,7 +2,6 @@
     <div class="content-main price-main">
       <div class="text-head">
         <h1>Choose from our Pricing Plans</h1>
-        <p>Access live streams and over 300 hours of archived shows.</p>
       </div>
       <div class="zype_flash_messages"></div>
       <div class="price-table">
