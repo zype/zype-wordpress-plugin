@@ -32,6 +32,15 @@
           </tr>
           <tr>
             <th scope="row">
+              <label for="logout-url">Login URL</label>
+            </th>
+            <td>
+              /<input type="text" name="auth_url" id="auth-url" class="regular-text" value="<?php echo $options['auth_url']; ?>">
+              <p class="description"></p>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">
               <label for="logout-url">Logout URL</label>
             </th>
             <td>
@@ -49,35 +58,35 @@
             </td>
           </tr>
           </tbody>
-	      	</table>
+          </table>
           <h3>Device Linking</h3>
           <p>Enable Device Linking if you sell subscription or transaction paywalled
           content in set top apps like Apple TV, Roku, or Amazon Fire TV that
           feature device linking universal login authentication.
           The Device Linking page makes it easy for consumers to log into accounts
-           to view content in your set top apps.</p>
-           <table class="form-table">
-        <tbody>
-          <tr>
-            <th scope="row">
-              <label for="device-link-enabled">Enable Device Linking</label>
-            </th>
-            <td>
-              <input type="checkbox" name="device_link_enabled" id="device-link-enabled" class="regular-checkbox" <?php echo $options['device_link_enabled'] ? 'checked="checked"' : ''; ?>>
-              <p class="description"></p>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              <label for="device-link-url">Device Linking URL</label>
-            </th>
-            <td>
-              /<input type="text" name="device_link_url" id="device-link-url" class="regular-text" value="<?php echo $options['device_link_url']; ?>">
-              <p class="description"></p>
-            </td>
-          </tr>
-          </tbody>
-	      	</table>
+          to view content in your set top apps.</p>
+          <table class="form-table">
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <label for="device-link-enabled">Enable Device Linking</label>
+                </th>
+                <td>
+                  <input type="checkbox" name="device_link_enabled" id="device-link-enabled" class="regular-checkbox" <?php echo $options['device_link_enabled'] ? 'checked="checked"' : ''; ?>>
+                  <p class="description"></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <label for="device-link-url">Device Linking URL</label>
+                </th>
+                <td>
+                  /<input type="text" name="device_link_url" id="device-link-url" class="regular-text" value="<?php echo $options['device_link_url']; ?>">
+                  <p class="description"></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
           <h3>Subscription and Paywall Management</h3>
           <p>Enable Subscription Management to allow consumers to easily manage their
@@ -125,17 +134,17 @@
 
       <h3>Other links</h3>
       <table class="form-table">
-          <tbody>
-            <tr>
+        <tbody>
+          <tr>
             <th scope="row">
-                <label for="terms-url">Terms page</label>
+              <label for="terms-url">Terms page</label>
             </th>
             <td>
-                <input type="text" name="terms_url" id="terms-url" class="regular-text" value="<?php echo $options['terms_url']; ?>">
-                <p class="description">Enter either a full page URL or a relative URL slug for your Terms of Service page. If you leave this blank, customers will not see a terms of service link during their subscription purchase flow.</p>
+              <input type="text" name="terms_url" id="terms-url" class="regular-text" value="<?php echo $options['terms_url']; ?>">
+              <p class="description">Enter either a full page URL or a relative URL slug for your Terms of Service page. If you leave this blank, customers will not see a terms of service link during their subscription purchase flow.</p>
             </td>
-            </tr>
-          </tbody>
+          </tr>
+        </tbody>
       </table>
 
       <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
