@@ -155,8 +155,6 @@ class Profile extends BaseController
             $errors[] = 'You must provide a valid email address.';
         }
 
-        $redirect = get_zype_url('profile') . '/forgot-password/';
-
         if ($ajax) {
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
@@ -206,7 +204,13 @@ class Profile extends BaseController
                         ]);
                         if ($update_consumer) {
                             zype_form_message('check', 'Your password has been successfully changed.');
-                            wp_redirect(get_zype_url('login'));
+                            $auther = new \ZypeMedia\Services\Auth();
+
+                            $username = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
+                            $password = filter_var($new_password, FILTER_SANITIZE_STRING);
+
+                            $auther->login($username, $password);
+                            wp_redirect(home_url(Config::get('zype.profile_url')));
                             exit();
                         } else {
                             zype_form_message('times', 'There was a problem updating your account. Please request a new reset token and try again.');
@@ -292,9 +296,7 @@ class Profile extends BaseController
         $res  = false;
 
         if ($subscription && isset($post['subscription_id']) && ($subscription->_id == $post['subscription_id'])) {
-            $res = \Zype::change_subscription($subscription->_id, [
-                'plan_id' => $post['new_plan_id']
-            ]);
+            $res = \Zype::change_subscription($subscription->_id, ['plan_id' => $post['new_plan_id']]);
         }
 
         if ($res) {

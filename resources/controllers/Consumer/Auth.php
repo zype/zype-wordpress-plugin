@@ -26,7 +26,6 @@ class Auth extends Base
         }
 
         $this->title = "Login";
-
         return view('auth.login');
     }
 
@@ -47,11 +46,10 @@ class Auth extends Base
             }
             $this->login_submit();
         }
-
+	
         echo view('auth.pre_auth', ['title' => 'Auth']);
         echo view('auth.login');
         echo view('auth.post_auth');
-
         exit;
     }
 
@@ -64,7 +62,7 @@ class Auth extends Base
         if($ajax) {
             $errors = array();
         }
-
+	
         $auther = new \ZypeMedia\Services\Auth();
 
         if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] != '' && $_POST['password'] != '') {
@@ -90,6 +88,7 @@ class Auth extends Base
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
                 'errors' => $errors,
+		'redirect' => home_url(Config::get('zype.profile_url'))
             ));
             exit();
         }
@@ -130,6 +129,7 @@ class Auth extends Base
             'terms_link' => $terms_link
         ]);
         ob_end_clean();
+
         return $content;
     }
 

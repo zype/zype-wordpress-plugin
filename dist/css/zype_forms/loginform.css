@@ -285,5 +285,9 @@
 .zype-form-center .zype-input-text:-moz-placeholder { /* Chrome/Opera/Safari */
   color: #c5c3d0;
 }
+.zype-spinner {
+  font-size: 3px !important;
+  color: #00a5df !important;
+}
 
 /*# sourceMappingURL=loginform.css.map */

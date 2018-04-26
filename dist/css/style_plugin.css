@@ -548,11 +548,11 @@ body:not(.twentyseventeen-front-page) .entry-content {
 	  color: #60626b !important;
 	  font-size: 15px !important;
   }
-  .user-profile-wrap__block_subscribe * {
+  /**.user-profile-wrap__block_subscribe * {
 	  color: #60626b !important;
 	  font-size: 15px !important;
 	  font-weight: normal !important;
-  }
+  }**/
   .user-profile-wrap__block_subscribe strong { font-weight: bold !important; }
 
   .user-profile-wrap__field { margin: 6px !important; }
@@ -659,3 +659,6 @@ body:not(.twentyseventeen-front-page) .entry-content {
 	  margin-left: auto !important;
 	  margin-right: auto !important;
   }
+
+  .cancellation .slot { margin-bottom: 20px; }
+  .cancellation .slot p { margin-bottom: 0px; }

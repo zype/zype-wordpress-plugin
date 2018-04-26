@@ -93,9 +93,8 @@
             <?php } else { ?>
               <p>You do not currently have a subscription.</p>
               <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to subscribe.</a></p>
-
               <div class="player-auth-required">
-                  <div id="zype_video__auth-close">˟</div>
+                  <div id="zype_video__auth-close">X</div>
                   <div class="player-auth-required-content">
                       <div class="login-sub-section">
                           <?php if (!\Auth::logged_in()): ?>
