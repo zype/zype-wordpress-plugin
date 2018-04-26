@@ -49,9 +49,9 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                             <div class="white-button zype-signin-button zype_auth_markup" data-type="plans">Let's go</div>
                         </div>
                     </div>
-                <? else: ?>
+                <?php else: ?>
                 <img class="play-placeholder" src="<?php echo asset_url('images/play-button.png') ?>">
-                <? endif ?>
+                <?php endif ?>
             <?php else: ?>
                 <div class="overlay_player">
                     <div class="overlay-buttons">

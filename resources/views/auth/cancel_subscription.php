@@ -7,10 +7,10 @@
   <div class="content-main">
     <div class="text-head">
       <h1>Are you sure you want to cancel?</h1>
-      <p>You'll be missing out on all of the following.</p>
-    </div>
+<!--       <p>You'll be missing out on all of the following.</p>
+ -->    </div>
     <div class="item-list">
-      <div class="slot">
+<!--       <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-video-camera"></i></span>
         <strong class="title">Exclusive Live Show</strong>
         <p><a href="<?php zype_url('live'); ?>/">Watch the live show.</a> Every Monday through Thursday, 4pm eastern.</p>
@@ -20,7 +20,7 @@
         <strong class="title">Complete Show Archive</strong>
         <p><a href="<?php zype_url('video'); ?>/">Browse the archives online.</a> We have over 300 hours of content.</p>
       </div>
-      <!-- <div class="slot">
+ -->      <!-- <div class="slot">
         <span class="ico"><i class="fa fa-fw fa-rss"></i></span>
         <strong class="title">Podcast RSS Feed</strong>
         <p><a href="<!?php zype_url('profile'); ?>/rss-feeds/">Listen on the go.</a> Every episode, available for easy listening.</p>

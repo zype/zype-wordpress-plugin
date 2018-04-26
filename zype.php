@@ -7,8 +7,8 @@ if (!class_exists('Themosis')) {
 /**
  * Plugin Name: Zype
  * Plugin URI: https://www.zype.com/
- * Description: Plugin for integration with the platform Zype.com. Using the plugin you can sell subscriptions to media content keep statistics on video views and audio, create playlists and insert video with shortcode and to display the live broadcast.
- * Version: 0.6.0
+ * Description: Using the Zype plugin, you can sell subscriptions for premium video content, track analytics for video engagement, insert playlists and videos using shortcodes, and even broadcast live events with just a few clicks.
+ * Version: 0.9.1
  * Author: Zype
  * Author URI: http://zype.com/
  * Text Domain: plugin-textdomain.
@@ -35,8 +35,7 @@ defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
  *
  */
 defined('ZYPE_MEDIA') ? ZYPE_MEDIA : define('ZYPE_MEDIA', 'plugin-textdomain');
-
-define('ZYPE_WP_VERSION', '0.6.0');
+define('ZYPE_WP_VERSION', '0.9.1');
 define('ZYPE_PATH', __FILE__ . DS);
 define('ZYPE_WP_OPTIONS', 'zype_wp');
 
@@ -49,10 +48,10 @@ define('ZYPE_WP_OPTIONS', 'zype_wp');
  * TODO: #5 - Update class namespaces.
  */
 $vars = [
-    'slug' => 'zype-media',
-    'name' => 'Zype Media',
-    'namespace' => 'zypemedia',
-    'config' => 'zypemedia',
+		'slug' => 'zype-media',
+		'name' => 'Zype Media',
+		'namespace' => 'zypemedia',
+		'config' => 'zypemedia',
 ];
 
 global $zype_wp_options;
@@ -110,25 +109,24 @@ if (!$zype_wp_options) {
 	);
 
 	update_option(ZYPE_WP_OPTIONS, $zype_wp_options);
-
-    define('zype_check_keys',true);
+	define('zype_check_keys',true);
 }
 
 /*
  * Verify that the main framework is loaded.
  */
 add_action('admin_notices', function () use ($vars) {
-    if (!class_exists('\Themosis\Foundation\Application')) {
-        printf('<div class="notice notice-error"><p>%s</p></div>', __('This plugin requires the Themosis framework in order to work.', ZYPE_MEDIA));
-    }
+		if (!class_exists('\Themosis\Foundation\Application')) {
+				printf('<div class="notice notice-error"><p>%s</p></div>', __('This plugin requires the Themosis framework in order to work.', ZYPE_MEDIA));
+		}
 
-    /*
-     * Define your plugin theme support key. Once defined, make sure to add the key
-     * into your theme `supports.config.php` in order to remove this admin notice.
-     */
-    // if (!current_theme_supports($vars['slug']) && current_user_can('switch_themes')) {
-    //     printf('<div class="notice notice-warning"><p>%s<strong>%s</strong></p></div>', __('Your application does not handle the following plugin: ', ZYPE_MEDIA), $vars['name']);
-    // }
+		/*
+		 * Define your plugin theme support key. Once defined, make sure to add the key
+		 * into your theme `supports.config.php` in order to remove this admin notice.
+		 */
+		// if (!current_theme_supports($vars['slug']) && current_user_can('switch_themes')) {
+		//     printf('<div class="notice notice-warning"><p>%s<strong>%s</strong></p></div>', __('Your application does not handle the following plugin: ', ZYPE_MEDIA), $vars['name']);
+		// }
 });
 
 /*
@@ -144,7 +142,7 @@ themosis_set_paths($paths);
  * Setup plugin config files.
  */
 container('config.finder')->addPaths([
-    themosis_path('plugin.'.$vars['namespace'].'.resources').'config'.DS,
+		themosis_path('plugin.'.$vars['namespace'].'.resources').'config'.DS,
 ]);
 
 /*
@@ -153,7 +151,7 @@ container('config.finder')->addPaths([
 $loader = new ClassLoader();
 $classes = container('config.factory')->get('loading');
 foreach ($classes as $prefix => $path) {
-    $loader->addPsr4($prefix, $path);
+		$loader->addPsr4($prefix, $path);
 }
 $loader->register();
 
@@ -162,16 +160,16 @@ $loader->register();
  */
 $aliases = container('config.factory')->get('aliases');
 if (!empty($aliases) && is_array($aliases)) {
-    foreach ($aliases as $alias => $fullname) {
-        class_alias($fullname, $alias);
-    }
+		foreach ($aliases as $alias => $fullname) {
+				class_alias($fullname, $alias);
+		}
 }
 
 /*
  * Register plugin public assets folder [dist directory].
  */
 container('asset.finder')->addPaths([
-    plugins_url('dist', __FILE__) => themosis_path('plugin.'.$vars['namespace']).'dist',
+		plugins_url('dist', __FILE__) => themosis_path('plugin.'.$vars['namespace']).'dist',
 ]);
 
 /*
@@ -189,7 +187,7 @@ container('twig.loader')->setPaths(container('view.finder')->getPaths());
  */
 $providers = container('config.factory')->get('providers');
 foreach ($providers as $provider) {
-    container()->register($provider);
+		container()->register($provider);
 }
 
 /*
@@ -204,15 +202,15 @@ container('action')->add('plugins_loaded', function () use ($vars) {
 	 */
 	load_plugin_textdomain(ZYPE_MEDIA, false, trailingslashit(dirname(plugin_basename(__FILE__))).'languages');
 
-    /*
-     * Plugin admin files.
-     * Autoload files in alphabetical order.
-     */
-    $loader = container('loader')->add([
-        themosis_path('plugin.'.$vars['namespace'].'.admin'),
-    ]);
+		/*
+		 * Plugin admin files.
+		 * Autoload files in alphabetical order.
+		 */
+		$loader = container('loader')->add([
+				themosis_path('plugin.'.$vars['namespace'].'.admin'),
+		]);
 
-    $loader->load();
+		$loader->load();
 
 });
 
@@ -221,10 +219,10 @@ container('action')->add('plugins_loaded', function () use ($vars) {
  */
 // Start session
 if (!session_id()) {
-    session_start();
+		session_start();
 }
 
 if(defined('zype_check_keys')){
-    $controller = new \ZypeMedia\Controllers\Admin();
-    $controller->check_keys();
+		$controller = new \ZypeMedia\Controllers\Admin();
+		$controller->check_keys();
 }

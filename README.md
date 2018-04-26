@@ -34,7 +34,7 @@ Full functionality of the plugin can be viewed on <a href="https://zypeplugin.co
 ## Requirements and Prerequisites
 
 - A valid and current Zype account
-- Requires WordPress version: 4.6 or higher | Tested up to: 4.8.3
+- Requires WordPress version: 4.6 or higher | Tested up to: 4.9.5
 - Requires PHP: 5.6
 
 ## 
