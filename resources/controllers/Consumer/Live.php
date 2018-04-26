@@ -33,7 +33,7 @@ class Live extends Base
         }
 
         return view('livestream', [
-            
+
         ]);
     }
 }

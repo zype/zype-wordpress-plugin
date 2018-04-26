@@ -1,12 +1,12 @@
 <?php
 if (!defined('ABSPATH'))
-	die();
+    die();
 
 $plans = \Zype::get_all_plans();
 ?>
 
 <div class="wrap zype-admin">
-	<h2><?php echo get_admin_page_title();?></h2>
+    <h2><?php echo get_admin_page_title();?></h2>
     <p>Any active <a href ="https://admin.zype.com/plans" target="_blank">subscription
     plans created in your Zype account</a> can be made available for
     purchase on your WordPress website.
@@ -17,7 +17,7 @@ $plans = \Zype::get_all_plans();
     subscription plans</a> in Zype
     if you don’t see an appropriate one below.
     </p>
-	<form method="post" action="<?php echo admin_url('admin.php');?>">
+    <form method="post" action="<?php echo admin_url('admin.php');?>">
         <input type="hidden" name="action" value="zype_braintree"/>
         <?php wp_nonce_field('zype_braintree');?>
 

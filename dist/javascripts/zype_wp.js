@@ -44,7 +44,7 @@ function ZypeWP(env) {
                 error: function(data) {}
             });
         }, false);
-    }
+    };
 
     this.do_flash_messages = function() {
         try {
@@ -54,7 +54,7 @@ function ZypeWP(env) {
             jQuery.cookie("zype_flash_messages", null, { path: '/' });
         } catch (e) {}
 
-    }
+    };
 
     this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_auth_email, zype_auth_paytype, zype_auth_token) {
         jQuery.ajax({
@@ -76,7 +76,7 @@ function ZypeWP(env) {
             },
             error: function(data) {}
         });
-    }
+    };
 
     this.get_all_ajax = function() {
         jQuery.ajax({
@@ -124,7 +124,7 @@ function ZypeWP(env) {
 
         self.initZypeAjaxForms();
         self.initZypeAjaxMarkup();
-    }
+    };
 
     this.initZypeAjaxForms = function() {
         var zype_ajax_form = jQuery(".zype_ajax_form");
@@ -158,7 +158,7 @@ function ZypeWP(env) {
                 }
             });
         }
-    }
+    };
 
     this.initZypeAjaxMarkup = function() {
         var zype_auth_markup = jQuery('.zype_auth_markup');
@@ -166,59 +166,59 @@ function ZypeWP(env) {
         if (zype_auth_markup.length) {
             zype_auth_markup.off();
 
-			zype_auth_markup.each(function(i, item) {
-				var $item = jQuery(item);
-				var is_in_modal = !!$item.closest('.player-auth-required').length;
+            zype_auth_markup.each(function(i, item) {
+                var $item = jQuery(item);
+                var is_in_modal = !!$item.closest('.player-auth-required').length;
 
-				if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
-					$item.on('click', function(e) {
-						e.preventDefault();
+                if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
+                    $item.on('click', function(e) {
+                        e.preventDefault();
 
-						switch (jQuery(this).data('type')) {
-							case 'login':
-								jQuery('#zype-modal-auth').show();
-								jQuery('#zype-modal-signup').hide();
-								jQuery('#zype-modal-forgot').hide();
-								break;
-							case 'register':
-								jQuery('#zype-modal-signup').show();
-								jQuery('#zype-modal-auth').hide();
-								jQuery('#zype-modal-forgot').hide();
-								break;
-							case 'forgot':
-								jQuery('#zype-modal-forgot').show();
-								jQuery('#zype-modal-auth').hide();
-								jQuery('#zype-modal-signup').hide();
-								break;
-						}
-					});
-				} else {
-					$item.on('click', function(e) {
-		                e.preventDefault();
+                        switch (jQuery(this).data('type')) {
+                            case 'login':
+                                jQuery('#zype-modal-auth').show();
+                                jQuery('#zype-modal-signup').hide();
+                                jQuery('#zype-modal-forgot').hide();
+                                break;
+                            case 'register':
+                                jQuery('#zype-modal-signup').show();
+                                jQuery('#zype-modal-auth').hide();
+                                jQuery('#zype-modal-forgot').hide();
+                                break;
+                            case 'forgot':
+                                jQuery('#zype-modal-forgot').show();
+                                jQuery('#zype-modal-auth').hide();
+                                jQuery('#zype-modal-signup').hide();
+                                break;
+                        }
+                    });
+                } else {
+                    $item.on('click', function(e) {
+                        e.preventDefault();
 
-		                if (jQuery(this).hasClass('disabled')) {
-		                    return false;
-		                }
+                        if (jQuery(this).hasClass('disabled')) {
+                            return false;
+                        }
 
-		                jQuery('.zype-spinner').remove();
+                        jQuery('.zype-spinner').remove();
 
-		                if (jQuery(this).hasClass('zype-button')) {
-		                    jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
-		                }
+                        if (jQuery(this).hasClass('zype-button')) {
+                            jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                        }
 
-		                if (jQuery(this).hasClass('zype-btn-price-plan')) {
-		                    jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
-		                }
+                        if (jQuery(this).hasClass('zype-btn-price-plan')) {
+                            jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                        }
 
-		                self.zypeAuthMarkupRequest(
-		                    jQuery(this).data('type'),
-		                    jQuery(this).data('planid'),
-		                );
-		            });
-				}
-			});
+                        self.zypeAuthMarkupRequest(
+                            jQuery(this).data('type'),
+                            jQuery(this).data('planid'),
+                        );
+                    });
+                }
+            });
         }
-    }
+    };
 
     this.is_on_air = function() {
         jQuery.ajax({
@@ -236,7 +236,7 @@ function ZypeWP(env) {
             },
             error: function(data) {}
         });
-    }
+    };
 
     this.is_logged_in = function() {
         jQuery.ajax({
@@ -264,7 +264,7 @@ function ZypeWP(env) {
                 this.fade_in('.zype_loginout_icon');
             }
         });
-    }
+    };
 
     this.is_subscriber = function() {
         jQuery.ajax({
@@ -292,61 +292,58 @@ function ZypeWP(env) {
                 this.fade_in('.zype_subscriber_button');
             }
         });
-    }
+    };
 
     this.logged_in_actions = function() {
         this.replace_login_button();
         this.fade_in('.zype_contact_button');
-    }
+    };
 
     this.replace_login_button = function() {
         jQuery('.zype_loginout_button a').attr('href', this.env.logout_url);
         jQuery('.zype_loginout_button a').html('Sign Out');
         jQuery('.zype_profile_button a').attr('href', this.env.profile_url);
         jQuery('.zype_profile_button a').html('My Account');
-    }
+    };
 
     this.replace_login_icon = function() {
         jQuery('.zype_loginout_icon i').removeClass('fa-sign-in');
         jQuery('.zype_loginout_icon i').addClass('fa-sign-out');
         jQuery('.zype_loginout_icon').attr('href', this.env.logout_url);
-    }
+    };
 
     this.fade_in = function(thing_to_fade) {
         jQuery(thing_to_fade).css('visibility', 'visible');
         jQuery(thing_to_fade).fadeTo(250, 1);
-    }
+    };
 
     this.logged_out_actions = function() {}
 
     this.subscriber_actions = function() {
         this.replace_subscribe_button();
-    }
+    };
 
     this.replace_subscribe_button = function() {
         jQuery('.zype_subscriber_button').attr('href', this.env.profile_url);
         jQuery('.zype_subscriber_button').html('My Account');
-    }
+    };
 
-    this.non_subscriber_actions = function() {}
-
-
-
+    this.non_subscriber_actions = function() {};
 
 
     this.do_videos = function() {
 
         function get_name_browser(){
-         var ua = navigator.userAgent;
+            var ua = navigator.userAgent;
 
-         if (ua.search(/Chrome/) > 0) return 'Google Chrome';
-         if (ua.search(/Firefox/) > 0) return 'Firefox';
-         if (ua.search(/Opera/) > 0) return 'Opera';
-         if (ua.search(/Safari/) > 0) return 'Safari';
-         if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
+            if (ua.search(/Chrome/) > 0) return 'Google Chrome';
+            if (ua.search(/Firefox/) > 0) return 'Firefox';
+            if (ua.search(/Opera/) > 0) return 'Opera';
+            if (ua.search(/Safari/) > 0) return 'Safari';
+            if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
 
-         return false;
-        };
+            return false;
+        }
 
         var browser = get_name_browser();
         var self = this;
@@ -354,36 +351,36 @@ function ZypeWP(env) {
         jQuery('.zype_player_container').each(function() {
             var t = jQuery(this);
             if(browser=="Safari"){
-            		if (t.data('auto-play') == true){
-            		    self.get_player(t).then(
+                    if (t.data('auto-play') == true){
+                        self.get_player(t).then(
                             function(response){
                                 setTimeout(function(){
                                     jQuery(".vjs-big-play-button").click()
                                 }, 2000);
                             }
-                   		);
-            		} else {
-            		    t.children('.play-placeholder').click(function() {
-            		    	self.get_player(t).then(function(response){
+                        );
+                    } else {
+                        t.children('.play-placeholder').click(function() {
+                            self.get_player(t).then(function(response){
                                 setTimeout(function(){
                                     jQuery(".vjs-big-play-button").trigger('click');
                                 }, 2000)
                             });
                         });
-            		}
+                    }
 
                 } else {
-                 	if (t.data('auto-play') == true) {
-            		    self.get_player(t);
-            		} else {
-            		    t.children('.play-placeholder').click(function() {
+                    if (t.data('auto-play') == true) {
+                        self.get_player(t);
+                    } else {
+                        t.children('.play-placeholder').click(function() {
                             self.get_player(t);
                         })
-            		}
+                    }
                 }
 
         });
-    }
+    };
 
 
     this.get_player = function(container) {
@@ -408,39 +405,39 @@ function ZypeWP(env) {
         }
         var abb = abc.bind(this);
         return new Promise(abb);
-    }
+    };
 
     this.do_embed_success = function(data, container) {
-    	return new Promise((resolve, reject) => {
-        if (typeof data.embed_url == 'undefined') {
-            return;
-        }
+        return new Promise((resolve, reject) => {
+            if (typeof data.embed_url == 'undefined') {
+                return;
+            }
 
-        embed_url = data.embed_url;
+            embed_url = data.embed_url;
 
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = embed_url;
-        container.children('.btn-play').remove();
-        container.children('.play-placeholder').remove();
-        container.children('.zype_player').css('position', 'absolute');
-        container.children('.zype_player').css('top', '0px');
-        container.children('.zype_player').css('width', '100%');
-        container.children('.zype_player').css('height', '100%');
-        jQuery('.link--watch-now').remove();
-        document.body.appendChild(script);
-        resolve('success');
-    });
-    }
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = embed_url;
+            container.children('.btn-play').remove();
+            container.children('.play-placeholder').remove();
+            container.children('.zype_player').css('position', 'absolute');
+            container.children('.zype_player').css('top', '0px');
+            container.children('.zype_player').css('width', '100%');
+            container.children('.zype_player').css('height', '100%');
+            jQuery('.link--watch-now').remove();
+            document.body.appendChild(script);
+            resolve('success');
+        });
+    };
 
     this.do_embed_error = function(data, container) {
         container.children('.btn-play').remove();
         this.fade_in(container.children('.player-auth-required'));
-    }
+    };
 
     this.show_subscription_plans = function() {
         jQuery('.dialog-modal-init').magnificPopup('open');
-    }
+    };
 
     // fires popup subscription modal window
     this.add_subscriptions_popup_handler = function() {
@@ -468,8 +465,7 @@ function ZypeWP(env) {
                 modal_init.magnificPopup('close');
             });
         }
-
-    }
+    };
 }
 
 var zype_wp;

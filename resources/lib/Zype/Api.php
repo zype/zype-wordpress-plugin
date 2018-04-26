@@ -45,7 +45,7 @@ class Api {
                 'base_uri' => str_replace('https://', 'http://', $endPoint),
                 'timeout' => 120,
             ]);
-            
+
             $cache_dir = new Local(__DIR__ . '/cache');
 
             if (defined('WP_CONTENT_DIR')) {

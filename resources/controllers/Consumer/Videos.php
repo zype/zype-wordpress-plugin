@@ -37,7 +37,7 @@ class Videos extends Base
         $videos = $vm->collection;
 
         $zype_pagination = new Pagination($vm->pagination);
-		
+
         $title = ucfirst(self::$options['video_url']);
 
         ob_start();
@@ -56,10 +56,10 @@ class Videos extends Base
 
         $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
 
-		if(!$id) {
-			$id = Input::get('zype_video_id');
+        if(!$id) {
+            $id = Input::get('zype_video_id');
         }
-		
+
         $vm = new Video;
         $vm->find($id);
         $video = $vm->single;

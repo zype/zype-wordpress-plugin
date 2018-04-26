@@ -45,7 +45,7 @@
         <label for="confirm_password">Confirm password</label>
         <input type="password" class="required" id="confirm_password" name="confirm_password">
       </div>
-      
+
       <div class="zype_signup__fields-submit">
         <input type="submit" value="Sign Up">
       </div>
@@ -53,22 +53,22 @@
   </form>
   <div class="zype_signup__note">By signing up you agree to the <a class="zype_signup__link" href="<?php echo get_permalink(get_page_by_path('terms-of-service')); ?>">Terms of Service</a> &amp; <a class="zype_signup__link" href="<?php echo get_permalink(get_page_by_path('privacy-policy')); ?>">Privacy Policy</a></div>
 </div>
-<script> 
+<script>
 (function($){
-$(document).ready(function() { 
-	$("#zype_signup_form_ajax").ajaxForm({
-		beforeSubmit: function() {
-			$("#zype_signup_form_ajax .error-section").html("");
-		},
-		success: function(data) {
-			data = $.parseJSON(data);
-			
-			if(data.status == true)
-				location.reload();
-			else 
-				$("#zype_signup_form_ajax .error-section").html(data.errors.join(","));
-		}
-	});
+$(document).ready(function() {
+  $("#zype_signup_form_ajax").ajaxForm({
+    beforeSubmit: function() {
+      $("#zype_signup_form_ajax .error-section").html("");
+    },
+    success: function(data) {
+      data = $.parseJSON(data);
+
+      if(data.status == true)
+        location.reload();
+      else
+        $("#zype_signup_form_ajax .error-section").html(data.errors.join(","));
+    }
+  });
 });
-})(jQuery); 
+})(jQuery);
 </script>

@@ -16,13 +16,13 @@ class Subscriptions extends Base
     public function plans()
     {
         global $plans;
-		$plan = [];
-		$this->options = Config::get('zype');
-		if(isset($this->options['subscribe_select'])){
-			foreach($this->options['subscribe_select'] as $option){
-				$plan[] = \Zype::get_plan($option);
-			}
-		}
+        $plan = [];
+        $this->options = Config::get('zype');
+        if(isset($this->options['subscribe_select'])){
+            foreach($this->options['subscribe_select'] as $option){
+                $plan[] = \Zype::get_plan($option);
+            }
+        }
         $this->title    = 'Select a Plan';
         $plans = $plan;
 
@@ -39,12 +39,12 @@ class Subscriptions extends Base
     {
         global $plans;
         $stripe_pk = Config::get('zype.stripe_pk');
-		$plan = [];
-		$this->options = Config::get('zype');
-		if(isset($this->options['subscribe_select'])){
-			foreach($this->options['subscribe_select'] as $option){
-				$plan[] = \Zype::get_plan($option);
-			}
+        $plan = [];
+        $this->options = Config::get('zype');
+        if(isset($this->options['subscribe_select'])){
+            foreach($this->options['subscribe_select'] as $option){
+                $plan[] = \Zype::get_plan($option);
+            }
         }
 
         $this->title    = 'Select a Plan';

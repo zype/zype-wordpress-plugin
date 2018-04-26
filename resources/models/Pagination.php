@@ -39,7 +39,7 @@ class Pagination {
             array_push($final, ['title' => '...', 'url' => $this->midpoint($links[$i], $links[$i+1])]);
           }
         }
-        
+
         $this->links = $final;
     }
 

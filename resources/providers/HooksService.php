@@ -366,5 +366,4 @@ class HooksService extends ServiceProvider {
 
         return $url;
     }
-
 }

@@ -112,8 +112,8 @@ class Profile extends BaseController
         ]);
     }
 
-	public function forgot_password_submit_ajax() {
-		$this->forgot_password_submit(true);
+    public function forgot_password_submit_ajax() {
+        $this->forgot_password_submit(true);
     }
 
     public function forgot_password_submit($ajax = false) {
