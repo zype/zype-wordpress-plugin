@@ -659,3 +659,6 @@ body:not(.twentyseventeen-front-page) .entry-content {
 	  margin-left: auto !important;
 	  margin-right: auto !important;
   }
+
+  .cancellation .slot { margin-bottom: 20px; }
+  .cancellation .slot p { margin-bottom: 0px; }

@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<div class="content-wrap signup-wrap user-action-wrap container user-profile-wrap">
+<div class="content-wrap signup-wrap user-action-wrap container user-profile-wrap cancellation">
   <div class="main-heading inner-heading">
     <strong class="title text-uppercase">My Account | Cancel Subscription</strong>
   </div>
