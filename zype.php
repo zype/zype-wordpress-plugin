@@ -123,6 +123,16 @@ else {
     define('ZYPE_CHECK_KEYS', false);
 }
 
+if(ZYPE_CHECK_KEYS) {
+    $rules_stub = new WP_Rewrite();
+    foreach (array_keys($rules_stub->wp_rewrite_rules()) as $key) {
+        if(strpos($key, '#sD') !== false) {
+            update_option('db_upgraded',  true);
+            break;
+        }
+    }
+}
+
 /*
  * Verify that the main framework is loaded.
  */
