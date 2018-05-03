@@ -247,34 +247,33 @@ class Auth {
                         'remember_me'             => self::remember_me(),
                     ]);
 
-
                     $is_saas_compatability_mode = Config::get('zype.zype_saas_compatability');
 
                     if (!$is_saas_compatability_mode)
                         return true;
 
-					if (!$wpUser = get_user_by_email($consumer->email)) {
-						  $password = wp_generate_password(12, false);
-						  $user_id = wp_create_user($consumer->email, $password, $consumer->email);
+                    if (!$wpUser = get_user_by_email($consumer->email)) {
+                          $password = wp_generate_password(12, false);
+                          $user_id = wp_create_user($consumer->email, $password, $consumer->email);
 
-						  wp_update_user(
-							array(
-							  'ID' => $user_id,
-							  'nickname' => $consumer->email
-							)
-						  );
+                          wp_update_user(
+                            array(
+                              'ID' => $user_id,
+                              'nickname' => $consumer->email
+                            )
+                          );
 
-						  $wpUser = new \WP_User($user_id);
+                          $wpUser = new \WP_User($user_id);
                           update_user_option( $user_id, 'show_admin_bar_front', false );
-						  $wpUser->set_role('subscriber');
-					}
+                          $wpUser->set_role('subscriber');
+                    }
 
-					$status = false;
-					if ($wpUser && !is_user_logged_in()) {
+                    $status = false;
+                    if ($wpUser && !is_user_logged_in()) {
                         wp_clear_auth_cookie();
                         wp_set_current_user($wpUser->ID);
                         wp_set_auth_cookie($wpUser->ID);
-					}
+                    }
 
                     if (is_user_logged_in()) {
                         $status = true;

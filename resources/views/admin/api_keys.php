@@ -7,9 +7,6 @@ $getvalidation_icon = function($key) use($options){
     return '<span alt="f147" style="color:green" class="'.$key.' dashicons dashicons-yes"></span>';
 }
 ?>
-
-
-
 <div class="wrap zype-admin">
     <h2><?php echo get_admin_page_title(); ?></h2>
 
@@ -30,17 +27,17 @@ $getvalidation_icon = function($key) use($options){
         <?php wp_nonce_field('zype_api_keys'); ?>
         <table class="form-table">
             <tbody>
-			<tr>
-				<th scope="row">
-					 <label for="app-key">App Key*</label>
-				</th>
-				<td>
-					<input type="text" name="app_key" id="app-key" class="regular-text"
-							value="<?php echo $options['app_key']; ?>">
+            <tr>
+                <th scope="row">
+                     <label for="app-key">App Key*</label>
+                </th>
+                <td>
+                    <input type="text" name="app_key" id="app-key" class="regular-text"
+                            value="<?php echo $options['app_key']; ?>">
                     <?php echo $getvalidation_icon('app_key')?>
-					<p class="description"></p>
-				</td>
-			</tr>
+                    <p class="description"></p>
+                </td>
+            </tr>
             <tr>
                 <th scope="row">
                     <label for="admin-key">Admin Key*</label>
@@ -79,7 +76,7 @@ $getvalidation_icon = function($key) use($options){
             </tr>
             </tbody>
         </table>
-		<hr>
+        <hr>
 
         <h3>Payment Setup</h3>
         <p>If you plan on monetizing videos using subscriptions or other paywall settings,
@@ -93,67 +90,67 @@ $getvalidation_icon = function($key) use($options){
         <a href="https://admin.zype.com/site/edit" target="_blank">Zype’s Settings > Monetization tab </a>
         to access your Stripe and/or Braintree information to enter below.</p>
 
-		<h4>Stripe</h4>
-		<table class="form-table">
-		  <tbody>
-			<tr>
-			  <th scope="row">
-				<label for="stripe-pk">Public Key</label>
-			  </th>
-			  <td>
-				<input type="text" name="stripe_pk" id="stripe-pk" class="regular-text" value="<?php echo $options['stripe_pk']; ?>">
+        <h4>Stripe</h4>
+        <table class="form-table">
+          <tbody>
+            <tr>
+              <th scope="row">
+                <label for="stripe-pk">Public Key</label>
+              </th>
+              <td>
+                <input type="text" name="stripe_pk" id="stripe-pk" class="regular-text" value="<?php echo $options['stripe_pk']; ?>">
                 <?php /*echo $getvalidation_icon('stripe_pk')*/?>
-				<p class="description"></p>
-			  </td>
-			</tr>
-		  </tbody>
-		</table>
-		<hr>
-		<h4>Braintree</h4>
-		<table class="form-table">
-		  <tbody>
-			<tr>
-			  <th scope="row">
-				<label for="braintree-environment">Environment</label>
-			  </th>
-			  <td>
-				<input type="text" name="braintree_environment" id="braintree-environment" class="regular-text" value="<?php echo $options['braintree_environment']; ?>">
+                <p class="description"></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <h4>Braintree</h4>
+        <table class="form-table">
+          <tbody>
+            <tr>
+              <th scope="row">
+                <label for="braintree-environment">Environment</label>
+              </th>
+              <td>
+                <input type="text" name="braintree_environment" id="braintree-environment" class="regular-text" value="<?php echo $options['braintree_environment']; ?>">
                 <?php /*echo $getvalidation_icon('braintree_environment')*/?>
-				<p class="description"></p>
-			  </td>
-			</tr>
-			<tr>
-			  <th scope="row">
-				<label for="braintree-merchant-id">Merchant ID</label>
-			  </th>
-			  <td>
-				<input type="text" name="braintree_merchant_id" id="braintree-merchant-id" class="regular-text" value="<?php echo $options['braintree_merchant_id']; ?>">
+                <p class="description"></p>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <label for="braintree-merchant-id">Merchant ID</label>
+              </th>
+              <td>
+                <input type="text" name="braintree_merchant_id" id="braintree-merchant-id" class="regular-text" value="<?php echo $options['braintree_merchant_id']; ?>">
                 <?php /*echo $getvalidation_icon('braintree_merchant_id')*/?>
-				<p class="description"></p>
-			  </td>
-			</tr>
-			<tr>
-			  <th scope="row">
-				<label for="braintree-private-key">Private Key</label>
-			  </th>
-			  <td>
-				<input type="text" name="braintree_private_key" id="braintree-private-key" class="regular-text" value="<?php echo $options['braintree_private_key']; ?>">
+                <p class="description"></p>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <label for="braintree-private-key">Private Key</label>
+              </th>
+              <td>
+                <input type="text" name="braintree_private_key" id="braintree-private-key" class="regular-text" value="<?php echo $options['braintree_private_key']; ?>">
                 <?php /*echo $getvalidation_icon('braintree_private_key')*/?>
-				<p class="description"></p>
-			  </td>
-			</tr>
-			<tr>
-			  <th scope="row">
-				<label for="braintree-public-key">Public Key</label>
-			  </th>
-			  <td>
-				<input type="text" name="braintree_public_key" id="braintree-public-key" class="regular-text" value="<?php echo $options['braintree_public_key']; ?>">
+                <p class="description"></p>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <label for="braintree-public-key">Public Key</label>
+              </th>
+              <td>
+                <input type="text" name="braintree_public_key" id="braintree-public-key" class="regular-text" value="<?php echo $options['braintree_public_key']; ?>">
                 <?php /*echo $getvalidation_icon('braintree_public_key')*/?>
-				<p class="description"></p>
-			  </td>
-			</tr>
-		  </tbody>
-		</table>
+                <p class="description"></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <h3>Consumer Account Management Setup</h3>
 
@@ -203,7 +200,6 @@ $getvalidation_icon = function($key) use($options){
             </tbody>
         </table>
 
-        <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
-                                 value="Save Changes"></p>
+        <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
     </form>
 </div>

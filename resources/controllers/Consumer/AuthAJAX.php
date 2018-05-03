@@ -35,7 +35,7 @@ class AuthAJAX extends BaseAJAX
         $this->auther->logout();
         wp_die();
     }
-	
+
     public function get_all_ajax()
     {
         $res = [

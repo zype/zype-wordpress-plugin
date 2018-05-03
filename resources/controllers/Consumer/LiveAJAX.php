@@ -9,8 +9,8 @@ class LiveAJAX extends BaseAJAX{
     }
 
     public function is_on_air(){
-    $res = ['on_air' => \Zype::is_on_air()];
-    echo json_encode($res);
-    wp_die();
+        $res = ['on_air' => \Zype::is_on_air()];
+        echo json_encode($res);
+        wp_die();
     }
 }

@@ -42,6 +42,7 @@ $options = array (
     'flush' => false,
     'livestream_url' => 'livestream',
     'video_url' => 'video',
+    'auth_url' => 'sign-in',
     'logout_url' => 'signout',
     'profile_url' => 'profile',
     'auth_url' => 'signin',

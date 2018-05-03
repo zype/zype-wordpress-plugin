@@ -40,7 +40,7 @@ class zObject {
         $per_page = isset($params['per_page'])? $params['per_page'] : null;
         $page = isset($params['page'])? $params['page'] : null;
         $sort = isset($params['sort'])? $params['sort'] : null;
-        
+
         $res = \Zype::get_zobjects_by($this->type, $by, $page, $per_page, $sort);
         if($res){
           $this->collection = $res->response;
@@ -82,7 +82,7 @@ class zObject {
         $excerpt = $zobject->description;
         $original = $excerpt;
         $excerpt = implode(' ', array_slice(explode(' ', $excerpt), 0, 30));
-        
+
         if($excerpt != $original){
           $excerpt = $excerpt.'... <a href="'.$zobject->permalink.'/">More</a>';
         }

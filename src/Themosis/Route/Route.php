@@ -283,6 +283,8 @@ class Route extends IlluminateRoute
         $routeRegex = preg_replace('/^\#\^\//', '^', $routeRegex);
         // Remove the last part (#s$) of the regex because WordPress adds this already by itself
         $routeRegex = preg_replace('/\#[s]$/', '', $routeRegex);
+        // Avoid the weird "#sD" chars being appended to Themosis routes
+        $routeRegex = preg_replace('/\#sD$/', '', $routeRegex);
 
         return $routeRegex;
     }

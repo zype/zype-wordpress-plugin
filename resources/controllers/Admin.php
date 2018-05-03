@@ -57,35 +57,34 @@ class Admin extends BaseController {
         exit;
     }
 
-	public function admin_grid_screen_page()
-	{
+    public function admin_grid_screen_page()
+    {
         echo view('admin.grid_screen', [
             'options' => $this->options
         ]);
 
         wp_die();
-	}
+    }
 
-	public function admin_grid_screen_page_save()
-	{
-		if (wp_verify_nonce($_POST['_wpnonce'], 'zype_grid_screen')) {
-			$new_options   = [
-				'grid_screen_parent' 	=> isset($_POST['grid_screen_parent']) ? $_POST['grid_screen_parent'] : '',
-			];
-			$this->options = array_replace($this->options, $new_options);
-			$this->update_options();
-			zype_wp_admin_message('updated', 'Changes successfully saved!');
-		}
-		else {
-			zype_wp_admin_message('error', 'Something has gone wrong.');
-		}
-		wp_redirect($_SERVER['HTTP_REFERER']);
+    public function admin_grid_screen_page_save()
+    {
+        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_grid_screen')) {
+            $new_options   = [
+                'grid_screen_parent'    => isset($_POST['grid_screen_parent']) ? $_POST['grid_screen_parent'] : '',
+            ];
+            $this->options = array_replace($this->options, $new_options);
+            $this->update_options();
+            zype_wp_admin_message('updated', 'Changes successfully saved!');
+        }
+        else {
+            zype_wp_admin_message('error', 'Something has gone wrong.');
+        }
+        wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
-	}
+    }
 
     public function admin_api_keys_page()
     {
-
         echo view('admin.api_keys', [
             'options' => $this->options
         ]);
@@ -98,7 +97,7 @@ class Admin extends BaseController {
         if (wp_verify_nonce($_POST['_wpnonce'], 'zype_api_keys')) {
 
             $new_options = [
-				'app_key'		   => isset($_POST['app_key']) ? trim($_POST['app_key']) : '',
+                'app_key'          => isset($_POST['app_key']) ? trim($_POST['app_key']) : '',
                 'admin_key'        => isset($_POST['admin_key']) ? trim($_POST['admin_key']) : '',
                 'embed_key'        => isset($_POST['embed_key']) ? trim($_POST['embed_key']) : '',
                 'player_key'       => isset($_POST['player_key']) ? trim($_POST['player_key']) : '',
@@ -295,14 +294,14 @@ class Admin extends BaseController {
 
     public function admin_braintree_page_save()
     {
-		if(isset($_POST['subscribe'])){
+        if(isset($_POST['subscribe'])){
 
-			$new_options = ['subscribe_select' => $_POST['subscribe']];
+            $new_options = ['subscribe_select' => $_POST['subscribe']];
 
-			$this->options = array_replace($this->options, $new_options);
+            $this->options = array_replace($this->options, $new_options);
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
-		}
+        }
 
         if (wp_verify_nonce($_POST['_wpnonce'], 'zype_braintree')) {
             $new_options   = [
@@ -362,6 +361,7 @@ class Admin extends BaseController {
                 'authentication_enabled'   => isset($_POST['authentication_enabled']) ? true : false,
                 'subscriptions_enabled'    => isset($_POST['subscriptions_enabled']) ? true : false,
                 'device_link_enabled'      => isset($_POST['device_link_enabled']) ? true : false,
+                'auth_url'                 => empty($_POST['auth_url']) ? self::$defaults['auth_url'] : $_POST['auth_url'],
                 'logout_url'               => empty($_POST['logout_url']) ? self::$defaults['logout_url'] : $_POST['logout_url'],
                 'profile_url'              => empty($_POST['profile_url']) ? self::$defaults['profile_url'] : $_POST['profile_url'],
                 'device_link_url'          => empty($_POST['device_link_url']) ? self::$defaults['device_link_url'] : $_POST['device_link_url'],

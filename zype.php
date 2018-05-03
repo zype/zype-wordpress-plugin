@@ -1,7 +1,7 @@
 <?php
 
 if (!class_exists('Themosis')) {
-	require_once 'core.php';
+  require_once 'core.php';
 }
 
 /**
@@ -48,82 +48,106 @@ define('ZYPE_WP_OPTIONS', 'zype_wp');
  * TODO: #5 - Update class namespaces.
  */
 $vars = [
-		'slug' => 'zype-media',
-		'name' => 'Zype Media',
-		'namespace' => 'zypemedia',
-		'config' => 'zypemedia',
+    'slug' => 'zype-media',
+    'name' => 'Zype Media',
+    'namespace' => 'zypemedia',
+    'config' => 'zypemedia',
 ];
+
+$zype_default_options = array(
+    'admin_key' => '',
+    'player_key' => '',
+    'read_only_key' => '',
+    'livestream_enabled' => false,
+    'zobjects' => array (),
+    'categories' => array (),
+    'audio_only_enabled' => false,
+    'excluded_categories' => array (),
+    'authentication_enabled' => true,
+    'subscriptions_enabled' => true,
+    'device_link_enabled' => true,
+    'zype_saas_comfortability' => false,
+    'cookie_key' => 'reset_me',
+    'oauth_client_id' => '',
+    'oauth_client_secret' => '',
+    'flush' => true,
+    'auth_url' => 'sign-in',
+    'livestream_url' => 'livestream',
+    'video_url' => 'videorewr',
+    'logout_url' => 'sign-out',
+    'profile_url' => 'profile',
+    'device_link_url' => 'link',
+    'subscribe_url' => 'subscribe',
+    'rental_url' => 'rental',
+    'pass_url' => 'pass',
+    'terms_url' => '',
+    'braintree_environment' => '',
+    'braintree_merchant_id' => '',
+    'braintree_private_key' => '',
+    'braintree_public_key' => '',
+    'rss_url' => 'rss',
+    'rss_enabled' => false,
+    'stripe_pk' => '',
+    'livestream_authentication_required' => false,
+    'cache_time' => 600,
+    'app_key' => '',
+    'embed_key' => '',
+    'endpoint' => 'https://api.zype.com',
+    'authpoint' => 'https://login.zype.com/oauth/token',
+    'estWidgetHost' => 'https://play.zype.com',
+    'zype_environment' => 'Production',
+    'playerHost' => 'https://player.zype.com',
+    'grid_screen_url' => 'grid',
+    'grid_screen_parent' => '',
+    'invalid_keys' => true,
+    'zype_wp_version' => ZYPE_WP_VERSION
+);
 
 global $zype_wp_options;
 $zype_wp_options = get_option(ZYPE_WP_OPTIONS);
 
 if (!$zype_wp_options) {
-	$zype_wp_options = array(
-		'admin_key' => '',
-		'player_key' => '',
-		'read_only_key' => '',
-		'livestream_enabled' => false,
-		'zobjects' => array (),
-		'categories' => array (),
-		'audio_only_enabled' => false,
-		'excluded_categories' => array (),
-		'authentication_enabled' => true,
-		'subscriptions_enabled' => true,
-		'device_link_enabled' => true,
-		'zype_saas_comfortability' => false,
-		'cookie_key' => 'reset_me',
-		'oauth_client_id' => '',
-		'oauth_client_secret' => '',
-		'flush' => true,
-		'livestream_url' => 'livestream',
-		'video_url' => 'videorewr',
-		'logout_url' => 'sign-out',
-		'profile_url' => 'profile',
-		'device_link_url' => 'link',
-		'subscribe_url' => 'subscribe',
-		'rental_url' => 'rental',
-		'pass_url' => 'pass',
-		'terms_url' => '',
-		'braintree_environment' => '',
-		'braintree_merchant_id' => '',
-		'braintree_private_key' => '',
-		'braintree_public_key' => '',
-		'rss_url' => 'rss',
-		'rss_enabled' => false,
-		'stripe_pk' => '',
-		'livestream_authentication_required' => false,
-		'cache_time' => 600,
-		'app_key' => '',
-		'embed_key' => '',
-		'endpoint' => 'https://api.zype.com',
-		'authpoint' => 'https://login.zype.com/oauth/token',
-		'estWidgetHost' => 'https://play.zype.com',
-		'zype_environment' => 'Production',
-		'playerHost' => 'https://player.zype.com',
-		'grid_screen_url' => 'grid',
-		'grid_screen_parent' => '',
-		'invalid_keys' => true,
-		);
+  update_option(ZYPE_WP_OPTIONS, $zype_default_options);
+  define('ZYPE_CHECK_KEYS', true);
+}
+elseif (!array_key_exists('zype_wp_version', $zype_wp_options) || $zype_wp_options['zype_wp_version'] != ZYPE_WP_VERSION) {
+    foreach ($zype_default_options as $key => $value) {
+        if (!array_key_exists($key, $zype_wp_options)) {
+            $zype_wp_options[$key] = $value;
+        }
+    }
+    update_option(ZYPE_WP_OPTIONS, $zype_default_options);
+    define('ZYPE_CHECK_KEYS', true);
+}
+else {
+    define('ZYPE_CHECK_KEYS', false);
+}
 
-	update_option(ZYPE_WP_OPTIONS, $zype_wp_options);
-	define('zype_check_keys',true);
+if(ZYPE_CHECK_KEYS) {
+    $rules_stub = new WP_Rewrite();
+    foreach (array_keys($rules_stub->wp_rewrite_rules()) as $key) {
+        if(strpos($key, '#sD') !== false) {
+            update_option('db_upgraded',  true);
+            break;
+        }
+    }
 }
 
 /*
  * Verify that the main framework is loaded.
  */
 add_action('admin_notices', function () use ($vars) {
-		if (!class_exists('\Themosis\Foundation\Application')) {
-				printf('<div class="notice notice-error"><p>%s</p></div>', __('This plugin requires the Themosis framework in order to work.', ZYPE_MEDIA));
-		}
+    if (!class_exists('\Themosis\Foundation\Application')) {
+        printf('<div class="notice notice-error"><p>%s</p></div>', __('This plugin requires the Themosis framework in order to work.', ZYPE_MEDIA));
+    }
 
-		/*
-		 * Define your plugin theme support key. Once defined, make sure to add the key
-		 * into your theme `supports.config.php` in order to remove this admin notice.
-		 */
-		// if (!current_theme_supports($vars['slug']) && current_user_can('switch_themes')) {
-		//     printf('<div class="notice notice-warning"><p>%s<strong>%s</strong></p></div>', __('Your application does not handle the following plugin: ', ZYPE_MEDIA), $vars['name']);
-		// }
+    /*
+     * Define your plugin theme support key. Once defined, make sure to add the key
+     * into your theme `supports.config.php` in order to remove this admin notice.
+     */
+    // if (!current_theme_supports($vars['slug']) && current_user_can('switch_themes')) {
+    //     printf('<div class="notice notice-warning"><p>%s<strong>%s</strong></p></div>', __('Your application does not handle the following plugin: ', ZYPE_MEDIA), $vars['name']);
+    // }
 });
 
 /*
@@ -139,7 +163,7 @@ themosis_set_paths($paths);
  * Setup plugin config files.
  */
 container('config.finder')->addPaths([
-		themosis_path('plugin.'.$vars['namespace'].'.resources').'config'.DS,
+    themosis_path('plugin.'.$vars['namespace'].'.resources').'config'.DS,
 ]);
 
 /*
@@ -148,7 +172,7 @@ container('config.finder')->addPaths([
 $loader = new ClassLoader();
 $classes = container('config.factory')->get('loading');
 foreach ($classes as $prefix => $path) {
-		$loader->addPsr4($prefix, $path);
+    $loader->addPsr4($prefix, $path);
 }
 $loader->register();
 
@@ -157,16 +181,16 @@ $loader->register();
  */
 $aliases = container('config.factory')->get('aliases');
 if (!empty($aliases) && is_array($aliases)) {
-		foreach ($aliases as $alias => $fullname) {
-				class_alias($fullname, $alias);
-		}
+    foreach ($aliases as $alias => $fullname) {
+        class_alias($fullname, $alias);
+    }
 }
 
 /*
  * Register plugin public assets folder [dist directory].
  */
 container('asset.finder')->addPaths([
-		plugins_url('dist', __FILE__) => themosis_path('plugin.'.$vars['namespace']).'dist',
+    plugins_url('dist', __FILE__) => themosis_path('plugin.'.$vars['namespace']).'dist',
 ]);
 
 /*
@@ -184,7 +208,7 @@ container('twig.loader')->setPaths(container('view.finder')->getPaths());
  */
 $providers = container('config.factory')->get('providers');
 foreach ($providers as $provider) {
-		container()->register($provider);
+    container()->register($provider);
 }
 
 /*
@@ -193,21 +217,21 @@ foreach ($providers as $provider) {
  */
 container('action')->add('plugins_loaded', function () use ($vars) {
 
-	/**
-	 * I18n
-	 * Todo: #2 - Replace constant below.
-	 */
-	load_plugin_textdomain(ZYPE_MEDIA, false, trailingslashit(dirname(plugin_basename(__FILE__))).'languages');
+  /**
+   * I18n
+   * Todo: #2 - Replace constant below.
+   */
+  load_plugin_textdomain(ZYPE_MEDIA, false, trailingslashit(dirname(plugin_basename(__FILE__))).'languages');
 
-		/*
-		 * Plugin admin files.
-		 * Autoload files in alphabetical order.
-		 */
-		$loader = container('loader')->add([
-				themosis_path('plugin.'.$vars['namespace'].'.admin'),
-		]);
+    /*
+     * Plugin admin files.
+     * Autoload files in alphabetical order.
+     */
+    $loader = container('loader')->add([
+        themosis_path('plugin.'.$vars['namespace'].'.admin'),
+    ]);
 
-		$loader->load();
+    $loader->load();
 
 });
 
@@ -216,10 +240,10 @@ container('action')->add('plugins_loaded', function () use ($vars) {
  */
 // Start session
 if (!session_id()) {
-		session_start();
+    session_start();
 }
 
-if(defined('zype_check_keys')){
-		$controller = new \ZypeMedia\Controllers\Admin();
-		$controller->check_keys();
+if (ZYPE_CHECK_KEYS) {
+    $controller = new \ZypeMedia\Controllers\Admin();
+    $controller->check_keys();
 }

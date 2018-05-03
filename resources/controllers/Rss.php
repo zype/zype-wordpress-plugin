@@ -62,7 +62,7 @@ class RSS extends BaseController {
           if($zm->collection && array_key_exists(0, $zm->collection)){
             $feed_settings = $zm->collection[0];
           }
-  
+
           $vm = new \ZypeMedia\Models\Video(true);
 
           $vm->all_by(

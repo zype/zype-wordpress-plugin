@@ -13,7 +13,7 @@
             <?php if($zobjects){ ?>
               <?php foreach($zobjects as $i => $zobject){ ?>
                 <label for="zobjects-<?php echo $i; ?>">
-                  <input 
+                  <input
                     type="checkbox"
                     name="zobjects[]"
                     id="zobjects-<?php echo $i; ?>"

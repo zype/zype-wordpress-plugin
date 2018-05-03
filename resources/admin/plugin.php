@@ -27,13 +27,13 @@ Page::make('zype-api-keys', 'Settings', 'zype')->set([
 Action::add('zype_page_zype-api-keys', 'ZypeMedia\Controllers\Admin@admin_api_keys_page');
 Action::add('admin_action_zype_api_keys', 'ZypeMedia\Controllers\Admin@admin_api_keys_page_save');
 if( isset($options['app_key']) && $options['app_key'] !== '' &&
-	isset($options['admin_key']) && $options['admin_key'] !== '' &&
-	isset($options['player_key']) && $options['player_key'] !== '' &&
-	isset($options['read_only_key']) && $options['read_only_key'] !== ''){
+    isset($options['admin_key']) && $options['admin_key'] !== '' &&
+    isset($options['player_key']) && $options['player_key'] !== '' &&
+    isset($options['read_only_key']) && $options['read_only_key'] !== ''){
 
-	} else {
-		return;
-	}
+    } else {
+        return;
+    }
 
 if(!empty($options['invalid_key']))
     return;

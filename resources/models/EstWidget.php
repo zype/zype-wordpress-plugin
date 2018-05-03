@@ -73,5 +73,4 @@ class EstWidget {
         $pad = $blocksize - (strlen($text) % $blocksize);
         return $text . str_repeat(chr($pad), $pad);
     }
-
 }
