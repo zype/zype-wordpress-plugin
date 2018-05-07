@@ -37,7 +37,7 @@ Full functionality of the plugin can be viewed on <a href="https://zypeplugin.co
 - Requires WordPress version: 4.6 or higher | Tested up to: 4.9.5
 - Requires PHP: 5.6
 
-## 
+##
 
 
 ## Installation via prebundled zip archive (recommended)
@@ -104,13 +104,13 @@ If you need more information on how the Zype API works, you can read [documentat
 
 ## Versioning
 
-For the versions available, see the [tags on this repository](https://github.com/zype/zype-wordpress-plugin/tags). 
+For the versions available, see the [tags on this repository](https://github.com/zype/zype-wordpress-plugin/tags).
 
 ## Authors
 * **Aleksandr Stolbov** - *Initial Work* - [Osoro](https://github.com/Osoro)
 * **Andrey Kasatkin** - *Product Lead* - [Svetliy](https://github.com/svetdev)
 
-See also the list of [contributors](https://github.com/zype/zype-ios/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/zype/zype-wordpress-plugin/graphs/contributors) who participated in this project.
 
 ## License
 
