@@ -14,7 +14,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
 <div>
     <?php if ($hasUserAccessToVideo):?>
         <div id="zype_<?php echo $video->_id; ?>"></div>
-        <script src="<?=$video_url;?>"></script>
+        <script src="<?php echo $video_url;?>"></script>
     <?php else: ?>
         <?php if ($audio_only): ?>
         <div

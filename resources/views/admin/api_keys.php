@@ -193,7 +193,7 @@ $getvalidation_icon = function($key) use($options){
                         <label for="zype-saas-compatability">WordPress.com Hosting Compatibility*</label>
                     </th>
                     <td>
-                        <input type="checkbox" name="zype_saas_compatability" id="zype-saas-compatability" class="regular-checkbox"<?= $options['zype_saas_compatability'] ? 'checked="checked"' : ''; ?>>
+                        <input type="checkbox" name="zype_saas_compatability" id="zype-saas-compatability" class="regular-checkbox"<?php echo $options['zype_saas_compatability'] ? 'checked="checked"' : ''; ?>>
                         <p class="description">Leave checked if you would like to create WordPress users for each consumer sign up. Required if using WordPress.com for hosting.</p>
                     </td>
                 </tr>
