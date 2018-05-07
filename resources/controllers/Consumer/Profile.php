@@ -206,7 +206,13 @@ class Profile extends BaseController
                         ]);
                         if ($update_consumer) {
                             zype_form_message('check', 'Your password has been successfully changed.');
-                            wp_redirect(get_zype_url('login'));
+                            $auther = new \ZypeMedia\Services\Auth();
+
+                            $username = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
+                            $password = filter_var($new_password, FILTER_SANITIZE_STRING);
+
+                            $auther->login($username, $password);
+                            wp_redirect(home_url(Config::get('zype.profile_url')));
                             exit();
                         } else {
                             zype_form_message('times', 'There was a problem updating your account. Please request a new reset token and try again.');

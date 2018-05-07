@@ -139,8 +139,8 @@
     width: 26px;
     height: 26px;
     color: #aaa;
-    font-size: 100px;
-    font-weight: bold;
+    font-size: 100px !important;
+    font-weight: bold !important;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

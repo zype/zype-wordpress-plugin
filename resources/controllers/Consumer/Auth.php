@@ -90,6 +90,7 @@ class Auth extends Base
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
                 'errors' => $errors,
+                'redirect' => home_url(Config::get('zype.profile_url'))
             ));
             exit();
         }
