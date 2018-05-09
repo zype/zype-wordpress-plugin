@@ -53,7 +53,9 @@ class Transaction extends Base
         }
 
         $braintree_id    = (new \ZypeMedia\Services\Auth)->get_consumer_braintree_id();
-        $braintree_token = (new Braintree)->generateBraintreeToken($braintree_id);
+        if($braintree_id) {
+            $braintree_token = (new Braintree)->generateBraintreeToken($braintree_id);
+        }
 
         $consumer_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
 

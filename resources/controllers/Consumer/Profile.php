@@ -25,7 +25,10 @@ class Profile extends BaseController
         $access_token = $za->get_access_token();
         $consumer     = \Zype::get_consumer($consumer_id, $access_token);
         $braintreeId     = $za->get_consumer_braintree_id();
-        $braintree_token = (new Braintree)->generateBraintreeToken($braintreeId);
+
+        if($braintreeId) {
+            $braintree_token = (new Braintree)->generateBraintreeToken($braintreeId);
+        }
 
         $title    = ucfirst(Config::get('zype.profile_url'));
 

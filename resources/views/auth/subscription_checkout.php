@@ -1,5 +1,5 @@
 <div class="content-wrap zype-form-center">
-    <?php if (empty($plan->stripe_id) && empty($plan->braintree_id)): ?>
+    <?php if (empty($plan->stripe_id) && empty($braintree_token)): ?>
         <div id="choose-wrapper">
             <div class="main-heading inner-heading">
                 <h1 class="title text-uppercase zype-title">Sorry, but this plan a temporarily unavailable</h1>
@@ -34,8 +34,7 @@
                                     <input name="braintree_payment_nonce" type="hidden">
 
                                     <p class="checkout_error" style='color: red'></p>
-
-                                    <?php if (!empty($plan->braintree_id)): ?>
+                                    <?php if (!empty($braintree_token)): ?>
                                         <input name="type" type="hidden" value="braintree">
                                         <div id="braintree-form"></div>
                                     <?php elseif (!empty($plan->stripe_id)): ?>
@@ -72,7 +71,7 @@
 
 <script>
   jQuery(document).ready(function($){
-    <?php if (!empty($plan->braintree_id)): ?>
+    <?php if (!empty($braintree_token)): ?>
         var ifFastPay = true;
         var payloadNonce = false;
         braintree.dropin.create({

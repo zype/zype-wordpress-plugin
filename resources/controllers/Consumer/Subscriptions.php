@@ -74,7 +74,9 @@ class Subscriptions extends Base
             $consumer     = \Zype::get_consumer($consumer_id, $access_token);
 
             $stripe_pk = Config::get('zype.stripe_pk');
-            $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
+            if($consumer->braintree_id) {
+                $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
+            }
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
@@ -113,7 +115,9 @@ class Subscriptions extends Base
             $consumer     = \Zype::get_consumer($consumer_id, $access_token);
 
             $stripe_pk = Config::get('zype.stripe_pk');
-            $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
+            if($consumer->braintree_id) {
+                $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
+            }
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
