@@ -56,8 +56,9 @@ if (Config::get('zype.authentication_enabled')) {
         });
     }
 
-    if ($auth_url)
+    if ($auth_url) {
         Route::any($auth_url, 'Consumer\Auth@auth_page');
+    }
 
     // Profile routes
     if ($profile_url) {

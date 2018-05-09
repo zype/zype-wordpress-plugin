@@ -212,7 +212,7 @@ function ZypeWP(env) {
 
                         self.zypeAuthMarkupRequest(
                             jQuery(this).data('type'),
-                            jQuery(this).data('planid'),
+                            jQuery(this).data('planid')
                         );
                     });
                 }
@@ -375,7 +375,7 @@ function ZypeWP(env) {
                     } else {
                         t.children('.play-placeholder').click(function() {
                             self.get_player(t);
-                        })
+                        });
                     }
                 }
 

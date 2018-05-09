@@ -105,10 +105,10 @@ $zype_default_options = array(
 
 global $zype_wp_options;
 $zype_wp_options = get_option(ZYPE_WP_OPTIONS);
+$zype_check_keys = true;
 
 if (!$zype_wp_options) {
-  update_option(ZYPE_WP_OPTIONS, $zype_default_options);
-  define('ZYPE_CHECK_KEYS', true);
+    update_option(ZYPE_WP_OPTIONS, $zype_default_options);
 }
 elseif (!array_key_exists('zype_wp_version', $zype_wp_options) || $zype_wp_options['zype_wp_version'] != ZYPE_WP_VERSION) {
     foreach ($zype_default_options as $key => $value) {
@@ -116,12 +116,15 @@ elseif (!array_key_exists('zype_wp_version', $zype_wp_options) || $zype_wp_optio
             $zype_wp_options[$key] = $value;
         }
     }
-    update_option(ZYPE_WP_OPTIONS, $zype_default_options);
-    define('ZYPE_CHECK_KEYS', true);
+
+    $zype_wp_options['zype_wp_version'] = ZYPE_WP_VERSION;
+    update_option(ZYPE_WP_OPTIONS, $zype_wp_options);
 }
 else {
-    define('ZYPE_CHECK_KEYS', false);
+    $zype_check_keys = false;
 }
+
+define('ZYPE_CHECK_KEYS', $zype_check_keys);
 
 if(ZYPE_CHECK_KEYS) {
     $rules_stub = new WP_Rewrite();

@@ -31,12 +31,13 @@ if( isset($options['app_key']) && $options['app_key'] !== '' &&
     isset($options['player_key']) && $options['player_key'] !== '' &&
     isset($options['read_only_key']) && $options['read_only_key'] !== ''){
 
-    } else {
-        return;
-    }
-
-if(!empty($options['invalid_key']))
+} else {
     return;
+}
+
+if(!empty($options['invalid_key'])) {
+    return;
+}
 ### Settings page end
 
 ### Playlists page start

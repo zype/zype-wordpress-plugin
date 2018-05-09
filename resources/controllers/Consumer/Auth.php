@@ -73,10 +73,12 @@ class Auth extends Base
             $remember_me = isset($_POST['remember_me']) ? $_POST['remember_me'] : true;
 
             if (!$auther->login($username, $password, $remember_me)) {
-                if($ajax)
+                if($ajax) {
                     $errors[] = 'Username or password invalid.';
-                else
+                }
+                else {
                     $this->form_message = zype_flash_message('times', 'Username or password invalid.');
+                }
             }
         } else {
             if($ajax)
