@@ -42,19 +42,21 @@
   <script>
   (function($){
     $(document).ready(function() {
-     $("#zype_login_form_ajax").ajaxForm({
-      beforeSubmit: function() {
-       $("#zype_login_form_ajax .error-section").html("");
-     },
-     success: function(data) {
-       data = $.parseJSON(data);
+      $("#zype_login_form_ajax").ajaxForm({
+        beforeSubmit: function() {
+          $("#zype_login_form_ajax .error-section").html("");
+        },
+        success: function(data) {
+          data = $.parseJSON(data);
 
-       if(data.status == true)
-        location.reload();
-      else
-        $("#zype_login_form_ajax .error-section").html(data.errors.join(","));
-    }
-  });
+          if(data.status == true) {
+            location.reload();
+          }
+          else {
+            $("#zype_login_form_ajax .error-section").html(data.errors.join(","));
+          }
+        }
+      });
    });
 })(jQuery);
  </script>

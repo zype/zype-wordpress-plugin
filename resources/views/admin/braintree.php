@@ -24,7 +24,7 @@ $plans = \Zype::get_all_plans();
         <select multiple="multiple" name="subscribe[]">
             <?php foreach ($plans as $plan) : ?>
                 <option
-            <?php if ( is_array( $options['subscribe_select'] ) && in_array( $plan->_id, $options['subscribe_select'] ) ) {
+            <?php if ( isset($options['subscribe_select']) && is_array( $options['subscribe_select'] ) && in_array( $plan->_id, $options['subscribe_select'] ) ) {
                 echo 'selected="selected"';
             }?>
 
