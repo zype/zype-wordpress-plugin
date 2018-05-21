@@ -40,7 +40,7 @@ Full functionality of the plugin can be viewed on <a href="https://zypeplugin.co
 ##
 
 
-## Installation via prebundled zip archive (recommended)
+## Installation via prebundled zip archive (Recommended)
 
 Download latest release from Google Drive link in [releases](https://github.com/zype/zype-wordpress-plugin/releases) section in Github
 
@@ -50,9 +50,9 @@ Download latest release from Google Drive link in [releases](https://github.com/
 4. Click Install Now button.
 5. Click Activate Plugin button for activating the Zype.
 
-## Installation via cloning the repo
+## Installation via cloning the repo (Optional for developers)
 
-Clone or dowbload zype-wordpress-plugin repo. If you downloaded the ZIP file, you need to unzip the file.
+Clone or download zype-wordpress-plugin repo. If you downloaded the ZIP file, you need to unzip the file.
 
 1. Open up **Terminal**. Navigate inside downloaded repo.
 
