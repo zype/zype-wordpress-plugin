@@ -95,11 +95,11 @@ $getvalidation_icon = function($key) use($options){
           <tbody>
             <tr>
               <th scope="row">
-                <label for="stripe-pk">Public Key</label>
+                <label for="stripe-pk">Public Key*</label>
               </th>
               <td>
                 <input type="text" name="stripe_pk" id="stripe-pk" class="regular-text" value="<?php echo $options['stripe_pk']; ?>">
-                <?php /*echo $getvalidation_icon('stripe_pk')*/?>
+                <?php echo $getvalidation_icon('stripe_pk')?>
                 <p class="description"></p>
               </td>
             </tr>
