@@ -1,8 +1,8 @@
 <div class="content-wrap zype-form-center">
-    <?php if (empty($plan->stripe_id) && empty($braintree_token)): ?>
+    <?php if(!empty($error)): ?>
         <div id="choose-wrapper">
             <div class="main-heading inner-heading">
-                <h1 class="title text-uppercase zype-title">Sorry, but this plan a temporarily unavailable</h1>
+                <h1 class="title text-uppercase zype-title"><?php echo $error;?></h1>
             </div>
             <div class="user-wrap">
                 <div class="holder-main">
