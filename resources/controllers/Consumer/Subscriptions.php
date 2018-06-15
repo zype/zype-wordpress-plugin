@@ -35,7 +35,7 @@ class Subscriptions extends Base
         exit();
     }
 
-    public function plansView()
+    public function plansView($rootParent)
     {
         global $plans;
         $stripe_pk = Config::get('zype.stripe_pk');
@@ -54,7 +54,8 @@ class Subscriptions extends Base
             'plans' => $plans,
             'title' => $this->title,
             'options' => $this->options,
-            'stripe_pk' => $stripe_pk
+            'stripe_pk' => $stripe_pk,
+            'root_parent' => $rootParent
         ]);
 
         return $content;

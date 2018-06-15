@@ -14,7 +14,7 @@
     }
   }
 ?>
-<div class="zype_video">
+<div class="zype_video" id='zype-video'>
   <div class="zype_video__wrapper">
     <div class="zype_video__heading">
       <h1><?php echo $video->title; ?></h1>
@@ -27,9 +27,9 @@
       </div> -->
     </div>
     <?php if (zype_audio_only()): ?>
-        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => true]); ?>
+        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => true, 'root_parent' => 'zype-video']); ?>
     <?php else: ?>
-        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => false]); ?>
+        <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => false, 'root_parent' => 'zype-video']); ?>
     <?php endif ?>
   </div>
   <?php if ($view == 'full'): ?>

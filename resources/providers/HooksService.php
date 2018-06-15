@@ -101,7 +101,9 @@ class HooksService extends ServiceProvider {
 
     public function zype_auth_markup() {
         if (\Input::get('type')) {
-            echo do_shortcode('[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . '"]');
+            echo do_shortcode(
+                '[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . "\" root_parent=\"" . \Input::get('rootParent') . '"]'
+            );
         }
         exit;
     }

@@ -56,7 +56,7 @@ function ZypeWP(env) {
 
     };
 
-    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_auth_email, zype_auth_paytype, zype_auth_token) {
+    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_root_parent, zype_auth_email, zype_auth_paytype, zype_auth_token) {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'get',
@@ -64,10 +64,14 @@ function ZypeWP(env) {
                 action: 'zype_auth_markup',
                 type: zype_auth_type,
                 planid: zype_auth_plan_id ? zype_auth_plan_id : '0',
+                rootParent: zype_root_parent
             },
             success: function(response) {
                 try {
-                    jQuery('.content-wrap').replaceWith(response);
+                    id = '';
+                    id = zype_root_parent ? '#' + zype_root_parent + ' ' : '';
+                    id += '.content-wrap'
+                    jQuery(id).replaceWith(response);
                     self.initZypeAjaxForms();
                     self.initZypeAjaxMarkup();
                 } catch (e) {
@@ -212,7 +216,8 @@ function ZypeWP(env) {
 
                         self.zypeAuthMarkupRequest(
                             jQuery(this).data('type'),
-                            jQuery(this).data('planid')
+                            jQuery(this).data('planid'),
+                            jQuery(this).data('root-parent'),
                         );
                     });
                 }

@@ -266,7 +266,7 @@ class Api {
         return 'no';
     }
 
-    private static function request($method, $endpoint, $query, $is_auth = false, $cache = true) {
+    private static function request($method, $endpoint, $query, $is_auth = false, $cache = false) {
 
         if ($is_auth) {
             $client = self::$authClient;
