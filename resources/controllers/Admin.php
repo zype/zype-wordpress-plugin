@@ -448,8 +448,11 @@ class Admin extends BaseController {
         wp_die();
     }
     private function check_stripe_pk(){
-        $ch = curl_init();
         $publishableKey = $this->options['stripe_pk'];
+		if(empty($publishableKey)){
+			return true;
+		}
+		$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://api.stripe.com/v1/tokens");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 

@@ -74,7 +74,7 @@
 
                 </div>
                 <div class="get-all-playlists slider_links-all" >
-                  <a href="<?php echo get_permalink().'?zype_get_all=2&zype_parent='.$id.'&zype_items='.$items ?>">See all</a>
+                  <a href="<?php echo get_permalink().'?zype_parent='.$id.'&zype_items='.$items ?>">See all</a>
                 </div>
               </div>
               <div class="slider-list zype-<?php echo $thumbnail_layout ?>">

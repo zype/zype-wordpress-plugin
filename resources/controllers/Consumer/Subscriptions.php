@@ -107,7 +107,7 @@ class Subscriptions extends Base
         global $braintree_token;
         global $stripe_pk;
         global $videoId;
-
+		
         if (isset($plan_id) && $plan = \Zype::get_plan(filter_var($plan_id, FILTER_SANITIZE_STRING))) {
             $za           = new \ZypeMedia\Services\Auth;
             $consumer_id  = $za->get_consumer_id();
@@ -130,13 +130,21 @@ class Subscriptions extends Base
         }
 
         $title = 'Select a Payment Method';
-
+		
+		$error = false;
+		if ( empty ( $plan->stripe_id ) && empty ( $braintree_token ) ) {
+			$error = 'Sorry, but this plan a temporarily unavailable';
+		} elseif( !empty ( $plan->stripe_id ) && empty ( $stripe_pk ) ) {
+			$error = 'Currently it is not possible to pay through Stripe';
+		}
+		
         $content = view('auth.subscription_checkout', [
             'plan' => $plan,
             'braintree_token' => $braintree_token,
             'videoId' => $videoId,
             'stripe_pk' => $stripe_pk,
-            'title' => $title
+            'title' => $title,
+			'error' => $error,
         ]);
 
         return $content;
