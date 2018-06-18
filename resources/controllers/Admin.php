@@ -112,7 +112,9 @@ class Admin extends BaseController {
                 'oauth_client_id'    => isset($_POST['oauth_client_id']) ? trim($_POST['oauth_client_id']) : '',
                 'oauth_client_secret'    => isset($_POST['oauth_client_secret']) ? trim($_POST['oauth_client_secret']) : '',
 
-                'zype_saas_compatability' => isset($_POST['zype_saas_compatability']) ? true : false
+                'zype_saas_compatability' => isset($_POST['zype_saas_compatability']) ? true : false,
+
+                'playlist_pagination' => isset($_POST['playlist_pagination']) ? true : false
             ];
 
             if (isset($_POST['zype_environment']) && isset($this->zypeEnvironmentSettings[$_POST['zype_environment']])) {

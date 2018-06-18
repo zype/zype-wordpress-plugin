@@ -200,6 +200,21 @@ $getvalidation_icon = function($key) use($options){
             </tbody>
         </table>
 
+        <h3>Pagination</h3>
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <label for="playlist-pagination">Pagination</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="playlist_pagination" id="playlist-pagination" class="regular-checkbox"<?php echo $options['playlist_pagination'] ? 'checked="checked"' : ''; ?>>
+                        <p class="description">Leave checked if you would like to paginate your playlist.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
     </form>
 </div>

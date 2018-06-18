@@ -51,6 +51,7 @@ $options = array (
     'rental_url' => 'rental',
     'pass_url' => 'pass',
     'terms_url' => '',
+    'playlist_pagination' => true,
     'braintree_environment' => 'sandbox',
     'braintree_merchant_id' => '',
     'braintree_private_key' => '',
