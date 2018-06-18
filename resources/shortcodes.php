@@ -31,6 +31,7 @@ add_shortcode('zype_categories', function() {
 
 add_shortcode('zype_auth', function($attrs = array()) {
     $type = !empty($attrs['type'])? $attrs['type']: Input::get('zype_auth_type', 'login');
+    $rootParent = $attrs['root_parent'];
 
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
@@ -44,7 +45,7 @@ add_shortcode('zype_auth', function($attrs = array()) {
         case 'forgot':
             return $profileController->forgot_password();
         case 'plans':
-            return $subscriptionsController->plansView();
+            return $subscriptionsController->plansView($rootParent);
         case 'checkout':
             return $subscriptionsController->checkoutView(Input::get('planid'));
     }

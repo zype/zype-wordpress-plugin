@@ -46,7 +46,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                     <div class="overlay_player">
                         <div class="overlay-buttons">
                             <div class="overlay-title">Unlock to watch</div>
-                            <div class="white-button zype-signin-button zype_auth_markup" data-type="plans">Let's go</div>
+                            <div class="white-button zype-signin-button zype_auth_markup" data-type="plans" data-root-parent="<?php echo $root_parent; ?>">Let's go</div>
                         </div>
                     </div>
                 <?php else: ?>
@@ -73,8 +73,15 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
                     <?php echo do_shortcode('[zype_signup]');?>
                     <?php echo do_shortcode('[zype_forgot]');?>
                 <?php else: ?>
-                    <?php echo do_shortcode('[zype_auth type="plans"]');?>
-                <?php endif ?>
+                    <?php
+                        $shortCode = '[zype_auth type="plans"';
+                        if($root_parent) {
+                            $shortCode .= ' root_parent="' . $root_parent;
+                        }
+                        $shortCode .= '"]';
+                    ?>
+                    <?php echo do_shortcode($shortCode);?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
