@@ -77,7 +77,6 @@ class Gridscreen extends Base {
         $content = self::$content;
 
         $page = Input::get('zype_str', 1);
-
         if ($get_all == 1 || $get_all == 2) {
             if ($page == 'last') {
                 if (count($content)%$per_page==0) {

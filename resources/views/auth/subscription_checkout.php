@@ -41,11 +41,11 @@
                                         <input name="type" type="hidden" value="stripe">
                                         <div id="stripe-form">
                                             <p class="form-group required-row zype-input-wrap">
-                                                <input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="Card number" class="zype-input-text" id="zype-card-number">
+                                                <input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="Card number" class="zype-input-text zype-card-number">
                                             </p>
                                             <p class="form-group required-row zype-input-wrap">
-                                                <input maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" type="text" placeholder="CVC" class="zype-input-text" id="zype-card-cvc">
-                                                <input type="text" placeholder="MM/YY" class="zype-input-text" id="zype-card-date">
+                                                <input maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" type="text" placeholder="CVC" class="zype-input-text zype-card-cvc">
+                                                <input type="text" placeholder="MM/YY" class="zype-input-text zype-card-date">
                                             </p>
                                         </div>
                                     <?php endif ?>
@@ -144,21 +144,25 @@
         });
 
     <?php elseif (!empty($plan->stripe_id)): ?>
-        $("#zype-card-date").mask("99/99");
-        $("#zype-card-number").mask("9999 9999 9999 9999");
+        $(".zype-card-date").mask("99/99");
+        $(".zype-card-number").mask("9999 9999 9999 9999");
 
         Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
         $(".zype-checkout-button").prop('disabled', false);
 
         $(".zype-checkout-button").click(function(e) {
             e.preventDefault();
+            var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
 
             $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
 
-            var cardDate = $('#zype-card-date').val();
+            var cardDate = stripeForm.find('.zype-card-date').val();
+            var cardNumber = stripeForm.find('.zype-card-number').val();
+            var cardCVC = stripeForm.find('.zype-card-cvc').val();
+
             Stripe.card.createToken({
-                number: $('#zype-card-number').val(),
-                cvc: $('#zype-card-cvc').val(),
+                number: cardNumber,
+                cvc: cardCVC,
                 exp_month: cardDate.split('/')[0],
                 exp_year: cardDate.split('/')[1],
             }, stripeTokenHandler);
