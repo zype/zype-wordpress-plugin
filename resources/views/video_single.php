@@ -4,8 +4,8 @@
   $seconds = $video->duration % 60;
 
   $duration = '';
-  if ($hours) {
-    $duration = "{$minutes}h, {$minutes}m";
+  if ($hours >= 1) {
+    $duration = "{$hours}h, {$minutes}m";
   } else {
     if (!$minutes) {
       $duration = "{$seconds}s";
