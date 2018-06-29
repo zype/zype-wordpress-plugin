@@ -276,10 +276,6 @@ class Api {
             $client = self::$resourceClient;
         }
 
-        if (!$is_auth && in_array($method, ['PUT']) && strpos($endpoint, 'consumers') === false) {
-            $client = self::$resourceClientHttp;
-        }
-
         $response = $client->request($method, $endpoint, [
             ($method == 'GET'? 'query': 'json') => $query,
             'verify' => false
