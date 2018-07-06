@@ -65,11 +65,11 @@
     width: 90%;
 }
 
-#zype-card-cvc, #zype-card-date {
+p.zype-input-wrap > .zype-input-text.zype-card-cvc, p.zype-input-wrap > .zype-input-text.zype-card-date {
     margin: 0 3px !important;
     width: 195px !important;
 }
-#zype-card-number {
+.zype-input-text.zype-card-number {
     width: 400px !important;
 }
 
