@@ -2,11 +2,12 @@
 
 namespace ZypeMedia\Services;
 
-class Mailer {
+class Mailer
+{
     public function __construct()
     {
         $this->admin_email = get_option('admin_email');
-        $this->headers     = [
+        $this->headers = [
             'Content-Type: text/html; charset=UTF-8',
             'Bcc: ' . $this->admin_email,
         ];
@@ -19,7 +20,7 @@ class Mailer {
     public function new_account($to, $dictionary = null, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Thank you for signing up for ' . get_bloginfo('name') . '!';
-        $this->to      = $to;
+        $this->to = $to;
         $this->body = view('email.new_account', [
             'dictionary' => $dictionary
         ]);
@@ -28,7 +29,7 @@ class Mailer {
     public function new_subscription($to, $dictionary = null, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Thank you for subscribing to ' . get_bloginfo('name') . '!';
-        $this->to      = $to;
+        $this->to = $to;
         $this->body = view('email.new_subscription', [
             'dictionary' => $dictionary
         ]);
@@ -37,7 +38,7 @@ class Mailer {
     public function new_rental($to, $dictionary = null, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Thank you for your rental on ' . get_bloginfo('name') . '!';
-        $this->to      = $to;
+        $this->to = $to;
         $this->body = view('email.new_rental', [
             'dictionary' => $dictionary
         ]);
@@ -46,7 +47,7 @@ class Mailer {
     public function cancel_subscription($to, $dictionary = null, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Subscription cancellation confirmation for ' . get_bloginfo('name') . '!';
-        $this->to      = $to;
+        $this->to = $to;
         $this->body = view('email.cancel_subscription', [
             'dictionary' => $dictionary
         ]);
@@ -55,7 +56,7 @@ class Mailer {
     public function forgot_password($to, $dictionary, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Password Reset | ' . get_bloginfo('name');
-        $this->to      = $to;
+        $this->to = $to;
         $this->body = view('email.forgot_password', [
             'dictionary' => $dictionary
         ]);

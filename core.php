@@ -17,7 +17,7 @@ defined('THEMOSIS_FRAMEWORK_TEXTDOMAIN') ? THEMOSIS_FRAMEWORK_TEXTDOMAIN : defin
 /*----------------------------------------------------*/
 // Storage path.
 /*----------------------------------------------------*/
-defined('THEMOSIS_STORAGE') ? THEMOSIS_STORAGE : define('THEMOSIS_STORAGE', WP_CONTENT_DIR.DS.'storage');
+defined('THEMOSIS_STORAGE') ? THEMOSIS_STORAGE : define('THEMOSIS_STORAGE', WP_CONTENT_DIR . DS . 'storage');
 
 if (!function_exists('themosis_set_paths')) {
     /**
@@ -29,7 +29,7 @@ if (!function_exists('themosis_set_paths')) {
     {
         foreach ($paths as $name => $path) {
             if (!isset($GLOBALS['themosis.paths'][$name])) {
-                $GLOBALS['themosis.paths'][$name] = realpath($path).DS;
+                $GLOBALS['themosis.paths'][$name] = realpath($path) . DS;
             }
         }
     }
@@ -108,7 +108,7 @@ if (!class_exists('Themosis')) {
             // Check if there is a autoload.php file.
             // Meaning we're in development mode or
             // the plugin has been installed on a "classic" WordPress configuration.
-            if (file_exists($autoload = __DIR__.DS.'vendor'.DS.'autoload.php')) {
+            if (file_exists($autoload = __DIR__ . DS . 'vendor' . DS . 'autoload.php')) {
                 require $autoload;
 
                 // Developers using the framework in a "classic" WordPress
@@ -132,8 +132,8 @@ if (!class_exists('Themosis')) {
              * Define core framework paths.
              * These are real paths, not URLs to the framework files.
              */
-            $paths['core'] = __DIR__.DS;
-            $paths['sys'] = __DIR__.DS.'src'.DS.'Themosis'.DS;
+            $paths['core'] = __DIR__ . DS;
+            $paths['sys'] = __DIR__ . DS . 'src' . DS . 'Themosis' . DS;
             $paths['storage'] = THEMOSIS_STORAGE;
             themosis_set_paths($paths);
 
@@ -228,19 +228,19 @@ if (!class_exists('Themosis')) {
              * Add view paths.
              */
             $viewFinder = $this->container['view.finder'];
-            $viewFinder->addLocation(themosis_path('sys').'Metabox'.DS.'Views');
-            $viewFinder->addLocation(themosis_path('sys').'Page'.DS.'Views');
-            $viewFinder->addLocation(themosis_path('sys').'PostType'.DS.'Views');
-            $viewFinder->addLocation(themosis_path('sys').'Field'.DS.'Fields'.DS.'Views');
-            $viewFinder->addLocation(themosis_path('sys').'Taxonomy'.DS.'Views');
-            $viewFinder->addLocation(themosis_path('sys').'User'.DS.'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'Metabox' . DS . 'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'Page' . DS . 'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'PostType' . DS . 'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'Field' . DS . 'Fields' . DS . 'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'Taxonomy' . DS . 'Views');
+            $viewFinder->addLocation(themosis_path('sys') . 'User' . DS . 'Views');
 
             /*
              * Add paths to asset finder.
              */
             $url = plugins_url('src/Themosis/_assets', __FILE__);
             $assetFinder = $this->container['asset.finder'];
-            $assetFinder->addPaths([$url => themosis_path('sys').'_assets']);
+            $assetFinder->addPaths([$url => themosis_path('sys') . '_assets']);
 
             /*
              * Add framework core assets URL to the global
@@ -317,7 +317,7 @@ if (!class_exists('Themosis')) {
 
             if (!empty($datas)) {
                 foreach ($datas as $key => $value) {
-                    $output .= $key.': '.json_encode($value).",\n\r";
+                    $output .= $key . ': ' . json_encode($value) . ",\n\r";
                 }
             }
 

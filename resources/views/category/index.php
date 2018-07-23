@@ -27,7 +27,8 @@
                 <ul class="pagination">
                     <?php if ($zype_pagination->previous): ?>
                         <li class="next">
-                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $zype_pagination->previous.zype_search_and_sort_querystring(); ?>" aria-label="Previous">
+                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $zype_pagination->previous . zype_search_and_sort_querystring(); ?>"
+                               aria-label="Previous">
                                 <i class="fa fa-fw fa-angle-left"></i>
                             </a>
                         </li>
@@ -35,15 +36,20 @@
 
                     <?php foreach ($zype_pagination->links as $link): ?>
                         <li>
-                            <?php if($zype_pagination->current == $link['url']){ echo '<strong>'; } ?>
-                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $link['url'].zype_search_and_sort_querystring(); ?>"><?php echo $link['title']; ?></a>
-                            <?php if($zype_pagination->current == $link['url']){ echo '</strong>'; } ?>
+                            <?php if ($zype_pagination->current == $link['url']) {
+                                echo '<strong>';
+                            } ?>
+                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $link['url'] . zype_search_and_sort_querystring(); ?>"><?php echo $link['title']; ?></a>
+                            <?php if ($zype_pagination->current == $link['url']) {
+                                echo '</strong>';
+                            } ?>
                         </li>
                     <?php endforeach ?>
 
                     <?php if ($zype_pagination->next): ?>
                         <li class="previous">
-                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $zype_pagination->next.zype_search_and_sort_querystring(); ?>" aria-label="Next">
+                            <a href="<?php zype_category_url('Highlight', 'true'); ?>/page-<?php echo $zype_pagination->next . zype_search_and_sort_querystring(); ?>"
+                               aria-label="Next">
                                 <i class="fa fa-fw fa-angle-right"></i>
                             </a>
                         </li>

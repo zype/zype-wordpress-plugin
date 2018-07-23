@@ -2,15 +2,19 @@
 
 namespace ZypeMedia\Services;
 
-class Component {
-    public $options;
+use Themosis\Facades\Config;
+
+class Component
+{
 
     private static $objects = array();
+    public $options;
+    public $request;
 
     public function __construct()
     {
-        global $zype_wp_options;
-        $this->options = $zype_wp_options;
+        $this->options = Config::get('zype');
+        $this->request = $GLOBALS['themosis']->container->request;
 
         if (!isset(self::$objects[get_class($this)])) {
             self::$objects[get_class($this)] = $this;
@@ -18,4 +22,5 @@ class Component {
 
         return self::$objects[get_class($this)];
     }
+
 }

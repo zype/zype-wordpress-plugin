@@ -15,7 +15,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->registerTwigEnvironment();
+        // $this->registerTwigEnvironment();
         $this->registerEngineResolver();
         $this->registerViewFactory();
         $this->registerLoop();

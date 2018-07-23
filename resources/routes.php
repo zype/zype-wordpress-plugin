@@ -1,7 +1,7 @@
 <?php
 
-use Themosis\Facades\Route;
 use Themosis\Facades\Config;
+use Themosis\Facades\Route;
 
 // Prepare urls
 $rss_url = Config::get('zype.rss_url');
@@ -49,7 +49,7 @@ if (Config::get('zype.zobjects')) {
 if (Config::get('zype.authentication_enabled')) {
     // Sign-out route
     if (Config::get('zype.logout_url')) {
-        Route::any(Config::get('zype.logout_url'), function() {
+        Route::any(Config::get('zype.logout_url'), function () {
             \Auth::logout();
             wp_redirect(home_url());
             exit;
