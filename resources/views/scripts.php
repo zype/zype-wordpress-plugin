@@ -7,7 +7,7 @@
         profile_url: '<?php print home_url(\Config::get('zype.profile_url')) ?>',
         auth_url: '<?php print home_url(\Config::get('zype.auth_url')) ?>',
         ajax_endpoint: '<?php print admin_url('admin-ajax.php') ?>',
-        logged_in: <?php print (new \ZypeMedia\Services\Auth)->logged_in()? 'true': 'false' ?>,
+        logged_in: <?php print (new \ZypeMedia\Services\Auth)->logged_in() ? 'true' : 'false' ?>,
         estWidgetEnabled: true,
     };
 </script>

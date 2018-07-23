@@ -2,10 +2,12 @@
 
 namespace ZypeMedia\Models;
 
-class Player {
+class Player extends Base
+{
 
     public function __construct($video)
     {
+        parent::__construct();
         $this->video = $video;
     }
 
@@ -18,6 +20,11 @@ class Player {
             'audio_only' => isset($params['audio_only']) ? $params['audio_only'] : false,
             'root_parent' => $params['root_parent']
         ]);
+    }
+
+    public function do_embed($params)
+    {
+        print view('partial/player_embed', $params);
     }
 
     public function auth_embed()
@@ -58,9 +65,5 @@ class Player {
             'auto_play' => false,
             'audio_only' => false,
         ]);
-    }
-
-    public function do_embed($params) {
-        print view('partial/player_embed', $params);
     }
 }

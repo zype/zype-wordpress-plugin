@@ -2,6 +2,10 @@
 
 namespace ZypeMedia\Models;
 
-class Settings {
-
+class Settings extends Base
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 }

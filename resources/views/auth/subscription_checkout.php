@@ -1,14 +1,15 @@
 <div class="content-wrap zype-form-center">
-    <?php if(!empty($error)): ?>
+    <?php if (!empty($error)): ?>
         <div id="choose-wrapper">
             <div class="main-heading inner-heading">
-                <h1 class="title text-uppercase zype-title"><?php echo $error;?></h1>
+                <h1 class="title text-uppercase zype-title"><?php echo $error; ?></h1>
             </div>
             <div class="user-wrap">
                 <div class="holder-main">
                     <div class="row">
                         <div class="">
-                            <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back</button>
+                            <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -41,22 +42,35 @@
                                         <input name="type" type="hidden" value="stripe">
                                         <div id="stripe-form">
                                             <p class="form-group required-row zype-input-wrap">
-                                                <input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="Card number" class="zype-input-text zype-card-number">
+                                                <input type="text" maxlength="16"
+                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                                       placeholder="Card number"
+                                                       class="zype-input-text zype-card-number">
                                             </p>
                                             <p class="form-group required-row zype-input-wrap">
-                                                <input maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" type="text" placeholder="CVC" class="zype-input-text zype-card-cvc">
-                                                <input type="text" placeholder="MM/YY" class="zype-input-text zype-card-date">
+                                                <input maxlength="4"
+                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                                       type="text" placeholder="CVC"
+                                                       class="zype-input-text zype-card-cvc">
+                                                <input type="text" placeholder="MM/YY"
+                                                       class="zype-input-text zype-card-date">
                                             </p>
                                         </div>
                                     <?php endif ?>
 
                                     <div class="zype-buttons-row">
                                         <div class="zype-buttons-column">
-                                            <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back</button>
+                                            <button type="button" class="zype_auth_markup zype-button"
+                                                    data-type="plans">Go back
+                                            </button>
                                         </div>
 
                                         <div class="zype-buttons-column">
-                                            <button type="submit" class="zype-checkout-button zype-button" data-description="<?php echo $plan->name; ?>" data-interval="<?php echo $plan->interval; ?>" data-amount="<?php echo $plan->amount; ?>" disabled>Continue</button>
+                                            <button type="submit" class="zype-checkout-button zype-button"
+                                                    data-description="<?php echo $plan->name; ?>"
+                                                    data-interval="<?php echo $plan->interval; ?>"
+                                                    data-amount="<?php echo $plan->amount; ?>" disabled>Continue
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -70,8 +84,8 @@
 </div>
 
 <script>
-  jQuery(document).ready(function($){
-    <?php if (!empty($braintree_token)): ?>
+    jQuery(document).ready(function ($) {
+        <?php if (!empty($braintree_token)): ?>
         var ifFastPay = true;
         var payloadNonce = false;
         braintree.dropin.create({
@@ -88,7 +102,8 @@
 
             $(".zype-checkout-button").prop('disabled', false);
 
-            instance.on('noPaymentMethodRequestable', function (event) {});
+            instance.on('noPaymentMethodRequestable', function (event) {
+            });
 
             instance.on('paymentOptionSelected', function (event) {
                 if (event.paymentOption) {
@@ -103,7 +118,7 @@
                 }
             });
 
-            $(".zype-checkout-button").click(function(e) {
+            $(".zype-checkout-button").click(function (e) {
                 e.preventDefault();
 
                 $(this).append('<i class="zype-spinner"></i>');
@@ -143,14 +158,14 @@
             });
         });
 
-    <?php elseif (!empty($plan->stripe_id)): ?>
+        <?php elseif (!empty($plan->stripe_id)): ?>
         $(".zype-card-date").mask("99/99");
         $(".zype-card-number").mask("9999 9999 9999 9999");
 
         Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
         $(".zype-checkout-button").prop('disabled', false);
 
-        $(".zype-checkout-button").click(function(e) {
+        $(".zype-checkout-button").click(function (e) {
             e.preventDefault();
             var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
 
@@ -180,51 +195,55 @@
                 sendPaymentRequest();
             }
         }
-    <?php endif ?>
+        <?php endif ?>
 
-    function sendPaymentRequest() {
-        $('.checkout_error').text('');
+        function sendPaymentRequest() {
+            $('.checkout_error').text('');
 
-        $.ajax({
-            url: "<?php zype_url('subscribe');?>/submit",
-            type: 'post',
-            data: $('#payment-form').serialize(),
-            dataType: 'json',
-            encode: true
-        }).done(function(data) {
-            if (typeof data.errors != 'undefined') {
-                $.each(data.errors, function(index, value) {
-                    $('.checkout_error').append(value + "<br/>");
-                });
-                return;
-            }
+            $.ajax({
+                url: "<?php zype_url('subscribe');?>/submit",
+                type: 'post',
+                data: $('#payment-form').serialize(),
+                dataType: 'json',
+                encode: true
+            }).done(function (data) {
+                if (typeof data.errors != 'undefined') {
+                    $.each(data.errors, function (index, value) {
+                        $('.checkout_error').append(value + "<br/>");
+                    });
+                    return;
+                }
 
-            if (data.success) {
-                $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
-                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
-            }
+                if (data.success) {
+                    $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
+                    $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button type="submit" class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                }
 
-            $('.zype-checkout-button').prop('disabled', false);
-            $('.zype-spinner').remove();
-        }).fail(function(data) {
-            $('.zype-checkout-button').prop('disabled', false);
-            $('.zype-spinner').remove();
-            console.log(data.errors);
-        });
-    }
-
-    $(document).on('click', '#zype_modal_close', function(e) {
-        e.preventDefault();
-        var url = '<?php echo $redirect_url ?>';
-        if (url) {
-            window.location.replace(url);
-        } else {
-            window.location.reload();
+                if (data.success) {
+                    $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
+                    $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                }
+                $('.zype-checkout-button').prop('disabled', false);
+                $('.zype-spinner').remove();
+            }).fail(function (data) {
+                $('.zype-checkout-button').prop('disabled', false);
+                $('.zype-spinner').remove();
+                console.log(data.errors);
+            });
         }
-    });
 
-    $(window).on('popstate', function() {
-        handler.close();
+        $(document).on('click', '#zype_modal_close', function(e) {
+            e.preventDefault();
+            var url = '<?php echo $redirect_url ?>';
+            if (url) {
+                window.location.replace(url);
+            } else {
+                window.location.reload();
+            }
+        });
+
+        $(window).on('popstate', function () {
+            handler.close();
+        });
     });
-  });
 </script>

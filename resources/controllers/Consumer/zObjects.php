@@ -6,10 +6,10 @@ class zObjects extends Base
 {
     public function __construct()
     {
-        $this->type     = \Input::get('zype_zobject_type');
-        $this->page     = \Input::get('zype_paged');
-        $this->per_page = get_option('posts_per_page');
         parent::__construct();
+        $this->type = $this->request->validate('zype_zobject_type', ['textfield']);
+        $this->page = $this->request->validate('zype_paged', ['textfield']);
+        $this->per_page = get_option('posts_per_page');
     }
 
     public function index()
@@ -21,13 +21,13 @@ class zObjects extends Base
         $zm = new \ZypeMedia\Models\zObject($this->type);
         $zm->all([
             'per_page' => $this->per_page,
-            'page'     => $this->page,
+            'page' => $this->page,
         ]);
         $type = $zm->collection;
 
         $zype_pagination = (new \ZypeMedia\Models\Pagination($zm->pagination));
 
-        $title    = ucfirst($this->type);
+        $title = ucfirst($this->type);
 
         return view("{$this->type}_index", [
             'type' => $type,
@@ -42,7 +42,7 @@ class zObjects extends Base
         global $$type;
         global $videos;
 
-        $id = \Input::get('zype_zobject_id');
+        $id = $this->request->validate('zype_zobject_id', ['textfield']);
         $zm = new \ZypeMedia\Models\zObject($this->type);
         $zm->find($id);
         $type = $zm->single;

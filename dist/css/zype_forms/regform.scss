@@ -1,11 +1,11 @@
 #primary.content-area {
-  
+
   .zype {
-    
+
     &_signup {
-      
+
       &-wrapper {
-        
+
         border: 1px solid #ddd;
         width: 100%;
         max-width: 525px;
@@ -15,13 +15,13 @@
         font-size: 13px;
         font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
       }
-      
+
       &__heading {
         text-align: center;
         color: #5c6c7c;
         font-size: 15px;
         margin-bottom: 40px;
-        
+
         p {
           font-size: 24px;
           line-height: 28px;
@@ -30,25 +30,25 @@
           color: #2c3c4c;
         }
       }
-      
+
       &__link {
         color: #909090;
         box-shadow: none !important;
         transition: all 0.3s ease;
         border: 0 !important;
         padding: 0 !important;
-        
+
         &:hover {
           color: black;
         }
       }
-      
+
       &__plans {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         margin-bottom: 40px;
-        
+
         &--plan {
           border: 1px solid #ddd;
           box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
@@ -59,61 +59,61 @@
           justify-content: center;
           align-items: center;
           padding: 20px 0;
-          
+
           .price {
             font-size: 28px;
           }
-          
+
           .duration {
             color: #5c6c7c;
           }
         }
       }
-      
+
       &__subscribe {
         margin-bottom: 40px;
-        
+
         &--title {
           font-size: 15px;
           margin-bottom: 15px;
           display: block;
-          
+
           span {
             text-transform: uppercase;
           }
         }
-        
+
         p {
           padding-left: 10px;
           color: #5c6c7c;
           margin-bottom: 5px;
           line-height: 18px;
-          
+
           &:before {
             content: ">";
             margin-right: 10px;
           }
         }
       }
-      
+
       &__fields {
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
-        
+
         &-group {
           margin-bottom: 15px;
-          
+
           label {
             font-weight: 400;
             color: #5c6c7c;
             font-size: 15px;
           }
-          
+
           &.required-row {
-            
+
             label {
-              
+
               &:after {
                 content: "*";
                 color: red;
@@ -122,12 +122,12 @@
             }
           }
         }
-        
+
         > div {
           flex-basis: 100%;
           min-width: 100%;
         }
-        
+
         input[type="text"], input[type="email"], input[type="password"] {
           padding: 5px 10px;
           background-color: #fff;
@@ -168,9 +168,9 @@
             }
           }
         }
-        
+
       }
-      
+
       &__note {
         margin-top: 40px;
         color: #5c6c7c;

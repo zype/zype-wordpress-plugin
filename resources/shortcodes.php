@@ -1,10 +1,9 @@
 <?php
 
-use \ZypeMedia\Controllers\Consumer;
 use Themosis\Facades\Input;
-use Themosis\Facades\Asset;
+use ZypeMedia\Controllers\Consumer;
 
-add_shortcode('zype_grid', function() {
+add_shortcode('zype_grid', function () {
     $video = new Consumer\Videos();
     switch (Input::get('zype_type')) {
         case 'video_single':
@@ -20,18 +19,17 @@ add_shortcode('zype_grid', function() {
 });
 
 if (Config::get('zype.livestream_enabled')) {
-    add_shortcode('zype_livestream', function() {
+    add_shortcode('zype_livestream', function () {
         return Consumer\Live::show();
     });
 }
 
-add_shortcode('zype_categories', function() {
+add_shortcode('zype_categories', function () {
     return Consumer\Category::categories_list();
 });
 
 add_shortcode('zype_auth', function($attrs = array()) {
-    $type = !empty($attrs['type'])? $attrs['type']: Input::get('zype_auth_type', 'login');
-
+    $type = !empty($attrs['type']) ? $attrs['type'] : Input::get('zype_auth_type', 'login');
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
     $subscriptionsController = new Consumer\Subscriptions();
@@ -46,7 +44,7 @@ add_shortcode('zype_auth', function($attrs = array()) {
         case 'forgot':
             return $profileController->forgot_password();
         case 'plans':
-            $rootParent = $attrs['root_parent'];
+            $rootParent = !empty($attrs['root_parent']) ? $attrs['root_parent'] : '';
             return $subscriptionsController->plansView($rootParent, $redirect_url);
         case 'checkout':
             return $subscriptionsController->checkoutView(Input::get('planid'), $redirect_url);
@@ -59,14 +57,14 @@ add_shortcode('zype_signup', function($attrs = array()) {
     return $loginController->signup($ajax);
 });
 
-add_shortcode('zype_forgot', function() {
+add_shortcode('zype_forgot', function () {
     $profileController = new Consumer\Profile();
     return $profileController->forgot_password();
 });
 
-add_shortcode('zype_video', function($attrs) {
+add_shortcode('zype_video', function ($attrs) {
     $id = $attrs['id'];
-    $view = !empty($attrs['view'])? $attrs['view']: 'full';
+    $view = !empty($attrs['view']) ? $attrs['view'] : 'full';
 
     if (!$id) {
         return;
@@ -77,7 +75,7 @@ add_shortcode('zype_video', function($attrs) {
     return $videos->single($id, $view);
 });
 
-add_shortcode('zype_playlist', function($attrs) {
+add_shortcode('zype_playlist', function ($attrs) {
     $id = $attrs['id'];
 
     if (!$id) {

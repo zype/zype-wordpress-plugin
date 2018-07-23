@@ -31,6 +31,13 @@
           </div>
         </div>
       </div>
+    </div> -->
+    <div class="zype_signup__subscribe">
+        <strong class="zype_signup__subscribe--title"><span>Subscribing is easy.</span> Once you’re registered, you can:</strong>
+        <p>Become a subscriber</p>
+        <p>Be notifed of periodic updates on our site,</p>
+        <p>View and listen to exclusive live and archived content only availableto to subscribers.</p>
+        <p>Interact and experience the show in a whole new way.</p>
     </div>
   </div>
 </div>

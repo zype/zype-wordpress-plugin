@@ -1,5 +1,5 @@
-(function($) {
-    $(document).on('ready', function() {
+(function ($) {
+    $(document).on('ready', function () {
         var sliderList = $(".slider-list");
 
         function slickCalculateResponsive(slider_list) {
@@ -23,8 +23,8 @@
             return responsive;
         }
 
-        $.each(sliderList, function() {
-            $(this).on('setPosition', function(event, slick) {
+        $.each(sliderList, function () {
+            $(this).on('setPosition', function (event, slick) {
                 var slick_slides = $(this).find('.slick-slide');
                 var variableWidth = slick_slides.first().width();
 
@@ -36,7 +36,7 @@
 
                 var resizeHeight = variableWidth * heightRatio;
 
-                $.each($(this).find('.slick-slide'), function() {
+                $.each($(this).find('.slick-slide'), function () {
                     $(this).find('.zype-background-thumbnail').height(resizeHeight);
                 });
             });
@@ -55,7 +55,7 @@
         function resizeViewAllGrid() {
             var boxContentContainerWidth = boxContentContainer.width();
 
-            $.each(boxContentContainer.children('.view_all_images'), function() {
+            $.each(boxContentContainer.children('.view_all_images'), function () {
                 if ($(this).hasClass('zype-landscape')) {
                     var variableWidth = 320;
                     var heightRatio = 0.5625;
@@ -76,10 +76,10 @@
 
         resizeViewAllGrid();
 
-        $(window).on('resize orientationChange', function() {
+        $(window).on('resize orientationChange', function () {
             resizeViewAllGrid();
 
-            $.each(sliderList, function() {
+            $.each(sliderList, function () {
                 $(this).slick('slickSetOption', "responsive", slickCalculateResponsive($(this)), true);
             });
         });

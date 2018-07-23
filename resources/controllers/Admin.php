@@ -2,25 +2,20 @@
 
 namespace ZypeMedia\Controllers;
 
-use Themosis\Route\BaseController;
-use Themosis\Facades\View;
 use Themosis\Facades\Config;
 
-class Admin extends BaseController {
-    public $options = [];
-    public static $defaults;
+class Admin extends Controller
+{
 
-    public function __construct() {
-        $this->options = Config::get('zype');
-        self::$defaults = Config::get('zype');
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     public function admin_videos_page()
     {
-        $this->flush_check();
-
         $allow_rss_feed = false;
-        $zm             = (new \ZypeMedia\Models\zObject('rss feed settings'));
+        $zm = (new \ZypeMedia\Models\zObject('rss feed settings'));
         $zm->all_by(['title' => 'default'], ['per_page' => 1]);
         if ($zm->collection && sizeof($zm->collection) > 0) {
             $allow_rss_feed = true;
@@ -38,14 +33,13 @@ class Admin extends BaseController {
 
     public function admin_videos_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_videos')) {
-            $new_options   = [
-                'rss_enabled'         => isset($_POST['rss_enabled']) ? true : false,
-                'rss_url'             => empty($_POST['rss_url']) ? self::$defaults['rss_url'] : $_POST['rss_url'],
-                'audio_only_enabled'  => isset($_POST['audio_only_enabled']) ? true : false,
-                'excluded_categories' => is_array($_POST['excluded_categories']) ? $_POST['excluded_categories'] : [],
-
-                'flush'               => true,
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_videos')) {
+            $new_options = [
+                'rss_enabled' => $this->request->validate('rss_enabled', ['bool']),
+                'rss_url' => $this->request->validate('rss_url', ['textfield'], $this->options['rss_url']),
+                'audio_only_enabled' => $this->request->validate('audio_only_enabled', ['bool']),
+                'excluded_categories' => is_array($this->request->validate('excluded_categories')) ? $this->request->validate('excluded_categories') : [],
+                'flush' => true,
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -55,6 +49,12 @@ class Admin extends BaseController {
         }
         wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
+    }
+
+    private function update_options()
+    {
+        update_option('zype_wp', $this->options);
+        $this->options = get_option('zype_wp');
     }
 
     public function admin_grid_screen_page()
@@ -68,15 +68,14 @@ class Admin extends BaseController {
 
     public function admin_grid_screen_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_grid_screen')) {
-            $new_options   = [
-                'grid_screen_parent'    => isset($_POST['grid_screen_parent']) ? $_POST['grid_screen_parent'] : '',
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_grid_screen')) {
+            $new_options = [
+                'grid_screen_parent' => $this->request->validate('grid_screen_parent', ['textfield']),
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
-        }
-        else {
+        } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
         wp_redirect($_SERVER['HTTP_REFERER']);
@@ -94,35 +93,31 @@ class Admin extends BaseController {
 
     public function admin_api_keys_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_api_keys')) {
-
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_api_keys')) {
             $new_options = [
-                'app_key'          => isset($_POST['app_key']) ? trim($_POST['app_key']) : '',
-                'admin_key'        => isset($_POST['admin_key']) ? trim($_POST['admin_key']) : '',
-                'embed_key'        => isset($_POST['embed_key']) ? trim($_POST['embed_key']) : '',
-                'player_key'       => isset($_POST['player_key']) ? trim($_POST['player_key']) : '',
-                'read_only_key'    => isset($_POST['read_only_key']) ? trim($_POST['read_only_key']) : '',
-
-                'braintree_environment'    => isset($_POST['braintree_environment']) ? trim($_POST['braintree_environment']) : '',
-                'braintree_merchant_id'    => isset($_POST['braintree_merchant_id']) ? trim($_POST['braintree_merchant_id']) : '',
-                'braintree_private_key'    => isset($_POST['braintree_private_key']) ? trim($_POST['braintree_private_key']) : '',
-                'braintree_public_key'    => isset($_POST['braintree_public_key']) ? trim($_POST['braintree_public_key']) : '',
-                'stripe_pk'    => isset($_POST['stripe_pk']) ? trim($_POST['stripe_pk']) : '',
-
-                'oauth_client_id'    => isset($_POST['oauth_client_id']) ? trim($_POST['oauth_client_id']) : '',
-                'oauth_client_secret'    => isset($_POST['oauth_client_secret']) ? trim($_POST['oauth_client_secret']) : '',
-
-                'zype_saas_compatability' => isset($_POST['zype_saas_compatability']) ? true : false,
-
-                'playlist_pagination' => isset($_POST['playlist_pagination']) ? true : false
+                'app_key' => $this->request->validate('app_key', ['textfield']),
+                'admin_key' => $this->request->validate('admin_key', ['textfield']),
+                'embed_key' => $this->request->validate('embed_key', ['textfield']),
+                'player_key' => $this->request->validate('player_key', ['textfield']),
+                'read_only_key' => $this->request->validate('read_only_key', ['textfield']),
+                'braintree_environment' => $this->request->validate('braintree_environment', ['textfield']),
+                'braintree_merchant_id' => $this->request->validate('braintree_merchant_id', ['textfield']),
+                'braintree_private_key' => $this->request->validate('braintree_private_key', ['textfield']),
+                'braintree_public_key' => $this->request->validate('braintree_public_key', ['textfield']),
+                'stripe_pk' => $this->request->validate('stripe_pk', ['textfield']),
+                'oauth_client_id' => $this->request->validate('oauth_client_id', ['textfield']),
+                'oauth_client_secret' => $this->request->validate('oauth_client_secret', ['textfield']),
+                'zype_saas_compatability' => $this->request->validate('zype_saas_compatability', ['bool']),
+                'playlist_pagination' => $this->request->validate('playlist_pagination', ['bool'])
             ];
 
-            if (isset($_POST['zype_environment']) && isset($this->zypeEnvironmentSettings[$_POST['zype_environment']])) {
-                $new_options['endpoint']         = $this->zypeEnvironmentSettings[$_POST['zype_environment']]['endpoint'];
-                $new_options['authpoint']        = $this->zypeEnvironmentSettings[$_POST['zype_environment']]['authpoint'];
-                $new_options['estWidgetHost']    = $this->zypeEnvironmentSettings[$_POST['zype_environment']]['estWidgetHost'];
-                $new_options['zype_environment'] = $_POST['zype_environment'];
-                $new_options['playerHost']       = $this->zypeEnvironmentSettings[$_POST['zype_environment']]['playerHost'];
+            $zype_environment = $this->request->validate('zype_environment');
+            if ($zype_environment && isset($this->zypeEnvironmentSettings[$zype_environment])) {
+                $new_options['endpoint'] = $this->zypeEnvironmentSettings[$zype_environment]['endpoint'];
+                $new_options['authpoint'] = $this->zypeEnvironmentSettings[$zype_environment]['authpoint'];
+                $new_options['estWidgetHost'] = $this->zypeEnvironmentSettings[$zype_environment]['estWidgetHost'];
+                $new_options['zype_environment'] = $zype_environment;
+                $new_options['playerHost'] = $this->zypeEnvironmentSettings[$zype_environment]['playerHost'];
             }
 
             $this->options = array_replace($this->options, $new_options);
@@ -138,13 +133,109 @@ class Admin extends BaseController {
         exit;
     }
 
-    public function admin_video_search_page() {
-        $search = !empty($_POST['search'])? trim($_POST['search']): '';
+    public function check_keys()
+    {
+        $invalid_keys = array();
+
+        $wrapper = new \Zype\Core\Wrapper($this->options);//refresh options
+
+        $playlists = \Zype\Core\Wrapper::get_playlists_by(array());
+        if ($playlists === false)
+            $invalid_keys[] = 'app_key';
+        unset($playlists);
+
+        $plans = \Zype\Core\Wrapper::get_all_plans();
+        if ($plans === false)
+            $invalid_keys[] = 'admin_key';
+        unset($plans);
+
+        $categories = \Zype\Core\Wrapper::get_all_categories();
+        if ($categories === false)
+            $invalid_keys[] = 'read_only_key';
+        unset($categories);
+
+        if (!$this->check_player_key())
+            $invalid_keys[] = 'player_key';
+
+
+        //embed_key
+        //player_key
+
+        if (!$this->check_stripe_pk())
+            $invalid_keys[] = 'stripe_pk';
+
+        // var_dump($this->options,$invalid_keys);exit;
+        if (!empty($invalid_keys)) {
+            $this->update_option('invalid_key', $invalid_keys);
+        } else {
+            $this->update_option('invalid_key', false);
+        }
+    }
+
+    private function check_player_key()
+    {
+        $key = 'api_key=' . $this->options['player_key'];
+        $video_id = 0;//not exists
+        $url = $this->options['playerHost'] . '/embed/' . $video_id . '?' . $key . '&';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = json_decode(curl_exec($ch));//expecting invalid video msg
+        if ($response->message == 'Invalid or missing authentication.')
+            return false;
+
+        return true;
+
+    }
+
+    private function check_stripe_pk()
+    {
+        $publishableKey = $this->options['stripe_pk'];
+        if (empty($publishableKey)) {
+            return true;
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.stripe.com/v1/tokens");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $time = mktime(0, 0, 0, date('m') + 1, 1, date('Y'));
+        $body = http_build_query(array(
+            'card' => array(
+                'number' => 4242424242424242,
+                'exp_month' => date('m', $time),
+                'exp_year' => date('Y', $time),
+                'cvc' => 123
+            )
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_USERPWD, $publishableKey . ":");
+
+        $response = json_decode(curl_exec($ch), true);//expecting invalid card msg
+
+        curl_close($ch);
+        if (isset($response["error"]) && substr($response["error"]["message"], 0, 24) == "Invalid API Key provided") {
+            return false;
+        }
+        return true;
+    }
+
+    private function update_option($option, $value)
+    {
+        $this->options[$option] = $value;
+        $this->update_options();
+    }
+
+    public function admin_video_search_page()
+    {
+        $search = $this->request->validate('search', ['textfield']);
 
         $query['active'] = true;
         $videos = \Zype::get_videos(null, 500);
 
-        if (isset($_POST['search_submit'])) {
+        if ($search) {
             foreach ($videos as $k => $item) {
                 if (!preg_match("/{$search}/i", $item->title)) {
                     unset($videos[$k]);
@@ -159,13 +250,14 @@ class Admin extends BaseController {
         wp_die();
     }
 
-    public function admin_playlist_search_page(){
-        $search = !empty($_POST['search'])? trim($_POST['search']): '';
+    public function admin_playlist_search_page()
+    {
+        $search = $this->request->validate('search', ['textfield']);
 
         $query['active'] = true;
         $playlists = \Zype::get_playlists_by($query, 1, 500, 'priority', 'asc');
 
-        if (isset($_POST['search_submit'])) {
+        if ($search) {
             foreach ($playlists as $k => $item) {
                 if (!preg_match("/{$search}/i", $item->title)) {
                     unset($playlists[$k]);
@@ -182,11 +274,10 @@ class Admin extends BaseController {
 
     public function admin_categories_page()
     {
-        $this->flush_check();
         $categories = \Zype::get_all_categories();
         $zm = (new \ZypeMedia\Models\zObject('rss feed settings'));
         $zm->all(['per_page' => 500]);
-        $feed_settings   = $zm->collection ? $zm->collection : array();
+        $feed_settings = $zm->collection ? $zm->collection : array();
         $available_feeds = [];
         foreach ($feed_settings as $feed_setting) {
             if ($feed_setting->category_name != '') {
@@ -210,10 +301,10 @@ class Admin extends BaseController {
 
     public function admin_categories_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_categories')) {
-            $new_options   = [
-                'categories' => is_array($_POST['categories']) ? $_POST['categories'] : [],
-                'flush'      => true,
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_categories')) {
+            $new_options = [
+                'categories' => is_array($this->request->validate('categories')) ? $this->request->validate('categories') : [],
+                'flush' => true,
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -227,7 +318,6 @@ class Admin extends BaseController {
 
     public function admin_zobjects_page()
     {
-        $this->flush_check();
         $zobjects = \Zype::get_all_zobject_types();
 
         echo view('admin.zobjects', [
@@ -240,10 +330,10 @@ class Admin extends BaseController {
 
     public function admin_zobjects_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_zobjects')) {
-            $new_options   = [
-                'zobjects' => is_array($_POST['zobjects']) ? $_POST['zobjects'] : [],
-                'flush'    => true,
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_zobjects')) {
+            $new_options = [
+                'zobjects' => is_array($this->request->validate('zobjects')) ? $this->request->validate('zobjects') : [],
+                'flush' => true,
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -257,7 +347,6 @@ class Admin extends BaseController {
 
     public function admin_livestream_page()
     {
-        $this->flush_check();
         echo view('admin.livestream', [
             'options' => $this->options
         ]);
@@ -267,12 +356,12 @@ class Admin extends BaseController {
 
     public function admin_livestream_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_livestream')) {
-            $new_options   = [
-                'livestream_enabled'                 => isset($_POST['livestream_enabled']) ? true : false,
-                'livestream_url'                     => empty($_POST['livestream_url']) ? self::$defaults['livestream_url'] : $_POST['livestream_url'],
-                'livestream_authentication_required' => isset($_POST['livestream_authentication_required']) ? true : false,
-                'flush'                              => true,
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_livestream')) {
+            $new_options = [
+                'livestream_enabled' => $this->request->validate('livestream_enabled', ['bool']),
+                'livestream_url' => $this->request->validate('livestream_url', ['url:http, https']) ?: $this->options['livestream_url'],
+                'livestream_authentication_required' => $this->request->validate('livestream_authentication_required', ['bool']),
+                'flush' => true,
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -286,7 +375,6 @@ class Admin extends BaseController {
 
     public function admin_braintree_page()
     {
-        $this->flush_check();
         echo view('admin.braintree', [
             'options' => $this->options
         ]);
@@ -296,25 +384,25 @@ class Admin extends BaseController {
 
     public function admin_braintree_page_save()
     {
-        if(isset($_POST['subscribe'])){
+        if ($this->request->validate('subscribe')) {
 
-            $new_options = ['subscribe_select' => $_POST['subscribe']];
+            $new_options = ['subscribe_select' => $this->request->validate('subscribe')];
 
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
         }
 
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_braintree')) {
-            $new_options   = [
-                'braintree_environment'         => empty($_POST['braintree_environment']) ? self::$defaults['braintree_environment'] : $_POST['braintree_environment'],
-                'braintree_merchant_id'         => empty($_POST['braintree_merchant_id']) ? self::$defaults['braintree_merchant_id'] : $_POST['braintree_merchant_id'],
-                'braintree_private_key'         => empty($_POST['braintree_private_key']) ? self::$defaults['braintree_private_key'] : $_POST['braintree_private_key'],
-                'braintree_public_key'          => empty($_POST['braintree_public_key']) ? self::$defaults['braintree_public_key'] : $_POST['braintree_public_key'],
-                'stripe_pk'                     => empty($_POST['stripe_pk']) ? self::$defaults['stripe_pk'] : $_POST['stripe_pk'],
-                'sub_short_code_btn_text'       => empty($_POST['sub_short_code_btn_text']) ? self::$defaults['sub_short_code_btn_text'] : $_POST['sub_short_code_btn_text'],
-                'sub_short_code_redirect_url'   => empty($_POST['sub_short_code_redirect_url']) ? self::$defaults['sub_short_code_redirect_url'] : $_POST['sub_short_code_redirect_url'],
-                'sub_short_code_text_after_sub' => empty($_POST['sub_short_code_text_after_sub']) ? self::$defaults['sub_short_code_text_after_sub'] : $_POST['sub_short_code_text_after_sub']
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_braintree')) {
+            $new_options = [
+                'braintree_environment' => $this->request->validate('braintree_environment', ['textfield'], $this->options['braintree_environment']),
+                'braintree_merchant_id' => $this->request->validate('braintree_merchant_id', ['textfield'], $this->options['braintree_merchant_id']),
+                'braintree_private_key' => $this->request->validate('braintree_private_key', ['textfield'], $this->options['braintree_private_key']),
+                'braintree_public_key' => $this->request->validate('braintree_public_key', ['textfield'], $this->options['braintree_public_key']),
+                'stripe_pk' => $this->request->validate('stripe_pk', ['textfield'], $this->options['stripe_pk']),
+                'sub_short_code_btn_text' => $this->request->validate('sub_short_code_btn_text', ['textfield'], $this->options['sub_short_code_btn_text']),
+                'sub_short_code_redirect_url' => $this->request->validate('sub_short_code_redirect_url', ['textfield'], $this->options['sub_short_code_redirect_url']),
+                'sub_short_code_text_after_sub' => $this->request->validate('sub_short_code_text_after_sub', ['textfield'], $this->options['sub_short_code_text_after_sub'])
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -328,8 +416,8 @@ class Admin extends BaseController {
 
     public function admin_clear_live_cache_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_clear_live_cache')) {
-            $path  = plugin_dir_path(__FILE__) . '../cache/';
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_clear_live_cache')) {
+            $path = plugin_dir_path(__FILE__) . '../cache/';
             $files = glob($path . 'is_on_air*.json');
 
             if ($files) {
@@ -350,7 +438,6 @@ class Admin extends BaseController {
 
     public function admin_users_page()
     {
-        $this->flush_check();
         echo view('admin.users', [
             'options' => $this->options
         ]);
@@ -360,20 +447,20 @@ class Admin extends BaseController {
 
     public function admin_users_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_users')) {
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_users')) {
             $new_options = [
-                'authentication_enabled'   => isset($_POST['authentication_enabled']) ? true : false,
-                'subscriptions_enabled'    => isset($_POST['subscriptions_enabled']) ? true : false,
-                'device_link_enabled'      => isset($_POST['device_link_enabled']) ? true : false,
-                'auth_url'                 => empty($_POST['auth_url']) ? self::$defaults['auth_url'] : $_POST['auth_url'],
-                'logout_url'               => empty($_POST['logout_url']) ? self::$defaults['logout_url'] : $_POST['logout_url'],
-                'profile_url'              => empty($_POST['profile_url']) ? self::$defaults['profile_url'] : $_POST['profile_url'],
-                'device_link_url'          => empty($_POST['device_link_url']) ? self::$defaults['device_link_url'] : $_POST['device_link_url'],
-                'subscribe_url'            => empty($_POST['subscribe_url']) ? self::$defaults['subscribe_url'] : $_POST['subscribe_url'],
-                'rental_url'               => empty($_POST['rental_url']) ? self::$defaults['rental_url'] : $_POST['rental_url'],
-                'pass_url'                 => empty($_POST['pass_url']) ? self::$defaults['pass_url'] : $_POST['pass_url'],
-                'terms_url'                => empty($_POST['terms_url']) ? '' : $_POST['terms_url'],
-                'flush'                    => true,
+                'authentication_enabled' => $this->request->validate('authentication_enabled', ['bool']),
+                'subscriptions_enabled' => $this->request->validate('subscriptions_enabled', ['bool']),
+                'device_link_enabled' => $this->request->validate('device_link_enabled', ['bool']),
+                'auth_url' => $this->request->validate('auth_url', ['textfield'], $this->options['auth_url']),
+                'logout_url' => $this->request->validate('logout_url', ['textfield'], $this->options['logout_url']),
+                'profile_url' => $this->request->validate('profile_url', ['textfield'], $this->options['profile_url']),
+                'device_link_url' => $this->request->validate('device_link_url', ['textfield'], $this->options['device_link_url']),
+                'subscribe_url' => $this->request->validate('subscribe_url', ['textfield'], $this->options['subscribe_url']),
+                'rental_url' => $this->request->validate('rental_url', ['textfield'], $this->options['rental_url']),
+                'pass_url' => $this->request->validate('pass_url', ['textfield'], $this->options['pass_url']),
+                'terms_url' => $this->request->validate('terms_url', ['textfield']),
+                'flush' => true,
             ];
             if ($new_options['authentication_enabled'] == true && $this->options['cookie_key'] == '') {
                 $new_options['cookie_key'] = \ZypeMedia\Services\Auth::generate_cookie_key();
@@ -390,9 +477,9 @@ class Admin extends BaseController {
 
     public function admin_cookie_key_page_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_cookie_key')) {
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_cookie_key')) {
             $new_options['cookie_key'] = \ZypeMedia\Services\Auth::generate_cookie_key();
-            $this->options             = array_replace($this->options, $new_options);
+            $this->options = array_replace($this->options, $new_options);
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
         } else {
@@ -404,9 +491,9 @@ class Admin extends BaseController {
 
     public function admin_general_save()
     {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'zype_general')) {
+        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_general')) {
             $new_options = [
-                'cache_time' =>  empty($_POST['cache_time']) ? self::$defaults['cache_time'] : $_POST['cache_time'],
+                'cache_time' => $this->request->validate('cache_time', ['num'], $this->options['cache_time']),
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
@@ -427,22 +514,6 @@ class Admin extends BaseController {
         wp_die();
     }
 
-    private function flush_check()
-    {
-    }
-
-    private function update_options()
-    {
-        update_option('zype_wp', $this->options);
-        $this->options = get_option('zype_wp');
-    }
-
-    private function update_option($option, $value)
-    {
-        $this->options[$option] = $value;
-        $this->update_options();
-    }
-
     public function admin_general_page()
     {
         echo view('admin.general', [
@@ -450,89 +521,5 @@ class Admin extends BaseController {
         ]);
 
         wp_die();
-    }
-    private function check_stripe_pk(){
-        $publishableKey = $this->options['stripe_pk'];
-		if(empty($publishableKey)){
-			return true;
-		}
-		$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.stripe.com/v1/tokens");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $time = mktime(0,0,0,date('m') +1,1,date('Y'));
-        $body = http_build_query(array(
-            'card' => array(
-                'number' => 4242424242424242,
-                'exp_month' => date('m',$time),
-                'exp_year' => date('Y',$time),
-                'cvc' => 123
-            )
-        ));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_USERPWD, $publishableKey . ":");
-
-        $response = json_decode(curl_exec($ch),true);//expecting invalid card msg
-
-        curl_close ($ch);
-        if(isset($response["error"]) && substr($response["error"]["message"],0, 24 ) == "Invalid API Key provided"){
-            return false;
-        }
-        return true;
-    }
-
-    private function check_player_key(){
-        $key = 'api_key=' . $this->options['player_key'];
-        $video_id = 0;//not exists
-        $url = $this->options['playerHost'] . '/embed/' . $video_id . '?' . $key . '&';
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $response = json_decode(curl_exec($ch));//expecting invalid video msg
-        if($response->message == 'Invalid or missing authentication.')
-            return false;
-
-        return true;
-
-    }
-    public function check_keys(){
-        $invalid_keys = array();
-
-        $wrapper = new \Zype\Core\Wrapper($this->options);//refresh options
-
-        $playlists = \Zype\Core\Wrapper::get_playlists_by(array());
-        if($playlists === false)
-            $invalid_keys[] = 'app_key';
-        unset($playlists);
-
-        $plans = \Zype\Core\Wrapper::get_all_plans();
-        if($plans === false)
-            $invalid_keys[] = 'admin_key';
-        unset($plans);
-
-        $categories = \Zype\Core\Wrapper::get_all_categories();
-        if($categories === false)
-            $invalid_keys[] = 'read_only_key';
-        unset($categories);
-
-        if(!$this->check_player_key())
-            $invalid_keys[] = 'player_key';
-
-
-        //embed_key
-        //player_key
-
-        if(!$this->check_stripe_pk())
-            $invalid_keys[] = 'stripe_pk';
-
-        // var_dump($this->options,$invalid_keys);exit;
-        if(!empty($invalid_keys)){
-            $this->update_option('invalid_key',$invalid_keys);
-        }else{
-            $this->update_option('invalid_key',false);
-        }
     }
 }

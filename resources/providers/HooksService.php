@@ -2,63 +2,36 @@
 
 namespace ZypeMedia\Providers;
 
-use Themosis\Foundation\ServiceProvider;
-
 use Themosis\Facades\Action;
-use Themosis\Facades\Filter;
-use Themosis\Facades\Config;
-use Themosis\Facades\Asset;
 use Themosis\Facades\Ajax;
-
-use ZypeMedia\Services\Auth;
-use ZypeMedia\Services\Access;
-
-use ZypeMedia\Models\EstWidget;
-
+use Themosis\Facades\Asset;
+use Themosis\Facades\Config;
+use Themosis\Facades\Filter;
+use Themosis\Foundation\ServiceProvider;
 use ZypeMedia\Controllers\Consumer;
+use ZypeMedia\Models\EstWidget;
+use ZypeMedia\Services\Access;
+use ZypeMedia\Services\Auth;
+use ZypeMedia\Validators\Request;
 
-class HooksService extends ServiceProvider {
-    private static $auther;
+class HooksService extends ServiceProvider
+{
+    private $auther;
+    private $request;
 
     /**
      * Register plugin hooks.
      * Define a custom namespace.
      */
-    public function register() {
-        self::$auther = new Auth();
+    public function register()
+    {
+        $this->auther = new Auth();
+        $this->request = Request::capture();
 
-        // Filter Zype URL
-        Filter::add('zype_url', function ($page) {
-            if (Config::get("zype.{$page}_url")) {
-                return home_url(Config::get("zype.{$page}_url"));
-            }
-
-            return home_url();
-        });
-
-        // Filter Category URL
-        Filter::add('zype_category_url', function ($category, $value) {
-            $cats = Config::get("zype.categories")?: [];
-
-            if (array_key_exists($category, $cats)
-                && array_key_exists($value, $cats[$category])
-                && array_key_exists('url', $cats[$category][$value])
-                && $cats[$category][$value]['url'] != ''
-            ) {
-                return home_url($cats[$category][$value]['url']);
-            }
-
-            return home_url(zype_to_permalink($category) . '/' . zype_to_permalink($value));
-        }, 10, 2);
-
-        // Filter ZObjects URL
-        Filter::add('zype_zobject_url', function ($zobject) {
-            if (in_array($zobject, Config::get("zype.zobjects"))) {
-                return home_url($zobject);
-            }
-
-            return home_url();
-        });
+        // Filters
+        Filter::add('zype_url', [$this, 'zype_url']);
+        Filter::add('zype_category_url', [$this, 'zype_category_url'], 10, 2);
+        Filter::add('zype_zobject_url', [$this, 'zype_zobject_url']);
 
         // Zype assets
         Asset::add('zype_checkoutSuccess', 'javascripts/jquery.maskedinput.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
@@ -102,7 +75,41 @@ class HooksService extends ServiceProvider {
         Ajax::listen('zype_forgot_password', [$this, 'zype_forgot_password'], 'both');
     }
 
-    public function zype_auth_markup() {
+    public function zype_url($page)
+    {
+        if (Config::get("zype.{$page}_url")) {
+            return home_url(Config::get("zype.{$page}_url"));
+        }
+
+        return home_url();
+    }
+
+    public function zype_zobject_url($zobject)
+    {
+        if (in_array($zobject, Config::get("zype.zobjects"))) {
+            return home_url($zobject);
+        }
+
+        return home_url();
+    }
+
+    public function zype_category_url($category, $value)
+    {
+        $cats = Config::get("zype.categories") ?: [];
+
+        if (array_key_exists($category, $cats)
+            && array_key_exists($value, $cats[$category])
+            && array_key_exists('url', $cats[$category][$value])
+            && $cats[$category][$value]['url'] != ''
+        ) {
+            return home_url($cats[$category][$value]['url']);
+        }
+
+        return home_url(zype_to_permalink($category) . '/' . zype_to_permalink($value));
+    }
+
+    public function zype_auth_markup()
+    {
         if (\Input::get('type')) {
             echo do_shortcode(
                 '[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . "\" root_parent=\"" . \Input::get('rootParent') . "\" redirect_url=\"" . \Input::get('redirectURL') . '"]'
@@ -111,11 +118,13 @@ class HooksService extends ServiceProvider {
         exit;
     }
 
-    public function zype_login() {
+    public function zype_login()
+    {
         return (new Consumer\Auth())->login_submit_ajax();
     }
 
-    public function zype_login_ajax() {
+    public function zype_login_ajax()
+    {
         return (new Consumer\Auth())->login_submit_ajax(false);
     }
 
@@ -123,26 +132,29 @@ class HooksService extends ServiceProvider {
         return (new Consumer\Auth())->signup_submit_ajax();
     }
 
-    public function zype_forgot_password() {
+    public function zype_forgot_password()
+    {
         return (new Consumer\Profile())->forgot_password_submit_ajax();
     }
 
-    public function get_messages() {
-        if(isset($_SESSION['zype_flash_messages']) && is_array($_SESSION['zype_flash_messages'])){
+    public function get_messages()
+    {
+        if (isset($_SESSION['zype_flash_messages']) && is_array($_SESSION['zype_flash_messages'])) {
             header("Content-type:application/json");
             echo json_encode(filter_var_array($_SESSION['zype_flash_messages'], FILTER_SANITIZE_STRING));
             $_SESSION['zype_flash_messages'] = [];
         }
     }
 
-    public function adjustWpMenu() {
+    public function adjustWpMenu()
+    {
         remove_submenu_page('zype', 'zype');
     }
 
     public function update_profile()
     {
         $za = new Auth;
-        $consumer_id  = $za->get_consumer_id();
+        $consumer_id = $za->get_consumer_id();
         $access_token = $za->get_access_token();
 
         $fields = $this->form_vars([
@@ -159,6 +171,19 @@ class HooksService extends ServiceProvider {
         exit;
     }
 
+    protected function form_vars($names)
+    {
+        $fields = [];
+
+        foreach ($names as $name) {
+            if ($this->request->get($name)) {
+                $fields[$name] = $this->request->validate($name, ['textfield']);
+            }
+        }
+
+        return $fields;
+    }
+
     public function update_password()
     {
         $za = new Auth;
@@ -170,13 +195,15 @@ class HooksService extends ServiceProvider {
         $auth = false;
         $new_password = false;
 
-        if (isset($_POST['current_password'])) {
-            $current_password = filter_var($_POST['current_password'], FILTER_SANITIZE_STRING);
+        $current_password = $this->request->validate('current_password', ['textfield']);
+        if ($current_password) {
             $auth = (new Auth)->login($email, $current_password);
         }
 
-        if ($auth && isset($_POST['new_password']) && isset($_POST['new_password_confirmation'])) {
-            $new_password = $this->validate_password($_POST['new_password'], $_POST['new_password_confirmation']);
+        $new_password_raw = $this->request->validate('new_password', ['textfield']);
+        $new_password_confirmation_raw = $this->request->validate('new_password_confirmation', ['textfield']);
+        if ($auth && $new_password_raw && $new_password_confirmation_raw) {
+            $new_password = $this->validate_password($new_password_raw, $new_password_confirmation_raw);
             $access_token = $za->get_access_token();
         }
 
@@ -213,17 +240,18 @@ class HooksService extends ServiceProvider {
         return $password;
     }
 
-    public function authorize_from_widget() {
+    public function authorize_from_widget()
+    {
         $res = [
             'logged_in' => false,
         ];
 
-        $post = filter_var_array($_POST, FILTER_SANITIZE_STRING);
+        $post = $this->request->validateAll(['textfield']);
 
         if (isset($post['authData']) && $accessToken = $post['authData']) {
             $authData = EstWidget::decrypt($accessToken);
             list($accessToken, $refreshToken) = explode('|', $authData);
-            if ($isLoggedIn = self::$auther->authenticate_with_access_token($accessToken, $refreshToken)) {
+            if ($isLoggedIn = $this->auther->authenticate_with_access_token($accessToken, $refreshToken)) {
                 $res['logged_in'] = true;
             }
         }
@@ -233,7 +261,8 @@ class HooksService extends ServiceProvider {
         wp_die();
     }
 
-    public function is_on_air(){
+    public function is_on_air()
+    {
         $res = [
             'on_air' => \Zype::is_on_air()
         ];
@@ -243,20 +272,23 @@ class HooksService extends ServiceProvider {
         wp_die();
     }
 
-    public function inlineScripts() {
+    public function inlineScripts()
+    {
         print view('scripts');
     }
 
-    public function logout() {
-        self::$auther->logout();
+    public function logout()
+    {
+        $this->auther->logout();
         wp_die();
     }
 
-    public function get_all_ajax() {
+    public function get_all_ajax()
+    {
         $res = [
-            'subscriber' => self::$auther->subscriber() ? true: true,
-            'logged_in'  => self::$auther->logged_in(),
-            'on_air'     => \Zype::is_on_air(),
+            'subscriber' => $this->auther->subscriber() ? true : true,
+            'logged_in' => $this->auther->logged_in(),
+            'on_air' => \Zype::is_on_air(),
         ];
 
         header("Content-type:application/json");
@@ -264,8 +296,9 @@ class HooksService extends ServiceProvider {
         wp_die();
     }
 
-    public function player() {
-        $post = filter_var_array($_POST, FILTER_SANITIZE_STRING);
+    public function player()
+    {
+        $post = $this->request->validateAll(['textfield']);
 
         $videoId = isset($post['video_id']) ? $post['video_id'] : 'null';
         $autoplay = 'autoplay=true';
@@ -284,8 +317,8 @@ class HooksService extends ServiceProvider {
 
             $hasUserAccessToVideo = (new Access())->checkUserVideoAccess($videoId);
 
-            if (self::$auther->logged_in() && $hasUserAccessToVideo) {
-                $key = 'access_token=' . self::$auther->get_access_token();
+            if ($this->auther->logged_in() && $hasUserAccessToVideo) {
+                $key = 'access_token=' . $this->auther->get_access_token();
             } else {
                 $this->authorization_required();
             }
@@ -293,7 +326,7 @@ class HooksService extends ServiceProvider {
 
         $res = [
             'audio_only' => $post['audio_only'],
-            'embed_url'  => Config::get('zype.playerHost') . '/embed/' . $videoId . '.js?' . $key . '&' . $autoplay . $audio_only,
+            'embed_url' => Config::get('zype.playerHost') . '/embed/' . $videoId . '.js?' . $key . '&' . $autoplay . $audio_only,
         ];
 
         header("Content-type:application/json");
@@ -301,7 +334,8 @@ class HooksService extends ServiceProvider {
         wp_die();
     }
 
-    public function authorization_required() {
+    public function authorization_required()
+    {
         // http_response_code(400);
         $res = ['authorization_required' => true];
         header("Content-type:application/json");
@@ -335,25 +369,15 @@ class HooksService extends ServiceProvider {
         return $classes;
     }
 
-    protected function form_vars($names)
-    {
-        $fields = [];
-        foreach ($names as $name) {
-            if (isset($_REQUEST[$name])) {
-                $fields[$name] = filter_var($_REQUEST[$name], FILTER_SANITIZE_STRING);
-            }
-        }
-
-        return $fields;
-    }
-
     public function search()
     {
         global $zype_search;
-        $zype_search              = [];
+
+        $zype_search = [];
         $zype_search['is_search'] = false;
-        if (isset($_GET['search'])) {
-            $zype_search['term']      = filter_var($_GET['search'], FILTER_SANITIZE_STRING);
+
+        if ($search = $this->request->validate('search', ['textfield'])) {
+            $zype_search['term'] = $search;
             $zype_search['is_search'] = true;
         }
     }
@@ -361,10 +385,12 @@ class HooksService extends ServiceProvider {
     public function sort()
     {
         global $zype_sort;
-        $zype_sort              = [];
+
+        $zype_sort = [];
         $zype_sort['is_sorted'] = false;
-        if (isset($_GET['sort'])) {
-            $zype_sort['order']     = filter_var($_GET['sort'], FILTER_SANITIZE_STRING);
+
+        if ($sort = $this->request->validate('sort', ['textfield'])) {
+            $zype_sort['order'] = $sort;
             $zype_sort['is_sorted'] = true;
         }
     }
