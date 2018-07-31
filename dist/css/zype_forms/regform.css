@@ -1,180 +1,203 @@
 #primary.content-area .zype_signup-wrapper {
-  border: 1px solid #ddd;
-  width: 100%;
-  max-width: 525px;
-  margin: 10px auto;
-  padding: 25px 20px 23px;
-  color: #2c3c4c;
-  font-size: 13px;
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 525px;
+    margin: 10px auto;
+    padding: 25px 20px 23px;
+    color: #2c3c4c;
+    font-size: 13px;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
 }
+
 #primary.content-area .zype_signup__heading {
-  text-align: center;
-  color: #5c6c7c;
-  font-size: 15px;
-  margin-bottom: 40px;
+    text-align: center;
+    color: #5c6c7c;
+    font-size: 15px;
+    margin-bottom: 40px;
 }
+
 #primary.content-area .zype_signup__heading p {
-  font-size: 24px;
-  line-height: 28px;
-  margin: 0 0 9px;
-  font-weight: 400;
-  color: #2c3c4c;
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0 0 9px;
+    font-weight: 400;
+    color: #2c3c4c;
 }
+
 #primary.content-area .zype_signup__link {
-  color: #909090;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  border: 0 !important;
-  padding: 0 !important;
+    color: #909090;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border: 0 !important;
+    padding: 0 !important;
 }
+
 #primary.content-area .zype_signup__link:hover {
-  color: black;
+    color: black;
 }
+
 #primary.content-area .zype_signup__plans {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  margin-bottom: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
 }
+
 #primary.content-area .zype_signup__plans--plan {
-  border: 1px solid #ddd;
-  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
-          box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
-  min-width: 30%;
-  -ms-flex-preferred-size: 30%;
-      flex-basis: 30%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 20px 0;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1);
+    min-width: 30%;
+    -ms-flex-preferred-size: 30%;
+    flex-basis: 30%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 20px 0;
 }
+
 #primary.content-area .zype_signup__plans--plan .price {
-  font-size: 28px;
+    font-size: 28px;
 }
+
 #primary.content-area .zype_signup__plans--plan .duration {
-  color: #5c6c7c;
+    color: #5c6c7c;
 }
+
 #primary.content-area .zype_signup__subscribe {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
+
 #primary.content-area .zype_signup__subscribe--title {
-  font-size: 15px;
-  margin-bottom: 15px;
-  display: block;
+    font-size: 15px;
+    margin-bottom: 15px;
+    display: block;
 }
+
 #primary.content-area .zype_signup__subscribe--title span {
-  text-transform: uppercase;
+    text-transform: uppercase;
 }
+
 #primary.content-area .zype_signup__subscribe p {
-  padding-left: 10px;
-  color: #5c6c7c;
-  margin-bottom: 5px;
-  line-height: 18px;
+    padding-left: 10px;
+    color: #5c6c7c;
+    margin-bottom: 5px;
+    line-height: 18px;
 }
+
 #primary.content-area .zype_signup__subscribe p:before {
-  content: ">";
-  margin-right: 10px;
+    content: ">";
+    margin-right: 10px;
 }
+
 #primary.content-area .zype_signup__fields {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
+
 #primary.content-area .zype_signup__fields-group {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
+
 #primary.content-area .zype_signup__fields-group label {
-  font-weight: 400;
-  color: #5c6c7c;
-  font-size: 15px;
+    font-weight: 400;
+    color: #5c6c7c;
+    font-size: 15px;
 }
+
 #primary.content-area .zype_signup__fields-group.required-row label:after {
-  content: "*";
-  color: red;
-  margin-left: 3px;
+    content: "*";
+    color: red;
+    margin-left: 3px;
 }
+
 #primary.content-area .zype_signup__fields > div {
-  -ms-flex-preferred-size: 100%;
-      flex-basis: 100%;
-  min-width: 100%;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    min-width: 100%;
 }
+
 #primary.content-area .zype_signup__fields input[type="text"], #primary.content-area .zype_signup__fields input[type="email"], #primary.content-area .zype_signup__fields input[type="password"] {
-  padding: 5px 10px;
-  background-color: #fff;
-  border-radius: 3px;
-  display: block;
-  border: 1px solid #bbb;
-  color: #666;
-  width: 100%;
-  font-size: 16px;
-  line-height: 1.5;
+    padding: 5px 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    display: block;
+    border: 1px solid #bbb;
+    color: #666;
+    width: 100%;
+    font-size: 16px;
+    line-height: 1.5;
 }
+
 #primary.content-area .zype_signup__fields input[type="text"]:focus, #primary.content-area .zype_signup__fields input[type="email"]:focus, #primary.content-area .zype_signup__fields input[type="password"]:focus {
-  color: #222;
-  border-color: #333;
+    color: #222;
+    border-color: #333;
 }
+
 #primary.content-area .zype_signup__fields-submit input[type="submit"] {
-  text-transform: none;
-  background-color: #222;
-  border: 0;
-  border-radius: 2px;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1;
-  padding: 14px 28px;
-  text-shadow: none;
-  -webkit-transition: background 0.2s;
-  transition: background 0.2s;
+    text-transform: none;
+    background-color: #222;
+    border: 0;
+    border-radius: 2px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    padding: 14px 28px;
+    text-shadow: none;
+    -webkit-transition: background 0.2s;
+    transition: background 0.2s;
 }
+
 #primary.content-area .zype_signup__fields-submit input[type="submit"]:hover {
-  background: #767676;
+    background: #767676;
 }
+
 #primary.content-area .zype_signup__note {
-  margin-top: 40px;
-  color: #5c6c7c;
+    margin-top: 40px;
+    color: #5c6c7c;
 }
 
 @media (max-width: 460px) {
-  #primary.content-area .zype_signup__plans--plan {
-    -ms-flex-preferred-size: 100%;
+    #primary.content-area .zype_signup__plans--plan {
+        -ms-flex-preferred-size: 100%;
         flex-basis: 100%;
-    min-width: 100%;
-    margin-bottom: 20px;
-  }
+        min-width: 100%;
+        margin-bottom: 20px;
+    }
 
-  #primary.content-area .zype_signup-wrapper {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    #primary.content-area .zype_signup-wrapper {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 
 .zype-form-center {
@@ -194,75 +217,85 @@
     transition: none;
     box-shadow: none;
 }
+
 .zype-form-center .zype-title {
-  color: #272424 !important;
-  letter-spacing: .3px !important;
-  margin-bottom: 32px !important;
-  line-height: 35px !important;
-  font-size: 35px !important;
-  font-weight: 100 !important;
-  text-transform: lowercase !important;
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+    color: #272424 !important;
+    letter-spacing: .3px !important;
+    margin-bottom: 32px !important;
+    line-height: 35px !important;
+    font-size: 35px !important;
+    font-weight: 100 !important;
+    text-transform: lowercase !important;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
+
 .zype-form-center .zype-title:first-letter {
-  text-transform: uppercase !important;
+    text-transform: uppercase !important;
 }
+
 .player-auth-required {
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
+
 .zype-form-center .zype-button {
-  text-transform: uppercase !important;
-  color: #00a5df !important;
-  letter-spacing: 1.3px !important;
-  border: 2px solid #00a5df !important;
-  border-radius: 2px !important;
-  padding: 15px 100px !important;
-  margin: 20px 0 0 !important;
-  background: #fff !important;
-  font-size: 12px !important;
-  height: auto !important;
-  line-height: 20px !important;
-  text-shadow: none !important;
+    text-transform: uppercase !important;
+    color: #00a5df !important;
+    letter-spacing: 1.3px !important;
+    border: 2px solid #00a5df !important;
+    border-radius: 2px !important;
+    padding: 15px 100px !important;
+    margin: 20px 0 0 !important;
+    background: #fff !important;
+    font-size: 12px !important;
+    height: auto !important;
+    line-height: 20px !important;
+    text-shadow: none !important;
 }
+
 .zype-form-center .zype-button-text {
-  padding: 0 !important;
-  margin: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
+
 .zype-form-center .to-sign-in {
-  margin-top: 60px !important;
-  color: #60626b !important;
-  font-size: 18px !important;
-  line-height: 18px !important;
+    margin-top: 60px !important;
+    color: #60626b !important;
+    font-size: 18px !important;
+    line-height: 18px !important;
 }
 
 .zype-form-center .to-sign-in a {
-  color: #00a5df !important;
-  border-bottom: none !important;
-  font-weight: bold !important;
-  text-decoration: none !important;
-  transition: none;
-  box-shadow: none;
+    color: #00a5df !important;
+    border-bottom: none !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    transition: none;
+    box-shadow: none;
 }
+
 .zype-form-center .zype-input-wrap {
-  margin: 6px;
+    margin: 6px;
 }
+
 .zype-form-center .zype-input-text {
-  background: #fff !important;
-  border: 1px solid #d9d8e0 !important;
-  border-radius: 2px !important;
-  letter-spacing: .15px !important;
-  color: #272424 !important;
-  margin: 0 !important;
-  width: 500px !important;
-  height: 40px !important;
-  text-shadow: none !important;
-  font-size: 15px !important;
-  display: inline-block !important;
+    background: #fff !important;
+    border: 1px solid #d9d8e0 !important;
+    border-radius: 2px !important;
+    letter-spacing: .15px !important;
+    color: #272424 !important;
+    margin: 0 !important;
+    width: 500px !important;
+    height: 40px !important;
+    text-shadow: none !important;
+    font-size: 15px !important;
+    display: inline-block !important;
 }
+
 .zype-form-center .zype-input-text::-webkit-input-placeholder,
 .zype-form-center .zype-input-text::-moz-placeholder,
 .zype-form-center .zype-input-text:-ms-input-placeholder,
 .zype-form-center .zype-input-text:-moz-placeholder { /* Chrome/Opera/Safari */
-  color: #c5c3d0;
+    color: #c5c3d0;
 }
+
 /*# sourceMappingURL=regform.css.map */

@@ -2,7 +2,8 @@
 
 namespace ZypeMedia\Services;
 
-class Braintree extends Component {
+class Braintree extends Component
+{
 
     public function __construct()
     {
@@ -27,8 +28,7 @@ class Braintree extends Component {
             }
 
             $braintree_token = \Braintree_ClientToken::generate($params);
-        }
-        catch (\Braintree_Exception_NotFound $e) {
+        } catch (\Braintree_Exception_NotFound $e) {
             return false;
         }
 

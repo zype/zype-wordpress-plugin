@@ -2,14 +2,17 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
-use \ZypeMedia\Services\Braintree;
-use Themosis\Route\BaseController;
-use Themosis\Facades\View;
 use Themosis\Facades\Config;
-use Themosis\Facades\Input;
+use ZypeMedia\Services\Braintree;
 
-class Profile extends BaseController
+class Profile extends Base
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function profile()
     {
         if (!\Auth::logged_in()) {
@@ -20,17 +23,17 @@ class Profile extends BaseController
         global $consumer;
         global $braintree_token;
 
-        $za           = new \ZypeMedia\Services\Auth;
-        $consumer_id  = $za->get_consumer_id();
+        $za = new \ZypeMedia\Services\Auth;
+        $consumer_id = $za->get_consumer_id();
         $access_token = $za->get_access_token();
-        $consumer     = \Zype::get_consumer($consumer_id, $access_token);
-        $braintreeId     = $za->get_consumer_braintree_id();
+        $consumer = \Zype::get_consumer($consumer_id, $access_token);
+        $braintreeId = $za->get_consumer_braintree_id();
 
-        if($braintreeId) {
+        if ($braintreeId) {
             $braintree_token = (new Braintree)->generateBraintreeToken($braintreeId);
         }
 
-        $title    = ucfirst(Config::get('zype.profile_url'));
+        $title = ucfirst(Config::get('zype.profile_url'));
 
         print view('auth.profile', [
             'title' => $title,
@@ -42,10 +45,10 @@ class Profile extends BaseController
     public function rss_feeds()
     {
         global $zype_rss_links;
-        $za                  = new \ZypeMedia\Services\Auth;
-        $rss_token           = $za->get_rss_token();
-        $rss_urls            = [];
-        $zype_rss_links      = [];
+        $za = new \ZypeMedia\Services\Auth;
+        $rss_token = $za->get_rss_token();
+        $rss_urls = [];
+        $zype_rss_links = [];
         $rss_urls['default'] = get_zype_url(Config::get('zype.rss_url')) . '/' . $rss_token . '/';
 
         foreach (Config::get('zype.categories') as $category => $values) {
@@ -68,20 +71,20 @@ class Profile extends BaseController
             if (preg_match('/^https/', $rss_link)) {
                 $zype_rss_links[$index] = [
                     'itunes' => str_replace('https', 'itpc', $rss_link),
-                    'feed'   => str_replace('https', 'feed', $rss_link),
-                    'http'   => $rss_link,
+                    'feed' => str_replace('https', 'feed', $rss_link),
+                    'http' => $rss_link,
                 ];
 
             } elseif (preg_match('/^http/', $rss_link)) {
                 $zype_rss_links[$index] = [
                     'itunes' => str_replace('http', 'itpc', $rss_link),
-                    'feed'   => str_replace('http', 'feed', $rss_link),
-                    'http'   => $rss_link,
+                    'feed' => str_replace('http', 'feed', $rss_link),
+                    'http' => $rss_link,
                 ];
             }
         }
 
-        $title    = 'RSS Feeds';
+        $title = 'RSS Feeds';
 
         ob_start();
         $content = view('auth.rss_feeds', [
@@ -100,7 +103,7 @@ class Profile extends BaseController
             exit;
         }
 
-        $title    = 'Change Password';
+        $title = 'Change Password';
         print view('auth.change_password', [
             'title' => $title
         ]);
@@ -115,22 +118,25 @@ class Profile extends BaseController
         ]);
     }
 
-    public function forgot_password_submit_ajax() {
+    public function forgot_password_submit_ajax()
+    {
         $this->forgot_password_submit(true);
     }
 
-    public function forgot_password_submit($ajax = false) {
+    public function forgot_password_submit($ajax = false)
+    {
         if ($ajax) {
             $errors = array();
         }
 
-        if (isset($_POST['email']) && $_POST['email'] != '') {
-            $email = strtolower(filter_var(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL));
+        $email = $this->request->validate('email', ['email']);
 
+        if ($email) {
             $consumer = \Zype::find_consumer_by_email($email);
+
             if ($consumer) {
                 //set token on user
-                $pw_token        = bin2hex(openssl_random_pseudo_bytes(16));
+                $pw_token = bin2hex(openssl_random_pseudo_bytes(16));
                 $update_consumer = \Zype::admin_update_consumer($consumer->_id, ['password_token' => $pw_token]);
                 if ($update_consumer) {
                     //send email
@@ -193,28 +199,30 @@ class Profile extends BaseController
     public function reset_password_submit($hash = '')
     {
         $zype_password_token = $hash;
-        if ($zype_password_token != '') {
 
-            if (!empty($_POST['email']) && !empty($_POST['password_token']) && !empty($_POST['password']) && !empty($_POST['password_confirmation'])) {
-                $new_password = $this->validate_password($_POST['password'], $_POST['password_confirmation']);
-                $email        = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
+        if ($zype_password_token) {
+            $email = $this->request->validate('email', ['email']);
+            $password_token = $this->request->validate('password_token', ['textfield']);
+            $new_password = $this->validate_password($this->request->validate('password', ['textfield']), $this->request->validate('password_confirmation', ['textfield']));
+
+            if ($email && $password_token) {
                 if ($new_password) {
                     //find user by password token
-                    $password_token = filter_var($_POST['password_token'], FILTER_SANITIZE_STRING);
-                    $consumer       = \Zype::find_consumer_by_email_and_password_token($email, $password_token);
+                    $consumer = \Zype::find_consumer_by_email_and_password_token($email, $password_token);
+
                     if ($consumer) {
                         $update_consumer = \Zype::admin_update_consumer($consumer->_id, [
                             'password_token' => null,
-                            'password'       => $new_password,
+                            'password' => $new_password,
                         ]);
+
                         if ($update_consumer) {
                             zype_form_message('check', 'Your password has been successfully changed.');
                             $auther = new \ZypeMedia\Services\Auth();
 
-                            $username = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
-                            $password = filter_var($new_password, FILTER_SANITIZE_STRING);
+                            $username = $email;
 
-                            $auther->login($username, $password);
+                            $auther->login($username, $new_password);
                             wp_redirect(home_url(Config::get('zype.profile_url')));
                             exit();
                         } else {
@@ -245,6 +253,27 @@ class Profile extends BaseController
         exit();
     }
 
+    private function validate_password($password, $password_confirmation)
+    {
+        if ($password != $password_confirmation) {
+            return false;
+        }
+        if (strlen($password) < 8) {
+            return false;
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return false;
+        }
+
+        return $password;
+    }
+
     public function subscription()
     {
         if (!\Auth::logged_in()) {
@@ -254,15 +283,15 @@ class Profile extends BaseController
 
         global $zd;
 
-        $zd                = [];
-        $za                = new \ZypeMedia\Services\Auth;
+        $zd = [];
+        $za = new \ZypeMedia\Services\Auth;
         $zd['consumer_id'] = $za->get_consumer_id();
-        $zd['email']       = $za->get_email();
-        $zd['stripe_pk']   = Config::get('zype.stripe_pk');
+        $zd['email'] = $za->get_email();
+        $zd['stripe_pk'] = Config::get('zype.stripe_pk');
 
         $zd['subscription'] = \Zype::get_consumer_subscription($zd['consumer_id']);
         if (!empty($zd['subscription'])) {
-            $zd['plans']        = \Zype::get_all_plans();
+            $zd['plans'] = \Zype::get_all_plans();
             $zd['current_plan'] = \Zype::get_plan($zd['subscription']->plan_id);
 
             if (!empty($zd['subscription']->stripe_id)) {
@@ -271,7 +300,7 @@ class Profile extends BaseController
                 $full_sub = $sub = $zd['subscription'];
 
                 $zd['plan_start'] = $sub->start_at;
-                $zd['plan_end']   = $sub->current_period_end_at;
+                $zd['plan_end'] = $sub->current_period_end_at;
                 $zd['sub_status'] = ucwords($sub->status);
             }
         } else {
@@ -291,18 +320,19 @@ class Profile extends BaseController
 
     public function change_subscription()
     {
-        $za          = new \ZypeMedia\Services\Auth;
+        $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $email       = $za->get_email();
+        $email = $za->get_email();
 
         $subscription = \Zype::get_consumer_subscription($consumer_id);
 
-        $post = filter_var_array($_POST, FILTER_SANITIZE_STRING);
-        $res  = false;
+        $subscription_id = $this->request->validate('subscription_id', ['textfield']);
+        $new_plan_id = $this->request->validate('new_plan_id', ['textfield']);
+        $res = false;
 
-        if ($subscription && isset($post['subscription_id']) && ($subscription->_id == $post['subscription_id'])) {
+        if ($subscription && $subscription_id && ($subscription->_id == $subscription_id)) {
             $res = \Zype::change_subscription($subscription->_id, [
-                'plan_id' => $post['new_plan_id']
+                'plan_id' => $new_plan_id
             ]);
         }
 
@@ -318,21 +348,21 @@ class Profile extends BaseController
 
     public function cancel_subscription()
     {
-        $za          = new \ZypeMedia\Services\Auth;
+        $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $email       = $za->get_email();
+        $email = $za->get_email();
 
         $subscription = \Zype::get_consumer_subscription($consumer_id);
 
         global $zd;
-        $zd                 = [];
+        $zd = [];
         $zd['subscription'] = $subscription;
 
-        if (isset($_POST['subscription_id'])) {
+        if ($this->request->validate('subscription_id', ['textfield'])) {
             $this->do_cancel_subscription($subscription);
         }
 
-        $title    = 'Cancel Subscription';
+        $title = 'Cancel Subscription';
 
         print view('auth.cancel_subscription', [
             'title' => $title,
@@ -347,14 +377,14 @@ class Profile extends BaseController
 
     private function do_cancel_subscription($subscription)
     {
-        $za          = new \ZypeMedia\Services\Auth;
+        $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $email       = $za->get_email();
+        $email = $za->get_email();
 
-        $post = filter_var_array($_POST, FILTER_SANITIZE_STRING);
+        $subscription_id = $this->request->validate('subscription_id', ['textfield']);
 
         $res = false;
-        if ($subscription && isset($post['subscription_id']) && ($subscription->_id == $post['subscription_id'])) {
+        if ($subscription && $subscription_id && ($subscription->_id == $subscription_id)) {
             try {
                 $res = \Zype::cancel_subscription($subscription->_id);
             } catch (\Exception $e) {
@@ -375,14 +405,17 @@ class Profile extends BaseController
 
     public function change_card()
     {
-        $za          = new \ZypeMedia\Services\Auth;
+        $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $post        = filter_var_array($_POST, FILTER_SANITIZE_STRING);
+        $consumer_id = $this->request->validate('consumer_id', ['textfield']);
 
-        if (isset($post['consumer_id']) && $consumer_id == $post['consumer_id']) {
-            $this->processBraintreeChangeCardRequest($post);
+        if ($consumer_id) {
+            if ($this->request->validate('payment_method_nonce', ['textfield'])) {
+                wp_redirect(get_zype_url('profile'));
+                die();
+            }
 
-            $res = \Zype::change_card($consumer_id, $post['stripe_card_token']);
+            $res = \Zype::change_card($consumer_id, $this->request->validate('stripe_card_token', ['textfield']));
 
             if ($res) {
                 $za->sync_cookie();
@@ -398,14 +431,6 @@ class Profile extends BaseController
         die();
     }
 
-    public function processBraintreeChangeCardRequest($post)
-    {
-        if (isset($post['payment_method_nonce'])) {
-            wp_redirect(get_zype_url('profile'));
-            die();
-        }
-    }
-
     public function device_link()
     {
         if (!\Auth::logged_in()) {
@@ -413,7 +438,7 @@ class Profile extends BaseController
             exit;
         }
 
-        $title    = 'Link Device';
+        $title = 'Link Device';
 
         print view('auth.device_link', [
             'title' => $title
@@ -423,12 +448,13 @@ class Profile extends BaseController
 
     public function device_link_submit()
     {
-        $za          = new \ZypeMedia\Services\Auth;
+        $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $post        = filter_var_array($_POST, FILTER_SANITIZE_STRING);
+        $pin = $this->request->validate('pin', ['textfield']);
 
-        if (isset($consumer_id) && isset($post['pin'])) {
-            $res = \Zype::link_device($consumer_id, $post['pin']);
+        if ($consumer_id && $pin) {
+            $res = \Zype::link_device($consumer_id, $pin);
+
             if ($res) {
                 zype_flash_message('success', 'Your device has been successfully linked. Enjoy the show.');
             } else {
@@ -440,29 +466,5 @@ class Profile extends BaseController
 
         wp_redirect(get_zype_url('device_link') . '/');
         die();
-    }
-
-    private function validate_password($password, $password_confirmation)
-    {
-        $password              = filter_var($password, FILTER_SANITIZE_STRING);
-        $password_confirmation = filter_var($password_confirmation, FILTER_SANITIZE_STRING);
-
-        if ($password != $password_confirmation) {
-            return false;
-        }
-        if (strlen($password) < 8) {
-            return false;
-        }
-        if (!preg_match('/[A-Z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[a-z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[0-9]/', $password)) {
-            return false;
-        }
-
-        return $password;
     }
 }

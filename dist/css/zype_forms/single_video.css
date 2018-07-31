@@ -4,7 +4,7 @@
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
 }
 
-.site-content .zype_video>.zype_play_sample {
+.site-content .zype_video > .zype_play_sample {
     display: none;
 }
 
@@ -15,7 +15,7 @@
     height: 100%;
 }
 
-.site-content .zype_video__wrapper+section.episode-main {
+.site-content .zype_video__wrapper + section.episode-main {
     margin-top: 20px;
 }
 
@@ -82,10 +82,13 @@
 
 .site-content .zype_player_container .overlay_player {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 100%;
     width: 100%;
-    background: linear-gradient(-180deg, rgba(0,0,0,.37) 0%, rgba(0,0,0,.45) 52%, rgba(0,0,0,.82) 100%);
+    background: linear-gradient(-180deg, rgba(0, 0, 0, .37) 0%, rgba(0, 0, 0, .45) 52%, rgba(0, 0, 0, .82) 100%);
     padding: 20px;
     display: flex;
 }
@@ -196,13 +199,13 @@
     padding: 25px 0;
 }
 
-.site-content .zype_player_container .player-auth-required-content .login-sub-section>p {
+.site-content .zype_player_container .player-auth-required-content .login-sub-section > p {
     text-align: center;
     font-size: 14px;
     color: #606060;
 }
 
-.site-content .zype_player_container .player-auth-required-content .login-sub-section>a {
+.site-content .zype_player_container .player-auth-required-content .login-sub-section > a {
     display: inline-block;
     background-color: #222;
     border: 0;
@@ -221,7 +224,7 @@
     transition: background 0.2s;
 }
 
-.site-content .zype_player_container .player-auth-required-content .login-sub-section>a:hover {
+.site-content .zype_player_container .player-auth-required-content .login-sub-section > a:hover {
     background: #767676;
 }
 
@@ -251,6 +254,7 @@
     display: inline-block;
     text-align: center;
 }
+
 .site-content .zype_player_container .empty-button {
     font-size: 12px;
     text-transform: uppercase;
@@ -273,11 +277,10 @@
     margin: 5px;
 }
 
-@media(max-width: 414px) {
+@media (max-width: 414px) {
     .site-content .zype_player_container .player-auth-required {
         background-color: #fff;
     }
 }
-
 
 /*# sourceMappingURL=single_video.css.map */

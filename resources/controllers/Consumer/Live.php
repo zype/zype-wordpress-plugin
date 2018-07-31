@@ -25,10 +25,10 @@ class Live extends Base
         $vm->all_by($by, ['per_page' => 1]);
 
         if (isset($vm->collection[0])) {
-            $livestream  = $vm->collection[0];
+            $livestream = $vm->collection[0];
             $title = $livestream->title;
         } else {
-            $livestream  = false;
+            $livestream = false;
             $title = 'Off Air';
         }
 

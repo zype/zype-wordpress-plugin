@@ -1,10 +1,9 @@
 <?php
 
-use \ZypeMedia\Controllers\Consumer;
 use Themosis\Facades\Input;
-use Themosis\Facades\Asset;
+use ZypeMedia\Controllers\Consumer;
 
-add_shortcode('zype_grid', function() {
+add_shortcode('zype_grid', function () {
     $video = new Consumer\Videos();
     switch (Input::get('zype_type')) {
         case 'video_single':
@@ -20,18 +19,18 @@ add_shortcode('zype_grid', function() {
 });
 
 if (Config::get('zype.livestream_enabled')) {
-    add_shortcode('zype_livestream', function() {
+    add_shortcode('zype_livestream', function () {
         return Consumer\Live::show();
     });
 }
 
-add_shortcode('zype_categories', function() {
+add_shortcode('zype_categories', function () {
     return Consumer\Category::categories_list();
 });
 
-add_shortcode('zype_auth', function($attrs = array()) {
-    $type = !empty($attrs['type'])? $attrs['type']: Input::get('zype_auth_type', 'login');
-    $rootParent = $attrs['root_parent'];
+add_shortcode('zype_auth', function ($attrs = array()) {
+    $type = !empty($attrs['type']) ? $attrs['type'] : Input::get('zype_auth_type', 'login');
+    $rootParent = !empty($attrs['root_parent']) ? $attrs['root_parent'] : '';
 
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
@@ -51,19 +50,19 @@ add_shortcode('zype_auth', function($attrs = array()) {
     }
 });
 
-add_shortcode('zype_signup', function() {
+add_shortcode('zype_signup', function () {
     $loginController = new Consumer\Auth();
     return $loginController->signup();
 });
 
-add_shortcode('zype_forgot', function() {
+add_shortcode('zype_forgot', function () {
     $profileController = new Consumer\Profile();
     return $profileController->forgot_password();
 });
 
-add_shortcode('zype_video', function($attrs) {
+add_shortcode('zype_video', function ($attrs) {
     $id = $attrs['id'];
-    $view = !empty($attrs['view'])? $attrs['view']: 'full';
+    $view = !empty($attrs['view']) ? $attrs['view'] : 'full';
 
     if (!$id) {
         return;
@@ -74,7 +73,7 @@ add_shortcode('zype_video', function($attrs) {
     return $videos->single($id, $view);
 });
 
-add_shortcode('zype_playlist', function($attrs) {
+add_shortcode('zype_playlist', function ($attrs) {
     $id = $attrs['id'];
 
     if (!$id) {

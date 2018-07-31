@@ -19,16 +19,12 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "composer/installers": "^1.0",
-        "twig/twig": "~1.0",
         "stripe/stripe-php": "2.*",
         "braintree/braintree_php": "2.40.1",
         "illuminate/routing": "5.4.*",
         "illuminate/http": "5.4.*",
         "illuminate/view": "5.4.*",
-        "guzzlehttp/guzzle": "6.*",
-        "kevinrob/guzzle-cache-middleware": "^2.1",
-        "league/flysystem": "^1.0",
-        "firebase/php-jwt": "^5.0"
+        "firebase/php-jwt": "^5.0",
+        "dg/composer-cleaner": "^2.0"
     }
 }

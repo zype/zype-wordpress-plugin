@@ -8,7 +8,8 @@ class Video extends Base
 
     public function __construct($use_admin = false)
     {
-        $this->options   = get_option(ZYPE_WP_OPTIONS);
+        parent::__construct();
+        $this->options = get_option(ZYPE_WP_OPTIONS);
         $this->use_admin = $use_admin;
     }
 
@@ -20,63 +21,30 @@ class Video extends Base
         }
     }
 
-    public function all($params = [])
-    {
-        $per_page = isset($params['per_page']) ? $params['per_page'] : null;
-        $page     = isset($params['page']) ? $params['page'] : null;
-
-        $res = \Zype::get_videos($page, $per_page, $this->suppress_search);
-
-        if ($res) {
-            $this->collection = $res->response;
-            $this->pagination = $res->pagination;
-            $this->modify_all();
-        } else {
-            $this->collection = false;
-            $this->pagination = false;
-        }
-
-    }
-
-    public function all_by($by, $params = [])
-    {
-        $per_page = isset($params['per_page']) ? $params['per_page'] : null;
-        $page     = isset($params['page']) ? $params['page'] : null;
-        $no_cache = isset($params['no_cache']) ? $params['no_cache'] : null;
-        $exclude  = isset($params['exclude']) ? $params['exclude'] : null;
-
-        $res = \Zype::get_videos_by($by, $page, $per_page, $this->use_admin, $no_cache, $exclude);
-        if ($res) {
-            $this->collection = $res->response;
-            $this->pagination = $res->pagination;
-            $this->modify_all();
-        } else {
-            $this->collection = false;
-            $this->pagination = false;
-        }
-    }
-
-    private function modify_all()
-    {
-        if ($this->collection) {
-            foreach ($this->collection as &$video) {
-                $video->permalink     = $this->generate_permalink($video);
-                $video->thumbnail_url = $this->add_thumbnail_url($video);
-                $video->excerpt       = $this->add_excerpt($video);
-            }
-        }
-    }
-
     private function modify_one()
     {
-        $this->single->permalink     = $this->generate_permalink($this->single);
+        $this->single->permalink = $this->generate_permalink($this->single);
         $this->single->thumbnail_url = $this->add_thumbnail_url($this->single);
-        $this->single->excerpt       = $this->add_excerpt($this->single);
+        $this->single->excerpt = $this->add_excerpt($this->single);
     }
 
     private function generate_permalink($video)
     {
         return \site_url() . '/' . $this->options['video_url'] . '/' . $this->title_to_permalink($video->title) . '/' . $video->_id;
+    }
+
+    private function title_to_permalink($str, $replace = array(), $delimiter = '-')
+    {
+        if (!empty($replace)) {
+            $str = str_replace((array)$replace, ' ', $str);
+        }
+
+        $clean = zype_url_slug($str);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+
+        return $clean;
     }
 
     private function add_thumbnail_url($video)
@@ -122,18 +90,50 @@ class Video extends Base
         return $excerpt;
     }
 
-
-    private function title_to_permalink($str, $replace = array(), $delimiter = '-')
+    public function all($params = [])
     {
-        if (!empty($replace)) {
-            $str = str_replace((array)$replace, ' ', $str);
+        $per_page = isset($params['per_page']) ? $params['per_page'] : null;
+        $page = isset($params['page']) ? $params['page'] : null;
+
+        $res = \Zype::get_videos($page, $per_page, $this->suppress_search);
+
+        if ($res) {
+            $this->collection = $res->response;
+            $this->pagination = $res->pagination;
+            $this->modify_all();
+        } else {
+            $this->collection = false;
+            $this->pagination = false;
         }
 
-        $clean = zype_url_slug($str);
-        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
-        $clean = strtolower(trim($clean, '-'));
-        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+    }
 
-        return $clean;
+    private function modify_all()
+    {
+        if ($this->collection) {
+            foreach ($this->collection as &$video) {
+                $video->permalink = $this->generate_permalink($video);
+                $video->thumbnail_url = $this->add_thumbnail_url($video);
+                $video->excerpt = $this->add_excerpt($video);
+            }
+        }
+    }
+
+    public function all_by($by, $params = [])
+    {
+        $per_page = isset($params['per_page']) ? $params['per_page'] : null;
+        $page = isset($params['page']) ? $params['page'] : null;
+        $no_cache = isset($params['no_cache']) ? $params['no_cache'] : null;
+        $exclude = isset($params['exclude']) ? $params['exclude'] : null;
+
+        $res = \Zype::get_videos_by($by, $page, $per_page, $this->use_admin, $no_cache, $exclude);
+        if ($res) {
+            $this->collection = $res->response;
+            $this->pagination = $res->pagination;
+            $this->modify_all();
+        } else {
+            $this->collection = false;
+            $this->pagination = false;
+        }
     }
 }

@@ -320,7 +320,7 @@ class ValidationBuilder implements IValidate
      */
     protected function validate_bool($data, array $attributes = [])
     {
-        return filter_var($data, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]) ? $data : '';
+        return filter_var($data, FILTER_VALIDATE_BOOLEAN, ['flags' => FILTER_NULL_ON_FAILURE]);
     }
 
     /**

@@ -10,7 +10,7 @@
                     <a class="list-series__link" href="<?php echo $url; ?>">
                         <div class="list-series__thumb object-fluid object-fluid--16x9">
                             <img class="lazy" src="http://lorempixel.com/400/225/people/1"
-                                    alt="<?php echo $categoryValue; ?>">
+                                 alt="<?php echo $categoryValue; ?>">
                             <noscript><img src="http://lorempixel.com/400/225/people/2" alt="Season Title">
                             </noscript>
                         </div>

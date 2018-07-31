@@ -4,7 +4,7 @@ function ZypeWP(env) {
 
     this.env = env;
 
-    this.init = function() {
+    this.init = function () {
         this.get_all_ajax();
         this.do_videos();
         this.do_flash_messages();
@@ -14,7 +14,7 @@ function ZypeWP(env) {
     };
 
 
-    this.initSubscriptionWidget = function() {
+    this.initSubscriptionWidget = function () {
         if (self.env.logged_in || self.env.estWidgetEnabled == false) {
             return;
         }
@@ -22,7 +22,7 @@ function ZypeWP(env) {
         var eventer = window[eventMethod];
         var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-        eventer(messageEvent, function(e) {
+        eventer(messageEvent, function (e) {
             console.log('parent received message!:  ', e.data);
             jQuery.ajax({
                 url: self.env.ajax_endpoint,
@@ -31,7 +31,7 @@ function ZypeWP(env) {
                     action: 'zype_authorize_from_widget',
                     authData: e.data
                 },
-                success: function(data) {
+                success: function (data) {
                     try {
                         var res = JSON.parse(data);
 
@@ -39,24 +39,27 @@ function ZypeWP(env) {
                             window.location.reload();
                         }
 
-                    } catch (e) {}
+                    } catch (e) {
+                    }
                 },
-                error: function(data) {}
+                error: function (data) {
+                }
             });
         }, false);
     };
 
-    this.do_flash_messages = function() {
+    this.do_flash_messages = function () {
         try {
             flash = JSON.parse(jQuery.cookie("zype_flash_messages"));
             jQuery('.zype_flash_messages').html(flash.msg);
             jQuery('.zype_flash_messages').show();
-            jQuery.cookie("zype_flash_messages", null, { path: '/' });
-        } catch (e) {}
+            jQuery.cookie("zype_flash_messages", null, {path: '/'});
+        } catch (e) {
+        }
 
     };
 
-    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_root_parent, zype_auth_email, zype_auth_paytype, zype_auth_token) {
+    this.zypeAuthMarkupRequest = function (zype_auth_type, zype_auth_plan_id, zype_root_parent, zype_auth_email, zype_auth_paytype, zype_auth_token) {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'get',
@@ -66,7 +69,7 @@ function ZypeWP(env) {
                 planid: zype_auth_plan_id ? zype_auth_plan_id : '0',
                 rootParent: zype_root_parent
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     id = '';
                     id = zype_root_parent ? '#' + zype_root_parent + ' ' : '';
@@ -78,17 +81,18 @@ function ZypeWP(env) {
                     console.log(e);
                 }
             },
-            error: function(data) {}
+            error: function (data) {
+            }
         });
     };
 
-    this.get_all_ajax = function() {
+    this.get_all_ajax = function () {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'post',
-            data: { action: 'zype_get_all_ajax' },
+            data: {action: 'zype_get_all_ajax'},
             context: this,
-            success: function(data) {
+            success: function (data) {
                 try {
                     var res = JSON.parse(data);
 
@@ -114,11 +118,11 @@ function ZypeWP(env) {
                     this.non_subscriber_actions();
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 this.logged_out_actions();
                 this.non_subscriber_actions();
             },
-            complete: function(data) {
+            complete: function (data) {
                 this.fade_in('.zype_loginout_button');
                 this.fade_in('.zype_profile_button');
                 this.fade_in('.zype_loginout_icon');
@@ -130,17 +134,17 @@ function ZypeWP(env) {
         self.initZypeAjaxMarkup();
     };
 
-    this.initZypeAjaxForms = function() {
+    this.initZypeAjaxForms = function () {
         var zype_ajax_form = jQuery(".zype_ajax_form");
 
         if (zype_ajax_form.length) {
             zype_ajax_form.off();
             zype_ajax_form.ajaxForm({
-                beforeSubmit: function() {
+                beforeSubmit: function () {
                     zype_ajax_form.find('button[type="submit"]').append('<i class="zype-spinner"></i>').prop('disabled', true);
                 },
                 dataType: "json",
-                success: function(response) {
+                success: function (response) {
                     jQuery('.zype-spinner').remove();
 
                     if (response.status == true) {
@@ -164,18 +168,18 @@ function ZypeWP(env) {
         }
     };
 
-    this.initZypeAjaxMarkup = function() {
+    this.initZypeAjaxMarkup = function () {
         var zype_auth_markup = jQuery('.zype_auth_markup');
 
         if (zype_auth_markup.length) {
             zype_auth_markup.off();
 
-            zype_auth_markup.each(function(i, item) {
+            zype_auth_markup.each(function (i, item) {
                 var $item = jQuery(item);
                 var is_in_modal = !!$item.closest('.player-auth-required').length;
 
                 if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
-                    $item.on('click', function(e) {
+                    $item.on('click', function (e) {
                         e.preventDefault();
 
                         switch (jQuery(this).data('type')) {
@@ -197,7 +201,7 @@ function ZypeWP(env) {
                         }
                     });
                 } else {
-                    $item.on('click', function(e) {
+                    $item.on('click', function (e) {
                         e.preventDefault();
 
                         if (jQuery(this).hasClass('disabled')) {
@@ -225,31 +229,33 @@ function ZypeWP(env) {
         }
     };
 
-    this.is_on_air = function() {
+    this.is_on_air = function () {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'post',
-            data: { action: 'zype_is_on_air' },
+            data: {action: 'zype_is_on_air'},
             context: this,
-            success: function(data) {
+            success: function (data) {
                 try {
                     var res = JSON.parse(data);
                     if (res.on_air == 'yes') {
                         this.fade_in('.zype-on-air');
                     }
-                } catch (e) {}
+                } catch (e) {
+                }
             },
-            error: function(data) {}
+            error: function (data) {
+            }
         });
     };
 
-    this.is_logged_in = function() {
+    this.is_logged_in = function () {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'post',
-            data: { action: 'zype_logged_in' },
+            data: {action: 'zype_logged_in'},
             context: this,
-            success: function(data) {
+            success: function (data) {
                 try {
                     var res = JSON.parse(data);
                     if (res.logged_in == true) {
@@ -261,23 +267,23 @@ function ZypeWP(env) {
                     this.logged_out_actions();
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 this.logged_out_actions();
             },
-            complete: function(data) {
+            complete: function (data) {
                 this.fade_in('.zype_loginout_button');
                 this.fade_in('.zype_loginout_icon');
             }
         });
     };
 
-    this.is_subscriber = function() {
+    this.is_subscriber = function () {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'post',
-            data: { action: 'zype_subscriber' },
+            data: {action: 'zype_subscriber'},
             context: this,
-            success: function(data) {
+            success: function (data) {
                 try {
                     var res = JSON.parse(data);
                     if (res.subscriber == true) {
@@ -290,55 +296,57 @@ function ZypeWP(env) {
                     this.non_subscriber_actions();
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 this.non_subscriber_actions();
             },
-            complete: function(data) {
+            complete: function (data) {
                 this.fade_in('.zype_subscriber_button');
             }
         });
     };
 
-    this.logged_in_actions = function() {
+    this.logged_in_actions = function () {
         this.replace_login_button();
         this.fade_in('.zype_contact_button');
     };
 
-    this.replace_login_button = function() {
+    this.replace_login_button = function () {
         jQuery('.zype_loginout_button a').attr('href', this.env.logout_url);
         jQuery('.zype_loginout_button a').html('Sign Out');
         jQuery('.zype_profile_button a').attr('href', this.env.profile_url);
         jQuery('.zype_profile_button a').html('My Account');
     };
 
-    this.replace_login_icon = function() {
+    this.replace_login_icon = function () {
         jQuery('.zype_loginout_icon i').removeClass('fa-sign-in');
         jQuery('.zype_loginout_icon i').addClass('fa-sign-out');
         jQuery('.zype_loginout_icon').attr('href', this.env.logout_url);
     };
 
-    this.fade_in = function(thing_to_fade) {
+    this.fade_in = function (thing_to_fade) {
         jQuery(thing_to_fade).css('visibility', 'visible');
         jQuery(thing_to_fade).fadeTo(250, 1);
     };
 
-    this.logged_out_actions = function() {}
+    this.logged_out_actions = function () {
+    }
 
-    this.subscriber_actions = function() {
+    this.subscriber_actions = function () {
         this.replace_subscribe_button();
     };
 
-    this.replace_subscribe_button = function() {
+    this.replace_subscribe_button = function () {
         jQuery('.zype_subscriber_button').attr('href', this.env.profile_url);
         jQuery('.zype_subscriber_button').html('My Account');
     };
 
-    this.non_subscriber_actions = function() {};
+    this.non_subscriber_actions = function () {
+    };
 
 
-    this.do_videos = function() {
+    this.do_videos = function () {
 
-        function get_name_browser(){
+        function get_name_browser() {
             var ua = navigator.userAgent;
 
             if (ua.search(/Chrome/) > 0) return 'Google Chrome';
@@ -353,42 +361,42 @@ function ZypeWP(env) {
         var browser = get_name_browser();
         var self = this;
 
-        jQuery('.zype_player_container').each(function() {
+        jQuery('.zype_player_container').each(function () {
             var t = jQuery(this);
-            if(browser=="Safari"){
-                    if (t.data('auto-play') == true){
-                        self.get_player(t).then(
-                            function(response){
-                                setTimeout(function(){
-                                    jQuery(".vjs-big-play-button").click()
-                                }, 2000);
-                            }
-                        );
-                    } else {
-                        t.children('.play-placeholder').click(function() {
-                            self.get_player(t).then(function(response){
-                                setTimeout(function(){
-                                    jQuery(".vjs-big-play-button").trigger('click');
-                                }, 2000)
-                            });
-                        });
-                    }
-
+            if (browser == "Safari") {
+                if (t.data('auto-play') == true) {
+                    self.get_player(t).then(
+                        function (response) {
+                            setTimeout(function () {
+                                jQuery(".vjs-big-play-button").click()
+                            }, 2000);
+                        }
+                    );
                 } else {
-                    if (t.data('auto-play') == true) {
-                        self.get_player(t);
-                    } else {
-                        t.children('.play-placeholder').click(function() {
-                            self.get_player(t);
+                    t.children('.play-placeholder').click(function () {
+                        self.get_player(t).then(function (response) {
+                            setTimeout(function () {
+                                jQuery(".vjs-big-play-button").trigger('click');
+                            }, 2000)
                         });
-                    }
+                    });
                 }
+
+            } else {
+                if (t.data('auto-play') == true) {
+                    self.get_player(t);
+                } else {
+                    t.children('.play-placeholder').click(function () {
+                        self.get_player(t);
+                    });
+                }
+            }
 
         });
     };
 
 
-    this.get_player = function(container) {
+    this.get_player = function (container) {
         function abc(resolve, reject) {
             jQuery.ajax({
                 url: this.env.ajax_endpoint,
@@ -400,19 +408,22 @@ function ZypeWP(env) {
                     audio_only: container.data('audio-only'),
                 },
                 context: this,
-                success: function(data) {
-                    this.do_embed_success(data, container).then(function(response){resolve('success');});
+                success: function (data) {
+                    this.do_embed_success(data, container).then(function (response) {
+                        resolve('success');
+                    });
                 },
-                error: function(data) {
+                error: function (data) {
                     this.do_embed_error(data, container);
                 }
             });
         }
+
         var abb = abc.bind(this);
         return new Promise(abb);
     };
 
-    this.do_embed_success = function(data, container) {
+    this.do_embed_success = function (data, container) {
         return new Promise((resolve, reject) => {
             if (typeof data.embed_url == 'undefined') {
                 return;
@@ -435,17 +446,17 @@ function ZypeWP(env) {
         });
     };
 
-    this.do_embed_error = function(data, container) {
+    this.do_embed_error = function (data, container) {
         container.children('.btn-play').remove();
         this.fade_in(container.children('.player-auth-required'));
     };
 
-    this.show_subscription_plans = function() {
+    this.show_subscription_plans = function () {
         jQuery('.dialog-modal-init').magnificPopup('open');
     };
 
     // fires popup subscription modal window
-    this.add_subscriptions_popup_handler = function() {
+    this.add_subscriptions_popup_handler = function () {
         var modal_btn = jQuery('.dialog-modal-button');
         var modal_init = jQuery('.dialog-modal-init');
         var close = jQuery('.popup-close');
@@ -459,13 +470,13 @@ function ZypeWP(env) {
                 removalDelay: 250
             });
 
-            modal_btn.on('click', function(event) {
+            modal_btn.on('click', function (event) {
                 event.preventDefault();
                 self.is_subscriber();
                 return false;
             });
 
-            close.on('click', function(event) {
+            close.on('click', function (event) {
                 event.preventDefault();
                 modal_init.magnificPopup('close');
             });
@@ -474,7 +485,7 @@ function ZypeWP(env) {
 }
 
 var zype_wp;
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     zype_wp = new ZypeWP(zype_js_wp_env).init();
 });
 
@@ -486,7 +497,7 @@ jQuery(document).ready(function() {
  * Copyright 2013 Klaus Hartl
  * Released under the MIT license
  */
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
         define(['jquery'], factory);
@@ -497,7 +508,7 @@ jQuery(document).ready(function() {
         // Browser globals
         factory(jQuery);
     }
-}(function($) {
+}(function ($) {
 
     var pluses = /\+/g;
 
@@ -525,7 +536,8 @@ jQuery(document).ready(function() {
             // If we can't parse the cookie, ignore it, it's unusable.
             s = decodeURIComponent(s.replace(pluses, ' '));
             return config.json ? JSON.parse(s) : s;
-        } catch (e) {}
+        } catch (e) {
+        }
     }
 
     function read(s, converter) {
@@ -533,7 +545,7 @@ jQuery(document).ready(function() {
         return $.isFunction(converter) ? converter(value) : value;
     }
 
-    var config = $.cookie = function(key, value, options) {
+    var config = $.cookie = function (key, value, options) {
 
         // Write
 
@@ -586,13 +598,13 @@ jQuery(document).ready(function() {
 
     config.defaults = {};
 
-    $.removeCookie = function(key, options) {
+    $.removeCookie = function (key, options) {
         if ($.cookie(key) === undefined) {
             return false;
         }
 
         // Must not alter options, thus extending a fresh object...
-        $.cookie(key, '', $.extend({}, options, { expires: -1 }));
+        $.cookie(key, '', $.extend({}, options, {expires: -1}));
         return !$.cookie(key);
     };
 }));

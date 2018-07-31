@@ -4,12 +4,14 @@ namespace ZypeMedia\Providers;
 
 use Themosis\Foundation\ServiceProvider;
 
-class ZypeService extends ServiceProvider {
+class ZypeService extends ServiceProvider
+{
     /**
      * Register plugin library.
      * Define a custom namespace.
      */
-    public function register() {
+    public function register()
+    {
         global $zype_wp_options;
 
         if (file_exists(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Wrapper.php')) {
