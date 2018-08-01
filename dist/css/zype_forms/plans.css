@@ -85,9 +85,6 @@ p.zype-input-wrap > .zype-input-text.zype-card-cvc, p.zype-input-wrap > .zype-in
 }
 
 @media(max-width: 414px) {
-    .zype-btn-price-plan {
-        display: none;
-    }
     .zype-btn-price-plan-mob {
         display: block;
     }
