@@ -65,7 +65,7 @@ $video_url  = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $vid
     <?php endif; ?>
 
     <div class="player-auth-required">
-        <div id="zype_video__auth-close">˟</div>
+        <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
         <div class="player-auth-required-content">
             <div class="login-sub-section">
                 <?php if (!\Auth::logged_in()): ?>

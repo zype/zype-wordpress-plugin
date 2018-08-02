@@ -120,6 +120,7 @@
 }
 
 .site-content .zype_player_container .player-auth-required-content {
+    z-index: 10;
     max-width: 650px;
     padding: 25px 20px;
     cursor: default;
@@ -133,13 +134,11 @@
 }
 
 .player-auth-required #zype_video__auth-close, .player-signup-required #zype_video__auth-close {
+    z-index: 20;
     position: absolute;
     top: 60px;
     right: 50px;
-    width: 26px;
-    height: 26px;
     color: #aaa;
-    font-size: 100px !important;
     font-weight: bold !important;
     display: -webkit-box;
     display: -ms-flexbox;
