@@ -95,7 +95,7 @@
               <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to subscribe.</a></p>
 
               <div class="player-auth-required">
-                  <div id="zype_video__auth-close">X</div>
+                  <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
                   <div class="player-auth-required-content">
                       <div class="login-sub-section">
                           <?php if (!\Auth::logged_in()): ?>

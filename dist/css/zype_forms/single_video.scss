@@ -96,7 +96,7 @@
                     top: -50%;
                     bottom: 20px;
                     transition: top 0.3s ease;
-                    
+
                     h3 {
                         font-size: 24px;
                         line-height: 28px;
@@ -160,25 +160,5 @@
                 }
             }
         }
-    }
-}
-
-#zype_video__auth-close {
-    position: absolute;
-    top: 60px;
-    right: 50px;
-    width: 26px;
-    height: 26px;
-    color: #aaa;
-    font-size: 100px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    line-height: 36px;
-    padding-left: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    &:hover {
-        color: #000;
     }
 }
