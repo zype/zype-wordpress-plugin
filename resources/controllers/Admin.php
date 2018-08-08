@@ -307,12 +307,13 @@ class Admin extends BaseController {
 
         if (wp_verify_nonce($_POST['_wpnonce'], 'zype_braintree')) {
             $new_options   = [
-                'braintree_environment' => empty($_POST['braintree_environment']) ? self::$defaults['braintree_environment'] : $_POST['braintree_environment'],
-                'braintree_merchant_id' => empty($_POST['braintree_merchant_id']) ? self::$defaults['braintree_merchant_id'] : $_POST['braintree_merchant_id'],
-                'braintree_private_key' => empty($_POST['braintree_private_key']) ? self::$defaults['braintree_private_key'] : $_POST['braintree_private_key'],
-                'braintree_public_key'  => empty($_POST['braintree_public_key']) ? self::$defaults['braintree_public_key'] : $_POST['braintree_public_key'],
-                'stripe_pk'             => empty($_POST['stripe_pk']) ? self::$defaults['stripe_pk'] : $_POST['stripe_pk'],
-
+                'braintree_environment'         => empty($_POST['braintree_environment']) ? self::$defaults['braintree_environment'] : $_POST['braintree_environment'],
+                'braintree_merchant_id'         => empty($_POST['braintree_merchant_id']) ? self::$defaults['braintree_merchant_id'] : $_POST['braintree_merchant_id'],
+                'braintree_private_key'         => empty($_POST['braintree_private_key']) ? self::$defaults['braintree_private_key'] : $_POST['braintree_private_key'],
+                'braintree_public_key'          => empty($_POST['braintree_public_key']) ? self::$defaults['braintree_public_key'] : $_POST['braintree_public_key'],
+                'stripe_pk'                     => empty($_POST['stripe_pk']) ? self::$defaults['stripe_pk'] : $_POST['stripe_pk'],
+                'sub_short_code_btn_text'       => empty($_POST['sub_short_code_btn_text']) ? self::$defaults['sub_short_code_btn_text'] : $_POST['sub_short_code_btn_text'],
+                'sub_short_code_redirect_url'   => empty($_POST['sub_short_code_redirect_url']) ? self::$defaults['sub_short_code_redirect_url'] : $_POST['sub_short_code_redirect_url'],
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
