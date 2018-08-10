@@ -67,7 +67,7 @@ class HooksService extends ServiceProvider {
         Asset::add('zype_braintree_api', 'https://js.braintreegateway.com/web/dropin/1.9.4/js/dropin.min.js', false, ZYPE_WP_VERSION, 'all');
         Asset::add('slick-js', 'javascripts/slick/slick.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slider', 'javascripts/slider.js', ['jquery'], ZYPE_WP_VERSION, true);
-        Asset::add('slick', 'javascripts/slick/slick.css', [wp_get_theme()->get('TextDomain') . '-style'], ZYPE_WP_VERSION, true);
+        Asset::add('slick', 'javascripts/slick/slick.css', false, ZYPE_WP_VERSION, true);
         Asset::add('slick-theme', 'javascripts/slick/slick-theme.css', ['slick'], ZYPE_WP_VERSION, 'all');
         Asset::add('magnific-popup', 'css/magnific-popup.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('magnific-popup-js', 'javascripts/jquery.magnific-popup.min.js', ['jquery'], ZYPE_WP_VERSION, true);
