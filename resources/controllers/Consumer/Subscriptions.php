@@ -35,7 +35,7 @@ class Subscriptions extends Base
         exit();
     }
 
-    public function plansView($rootParent)
+    public function plansView($rootParent, $redirect_url = null)
     {
         global $plans;
         $stripe_pk = Config::get('zype.stripe_pk');
@@ -55,7 +55,20 @@ class Subscriptions extends Base
             'title' => $this->title,
             'options' => $this->options,
             'stripe_pk' => $stripe_pk,
-            'root_parent' => $rootParent
+            'root_parent' => $rootParent,
+            'redirect_url' => $redirect_url
+        ]);
+
+        return $content;
+    }
+
+    public function subscribe() {
+        $sub_short_code_btn_text = Config::get('zype.sub_short_code_btn_text');
+        $sub_short_code_redirect_url = Config::get('zype.sub_short_code_redirect_url');
+
+        $content = view('subscribe_button', [
+            'btn_text' => $sub_short_code_btn_text,
+            'redirect_url' => $sub_short_code_redirect_url
         ]);
 
         return $content;
@@ -102,13 +115,13 @@ class Subscriptions extends Base
         exit();
     }
 
-    public function checkoutView($plan_id)
+    public function checkoutView($plan_id, $redirect_url = null)
     {
         global $plan;
         global $braintree_token;
         global $stripe_pk;
         global $videoId;
-		
+
         if (isset($plan_id) && $plan = \Zype::get_plan(filter_var($plan_id, FILTER_SANITIZE_STRING))) {
             $za           = new \ZypeMedia\Services\Auth;
             $consumer_id  = $za->get_consumer_id();
@@ -131,21 +144,22 @@ class Subscriptions extends Base
         }
 
         $title = 'Select a Payment Method';
-		
+
 		$error = false;
 		if ( empty ( $plan->stripe_id ) && empty ( $braintree_token ) ) {
 			$error = 'Sorry, but this plan a temporarily unavailable';
 		} elseif( !empty ( $plan->stripe_id ) && empty ( $stripe_pk ) ) {
 			$error = 'Currently it is not possible to pay through Stripe';
 		}
-		
+
         $content = view('auth.subscription_checkout', [
             'plan' => $plan,
             'braintree_token' => $braintree_token,
             'videoId' => $videoId,
             'stripe_pk' => $stripe_pk,
             'title' => $title,
-			'error' => $error,
+            'error' => $error,
+            'redirect_url' => $redirect_url
         ]);
 
         return $content;

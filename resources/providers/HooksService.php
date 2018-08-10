@@ -74,6 +74,7 @@ class HooksService extends ServiceProvider {
         Asset::add('zype_login', 'css/zype_forms/loginform.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_sign_up', 'css/zype_forms/regform.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_single_video', 'css/zype_forms/single_video.css', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_subscribe_button', 'css/zype_forms/subscription_button.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_plans', 'css/zype_forms/plans.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype-style', 'css/style_plugin.css', ['slick-theme'], '1.0', 'all');
         Asset::add('zype_checkout', 'https://checkout.stripe.com/checkout.js', false, ZYPE_WP_VERSION, 'all');
@@ -95,14 +96,16 @@ class HooksService extends ServiceProvider {
 
         Ajax::listen('zype_auth_markup', [$this, 'zype_auth_markup'], 'both');
         Ajax::listen('zype_login', [$this, 'zype_login'], 'both');
+        Ajax::listen('zype_login_ajax', [$this, 'zype_login_ajax'], 'both');
         Ajax::listen('zype_sign_up', [$this, 'zype_sign_up'], 'both');
+        Ajax::listen('zype_sign_up_ajax', [$this, 'zype_sign_up'], 'both');
         Ajax::listen('zype_forgot_password', [$this, 'zype_forgot_password'], 'both');
     }
 
     public function zype_auth_markup() {
         if (\Input::get('type')) {
             echo do_shortcode(
-                '[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . "\" root_parent=\"" . \Input::get('rootParent') . '"]'
+                '[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . "\" root_parent=\"" . \Input::get('rootParent') . "\" redirect_url=\"" . \Input::get('redirectURL') . '"]'
             );
         }
         exit;
@@ -110,6 +113,10 @@ class HooksService extends ServiceProvider {
 
     public function zype_login() {
         return (new Consumer\Auth())->login_submit_ajax();
+    }
+
+    public function zype_login_ajax() {
+        return (new Consumer\Auth())->login_submit_ajax(false);
     }
 
     public function zype_sign_up() {

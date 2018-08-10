@@ -36,24 +36,27 @@ add_shortcode('zype_auth', function($attrs = array()) {
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
     $subscriptionsController = new Consumer\Subscriptions();
+    $ajax = $attrs['ajax'] == 'true' ? true : false;
+    $redirect_url = $attrs['redirect_url'];
 
     switch ($type) {
         case 'login':
-            return $loginController->login();
+            return $loginController->login($ajax);
         case 'register':
-            return $loginController->signup();
+            return $loginController->signup($ajax);
         case 'forgot':
             return $profileController->forgot_password();
         case 'plans':
-            return $subscriptionsController->plansView($rootParent);
+            return $subscriptionsController->plansView($rootParent, $redirect_url);
         case 'checkout':
-            return $subscriptionsController->checkoutView(Input::get('planid'));
+            return $subscriptionsController->checkoutView(Input::get('planid'), $redirect_url);
     }
 });
 
-add_shortcode('zype_signup', function() {
+add_shortcode('zype_signup', function($attrs = array()) {
+    $ajax = $attrs['ajax'] == 'true' ? true : false;
     $loginController = new Consumer\Auth();
-    return $loginController->signup();
+    return $loginController->signup($ajax);
 });
 
 add_shortcode('zype_forgot', function() {
@@ -97,4 +100,9 @@ add_shortcode('zype_playlist', function($attrs) {
 
     $videos = new Consumer\Videos();
     return $videos->single();
+});
+
+add_shortcode('subscribe', function($attrs) {
+    $subscriptionsController = new Consumer\Subscriptions();
+    return $subscriptionsController->subscribe();
 });

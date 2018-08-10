@@ -21,7 +21,11 @@
 
                   <div class="zype-column-plan">
                     <div class="zype-price-holder">$<?php echo $plan->amount; ?>/<?php if($plan->interval_count >1){echo $plan->interval_count.' '; }?><?php echo substr($plan->interval, 0, 2);  ?><?php if($plan->interval_count >1){echo 's'; }?></div>
-                    <a href="<?php echo get_permalink() . "?zype_auth_type=checkout&planid=" . esc_attr($plan->_id) ?>" class="zype_auth_markup zype-btn-price-plan" data-type="checkout" data-planid="<?php echo esc_attr($plan->_id) ?>" data-root-parent="<?php echo $root_parent; ?>">
+                    <a href="<?php echo get_permalink() . "?zype_auth_type=checkout&planid=" . esc_attr($plan->_id) . "&redirect_url=" . esc_attr($redirect_url) ?>"
+                       class="zype_auth_markup zype-btn-price-plan" data-type="checkout"
+                       data-planid="<?php echo esc_attr($plan->_id) ?>"
+                       data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
+                       data-root-parent="<?php echo $root_parent; ?>">
                         <div class="zype-btn-container-plan">Continue</div>
                     </a>
                   </div>

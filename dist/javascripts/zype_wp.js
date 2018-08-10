@@ -56,7 +56,7 @@ function ZypeWP(env) {
 
     };
 
-    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_root_parent, zype_auth_email, zype_auth_paytype, zype_auth_token) {
+    this.zypeAuthMarkupRequest = function(zype_auth_type, zype_auth_plan_id, zype_root_parent, zype_redirect_url, zype_auth_email, zype_auth_paytype, zype_auth_token) {
         jQuery.ajax({
             url: this.env.ajax_endpoint,
             type: 'get',
@@ -64,7 +64,8 @@ function ZypeWP(env) {
                 action: 'zype_auth_markup',
                 type: zype_auth_type,
                 planid: zype_auth_plan_id ? zype_auth_plan_id : '0',
-                rootParent: zype_root_parent
+                rootParent: zype_root_parent,
+                redirectURL: zype_redirect_url
             },
             success: function(response) {
                 try {
@@ -172,7 +173,7 @@ function ZypeWP(env) {
 
             zype_auth_markup.each(function(i, item) {
                 var $item = jQuery(item);
-                var is_in_modal = !!$item.closest('.player-auth-required').length;
+                var is_in_modal = !!$item.closest('.player-auth-required').length || !!$item.closest('.subscribe-button').length;
 
                 if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
                     $item.on('click', function(e) {
@@ -218,6 +219,7 @@ function ZypeWP(env) {
                             jQuery(this).data('type'),
                             jQuery(this).data('planid'),
                             jQuery(this).data('root-parent'),
+                            jQuery(this).data('redirect-url')
                         );
                     });
                 }
