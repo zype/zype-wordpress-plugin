@@ -100,7 +100,10 @@ $zype_default_options = array(
     'grid_screen_url' => 'grid',
     'grid_screen_parent' => '',
     'invalid_keys' => true,
-    'zype_wp_version' => ZYPE_WP_VERSION
+    'zype_wp_version' => ZYPE_WP_VERSION,
+    'sub_short_code_btn_text' => 'SIGN UP',
+    'sub_short_code_redirect_url' => 'ddd',
+    'sub_short_code_text_after_sub' => 'MY ACCOUNT'
 );
 
 global $zype_wp_options;

@@ -82,6 +82,20 @@ $plans = \Zype::get_all_plans();
                 </p>
               </td>
             </tr>
+            <tr>
+              <th scope="row">
+                <label for="sub-short-code-text-after-sub">Post Subscription Button Text</label>
+              </th>
+              <td>
+                <input type="text" name="sub_short_code_text_after_sub" id="sub-short-code-text-after-sub" class="regular-text" value="<?php echo $options['sub_short_code_text_after_sub']; ?>" maxlength="25">
+                <p class="description">
+                  Enter the text you would like to display on the button AFTER a consumer successfully
+                  completes a subscription. This text will replace the initial "Subscribe Short Code Button Text"
+                  upon successful subscription purchase. The default text is "MY ACCOUNT" however you
+                  can add any text up to a limit of 25 characters.
+                </p>
+              </td>
+            </tr>
           </tbody>
         </table>
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>

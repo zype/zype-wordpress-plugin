@@ -3,7 +3,7 @@
       <?php if (!\Auth::subscriber()): ?>
         <?php echo $btn_text ?>
       <?php else: ?>
-          <?php echo "My Account" ?>
+        <?php echo $btn_text_after_sub ?>
       <?php endif; ?>
   </button>
 </div>
