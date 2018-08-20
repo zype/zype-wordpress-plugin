@@ -8,7 +8,7 @@ if (!class_exists('Themosis')) {
  * Plugin Name: Zype
  * Plugin URI: https://www.zype.com/
  * Description: Using the Zype plugin, you can sell subscriptions for premium video content, track analytics for video engagement, insert playlists and videos using shortcodes, and even broadcast live events with just a few clicks.
- * Version: 0.9.8
+ * Version: 0.9.9
  * Author: Zype
  * Author URI: http://zype.com/
  * Text Domain: plugin-textdomain.
@@ -35,7 +35,7 @@ defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
  *
  */
 defined('ZYPE_MEDIA') ? ZYPE_MEDIA : define('ZYPE_MEDIA', 'plugin-textdomain');
-define('ZYPE_WP_VERSION', '0.9.8');
+define('ZYPE_WP_VERSION', '0.9.9');
 define('ZYPE_PATH', __FILE__ . DS);
 define('ZYPE_WP_OPTIONS', 'zype_wp');
 
