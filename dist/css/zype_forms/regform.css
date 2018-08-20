@@ -207,7 +207,7 @@
 .zype-form-center .zype-title:first-letter {
   text-transform: uppercase !important;
 }
-.player-auth-required {
+.player-auth-required, .subscribe-button {
   font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
 .zype-form-center .zype-button {

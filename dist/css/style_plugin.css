@@ -355,7 +355,9 @@ body:not(.twentyseventeen-front-page) .entry-content {
     justify-content: start;
 }
 
-.site-content .player-auth-required, .site-content .player-signup-required {
+.site-content .player-auth-required,
+.site-content .player-signup-required,
+.site-content .subscribe-button {
     position: fixed;
     top: 0;
     left: 0;
@@ -370,7 +372,8 @@ body:not(.twentyseventeen-front-page) .entry-content {
     display: none;
 }
 
-.site-content .player-auth-required-content {
+.site-content .player-auth-required-content,
+.site-content .subscribe-button-content {
     max-width: 650px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
     padding: 25px 20px;

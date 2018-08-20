@@ -70,4 +70,7 @@ $options = array (
     'playerHost' => 'https://player.zype.com',
     'grid_screen_url' => 'grid',
     'grid_screen_parent' => '',
+    'sub_short_code_btn_text' => 'SIGN UP',
+    'sub_short_code_redirect_url' => '',
+    'sub_short_code_text_after_sub' => 'MY ACCOUNT'
 );

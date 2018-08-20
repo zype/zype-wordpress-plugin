@@ -201,7 +201,7 @@
 
             if (data.success) {
                 $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
-                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button type="submit" class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
 
             $('.zype-checkout-button').prop('disabled', false);
@@ -212,6 +212,16 @@
             console.log(data.errors);
         });
     }
+
+    $(document).on('click', '#zype_modal_close', function(e) {
+        e.preventDefault();
+        var url = '<?php echo $redirect_url ?>';
+        if (url) {
+            window.location.replace(url);
+        } else {
+            window.location.reload();
+        }
+    });
 
     $(window).on('popstate', function() {
         handler.close();

@@ -104,7 +104,9 @@
     display: block;
 }
 
-.site-content .zype_player_container .player-auth-required, .site-content .zype_player_container .player-signup-required {
+.site-content .zype_player_container .player-auth-required,
+.site-content .zype_player_container .player-signup-required
+.site-content .subscribe-button {
     position: fixed;
     top: 0;
     left: 0;
@@ -119,8 +121,8 @@
     display: none;
 }
 
-.site-content .zype_player_container .player-auth-required-content {
-    z-index: 10;
+.site-content .zype_player_container .player-auth-required-content,
+.site-content .subscribe-button-content {
     max-width: 650px;
     padding: 25px 20px;
     cursor: default;
@@ -133,8 +135,7 @@
     margin: 0 auto;
 }
 
-.player-auth-required #zype_video__auth-close, .player-signup-required #zype_video__auth-close {
-    z-index: 20;
+#zype_video__auth-close {
     position: absolute;
     top: 60px;
     right: 50px;
@@ -153,11 +154,12 @@
     transition: all 0.3s ease;
 }
 
-.site-content .zype_player_container .player-auth-required #zype_video__auth-close:hover {
+#zype_video__auth-close:hover {
     color: #000;
 }
 
-.site-content .zype_player_container .player-auth-required-content h3 {
+.site-content .zype_player_container .player-auth-required-content h3
+.site-content .subscribe-button-content h3 {
     font-size: 24px;
     line-height: 28px;
     margin: 0 0 9px;
@@ -167,7 +169,8 @@
     padding-top: 0;
 }
 
-.site-content .zype_player_container .player-auth-required-content .login-sub-section {
+.site-content .zype_player_container .player-auth-required-content .login-sub-section,
+.site-content .subscribe-button-content .login-sub-section, {
     text-align: center;
 }
 
@@ -273,7 +276,8 @@
 }
 
 @media(max-width: 414px) {
-    .site-content .zype_player_container .player-auth-required {
+    .site-content .zype_player_container .player-auth-required,
+    .site-content .subscribe-button, {
         background-color: #fff;
     }
 }
