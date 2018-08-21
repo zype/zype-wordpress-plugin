@@ -12,7 +12,9 @@ class Auth extends Component
 
     public function __construct()
     {
-        if (!isset($_COOKIE['zype_wp'])) {
+        parent::__construct();
+
+        if (!self::$request->cookies->get('zype_wp')) {
             self::initialize_cookie();
         }
     }
@@ -31,7 +33,7 @@ class Auth extends Component
             setcookie('zype_wp', $cookie_e, self::cookie_time(), "/");
         }
 
-        $_COOKIE['zype_wp'] = $cookie_e;
+        self::$request->cookies->set('zype_wp', $cookie_e);
         self::$cookie = $cookie_e;
     }
 
@@ -60,8 +62,8 @@ class Auth extends Component
 
     private static function decrypt_cookie()
     {
-        if (!empty($_COOKIE['zype_wp'])) {
-            self::$cookie = JWT::decode($_COOKIE['zype_wp'], Config::get('zype.cookie_key'), array('HS256'));
+        if (self::$request->cookies->get('zype_wp')) {
+            self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
             self::$cookie = json_decode(json_encode(self::$cookie), true);
         }
 

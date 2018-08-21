@@ -86,7 +86,8 @@ function zype_num_padder($num)
 function zype_video_zobjects($type, $id = null)
 {
     if (!$id) {
-        $id = \Input::get('zype_video_id');
+        $request = \ZypeMedia\Validators\Request::capture();
+        $id = $request->validate('zype_video_id', ['textfield']);
     }
     $zm = new \ZypeMedia\Models\zObject($type);
     $zm->all_by(['video_id' => $id]);
@@ -143,6 +144,7 @@ function zype_player_auth_embed_auto_play($video)
 
 function zype_player_embed($video, $params)
 {
+    $params['options'] = \Config::get('zype');
     (new \ZypeMedia\Models\Player($video))->embed($params);
 }
 
@@ -153,7 +155,9 @@ function zype_est_widget_embed($video)
 
 function zype_audio_only()
 {
-    if ((isset($_GET['audio']) && $_GET['audio'] == 'true') || \Config::get('zype.audio_only_enabled')) {
+    $request = \ZypeMedia\Validators\Request::capture();
+
+    if ($request->validate('audio', ['textfield'], 'false') == 'true' || \Config::get('zype.audio_only_enabled')) {
         return true;
     }
 
@@ -711,6 +715,10 @@ function the_share_buttons($url = null)
     }
 }
 
+function zypeRequest() {
+    $request = ZypeMedia\Validators\Request::capture();
+    return $request;
+}
 
 /*
  * Plugin get asset url.

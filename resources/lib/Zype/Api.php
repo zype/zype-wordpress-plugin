@@ -3,10 +3,10 @@
 class Api
 {
 
-    private static $authClient;
-    private static $resourceClient;
-    private static $resourceClientHttp;
+    private static $authBaseEndpoint;
+    private static $resourceBaseEndpoint;
     private static $options;
+    private static $response;
     private static $body;
 
     /**
@@ -17,13 +17,8 @@ class Api
     public function __construct($options = array())
     {
         self::$options = $options;
-
-        $authPoint = trim(self::$options['authpoint'], '/') . '/';
-        $endPoint = trim(self::$options['endpoint'], '/') . '/';
-
-        self::$authClient = $authPoint;
-        self::$resourceClient = $endPoint;
-        self::$resourceClientHttp = str_replace('https://', 'http://', $endPoint);
+        self::$authBaseEndpoint = trim(self::$options['authpoint'], '/') . '/';
+        self::$resourceBaseEndpoint = trim(self::$options['endpoint'], '/') . '/';
     }
 
     public static function __callStatic($name, $arguments)
@@ -40,7 +35,7 @@ class Api
                         $_SESSION['zype_errors'] = [];
                     }
 
-                    if ($error = self::$body->getMessage()) {
+                    if ($error = self::$response->getMessage()) {
                         array_push($_SESSION['zype_errors'], $error);
                     }
                 }
@@ -53,12 +48,14 @@ class Api
     private static function request($method, $endpoint, $query, $is_auth = false, $cache = false)
     {
         if ($is_auth) {
-            $url = self::$authClient . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
+            $url = self::$authBaseEndpoint . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
         } else {
-            $url = self::$resourceClient . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
+            $url = self::$resourceBaseEndpoint . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
 
             if ($cache && $response = get_transient('zype_api_' . substr(md5($url), 0, 15))) {
-                return json_decode($response);
+                self::$response = new Response($response);
+                self::$body = self::$response->getBody();
+                return self::$response;
             }
         }
 
@@ -73,10 +70,10 @@ class Api
             set_transient('zype_api_' . substr(md5($url), 0, 15), wp_remote_retrieve_body($response), (self::$options['cache_time'] ?: 86400));
         }
 
-        $response = new Response(wp_remote_retrieve_body($response));
-        self::$body = $response->getBody();
+        self::$response = new Response(wp_remote_retrieve_body($response));
+        self::$body = self::$response->getBody();
 
-        return self::$body;
+        return self::$response;
     }
 
 

@@ -24,6 +24,7 @@ class Player extends Base
 
     public function do_embed($params)
     {
+        $params['options'] = $this->options;
         print view('partial/player_embed', $params);
     }
 

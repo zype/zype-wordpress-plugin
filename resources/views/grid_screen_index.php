@@ -1,29 +1,6 @@
 <div class="grid-screen grid_screen-container">
-    <?php
-    if (!empty($_GET['zype_parent'])) {
-        $parent_id = $_GET['zype_parent'];
-    }
-
-    $get_all = !empty($_GET['zype_get_all']) ? $_GET['zype_get_all'] : 0;
-
-    if (!empty($_GET['zype_str'])) {
-        $page = $_GET['zype_str'];
-    } else {
-        $page = 1;
-    }
-
-    if ($get_all != 0 and $get_all != 2) {
-        exit("can't load page");
-    }
-
-    $pagination = Config::get('zype.playlist_pagination', true);
-
-    $i = 0;
-    $j = 0;
-    ?>
-
     <div class="content-box grid_screen-box">
-        <?php if ((!empty($_GET['zype_items']) && $_GET['zype_items'] > 0 || $get_all == 2) && $parent_playlist): ?>
+        <?php if (($zype_items > 0 || $get_all == 2) && $parent_playlist): ?>
             <h2 class="playlist-view-title"><?php echo $parent_playlist->title ?></h2>
         <?php endif ?>
 
@@ -207,9 +184,9 @@
         $ppage = $page - 1; ?>
         <div class="pages" style="heignt:30px; width:400px; float:top">
             <?php if ($get_all == 2): ?>
-                <?php for ($i = 1; $i <= ceil(\Input::get('zype_items', 0) / $per_page); $i++): ?>
-                    <a href="<?php echo get_permalink() . '?zype_get_all=' . $get_all . (\Input::get('zype_parent', 0) ? '&zype_parent=' . \Input::get('zype_parent', 0) : '') . '&zype_str=' . $i . (\Input::get('zype_items', 0) ? '&zype_items=' . \Input::get('zype_items', 0) : '') ?>"
-                       class="grid-paginate <?php echo(\Input::get('zype_str', 0) == $i ? ' active' : '') ?>"><?php echo $i ?></a>
+                <?php for ($i = 1; $i <= ceil($zype_items / $per_page); $i++): ?>
+                    <a href="<?php echo get_permalink() . '?zype_get_all=' . $get_all . ($parent_id ? '&zype_parent=' . $parent_id : '') . '&zype_str=' . $i . ($zype_items ? '&zype_items=' . $zype_items : '') ?>"
+                       class="grid-paginate <?php echo($page == $i ? ' active' : '') ?>"><?php echo $i ?></a>
                 <?php endfor ?>
             <?php endif ?>
         </div>

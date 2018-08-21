@@ -4,11 +4,11 @@ use Themosis\Facades\Config;
 use Themosis\Facades\Route;
 
 // Prepare urls
-$rss_url = Config::get('zype.rss_url');
-$profile_url = Config::get('zype.profile_url');
-$subscribe_url = Config::get('zype.subscribe_url');
-$device_link_url = Config::get('zype.device_link_url');
-$auth_url = Config::get('zype.auth_url');
+$rss_url = Config::get('zype.rss_url') && is_string(Config::get('zype.rss_url'))? Config::get('zype.rss_url'): 'rss';
+$profile_url = Config::get('zype.profile_url') && is_string(Config::get('zype.profile_url'))? Config::get('zype.profile_url'): 'profile';
+$subscribe_url = Config::get('zype.subscribe_url') && is_string(Config::get('zype.subscribe_url'))? Config::get('zype.subscribe_url'): 'subscribe';
+$device_link_url = Config::get('zype.device_link_url') && is_string(Config::get('zype.device_link_url'))? Config::get('zype.device_link_url'): 'link';
+$auth_url = Config::get('zype.auth_url') && is_string(Config::get('zype.auth_url'))? Config::get('zype.auth_url'): 'sign-in';
 
 /**
  * Plugin custom routes.

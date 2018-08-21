@@ -10,13 +10,17 @@ class Request extends ThemosisRequest
 
     public function validate($key, $rules = [], $default = '')
     {
-        $value = Validator::single($this->get($key), $rules);
+        return $this->sanitize($this->get($key), $rules, $default);
+    }
 
-        if (!$value && $default) {
-            return $default;
-        }
+    public function validateServer($key, $rules = [], $default = '')
+    {
+        return $this->sanitize($this->server->get($key), $rules, $default);
+    }
 
-        return $value;
+    public function validateCookie($key, $rules = [], $default = '')
+    {
+        return $this->sanitize($this->cookies->get($key), $rules, $default);
     }
 
     public function validateAll($rules = [], $default = '')
@@ -24,14 +28,21 @@ class Request extends ThemosisRequest
         $data = [];
 
         foreach ($this->all() as $key => $val) {
-            $data[$key] = Validator::single($val, $rules);
-
-            if (!$data[$key] && $default) {
-                $data[$key] = $default;
-            }
+            $data[$key] = $this->sanitize($val, $rules, $default);
         }
 
         return $data;
+    }
+
+    public function sanitize($data, $rules = [], $default = '')
+    {
+        $value = Validator::single($data, $rules);
+
+        if (!$value && $default) {
+            return $default;
+        }
+
+        return $value;
     }
 
 }

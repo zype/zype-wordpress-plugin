@@ -2,8 +2,6 @@
 
 namespace ZypeMedia\Controllers;
 
-use Themosis\Facades\Config;
-
 class Admin extends Controller
 {
 
@@ -164,7 +162,6 @@ class Admin extends Controller
         if (!$this->check_stripe_pk())
             $invalid_keys[] = 'stripe_pk';
 
-        // var_dump($this->options,$invalid_keys);exit;
         if (!empty($invalid_keys)) {
             $this->update_option('invalid_key', $invalid_keys);
         } else {
@@ -290,7 +287,7 @@ class Admin extends Controller
         }
 
         echo view('admin.categories', [
-            'options' => Config::get('zype'),
+            'options' => $this->options,
             'categories' => $categories,
             'feed_settings' => $feed_settings,
             'available_feeds' => $available_feeds,

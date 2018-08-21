@@ -105,7 +105,6 @@ $zype_default_options = array(
     'sub_short_code_text_after_sub' => 'MY ACCOUNT'
 );
 
-global $zype_wp_options;
 $zype_wp_options = get_option(ZYPE_WP_OPTIONS);
 $zype_check_keys = true;
 

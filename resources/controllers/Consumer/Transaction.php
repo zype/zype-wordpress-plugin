@@ -14,8 +14,6 @@ class Transaction extends Base
 
     public function plans()
     {
-        global $pass_plans;
-
         $pass_plans = \Zype::get_all_pass_plans();
 
         $this->title = 'Select a Plan';
@@ -24,12 +22,6 @@ class Transaction extends Base
 
     public function checkout()
     {
-        global $pass_plan;
-        global $video;
-        global $braintree_token;
-        global $consumer_id;
-        global $videoId;
-
         $this->processTransactionSubmit();
 
         if ($videoId = $this->request->validate('video_id', ['textfield'])) {

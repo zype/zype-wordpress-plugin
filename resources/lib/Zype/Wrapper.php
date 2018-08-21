@@ -6,13 +6,17 @@ require_once(__DIR__ . '/Api.php');
 require_once(__DIR__ . '/Response.php');
 
 use Api;
+use ZypeMedia\Validators\Request;
 
 class Wrapper
 {
     private static $options = array();
+    private static $request = array();
 
     public function __construct($options = [])
     {
+        self::$request = Request::capture();
+
         if (!$options) {
             require_once 'config.php';
         }
@@ -57,8 +61,8 @@ class Wrapper
 
     private static function is_sort()
     {
-        if (isset($_GET['sort'])) {
-            return $_GET['sort'];
+        if (self::$request->get('sort')) {
+            return self::$request->validate('sort', ['textfield']);
         }
 
         return false;
@@ -123,8 +127,8 @@ class Wrapper
 
     private static function is_search()
     {
-        if (isset($_GET['search'])) {
-            return $_GET['search'];
+        if (self::$request->get('search')) {
+            return self::$request->validate('search', ['textfield']);
         }
 
         return false;

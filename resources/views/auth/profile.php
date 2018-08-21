@@ -9,37 +9,37 @@
                 <div class="user-profile-wrap__block">
                     <ul class="user-action user-profile-wrap__menu">
                         <li class="profile active">
-                            <a href="<?php echo home_url(\Config::get('zype.profile_url')) ?>/">
+                            <a href="<?php echo home_url($options['profile_url']) ?>/">
                                 <span class="ico"><i class="fa fa-fw fa-user"></i></span>
                                 <span class="text">Profile</span>
                             </a>
                         </li>
                         <li class="change-password">
-                            <a href="<?php echo home_url(\Config::get('zype.profile_url')) ?>/change-password/">
+                            <a href="<?php echo home_url($options['profile_url']) ?>/change-password/">
                                 <span class="ico"><i class="fa fa-fw fa-lock"></i></span>
                                 <span class="text">Change Password</span>
                             </a>
                         </li>
                         <!-- <li class="rss-feeds">
-                          <a href="<!?php echo home_url(\Config::get('zype.profile_url')) ?>/rss-feeds/">
+                          <a href="<!?php echo home_url($options['profile_url']) ?>/rss-feeds/">
                             <span class="ico"><i class="fa fa-fw fa-rss"></i></span>
                             <span class="text">RSS Feeds</span>
                           </a>
                         </li> -->
                         <li class="subscription">
-                            <a href="<?php echo home_url(\Config::get('zype.profile_url')) ?>/subscription/">
+                            <a href="<?php echo home_url($options['profile_url']) ?>/subscription/">
                                 <span class="ico"><i class="fa fa-fw fa-dollar"></i></span>
                                 <span class="text">Subscription</span>
                             </a>
                         </li>
                         <li class="link-device">
-                            <a href="<?php echo home_url(\Config::get('zype.device_link_url')) ?>/">
+                            <a href="<?php echo home_url($options['device_link_url']) ?>/">
                                 <span class="ico"><i class="fa fa-fw fa-link"></i></span>
                                 <span class="text">Link Device</span>
                             </a>
                         </li>
                         <li class="link-device">
-                            <a href="<?php echo home_url(\Config::get('zype.logout_url')) ?>/">
+                            <a href="<?php echo home_url($options['logout_url']) ?>/">
                                 <span class="ico"><i class="fa fa-fw fa-sign-out"></i></span>
                                 <span class="text">Logout</span>
                             </a>

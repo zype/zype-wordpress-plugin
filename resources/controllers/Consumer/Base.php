@@ -8,6 +8,7 @@ use ZypeMedia\Controllers\Controller;
 class Base extends Controller
 {
     public $template = null;
+    public $zype_search = [];
 
     public function __construct()
     {
@@ -25,21 +26,16 @@ class Base extends Controller
 
     public function search()
     {
-        global $zype_search;
-
-        $zype_search = [];
-        $zype_search['is_search'] = false;
+        $this->zype_search['is_search'] = false;
 
         if ($search = $this->request->validate('search', ['textfield'])) {
-            $zype_search['term'] = $search;
-            $zype_search['is_search'] = true;
+            $this->zype_search['term'] = $search;
+            $this->zype_search['is_search'] = true;
         }
     }
 
     public function sort()
     {
-        global $zype_sort;
-
         $zype_sort = [];
         $zype_sort['is_sorted'] = false;
 
@@ -105,10 +101,8 @@ class Base extends Controller
 
     public function add_body_class($classes)
     {
-        global $zype_search;
-
         $classes[] = $this->template;
-        if ($zype_search['is_search'] === true) {
+        if ($this->zype_search['is_search'] === true) {
             $classes[] = 'page-search';
         }
         if (isset($this->title) && $this->template != 'plans' && $this->template != 'single') {
@@ -136,7 +130,7 @@ class Base extends Controller
 
     public function canonical_url($url)
     {
-        $url = site_url() . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING);
+        $url = site_url() . $this->request->validateServer('REQUEST_URI', ['textfield']);
 
         return $url;
     }
@@ -146,7 +140,7 @@ class Base extends Controller
         $fields = [];
         foreach ($names as $name) {
             if ($this->request->get($name)) {
-                $fields[$name] = filter_var($this->request->get($name), FILTER_SANITIZE_STRING);
+                $fields[$name] = $this->request->validate($name, ['textfield']);
             }
         }
 

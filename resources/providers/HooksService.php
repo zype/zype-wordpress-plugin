@@ -27,6 +27,7 @@ class HooksService extends ServiceProvider
     {
         $this->auther = new Auth();
         $this->request = Request::capture();
+        $this->options = Config::get('zype');
 
         // Filters
         Filter::add('zype_url', [$this, 'zype_url']);
@@ -36,8 +37,8 @@ class HooksService extends ServiceProvider
         // Zype assets
         Asset::add('zype_checkoutSuccess', 'javascripts/jquery.maskedinput.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
         Asset::add('zype_wp_js', 'javascripts/zype_wp.js', ['jquery'], ZYPE_WP_VERSION, true);
-        Asset::add('zype_stripe_api', 'https://js.stripe.com/v2/stripe.js', false, ZYPE_WP_VERSION, 'all');
-        Asset::add('zype_braintree_api', 'https://js.braintreegateway.com/web/dropin/1.9.4/js/dropin.min.js', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_stripe_api', 'javascripts/stripe.js', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_braintree_api', 'javascripts/dropin.min.js', false, ZYPE_WP_VERSION, 'all');
         Asset::add('slick-js', 'javascripts/slick/slick.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slider', 'javascripts/slider.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('slick', 'javascripts/slick/slick.css', false, ZYPE_WP_VERSION, true);
@@ -50,7 +51,7 @@ class HooksService extends ServiceProvider
         Asset::add('zype_subscribe_button', 'css/zype_forms/subscription_button.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_plans', 'css/zype_forms/plans.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype-style', 'css/style_plugin.css', ['slick-theme'], '1.0', 'all');
-        Asset::add('zype_checkout', 'https://checkout.stripe.com/checkout.js', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_checkout', 'javascripts/checkout.js', false, ZYPE_WP_VERSION, 'all');
 
         // Zype actions
         Action::add('wp_footer', [$this, 'inlineScripts']);
@@ -66,7 +67,6 @@ class HooksService extends ServiceProvider
         Ajax::listen('zype_update_profile', [$this, 'update_profile'], 'both');
         Ajax::listen('zype_update_password', [$this, 'update_password'], 'both');
         Ajax::listen('zype_flash_messages', [$this, 'get_messages'], 'both');
-
         Ajax::listen('zype_auth_markup', [$this, 'zype_auth_markup'], 'both');
         Ajax::listen('zype_login', [$this, 'zype_login'], 'both');
         Ajax::listen('zype_login_ajax', [$this, 'zype_login_ajax'], 'both');
@@ -77,8 +77,8 @@ class HooksService extends ServiceProvider
 
     public function zype_url($page)
     {
-        if (Config::get("zype.{$page}_url")) {
-            return home_url(Config::get("zype.{$page}_url"));
+        if (!empty($this->options["{$page}_url"])) {
+            return home_url($this->options["{$page}_url"]);
         }
 
         return home_url();
@@ -86,7 +86,7 @@ class HooksService extends ServiceProvider
 
     public function zype_zobject_url($zobject)
     {
-        if (in_array($zobject, Config::get("zype.zobjects"))) {
+        if (in_array($zobject, $this->options["zobjects"])) {
             return home_url($zobject);
         }
 
@@ -95,7 +95,7 @@ class HooksService extends ServiceProvider
 
     public function zype_category_url($category, $value)
     {
-        $cats = Config::get("zype.categories") ?: [];
+        $cats = !empty($this->options["categories"])? $this->options["categories"]: [];
 
         if (array_key_exists($category, $cats)
             && array_key_exists($value, $cats[$category])
@@ -110,9 +110,9 @@ class HooksService extends ServiceProvider
 
     public function zype_auth_markup()
     {
-        if (\Input::get('type')) {
+        if ($this->request->get('type')) {
             echo do_shortcode(
-                '[zype_auth type="' . \Input::get('type') . "\" plan_id=\"" . \Input::get('planid') . "\" root_parent=\"" . \Input::get('rootParent') . "\" redirect_url=\"" . \Input::get('redirectURL') . '"]'
+                '[zype_auth type="' . $this->request->validate('type', ['textfield']) . "\" plan_id=\"" . $this->request->validate('planid', ['textfield']) . "\" root_parent=\"" . $this->request->validate('rootParent', ['textfield']) . "\" redirect_url=\"" . $this->request->validate('redirectURL', ['textfield']) . '"]'
             );
         }
         exit;
@@ -167,7 +167,7 @@ class HooksService extends ServiceProvider
 
         (new Auth)->sync_cookie();
 
-        wp_redirect(home_url(Config::get('zype.profile_url')));
+        wp_redirect(home_url($this->options['profile_url']));
         exit;
     }
 
@@ -212,7 +212,7 @@ class HooksService extends ServiceProvider
             $updated = \Zype::update_consumer($consumer_id, $access_token, $fields);
         }
 
-        wp_redirect(home_url(Config::get('zype.profile_url') . "/change-password"));
+        wp_redirect(home_url($this->options['profile_url'] . "/change-password"));
         exit;
     }
 
@@ -274,7 +274,9 @@ class HooksService extends ServiceProvider
 
     public function inlineScripts()
     {
-        print view('scripts');
+        print view('scripts', [
+            'options' => $this->options
+        ]);
     }
 
     public function logout()
@@ -302,7 +304,7 @@ class HooksService extends ServiceProvider
 
         $videoId = isset($post['video_id']) ? $post['video_id'] : 'null';
         $autoplay = 'autoplay=true';
-        $key = 'api_key=' . Config::get('zype.player_key');
+        $key = 'api_key=' . $this->options['player_key'];
         $audio_only = '';
 
         if (isset($post['auto_play']) && $post['auto_play'] == 'false') {
@@ -326,7 +328,7 @@ class HooksService extends ServiceProvider
 
         $res = [
             'audio_only' => $post['audio_only'],
-            'embed_url' => Config::get('zype.playerHost') . '/embed/' . $videoId . '.js?' . $key . '&' . $autoplay . $audio_only,
+            'embed_url' => $this->options['playerHost'] . '/embed/' . $videoId . '.js?' . $key . '&' . $autoplay . $audio_only,
         ];
 
         header("Content-type:application/json");

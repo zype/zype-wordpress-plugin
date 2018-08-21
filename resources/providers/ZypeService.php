@@ -3,6 +3,7 @@
 namespace ZypeMedia\Providers;
 
 use Themosis\Foundation\ServiceProvider;
+use Themosis\Facades\Config;
 
 class ZypeService extends ServiceProvider
 {
@@ -12,8 +13,6 @@ class ZypeService extends ServiceProvider
      */
     public function register()
     {
-        global $zype_wp_options;
-
         if (file_exists(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Wrapper.php')) {
             require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Wrapper.php');
         }
@@ -24,6 +23,6 @@ class ZypeService extends ServiceProvider
 
         class_alias('Zype\Core\Wrapper', 'Zype', true);
 
-        new \Zype($zype_wp_options);
+        new \Zype(Config::get('zype'));
     }
 }
