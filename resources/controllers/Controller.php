@@ -4,6 +4,7 @@ namespace ZypeMedia\Controllers;
 
 use Themosis\Route\BaseController;
 use ZypeMedia\Validators\Request;
+use Themosis\Facades\Config;
 
 class Controller extends BaseController
 {
@@ -13,10 +14,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        global $zype_wp_options;
-        $this->options = $zype_wp_options;
+        $this->options = Config::get('zype');
         $this->request = Request::capture();
-        // $this->request = $GLOBALS['themosis']->container->request;
     }
 
 }

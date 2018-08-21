@@ -15,9 +15,6 @@ class zObjects extends Base
     public function index()
     {
         $type = $this->type . 's';
-        global $$type;
-        global $zype_pagination;
-
         $zm = new \ZypeMedia\Models\zObject($this->type);
         $zm->all([
             'per_page' => $this->per_page,
@@ -39,8 +36,6 @@ class zObjects extends Base
     public function single()
     {
         $type = $this->type;
-        global $$type;
-        global $videos;
 
         $id = $this->request->validate('zype_zobject_id', ['textfield']);
         $zm = new \ZypeMedia\Models\zObject($this->type);

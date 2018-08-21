@@ -39,7 +39,7 @@
                             </a>
                         </li>
                         <li class="link-device">
-                            <a href="<?php echo home_url(\Config::get('zype.logout_url')) ?>/">
+                            <a href="<?php echo home_url($options['logout_url']) ?>/">
                                 <span class="ico"><i class="fa fa-fw fa-sign-out"></i></span>
                                 <span class="text">Logout</span>
                             </a>

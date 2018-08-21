@@ -2,7 +2,6 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
-use Themosis\Facades\Config;
 use ZypeMedia\Services\Braintree;
 
 class Profile extends Base
@@ -16,12 +15,9 @@ class Profile extends Base
     public function profile()
     {
         if (!\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.auth_url')));
+            wp_redirect(home_url($this->options['auth_url']));
             exit;
         }
-
-        global $consumer;
-        global $braintree_token;
 
         $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
@@ -33,10 +29,11 @@ class Profile extends Base
             $braintree_token = (new Braintree)->generateBraintreeToken($braintreeId);
         }
 
-        $title = ucfirst(Config::get('zype.profile_url'));
+        $title = ucfirst($this->options['profile_url']);
 
         print view('auth.profile', [
             'title' => $title,
+            'options' => $this->options,
             'consumer' => $consumer
         ]);
         exit;
@@ -44,14 +41,13 @@ class Profile extends Base
 
     public function rss_feeds()
     {
-        global $zype_rss_links;
         $za = new \ZypeMedia\Services\Auth;
         $rss_token = $za->get_rss_token();
         $rss_urls = [];
         $zype_rss_links = [];
-        $rss_urls['default'] = get_zype_url(Config::get('zype.rss_url')) . '/' . $rss_token . '/';
+        $rss_urls['default'] = get_zype_url($this->options['rss_url']) . '/' . $rss_token . '/';
 
-        foreach (Config::get('zype.categories') as $category => $values) {
+        foreach ($this->options['categories'] as $category => $values) {
             if (is_array($values)) {
                 foreach ($values as $value => $ops) {
                     if (isset($ops['url']) && !empty($ops['url'])) {
@@ -61,7 +57,7 @@ class Profile extends Base
                     }
 
                     if (isset($ops['rss'])) {
-                        $rss_urls[$category . '%%' . $value] = get_zype_category_url($category, $value) . '/' . Config::get('zype.rss_url') . '/' . $rss_token . '/';
+                        $rss_urls[$category . '%%' . $value] = get_zype_category_url($category, $value) . '/' . $this->options['rss_url'] . '/' . $rss_token . '/';
                     }
                 }
             }
@@ -99,7 +95,7 @@ class Profile extends Base
     public function change_password()
     {
         if (!\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.auth_url')));
+            wp_redirect(home_url($this->options['auth_url']));
             exit;
         }
 
@@ -181,10 +177,8 @@ class Profile extends Base
 
     public function reset_password($hash = '')
     {
-        global $zype_password_token;
         $zype_password_token = $hash;
 
-        global $zype_message;
         $zype_message = get_zype_form_message();
 
         $title = 'Reset Password';
@@ -223,7 +217,7 @@ class Profile extends Base
                             $username = $email;
 
                             $auther->login($username, $new_password);
-                            wp_redirect(home_url(Config::get('zype.profile_url')));
+                            wp_redirect(home_url($this->options['profile_url']));
                             exit();
                         } else {
                             zype_form_message('times', 'There was a problem updating your account. Please request a new reset token and try again.');
@@ -277,17 +271,15 @@ class Profile extends Base
     public function subscription()
     {
         if (!\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.auth_url')));
+            wp_redirect(home_url($this->options['auth_url']));
             exit;
         }
-
-        global $zd;
 
         $zd = [];
         $za = new \ZypeMedia\Services\Auth;
         $zd['consumer_id'] = $za->get_consumer_id();
         $zd['email'] = $za->get_email();
-        $zd['stripe_pk'] = Config::get('zype.stripe_pk');
+        $zd['stripe_pk'] = $this->options['stripe_pk'];
 
         $zd['subscription'] = \Zype::get_consumer_subscription($zd['consumer_id']);
         if (!empty($zd['subscription'])) {
@@ -311,6 +303,7 @@ class Profile extends Base
 
         print view('auth.subscription', [
             'title' => $title,
+            'options' => $this->options,
             'zd' => $zd,
             'za' => $za
         ]);
@@ -354,7 +347,6 @@ class Profile extends Base
 
         $subscription = \Zype::get_consumer_subscription($consumer_id);
 
-        global $zd;
         $zd = [];
         $zd['subscription'] = $subscription;
 
@@ -434,14 +426,15 @@ class Profile extends Base
     public function device_link()
     {
         if (!\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.auth_url')));
+            wp_redirect(home_url($this->options['auth_url']));
             exit;
         }
 
         $title = 'Link Device';
 
         print view('auth.device_link', [
-            'title' => $title
+            'title' => $title,
+            'options' => $this->options,
         ]);
         exit;
     }

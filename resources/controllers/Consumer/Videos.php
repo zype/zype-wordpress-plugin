@@ -26,9 +26,6 @@ class Videos extends Base
 
     public function index()
     {
-        global $videos;
-        global $zype_pagination;
-
         $vm = new Video;
         $vm->all([
             'per_page' => self::$per_page,
@@ -50,10 +47,6 @@ class Videos extends Base
 
     public function single($id = false, $view = 'full')
     {
-        global $video;
-        global $is_subscriber;
-        global $hasUserAccessToVideo;
-
         $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
 
         if (!$id) {

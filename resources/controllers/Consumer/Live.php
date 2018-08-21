@@ -15,10 +15,7 @@ class Live extends Base
 
     public function show()
     {
-        global $livestream;
-        global $zype_livestream_auth_required;
-
-        $zype_livestream_auth_required = Config::get('zype.livestream_authentication_required');
+        $zype_livestream_auth_required = $this->options['livestream_authentication_required'];
 
         $vm = new \ZypeMedia\Models\Video;
         $by = ['on_air' => 'true'];

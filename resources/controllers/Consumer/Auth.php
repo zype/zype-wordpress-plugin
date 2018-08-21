@@ -2,8 +2,6 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
-use Themosis\Facades\Config;
-
 class Auth extends Base
 {
     public function __construct()
@@ -62,7 +60,7 @@ class Auth extends Base
             echo json_encode(array(
                 'status' => !sizeof($errors) ? true : false,
                 'errors' => $errors,
-                'redirect' => home_url(Config::get('zype.profile_url'))
+                'redirect' => home_url($this->options['profile_url'])
             ));
             exit();
         }
@@ -71,7 +69,7 @@ class Auth extends Base
     public function auth_page()
     {
         if (\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.profile_url')));
+            wp_redirect(home_url($this->options['profile_url']));
             exit;
         }
 
@@ -100,12 +98,7 @@ class Auth extends Base
 
     public function signup()
     {
-        global $zype_message;
-
         if ($this->request->method() == 'POST') {
-            global $zype_signup_name;
-            global $zype_signup_email;
-
             $zype_signup_email = $this->request->validate('email', ['email']);
             $zype_signup_name = $this->request->validate('name', ['textfield']);
 
@@ -115,7 +108,7 @@ class Auth extends Base
         $zype_message = $this->form_message;
 
         $terms_link = false;
-        $terms_link_opt = trim(Config::get('zype.terms_url'));
+        $terms_link_opt = trim($this->options['terms_url']);
         if ($terms_link_opt) {
             if (parse_url($terms_link_opt, PHP_URL_SCHEME))
                 $terms_link = $terms_link_opt;

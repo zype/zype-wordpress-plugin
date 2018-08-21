@@ -23,6 +23,11 @@ class Response
         throw new \Exception("Property not exists");
     }
 
+    public function __isset($key = false)
+    {
+        return $key && property_exists($this->data, $key);
+    }
+
     public function getMessage()
     {
         if (!empty($this->data->error)) {

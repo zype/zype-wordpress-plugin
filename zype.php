@@ -102,7 +102,6 @@ $zype_default_options = array(
     'zype_wp_version' => ZYPE_WP_VERSION
 );
 
-global $zype_wp_options;
 $zype_wp_options = get_option(ZYPE_WP_OPTIONS);
 $zype_check_keys = true;
 

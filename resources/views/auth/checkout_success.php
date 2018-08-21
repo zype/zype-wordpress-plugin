@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="<?php echo asset_url('javascripts/bootstrap.min.js') ?>"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/jquery.main.js"></script>
 
     <?php do_action('zype_js_wp_env'); ?>

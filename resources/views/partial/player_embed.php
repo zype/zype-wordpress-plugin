@@ -3,12 +3,12 @@
 <?php
 $auto_play_ = $auto_play ? '&autoplay=true' : '&autoplay=false';
 $audio_only_ = $audio_only ? '&audio=true' : '';
-$key = 'api_key=' . Themosis\Facades\Config::get('zype.player_key');
+$key = 'api_key=' . $options['player_key'];
 $hasUserAccessToVideo = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
 if (\Auth::logged_in() && $hasUserAccessToVideo) {
     $key = 'access_token=' . \Auth::get_access_token();
 }
-$video_url = Themosis\Facades\Config::get('zype.playerHost') . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
+$video_url = $options['playerHost'] . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
 ?>
 
 <div>

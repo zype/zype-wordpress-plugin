@@ -15,7 +15,6 @@ class Subscriptions extends Base
 
     public function plans()
     {
-        global $plans;
         $plan = [];
         $this->options = Config::get('zype');
         if (isset($this->options['subscribe_select'])) {
@@ -37,7 +36,6 @@ class Subscriptions extends Base
 
     public function plansView($rootParent)
     {
-        global $plans;
         $stripe_pk = Config::get('zype.stripe_pk');
         $plan = [];
         $this->options = Config::get('zype');
@@ -63,11 +61,6 @@ class Subscriptions extends Base
 
     public function checkout()
     {
-        global $plan;
-        global $braintree_token;
-        global $stripe_pk;
-        global $videoId;
-
         $plan_id = $this->request->validate('plan_id', ['textfield']);
 
         if ($plan_id && $plan = \Zype::get_plan($plan_id)) {
@@ -104,14 +97,11 @@ class Subscriptions extends Base
         exit();
     }
 
-    public function checkoutView($plan_id)
+    public function checkoutView($plan_id = false)
     {
-        global $plan;
-        global $braintree_token;
-        global $stripe_pk;
-        global $videoId;
+        $plan_id = $this->request->sanitize($plan_id, ['textfield']);
 
-        if (isset($plan_id) && $plan = \Zype::get_plan(filter_var($plan_id, FILTER_SANITIZE_STRING))) {
+        if ($plan_id && $plan = \Zype::get_plan($plan_id)) {
             $za = new \ZypeMedia\Services\Auth;
             $consumer_id = $za->get_consumer_id();
             $access_token = $za->get_access_token();

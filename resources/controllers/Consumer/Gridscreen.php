@@ -9,43 +9,34 @@ class Gridscreen extends Base
     public static $content = array();
     public static $subcontent = array();
     public static $help = array();
-    public static $parent_id = 0;
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function index($adm = null)
+    public function index($adm = null, $parent_id = false)
     {
-        global $parent_id;
-        global $content;
-        global $subcontent;
-        global $pages;
-        global $video_url;
-        global $items;
-
         $per_page = 5;
 
-        self::$parent_id = $this->request->validate('zype_parent', ['textfield'], 0);
-
-        if ($parent_id && !self::$parent_id) {
-            self::$parent_id = $parent_id;
+        if ($parent_id && $this->request->get('zype_parent')) {
+            $parent_id = $this->request->validate('zype_parent', ['textfield'], 0);
         }
+
+        if (!$parent_id) {
+            $parent_id = Config::get('zype.grid_screen_parent');
+            $items = -1;
+        }
+
+        $app_key = Config::get('zype.app_key');
+        $get_all = $this->request->validate('zype_get_all', ['num'], 0);
+
+        $parent_playlist = \Zype::get_playlist($parent_id);
+        $items = !empty($parent_playlist->playlist_item_count)? $parent_playlist->playlist_item_count: -1;
 
         if (!$items && $this->request->validate('zype_items', ['num'], 0)) {
             $items = $this->request->validate('zype_items', ['num'], 0);
         }
-
-        if (!self::$parent_id) {
-            self::$parent_id = Config::get('zype.grid_screen_parent');
-            $items = -1;
-        }
-
-        $parent_id = self::$parent_id;
-        $app_key = Config::get('zype.app_key');
-        $get_all = $this->request->validate('zype_get_all', ['num'], 0);
-        $parent_playlist = \Zype::get_playlist($parent_id);
 
         if ($get_all == 2) {
             if ($items == 0) {
@@ -138,7 +129,23 @@ class Gridscreen extends Base
         if ($adm == true) {
             return (['subcontent' => $subcontent]);
         } else {
+            $get_all = $this->request->validate('zype_get_all', ['num'], 0);
+            $page = $this->request->validate('zype_str', ['num'], 1);
+            $zype_items = $this->request->validate('zype_items', ['num'], 0);
+
+            if ($get_all != 0 && $get_all != 2) {
+                return "can't load page";
+            }
+
+            $pagination = Config::get('zype.playlist_pagination', true);
+
             return view('grid_screen_index', [
+                'request' => $this->request,
+                'pagination' => $pagination,
+                'parent_id' => $parent_id,
+                'get_all' => $get_all,
+                'zype_items' => $zype_items,
+                'page' => $page,
                 'per_page' => $per_page,
                 'title' => $title,
                 'content' => is_array($content) ? $content : array(),

@@ -26,11 +26,6 @@ class Category extends Base
 
     public function index()
     {
-        global $videos;
-        global $zype_pagination;
-        global $zype_detail_links;
-        global $category;
-
         $category = self::$category_val;
         $zype_detail_links = self::$detail_links;
 
@@ -58,10 +53,6 @@ class Category extends Base
 
     public function categories_list()
     {
-        global $categories;
-        global $categoryValues;
-        global $categoriesConfig;
-
         $categoriesConfig = Config::get('zype.categories') ?: [];
         $categories = \Zype::get_all_categories();
 

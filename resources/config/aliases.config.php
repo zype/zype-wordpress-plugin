@@ -26,5 +26,5 @@ return [
     'Validator' => 'Themosis\\Facades\\Validator',
     'Loop' => 'Themosis\\Facades\\Loop',
     'View' => 'Themosis\\Facades\\View',
-    'Auth' => 'ZypeMedia\\Services\\Auth'
+    'Auth' => 'ZypeMedia\\Services\\Auth',
 ];
