@@ -66,7 +66,8 @@
         });
       <?php else: ?>
         $(document).on('click', 'button.zype-join-button', function() {
-          window.location.replace('profile');
+          var url = '<?php echo $profile_url ?>';
+          window.location.replace(url);
         });
       <?php endif; ?>
     });

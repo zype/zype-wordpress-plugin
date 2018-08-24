@@ -28,7 +28,11 @@ class Auth extends Base
         $this->title = "Login";
 
         if($ajax) {
-            return view('auth.login_ajax');
+            $redirect_url = Config::get('zype.sub_short_code_redirect_url');
+            if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
+                $redirect_url = home_url($redirect_url);
+            }
+            return view('auth.login_ajax', ['redirect_url' => $redirect_url]);
         }
         else {
             return view('auth.login');
