@@ -56,7 +56,7 @@ $plans = \Zype::get_all_plans();
             </tr>
             <tr>
               <th scope="row">
-                <label for="sub-short-code-redirect-url">Redirect URL Slug</label>
+                <label for="sub-short-code-redirect-url">Subscription Purchase Redirect URL Slug</label>
               </th>
               <td>
                 <input type="text" name="sub_short_code_redirect_url" id="sub-short-code-redirect-url" class="regular-text" value="<?php echo $options['sub_short_code_redirect_url']; ?>" maxlength="25">
@@ -89,10 +89,10 @@ $plans = \Zype::get_all_plans();
               <td>
                 <input type="text" name="sub_short_code_text_after_sub" id="sub-short-code-text-after-sub" class="regular-text" value="<?php echo $options['sub_short_code_text_after_sub']; ?>" maxlength="25">
                 <p class="description">
-                  Enter the text you would like to display on the button AFTER a consumer successfully
-                  completes a subscription. This text will replace the initial "Subscribe Short Code Button Text"
-                  upon successful subscription purchase. The default text is "MY ACCOUNT" however you
-                  can add any text up to a limit of 25 characters.
+                  After successfully subscribing, the button will be updated so users are sent to your /profile page.
+                  Enter the text you would like to display on the button AFTER a consumer successfully completes a subscription.
+                  This text will replace the initial "Subscribe Short Code Button Text" upon successful subscription purchase.
+                  The default text is "MY ACCOUNT" however you can add any text up to a limit of 25 characters.
                 </p>
               </td>
             </tr>

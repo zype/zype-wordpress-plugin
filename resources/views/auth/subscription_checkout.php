@@ -201,7 +201,7 @@
 
             if (data.success) {
                 $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
-                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successflly unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
 
             $('.zype-checkout-button').prop('disabled', false);
