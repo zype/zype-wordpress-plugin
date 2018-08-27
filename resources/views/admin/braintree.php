@@ -59,11 +59,11 @@ $plans = \Zype::get_all_plans();
                 <label for="sub-short-code-redirect-url">Subscription Purchase Redirect URL Slug</label>
               </th>
               <td>
-                <input type="text" name="sub_short_code_redirect_url" id="sub-short-code-redirect-url" class="regular-text" value="<?php echo $options['sub_short_code_redirect_url']; ?>" maxlength="25">
+                <input type="text" name="sub_short_code_redirect_url" id="sub-short-code-redirect-url" class="regular-text" value="<?php echo $options['sub_short_code_redirect_url']; ?>" maxlength="256">
                 <p class="description">
                     You can set the URL that a user will be redirected to following
                     successful purchase of their subscription plan. This URL can be
-                    added as a URL slug. If no URL is set, the default will be to redirect users to your home page.
+                    added as a URL slug. If no URL is set, the default will be to reload the current page.
                 </p>
               </td>
             </tr>

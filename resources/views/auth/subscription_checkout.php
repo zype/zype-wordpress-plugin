@@ -216,7 +216,7 @@
     $(document).on('click', '#zype_modal_close', function(e) {
         e.preventDefault();
         var url = '<?php echo $redirect_url ?>';
-        if (url) {
+        if (url.length > 0) {
             window.location.replace(url);
         } else {
             window.location.reload();

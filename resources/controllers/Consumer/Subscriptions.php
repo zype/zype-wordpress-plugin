@@ -66,11 +66,13 @@ class Subscriptions extends Base
         $sub_short_code_btn_text = $this->options['sub_short_code_btn_text'];
         $sub_short_code_redirect_url = $this->options['sub_short_code_redirect_url'];
         $sub_short_code_text_after_sub = $this->options['sub_short_code_text_after_sub'];
+        $profile_url = home_url(Config::get('zype.profile_url'));
 
         $content = view('subscribe_button', [
             'btn_text' => $sub_short_code_btn_text,
             'redirect_url' => $sub_short_code_redirect_url,
-            'btn_text_after_sub' => $sub_short_code_text_after_sub
+            'btn_text_after_sub' => $sub_short_code_text_after_sub,
+            'profile_url' => $profile_url
         ]);
 
         return $content;
@@ -153,6 +155,10 @@ class Subscriptions extends Base
 		} elseif( !empty ( $plan->stripe_id ) && empty ( $stripe_pk ) ) {
 			$error = 'Currently it is not possible to pay through Stripe';
 		}
+
+        if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
+            $redirect_url = home_url($redirect_url);
+        }
 
         $content = view('auth.subscription_checkout', [
             'plan' => $plan,

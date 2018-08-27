@@ -313,7 +313,7 @@ class Admin extends BaseController {
                 'braintree_public_key'          => empty($_POST['braintree_public_key']) ? self::$defaults['braintree_public_key'] : $_POST['braintree_public_key'],
                 'stripe_pk'                     => empty($_POST['stripe_pk']) ? self::$defaults['stripe_pk'] : $_POST['stripe_pk'],
                 'sub_short_code_btn_text'       => empty($_POST['sub_short_code_btn_text']) ? self::$defaults['sub_short_code_btn_text'] : $_POST['sub_short_code_btn_text'],
-                'sub_short_code_redirect_url'   => empty($_POST['sub_short_code_redirect_url']) ? self::$defaults['sub_short_code_redirect_url'] : $_POST['sub_short_code_redirect_url'],
+                'sub_short_code_redirect_url'   => $_POST['sub_short_code_redirect_url'],
                 'sub_short_code_text_after_sub' => empty($_POST['sub_short_code_text_after_sub']) ? self::$defaults['sub_short_code_text_after_sub'] : $_POST['sub_short_code_text_after_sub']
             ];
             $this->options = array_replace($this->options, $new_options);

@@ -61,7 +61,7 @@
             else {
               $('#zype_login_form_ajax').hide();
               $('#zype-modal-auth .main-heading .title').text('You\'re already subscribed!');
-              $('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="alread-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+              $('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
           } else {
             $("#zype_login_form_ajax").find('button[type="submit"]').prop('disabled', false);
@@ -74,10 +74,10 @@
         }
       });
 
-      $(document).on('click', '#alread-subscribed-btn', function(e) {
+      $(document).on('click', '#already-subscribed-btn', function(e) {
         e.preventDefault();
-        var url = '<?php echo Config::get('zype.sub_short_code_redirect_url') ?>';
-        if (url) {
+        var url = '<?php echo $redirect_url ?>';
+        if (url.length > 0) {
             window.location.replace(url);
         } else {
             window.location.reload();
