@@ -12,23 +12,20 @@ class Category extends Base
     public static $page;
     public static $per_page;
 
-    public function __construct() {
+    public function __construct()
+    {
+        parent::__construct();
+
         $categories = array_values(array_filter(explode('/', $_SERVER['REQUEST_URI'])));
         self::$category_key = $categories[0];
         self::$category_val = $categories[1];
-        self::$detail_links = \Input::get('zype_category_detail', 1);
-        self::$page         = \Input::get('zype_paged', 1);
-        self::$per_page     = 200;
-        parent::__construct();
+        self::$detail_links = $this->request->validate('zype_category_detail', ['textfield'], 1);
+        self::$page = $this->request->validate('zype_paged', ['textfield'], 1);
+        self::$per_page = 200;
     }
 
     public function index()
     {
-        global $videos;
-        global $zype_pagination;
-        global $zype_detail_links;
-        global $category;
-
         $category = self::$category_val;
         $zype_detail_links = self::$detail_links;
 
@@ -56,11 +53,7 @@ class Category extends Base
 
     public function categories_list()
     {
-        global $categories;
-        global $categoryValues;
-        global $categoriesConfig;
-
-        $categoriesConfig = Config::get('zype.categories')?: [];
+        $categoriesConfig = Config::get('zype.categories') ?: [];
         $categories = \Zype::get_all_categories();
 
         $categoryValues = [];

@@ -2,10 +2,20 @@
 
 namespace ZypeMedia\Models;
 
+use Themosis\Facades\Config;
+use ZypeMedia\Validators\Request;
+
 class Base {
-    private function title_to_permalink($str, $replace=array(), $delimiter='-'){
-        if(!empty($replace)){
-          $str = str_replace((array)$replace, ' ', $str);
+
+    public function __construct() {
+        $this->options = Config::get('zype');
+        $this->request = Request::capture();
+    }
+
+    private function title_to_permalink($str, $replace = array(), $delimiter = '-')
+    {
+        if (!empty($replace)) {
+            $str = str_replace((array)$replace, ' ', $str);
         }
 
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);

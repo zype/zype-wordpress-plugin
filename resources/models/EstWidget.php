@@ -2,33 +2,46 @@
 
 namespace ZypeMedia\Models;
 
-use ZypeMedia\Services\Auth;
+use Firebase\JWT\JWT;
 use Themosis\Facades\Config;
-use \Firebase\JWT\JWT;
+use ZypeMedia\Services\Auth;
 
-class EstWidget {
-    public $estWidgetHost   = 'http://zype-sub-stg-sigma.elasticbeanstalk.com';
+class EstWidget extends Base
+{
+    public static $authDataKey = '178e70caccab239b52c61315fda10424';
+    public $estWidgetHost = 'http://zype-sub-stg-sigma.elasticbeanstalk.com';
     public $widgetScriptUrl = 'http://zype-sub-stg-sigma.elasticbeanstalk.com/javascripts/subscription_embed.js';
-    public $tagId           = 'videoEmbed';
+    public $tagId = 'videoEmbed';
     public $siteId;
     public $video;
     public $options;
-    public static $authDataKey = '178e70caccab239b52c61315fda10424';
 
     public function __construct($video = null)
     {
+        parent::__construct();
         $this->options = get_option(ZYPE_WP_OPTIONS);
 
-        $this->estWidgetHost   = $this->options['estWidgetHost'];
+        $this->estWidgetHost = $this->options['estWidgetHost'];
         $this->widgetScriptUrl = $this->options['estWidgetHost'] . '/javascripts/subscription_embed.js';
 
         $this->siteId = $this->options['embed_key'];
-        $this->video  = $video;
+        $this->video = $video;
+    }
+
+    public static function decrypt($text)
+    {
+        return JWT::decode($text, Config::get('zype.cookie_key'), array('HS256'));
+    }
+
+    private static function pkcs5_pad($text, $blocksize)
+    {
+        $pad = $blocksize - (strlen($text) % $blocksize);
+        return $text . str_repeat(chr($pad), $pad);
     }
 
     public function embed($params = [])
     {
-        add_action('wp_enqueue_scripts', function() {
+        add_action('wp_enqueue_scripts', function () {
             wp_enqueue_script('zype-est-widget', $this->widgetScriptUrl);
         }, 90);
 
@@ -61,16 +74,8 @@ class EstWidget {
         return $authData;
     }
 
-    public static function encrypt($text) {
+    public static function encrypt($text)
+    {
         return JWT::encode(utf8_encode($text), Config::get('zype.cookie_key'));
-    }
-
-    public static function decrypt($text) {
-        return JWT::decode($text, Config::get('zype.cookie_key'), array('HS256'));
-    }
-
-    private static function pkcs5_pad($text, $blocksize) {
-        $pad = $blocksize - (strlen($text) % $blocksize);
-        return $text . str_repeat(chr($pad), $pad);
     }
 }

@@ -14,8 +14,8 @@ class Access extends Component
      * Method checks 3 levels of access: subscription, pass plan, rental.
      * The user should have at least 1 payment access.
      *
-     * @param string      $videoId Video id.
-     * @param null|string $userId  Consumer id.
+     * @param string $videoId Video id.
+     * @param null|string $userId Consumer id.
      *
      * @return boolean
      */

@@ -1,37 +1,35 @@
 <?php
 
-$options = array (
+$options = array(
     'admin_key' => '',
     'player_key' => '',
     'read_only_key' => '',
     'livestream_enabled' => true,
-    'zobjects' => array (
-    ),
-    'categories' => array (
-        'City' => array (
-            'city01' => array (
+    'zobjects' => array(),
+    'categories' => array(
+        'City' => array(
+            'city01' => array(
                 'index' => 'on',
                 'detail' => 'on',
                 'url' => 'city/city01',
             ),
         ),
-        'Fashion' => array (
-            'fashion01' => array (
+        'Fashion' => array(
+            'fashion01' => array(
                 'url' => '',
             ),
         ),
-        'General' => array (
-            'Sub1' => array (
+        'General' => array(
+            'Sub1' => array(
                 'url' => '',
             ),
-            'Sub2' => array (
+            'Sub2' => array(
                 'url' => '',
             ),
         ),
     ),
     'audio_only_enabled' => false,
-    'excluded_categories' => array (
-    ),
+    'excluded_categories' => array(),
     'authentication_enabled' => true,
     'subscriptions_enabled' => false,
     'device_link_enabled' => false,

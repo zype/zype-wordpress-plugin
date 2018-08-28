@@ -2,8 +2,6 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
-use Themosis\Facades\Config;
-
 class Auth extends Base
 {
     public function __construct()
@@ -14,12 +12,13 @@ class Auth extends Base
 
     public function login($ajax = false)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['username'])) {
-                $zype_user_email = trim(strtolower(filter_var($_POST['username'], FILTER_SANITIZE_STRING)));
-                zype_form_fields([['f_name'  => 'username',
-                                'f_value' => $zype_user_email,
-                                ],
+        if ($this->request->method() == 'POST') {
+            $username = strtolower($this->request->validate('username', ['textfield']));
+
+            if ($username) {
+                zype_form_fields([['f_name' => 'username',
+                    'f_value' => $username,
+                ],
                 ]);
             }
             $this->login_submit($ajax);
@@ -42,16 +41,18 @@ class Auth extends Base
     public function auth_page()
     {
         if (\Auth::logged_in()) {
-            wp_redirect(home_url(Config::get('zype.profile_url')));
+            wp_redirect(home_url($this->options['profile_url']));
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['username'])) {
-                $zype_user_email = trim(strtolower(filter_var($_POST['username'], FILTER_SANITIZE_STRING)));
-                zype_form_fields([['f_name'  => 'username',
-                                'f_value' => $zype_user_email,
-                                ],
+        if ($this->request->method() == 'POST') {
+            $username = strtolower($this->request->validate('username', ['textfield']));
+            if ($username) {
+                zype_form_fields([
+                    [
+                        'f_name' => 'username',
+                        'f_value' => $username,
+                    ],
                 ]);
             }
             $this->login_submit();
@@ -70,7 +71,7 @@ class Auth extends Base
 
     public function login_submit($ajax = false, $redirect = true)
     {
-        if($ajax) {
+        if ($ajax) {
             $errors = array();
         }
         if($redirect) {
@@ -79,27 +80,26 @@ class Auth extends Base
 
         $auther = new \ZypeMedia\Services\Auth();
 
-        if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] != '' && $_POST['password'] != '') {
-            $username    = trim(strtolower(filter_var($_POST['username'], FILTER_SANITIZE_STRING)));
-            $password    = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-            $remember_me = isset($_POST['remember_me']) ? $_POST['remember_me'] : true;
+        $username = strtolower($this->request->validate('username', ['textfield']));
+        $password = $this->request->validate('password', ['textfield']);
+
+        if ($username && $password) {
+            $remember_me = $this->request->validate('remember_me', ['bool']);
             $response = $auther->login($username, $password, $remember_me);
             $is_subscribed = $auther->subscriber();
             if (!$response) {
-                if($ajax) {
+                if ($ajax) {
                     $errors[] = 'Username or password invalid.';
-                }
-                else {
+                } else {
                     $this->form_message = zype_flash_message('times', 'Username or password invalid.');
                 }
             }
         } else {
-            if($ajax)
+            if ($ajax)
                 $errors[] = 'Please provide an email address and password.';
             else
                 $this->form_message = zype_flash_message('times', 'Please provide an email address and password.');
         }
-
 
         if($ajax)
         {
@@ -115,31 +115,22 @@ class Auth extends Base
 
     public function signup($ajax = false)
     {
-        global $zype_message;
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            global $zype_signup_name;
-            global $zype_signup_email;
-
-            if (isset($_POST['email'])) {
-                $zype_signup_email = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
-            }
-            if (isset($_POST['name'])) {
-                $zype_signup_name = trim(filter_var($_POST['name'], FILTER_SANITIZE_STRING));
-            }
+        if ($this->request->method() == 'POST') {
+            $zype_signup_email = $this->request->validate('email', ['email']);
+            $zype_signup_name = $this->request->validate('name', ['textfield']);
 
             $this->signup_submit($ajax);
         }
 
-        $zype_message   = $this->form_message;
+        $zype_message = $this->form_message;
 
         $terms_link = false;
-        $terms_link_opt = trim(Config::get('zype.terms_url'));
+        $terms_link_opt = trim($this->options['terms_url']);
         if ($terms_link_opt) {
             if (parse_url($terms_link_opt, PHP_URL_SCHEME))
-              $terms_link = $terms_link_opt;
+                $terms_link = $terms_link_opt;
             else
-              $terms_link = get_home_url().'/'.ltrim($terms_link_opt, '/');
+                $terms_link = get_home_url() . '/' . ltrim($terms_link_opt, '/');
         }
 
         ob_start();
@@ -153,34 +144,30 @@ class Auth extends Base
         return $content;
     }
 
-    public function signup_submit_ajax() {
-        $this->signup_submit(true);
-    }
-
     public function signup_submit($ajax = false)
     {
-        if($ajax) {
+        if ($ajax) {
             $errors = array();
         }
 
-        if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['name'])) {
-            $confirmPassword = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : $_POST['password'];
+        if ($this->request->get('email') && $this->request->get('password') && $this->request->get('name')) {
+            $confirmPassword = $this->request->validate('confirm_password', ['textfield']) ?: $this->request->validate('password', ['textfield']);
 
-            if ($this->validate_password($_POST['password'], $confirmPassword)) {
-                $name     = trim(filter_var($_POST['name'], FILTER_SANITIZE_STRING));
-                $email    = trim(strtolower(filter_var($_POST['email'], FILTER_SANITIZE_STRING)));
-                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+            if ($this->validate_password($this->request->validate('password', ['textfield']), $confirmPassword)) {
+                $name = $this->request->validate('name', ['textfield']);
+                $email = $this->request->validate('email', ['email']);
+                $password = $this->request->validate('password', ['textfield']);
 
                 $new_user = \Zype::create_consumer([
-                    'email'    => $email,
+                    'email' => $email,
                     'password' => $password,
-                    'name'     => $name,
-                    'sex'      => 'male',
-                    'updates'  => true,
-                    'terms'    => true,
+                    'name' => $name,
+                    'sex' => 'male',
+                    'updates' => true,
+                    'terms' => true,
                 ]);
 
-                $auther   = new \ZypeMedia\Services\Auth();
+                $auther = new \ZypeMedia\Services\Auth();
 
                 if ($new_user) {
                     if ($auther->login($email, $password)) {
@@ -197,14 +184,14 @@ class Auth extends Base
 
                     $message = 'There was an error creating your account. This email address may already be in use. Please try again. If you have forgotten your password, <a href="' . get_permalink() . '?zype_auth_type=forgot" class="zype_auth_markup" data-type="forgot">click here.</a>';
 
-                    if($ajax)
+                    if ($ajax)
                         $errors[] = $message;
                     else
                         $this->form_message = zype_flash_message('times', $message);
                 }
             } else {
                 $message = 'Your password must be at least 8 characters.';
-                if($ajax)
+                if ($ajax)
                     $errors[] = $message;
                 else
                     $this->form_message = zype_flash_message('times', $message);
@@ -212,7 +199,7 @@ class Auth extends Base
         } else {
             $message = 'Please fill out all required fields.';
 
-            if($ajax)
+            if ($ajax)
                 $errors[] = $message;
             else
                 $this->form_message = zype_flash_message('times', $message);
@@ -229,7 +216,7 @@ class Auth extends Base
 
     private function validate_password($password, $password_confirmation)
     {
-        $password              = filter_var($password, FILTER_SANITIZE_STRING);
+        $password = filter_var($password, FILTER_SANITIZE_STRING);
         $password_confirmation = filter_var($password_confirmation, FILTER_SANITIZE_STRING);
 
         if ($password != $password_confirmation) {
@@ -241,6 +228,11 @@ class Auth extends Base
         }
 
         return $password;
+    }
+
+    public function signup_submit_ajax()
+    {
+        $this->signup_submit(true);
     }
 
     public function template($template)

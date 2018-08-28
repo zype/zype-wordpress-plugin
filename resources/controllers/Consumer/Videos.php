@@ -2,37 +2,34 @@
 
 namespace ZypeMedia\Controllers\Consumer;
 
-use ZypeMedia\Services\Access;
-use ZypeMedia\Models\Video;
 use ZypeMedia\Models\Pagination;
 use ZypeMedia\Models\Transaction;
-use \Input;
+use ZypeMedia\Models\Video;
+use ZypeMedia\Services\Access;
 
 class Videos extends Base
 {
-    const RENTAL_URL = 'rental';
-    const PASS_URL   = 'pass';
 
-    public $title;
+    const RENTAL_URL = 'rental';
+    const PASS_URL = 'pass';
+
     public static $page;
     public static $per_page;
+    public $title;
 
     public function __construct()
     {
-        self::$page     = \Input::get('zype_paged');
-        self::$per_page = get_option('posts_per_page');
         parent::__construct();
+        self::$page = $this->request->validate('zype_paged', ['textfield']);
+        self::$per_page = get_option('posts_per_page');
     }
 
-    public static function index()
+    public function index()
     {
-        global $videos;
-        global $zype_pagination;
-
         $vm = new Video;
         $vm->all([
             'per_page' => self::$per_page,
-            'page'     => self::$page,
+            'page' => self::$page,
         ]);
         $videos = $vm->collection;
 
@@ -48,16 +45,12 @@ class Videos extends Base
         return $data;
     }
 
-    public static function single($id = false, $view = 'full')
+    public function single($id = false, $view = 'full')
     {
-        global $video;
-        global $is_subscriber;
-        global $hasUserAccessToVideo;
-
         $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
 
-        if(!$id) {
-            $id = Input::get('zype_video_id');
+        if (!$id) {
+            $id = $this->request->validate('zype_video_id', ['textfield']);
         }
 
         $vm = new Video;
@@ -68,7 +61,7 @@ class Videos extends Base
             return 'Nothing found';
         }
 
-        if ($video->pass_required){
+        if ($video->pass_required) {
             $video->payment_url_segment = Transaction::TYPE_PASS_PLAN;
         } elseif ($video->rental_required) {
             $video->payment_url_segment = Transaction::TYPE_RENTAL;
