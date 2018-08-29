@@ -3,10 +3,12 @@
 class Response
 {
     public $data;
+    public $code;
 
-    public function __construct($response)
+    public function __construct($response, $code)
     {
         $this->data = json_decode($response);
+        $this->code = $code;
         return $this->data;
     }
 
@@ -48,5 +50,10 @@ class Response
     public function getBody()
     {
         return $this->data;
+    }
+
+    public function success()
+    {
+        return $this->code >= 200 && $this->code < 300;
     }
 }

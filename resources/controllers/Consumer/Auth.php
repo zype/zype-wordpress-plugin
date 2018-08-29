@@ -158,7 +158,7 @@ class Auth extends Base
                 $email = $this->request->validate('email', ['email']);
                 $password = $this->request->validate('password', ['textfield']);
 
-                $new_user = \Zype::create_consumer([
+                $response = \Zype::create_consumer([
                     'email' => $email,
                     'password' => $password,
                     'name' => $name,
@@ -169,7 +169,7 @@ class Auth extends Base
 
                 $auther = new \ZypeMedia\Services\Auth();
 
-                if ($new_user) {
+                if ($response->success()) {
                     if ($auther->login($email, $password)) {
                         //send email
                         $mailer = new \ZypeMedia\Services\Mailer;

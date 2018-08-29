@@ -82,10 +82,8 @@ class Auth extends Component
 
     public static function get_cookie()
     {
-        if (!self::$cookie) {
-            $cookie = self::decrypt_cookie();
-            self::$cookie = filter_var_array($cookie, FILTER_SANITIZE_STRING);
-        }
+        $cookie = self::decrypt_cookie();
+        self::$cookie = filter_var_array($cookie, FILTER_SANITIZE_STRING);
 
         return self::$cookie;
     }

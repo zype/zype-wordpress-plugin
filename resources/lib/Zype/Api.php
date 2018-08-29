@@ -53,7 +53,9 @@ class Api
             $url = self::$resourceBaseEndpoint . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
 
             if ($cache && $response = get_transient('zype_api_' . substr(md5($url), 0, 15))) {
-                self::$response = new Response($response);
+                $body = $response['body'];
+                $code = $response['code'];
+                self::$response = new Response($body, $code);
                 self::$body = self::$response->getBody();
                 return self::$response;
             }
@@ -66,11 +68,18 @@ class Api
             'timeout' => '120',
         ]);
 
+        $body = wp_remote_retrieve_body($response);
+        $code = wp_remote_retrieve_response_code($response);
+
         if ($cache) {
-            set_transient('zype_api_' . substr(md5($url), 0, 15), wp_remote_retrieve_body($response), (self::$options['cache_time'] ?: 86400));
+            $cache_object = [
+                'body' => $body,
+                'code' => $code
+            ];
+            set_transient('zype_api_' . substr(md5($url), 0, 15), $cache_object, (self::$options['cache_time'] ?: 86400));
         }
 
-        self::$response = new Response(wp_remote_retrieve_body($response));
+        self::$response = new Response($body, $code);
         self::$body = self::$response->getBody();
 
         return self::$response;
