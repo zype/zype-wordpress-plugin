@@ -27,7 +27,7 @@ class Auth extends Base
         $this->title = "Login";
 
         if($ajax) {
-            $redirect_url = Config::get('zype.sub_short_code_redirect_url');
+            $redirect_url = $this->options['sub_short_code_redirect_url'];
             if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
                 $redirect_url = home_url($redirect_url);
             }
@@ -75,7 +75,7 @@ class Auth extends Base
             $errors = array();
         }
         if($redirect) {
-            $redirect = home_url(Config::get('zype.profile_url'));
+            $redirect = $this->options['profile_url'];
         }
 
         $auther = new \ZypeMedia\Services\Auth();
