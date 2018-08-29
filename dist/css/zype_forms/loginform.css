@@ -258,6 +258,11 @@
     box-shadow: none;
 }
 
+.zype-form-center .to-forgot-password a:hover,
+.zype-form-center .to-sign-up a:hover {
+    box-shadow: none !important;
+}
+
 .zype-form-center .zype-title {
     color: #272424 !important;
     letter-spacing: .3px !important;

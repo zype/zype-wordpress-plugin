@@ -272,6 +272,10 @@
     box-shadow: none;
 }
 
+.zype-form-center .to-sign-in a:hover {
+    box-shadow: none;
+}
+
 .zype-form-center .zype-input-wrap {
     margin: 6px;
 }
