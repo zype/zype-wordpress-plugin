@@ -16,7 +16,8 @@ class Category extends Base
     {
         parent::__construct();
 
-        $categories = array_values(array_filter(explode('/', $_SERVER['REQUEST_URI'])));
+        $request_uri = $this->request->validateServer('REQUEST_URI', ['textfield']);
+        $categories = array_values(array_filter(explode('/', $request_uri)));
         self::$category_key = $categories[0];
         self::$category_val = $categories[1];
         self::$detail_links = $this->request->validate('zype_category_detail', ['textfield'], 1);

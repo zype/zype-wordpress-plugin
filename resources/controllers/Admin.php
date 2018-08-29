@@ -45,7 +45,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -76,7 +76,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -127,7 +127,7 @@ class Admin extends Controller
         }
         $this->check_keys();
 
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -309,7 +309,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -338,7 +338,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -366,7 +366,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -407,7 +407,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -429,7 +429,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -468,7 +468,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -482,7 +482,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 
@@ -498,7 +498,7 @@ class Admin extends Controller
         } else {
             zype_wp_admin_message('error', 'Something has gone wrong.');
         }
-        wp_redirect($_SERVER['HTTP_REFERER']);
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
 

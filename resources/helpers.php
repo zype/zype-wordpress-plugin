@@ -709,7 +709,8 @@ add_action('wp_enqueue_scripts', 'zype_wp_enqueue_scripts', 99);
 function the_share_buttons($url = null)
 {
     if (!$url) {
-        $url = urlencode(site_url() . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING));
+        $request_uri = zypeRequest()->validate->validateServer('REQUEST_URI', ['textfield']);
+        $url = urlencode(site_url() . $request_uri);
     } else {
         $url = urlencode($url);
     }

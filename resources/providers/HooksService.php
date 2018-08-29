@@ -399,7 +399,8 @@ class HooksService extends ServiceProvider
 
     public function canonical_url($url)
     {
-        $url = site_url() . filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING);
+        $request_uri = $this->request->validateServer('REQUEST_URI', ['textfield']);
+        $url = site_url() . $request_uri;
 
         return $url;
     }
