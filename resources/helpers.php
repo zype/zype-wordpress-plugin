@@ -86,7 +86,7 @@ function zype_num_padder($num)
 function zype_video_zobjects($type, $id = null)
 {
     if (!$id) {
-        $request = \ZypeMedia\Validators\Request::capture();
+        $request = zypeRequest();
         $id = $request->validate('zype_video_id', ['textfield']);
     }
     $zm = new \ZypeMedia\Models\zObject($type);
@@ -155,7 +155,7 @@ function zype_est_widget_embed($video)
 
 function zype_audio_only()
 {
-    $request = \ZypeMedia\Validators\Request::capture();
+    $request = zypeRequest();
 
     if ($request->validate('audio', ['textfield'], 'false') == 'true' || \Config::get('zype.audio_only_enabled')) {
         return true;
@@ -188,9 +188,11 @@ function zype_form_fields($fields)
 
 function get_zype_form_message()
 {
-    if (isset($_COOKIE['zype_form_messages'])) {
+    $request = zypeRequest();
+    $zype_form_messages = $request->validateCookie('zype_form_messages', ['textfield']);
+    if (isset($zype_form_messages)) {
         try {
-            $message = json_decode(base64_decode(filter_var($_COOKIE['zype_form_messages'], FILTER_SANITIZE_STRING)));
+            $message = json_decode(base64_decode($zype_form_messages));
             setcookie('zype_form_messages', null, 0, '/');
             $_COOKIE['zype_form_messages'] = null;
 
