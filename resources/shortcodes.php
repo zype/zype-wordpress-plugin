@@ -39,7 +39,7 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
     $profileController = new Consumer\Profile();
     $subscriptionsController = new Consumer\Subscriptions();
     $ajax = $attrs['ajax'] == 'true' ? true : false;
-    $redirect_url = !empty($attrs['redirect_url']) ? $request->sanitize($attrs['type']) : '';
+    $redirect_url = !empty($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
 
     switch ($type) {
         case 'login':
@@ -52,7 +52,8 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
             $rootParent = !empty($attrs['root_parent']) ? $attrs['root_parent'] : '';
             return $subscriptionsController->plansView($rootParent, $redirect_url);
         case 'checkout':
-            return $subscriptionsController->checkoutView($request->validate('planid', ['textfield']), $redirect_url);
+            $planId = $request->validate('planid', ['textfield']);
+            return $subscriptionsController->checkoutView($planId, $redirect_url);
     }
 });
 
