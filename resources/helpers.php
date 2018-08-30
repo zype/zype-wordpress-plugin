@@ -208,18 +208,6 @@ function zype_form_now_message($type, $msg)
 }
 
 
-function zype_current_url()
-{
-    $url = 'http';
-    if (!empty($_SERVER['HTTPS'])) {
-        $url .= "s";
-    }
-    $url .= "://";
-    $url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-
-    return $url;
-}
-
 function zype_to_permalink($str, $replace = array(), $delimiter = '-')
 {
     if (!empty($replace)) {
