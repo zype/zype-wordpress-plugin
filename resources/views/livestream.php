@@ -13,7 +13,7 @@ $videos = get_recent_videos(3);
             <?php } else { ?>
                 <div class="off-air">
                     <div class="off-air-image"
-                         style="background-image:url('<?php echo asset_url('images/antblur.jpg') ?>');"></div>
+                         style="background-image:url('<?php echo asset_url('images/blur.jpg') ?>');"></div>
                     <h2>We're currently off-air.</h2>
                     <p>There is no live show at this time. While you wait, <a href="<?php zype_url('video'); ?>/">check
                             out the show archives.</a></p>
