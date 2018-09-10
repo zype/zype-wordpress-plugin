@@ -175,8 +175,11 @@ function ZypeWP(env) {
                 var $item = jQuery(item);
                 var is_in_modal = !!$item.closest('.player-auth-required').length || !!$item.closest('.subscribe-button').length;
 
+                debugger
                 if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
+                    debugger
                     $item.on('click', function(e) {
+                        debugger
                         e.preventDefault();
 
                         switch (jQuery(this).data('type')) {

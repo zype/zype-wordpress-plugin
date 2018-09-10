@@ -12,7 +12,7 @@ class Auth extends Base
         $this->form_message = null;
     }
 
-    public function login($ajax = false)
+    public function login($ajax = false, $rootParent = null)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['username'])) {
@@ -27,15 +27,17 @@ class Auth extends Base
 
         $this->title = "Login";
 
+        $view = $ajax ? 'auth.login_ajax' : 'auth.login';
+
         if($ajax) {
             $redirect_url = Config::get('zype.sub_short_code_redirect_url');
             if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
                 $redirect_url = home_url($redirect_url);
             }
-            return view('auth.login_ajax', ['redirect_url' => $redirect_url]);
+            return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $rootParent]);
         }
         else {
-            return view('auth.login');
+            return view($view, ['root_parent' => $rootParent]);
         }
     }
 
@@ -113,7 +115,7 @@ class Auth extends Base
         }
     }
 
-    public function signup($ajax = false)
+    public function signup($ajax = false, $rootParent = null)
     {
         global $zype_message;
 
@@ -147,7 +149,8 @@ class Auth extends Base
 
         $content = view($view, [
             'zype_message' => $zype_message,
-            'terms_link' => $terms_link
+            'terms_link' => $terms_link,
+            'root_parent' => $rootParent
         ]);
         ob_end_clean();
         return $content;

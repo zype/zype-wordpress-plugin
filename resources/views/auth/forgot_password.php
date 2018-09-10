@@ -1,4 +1,4 @@
-<div id="zype-modal-forgot">
+<div id="zype-modal-forgot" class='zype-form'>
 <div class="content-wrap signup-wrap user-action-wrap zype-form-center">
   <div class="main-heading inner-heading">
     <h1 class="title zype-title">Forgot Password?</h1>

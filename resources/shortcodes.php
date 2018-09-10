@@ -37,16 +37,16 @@ add_shortcode('zype_auth', function($attrs = array()) {
     $subscriptionsController = new Consumer\Subscriptions();
     $ajax = $attrs['ajax'] == 'true' ? true : false;
     $redirect_url = $attrs['redirect_url'];
+    $rootParent = $attrs['root_parent'];
 
     switch ($type) {
         case 'login':
-            return $loginController->login($ajax);
+            return $loginController->login($ajax, $rootParent);
         case 'register':
-            return $loginController->signup($ajax);
+            return $loginController->signup($ajax, $rootParent);
         case 'forgot':
-            return $profileController->forgot_password();
+            return $profileController->forgot_password($rootParent);
         case 'plans':
-            $rootParent = $attrs['root_parent'];
             return $subscriptionsController->plansView($rootParent, $redirect_url);
         case 'checkout':
             return $subscriptionsController->checkoutView(Input::get('planid'), $redirect_url);

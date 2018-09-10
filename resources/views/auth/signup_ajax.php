@@ -1,4 +1,4 @@
-<div id="zype-modal-signup">
+<div id="zype-modal-signup" class='zype-form'>
   <div class="content-wrap signup-wrap user-action-wrap zype-form-center">
     <div class="main-heading inner-heading">
       <h1 class="title zype-title">Create my login</h1>
@@ -50,9 +50,7 @@
               var planDiv = $(".subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
-                $('#zype-modal-auth').hide();
-                $('#zype-modal-signup').hide();
-                $('#zype-modal-forgot').hide();
+                $('.zype-form').hide();
               }
           } else {
               $("#zype_signup_form_ajax").find('button[type="submit"]').prop('disabled', false);

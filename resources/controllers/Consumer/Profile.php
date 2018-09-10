@@ -107,11 +107,13 @@ class Profile extends BaseController
         exit;
     }
 
-    public function forgot_password()
+    public function forgot_password($rootParent = null)
     {
         $title = 'Forgot Password';
         return view('auth.forgot_password', [
-            'title' => $title
+            'title' => $title,
+            'rootId' => $rootId,
+            'root_parent' => $rootParent
         ]);
     }
 

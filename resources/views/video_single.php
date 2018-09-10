@@ -1,4 +1,5 @@
 <?php
+  $id = 'zype-video-' . $video->id;
   $hours = floor($video->duration / 3600);
   $minutes = floor(($video->duration / 60) % 60);
   $seconds = $video->duration % 60;
@@ -14,7 +15,7 @@
     }
   }
 ?>
-<div class="zype_video" id='zype-video'>
+<div class="zype_video" id="<?php echo $id; ?>">
   <div class="zype_video__wrapper">
     <div class="zype_video__heading">
       <h1><?php echo $video->title; ?></h1>
@@ -55,7 +56,8 @@
 </div>
 <script type="text/javascript">
 (function($){
-  $(document).on('click', '#zype_video__auth-close, #zype_modal_close', function(e){
+  var id = "#<?php echo $id; ?>"
+  $(document).on('click', id + ' #zype_video__auth-close, ' +  id + ' #zype_modal_close', function(e){
       $('.player-auth-required-content').css('top', '-50%');
       $('.player-auth-required').fadeOut();
 
@@ -64,21 +66,21 @@
       }
   });
 
-  $(document).on('click', '.zype-signin-button', function() {
-        $('#zype-modal-auth').show();
-        $('#zype-modal-signup').hide();
-        $('#zype-modal-forgot').hide();
+  $(document).on('click', id + ' .zype-signin-button', function() {
+    $('#zype-modal-auth').show();
+    $('#zype-modal-signup').hide();
+    $('#zype-modal-forgot').hide();
   });
 
-  $(document).on('click', '.zype-join-button', function() {
-        $('#zype-modal-signup').show();
-        $('#zype-modal-auth').hide();
-        $('#zype-modal-forgot').hide();
+  $(document).on('click', id + ' .zype-join-button', function() {
+    $('#zype-modal-signup').show();
+    $('#zype-modal-auth').hide();
+    $('#zype-modal-forgot').hide();
   });
 
-  $(document).on('click', '.zype-join-button, .zype-signin-button', function() {
-      $('.player-auth-required').fadeIn();
-      $('.player-auth-required-content').css('top', '10%');
+  $(document).on('click', id + ' .zype-join-button, ' + id + ' .zype-signin-button', function() {
+    $('.player-auth-required').fadeIn();
+    $('.player-auth-required-content').css('top', '10%');
   });
 })(jQuery);
 </script>

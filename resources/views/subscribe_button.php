@@ -1,4 +1,4 @@
-<div class="btn-holder">
+<div class="btn-holder" id="subscribe-button">
   <button class="zype_get_all_ajax user-profile-wrap__button zype-join-button">
       <?php if (!\Auth::subscriber()): ?>
         <?php echo $btn_text ?>
@@ -9,14 +9,14 @@
 </div>
 
 <?php if (!\Auth::subscriber()): ?>
-  <div class="subscribe-button" id="subscribe-button">
+  <div class="subscribe-button">
       <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
       <div class="subscribe-button-content">
           <div class="login-sub-section">
               <?php if (!\Auth::logged_in()): ?>
-                <?php echo do_shortcode('[zype_auth ajax=true]');?>
-                <?php echo do_shortcode('[zype_signup ajax=true]');?>
-                <?php echo do_shortcode('[zype_forgot]');?>
+                <?php echo do_shortcode('[zype_auth root_parent="subscribe-button" ajax=true]');?>
+                <?php echo do_shortcode('[zype_signup root_parent="subscribe-button" ajax=true]');?>
+                <?php echo do_shortcode('[zype_forgot root_parent="subscribe-button" ]');?>
               <?php endif; ?>
                 <div id="plans" style=<?php echo (\Auth::logged_in() ? '' : 'display:none;') ?>>
                   <?php
@@ -35,28 +35,28 @@
   (function($){
     $(document).ready(function(){
       <?php if (!\Auth::subscriber()): ?>
-        $(document).on('click', '.zype-signin-button', function(e) {
+        $(document).on('click', '.subscribe-button-content .zype-signin-button', function(e) {
           e.preventDefault();
-          $('#zype-modal-signup').hide();
-          $('#zype-modal-auth').show();
-          $('#zype-modal-forgot').hide();
+          $('.subscribe-button-content #zype-modal-signup.zype-form').hide();
+          $('.subscribe-button-content #zype-modal-auth.zype-form').show();
+          $('.subscribe-button-content #zype-modal-forgot.zype-form').hide();
         });
 
-        $(document).on('click', '.zype-join-button', function(e) {
+        $(document).on('click', '#subscribe-button .zype-join-button', function(e) {
           e.preventDefault();
-          if($('#plans').css('display') === 'none') {
-            $('#zype-modal-signup').show();
-            $('#zype-modal-auth').hide();
-            $('#zype-modal-forgot').hide();
+          if($('.subscribe-button-content #plans').css('display') === 'none') {
+            $('.subscribe-button-content #zype-modal-signup.zype-form').show();
+            $('.subscribe-button-content #zype-modal-auth.zype-form').hide();
+            $('.subscribe-button-content #zype-modal-forgot.zype-form').hide();
           }
         });
 
-        $(document).on('click', '.zype-join-button, .zype-signin-button', function() {
+        $(document).on('click', '#subscribe-button .zype-join-button, .subscribe-button-content .zype-signin-button', function() {
           $('.subscribe-button').fadeIn();
           $('.subscribe-button-content').css('top', '10%');
         });
 
-        $(document).on('click', '#zype_video__auth-close, #zype_modal_close', function(e) {
+        $(document).on('click', '.subscribe-button #zype_video__auth-close, .subscribe-button-content #zype_modal_close', function(e) {
             $('.subscribe-button-content').css('top', '-50%');
             $('.subscribe-button').fadeOut();
 
@@ -65,7 +65,7 @@
             }
         });
       <?php else: ?>
-        $(document).on('click', 'button.zype-join-button', function() {
+        $(document).on('click', '#subscribe-button button.zype-join-button', function() {
           var url = '<?php echo $profile_url ?>';
           window.location.replace(url);
         });
