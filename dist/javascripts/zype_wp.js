@@ -1,5 +1,4 @@
 function ZypeWP(env) {
-
     var self = this;
 
     this.env = env;
@@ -79,7 +78,7 @@ function ZypeWP(env) {
                     console.log(e);
                 }
             },
-            error: function(data) {}
+            error: function(data) { }
         });
     };
 
