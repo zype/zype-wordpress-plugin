@@ -1,5 +1,4 @@
 function ZypeWP(env) {
-
     var self = this;
 
     this.env = env;

@@ -38,19 +38,19 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
     $subscriptionsController = new Consumer\Subscriptions();
-    $ajax = $attrs['ajax'] == 'true' ? true : false;
-    $redirect_url = !empty($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
+    $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
+    $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
+    $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
 
     switch ($type) {
         case 'login':
-            return $loginController->login($ajax);
+            return $loginController->login($ajax, $root_parent);
         case 'register':
-            return $loginController->signup($ajax);
+            return $loginController->signup($ajax, $root_parent);
         case 'forgot':
-            return $profileController->forgot_password();
+            return $profileController->forgot_password($root_parent);
         case 'plans':
-            $rootParent = !empty($attrs['root_parent']) ? $attrs['root_parent'] : '';
-            return $subscriptionsController->plansView($rootParent, $redirect_url);
+            return $subscriptionsController->plansView($root_parent, $redirect_url);
         case 'checkout':
             $planId = $request->validate('planid', ['textfield']);
             return $subscriptionsController->checkoutView($planId, $redirect_url);
@@ -58,7 +58,7 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
 });
 
 add_shortcode('zype_signup', function($attrs = array()) {
-    $ajax = $attrs['ajax'] == 'true' ? true : false;
+    $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
     $loginController = new Consumer\Auth();
     return $loginController->signup($ajax);
 });

@@ -29,7 +29,7 @@
                                                 <?php if ($plan->interval_count > 1) {
                                                     echo 's';
                                                 } ?></div>
-                                            <a href="<?php echo get_permalink() . "?zype_auth_type=checkout&planid=" . esc_attr($plan->_id) . "&redirect_url=" . esc_attr($redirect_url) ?>"
+                                            <a href="<?php echo get_permalink() . "?zype_auth_type=checkout&planid=" . esc_attr($plan->_id) . "&redirect_url=" . esc_attr($redirect_url) . "&root_parent=" . esc_attr($root_parent) ?>"
                                                class="zype_auth_markup zype-btn-price-plan"
                                                data-type="checkout"
                                                data-planid="<?php echo esc_attr($plan->_id) ?>"

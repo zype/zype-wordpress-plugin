@@ -111,8 +111,12 @@ class HooksService extends ServiceProvider
     public function zype_auth_markup()
     {
         if ($this->request->get('type')) {
+            $type = $this->request->validate('type', ['textfield']);
+            $plan_id = $this->request->validate('planid', ['textfield']);
+            $root_parent = $this->request->validate('root_parent', ['textfield']);
+            $redirect_url = $this->request->validate('redirectURL', ['textfield']);
             echo do_shortcode(
-                '[zype_auth type="' . $this->request->validate('type', ['textfield']) . "\" plan_id=\"" . $this->request->validate('planid', ['textfield']) . "\" root_parent=\"" . $this->request->validate('rootParent', ['textfield']) . "\" redirect_url=\"" . $this->request->validate('redirectURL', ['textfield']) . '"]'
+                '[zype_auth type="' . $type . "\" plan_id=\"" . $plan_id . "\" root_parent=\"" . $root_parent . "\" redirect_url=\"" . $redirect_url . '"]'
             );
         }
         exit;

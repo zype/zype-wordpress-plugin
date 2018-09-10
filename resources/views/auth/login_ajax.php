@@ -1,4 +1,4 @@
-<div id="zype-modal-auth">
+<div id="zype-modal-auth" class='zype-form'>
   <div class="content-wrap zype-form-center">
     <div class="main-heading inner-heading">
       <h1 class="title zype-title">Sign in</h1>
@@ -50,12 +50,10 @@
           data = $.parseJSON(data);
           if (data.status == true) {
             if(!data.is_subscribed) {
-              var planDiv = $(".subscribe-button-content #plans")
+              var planDiv = $("#subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
-                $('#zype-modal-auth').hide();
-                $('#zype-modal-signup').hide();
-                $('#zype-modal-forgot').hide();
+                $('.zype-form').hide();
               }
             }
             else {

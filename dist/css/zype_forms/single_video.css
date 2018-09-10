@@ -125,7 +125,7 @@
 }
 
 .site-content .zype_player_container .player-auth-required-content,
-.site-content .subscribe-button-content {
+.site-content #subscribe-button-content {
     max-width: 650px;
     padding: 25px 20px;
     cursor: default;
@@ -162,7 +162,7 @@
 }
 
 .site-content .zype_player_container .player-auth-required-content h3
-.site-content .subscribe-button-content h3 {
+.site-content #subscribe-button-content h3 {
     font-size: 24px;
     line-height: 28px;
     margin: 0 0 9px;
@@ -173,7 +173,7 @@
 }
 
 .site-content .zype_player_container .player-auth-required-content .login-sub-section,
-.site-content .subscribe-button-content .login-sub-section, {
+.site-content #subscribe-button-content .login-sub-section, {
     text-align: center;
 }
 
