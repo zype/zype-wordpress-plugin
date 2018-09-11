@@ -16,8 +16,10 @@
                 <input placeholder="Email" type="email" class="required-email zype-input-text" id="email-forgot" name="email" <?php if(isset($zype_signup_email)){?> value=<?php echo $zype_signup_email; ?><?php } ?>>
               </div>
               <button type="submit" class="zype-button">Reset Password</button>
-              <p class="to-sign-in">Already have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0">Sign In</a><br>
-              Don't have an account? <a href="?zype_auth_type=register" class="zype_auth_markup" data-type="register">Sign Up</a></p>
+              <p class="to-sign-in">
+                Already have an account?
+                <a href="<?php echo get_permalink() . "?zype_auth_type=login&root_parent=" . $root_parent ?>" class="zype_auth_markup" data-type="login" data-id="0" data-root-parent-id="<?php echo $root_parent; ?>">Sign In</a><br>
+                Don't have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=register&root_parent=" . $root_parent ?>" class="zype_auth_markup" data-type="register" data-root-parent-id="<?php echo $root_parent; ?>">Sign Up</a></p>
               </div>
           </form>
         </div>
