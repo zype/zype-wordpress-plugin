@@ -371,7 +371,7 @@ body:not(.twentyseventeen-front-page) .entry-content {
 }
 
 .site-content .player-auth-required-content,
-.site-content #subscribe-button-content {
+.site-content .subscribe-button-content {
     max-width: 650px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
     padding: 25px 20px;

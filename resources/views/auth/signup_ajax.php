@@ -22,11 +22,16 @@
                   <input placeholder="Password" type="password" class="required zype-input-text" id="password-signup" name="password">
                 </div>
                 <?php if (isset($terms_link) && $terms_link): ?>
-                    <div class="signup-note">By clicking Create My Login, you agree to our <a href="<?php echo esc_url($terms_link) ?>" target="_blank">Terms of Service</a></div>
+                  <div class="signup-note">By clicking Create My Login, you agree to our <a href="<?php echo esc_url($terms_link) ?>" target="_blank">Terms of Service</a></div>
                 <?php endif; ?>
                 <button type="submit" class="zype-button">Create my login</button>
-                <p class="to-sign-in">Already have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0">Sign In</a></p>
-                </div>
+                <p class="to-sign-in">
+                  Already have an account?
+                  <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0" data-root-parent-id="<?php echo $root_parent; ?>">
+                    Sign In
+                  </a>
+                </p>
+              </div>
             </form>
           </div>
         </div>
@@ -37,27 +42,34 @@
 <script>
   (function($) {
     $(document).ready(function() {
-      var zype_ajax_form = $("#zype_signup_form_ajax");
-      zype_ajax_form.ajaxForm({
+      var rootParentId = "#<?php echo $root_parent ?>";
+      var zypeAjaxFormPath = [rootParentId, "#zype_signup_form_ajax"].join(' ');;
+      var zypeSubmitButtonFormPath = [zypeAjaxFormPath, 'button.zype-button[type="submit"]'].join(' ');
+      var zypeErrorSectionFormPath = [zypeAjaxFormPath, '.error-section'].join(' ');
+      var zypeSpinnerFormPath = [zypeAjaxFormPath, '.zype-spinner'].join(' ');
+
+      var zypeAjaxForm = $(zypeAjaxFormPath);
+      debugger
+      zypeAjaxForm.ajaxForm({
         beforeSubmit: function() {
-          $("#zype_signup_form_ajax .zype-button").append('<i class="zype-spinner"></i>');
-          $("#zype_signup_form_ajax .error-section").html("");
+          $(zypeSubmitButtonFormPath).append('<i class="zype-spinner"></i>');
+          $(zypeErrorSectionFormPath).html("");
         },
         success: function(data) {
-          $('.zype-spinner').remove();
+          $(zypeSpinnerFormPath).remove();
           data = $.parseJSON(data);
           if (data.status == true) {
-              var planDiv = $("#subscribe-button-content #plans")
+              var planDiv = $(".subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
                 $('.zype-form').hide();
               }
           } else {
-              $("#zype_signup_form_ajax").find('button[type="submit"]').prop('disabled', false);
+              $(zypeSubmitButtonFormPath).prop('disabled', false);
               if (data.errors) {
-                  $("#zype_signup_form_ajax").find('.error-section').html(data.errors.join(","));
+                  $(zypeErrorSectionFormPath).html(data.errors.join(","));
               } else {
-                  $("#zype_signup_form_ajax").find('.error-section').html('Something went wrong...');
+                  $(zypeErrorSectionFormPath).html('Something went wrong...');
               }
           }
         }

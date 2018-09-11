@@ -181,22 +181,31 @@ function ZypeWP(env) {
                 if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {
                     $item.on('click', function (e) {
                         e.preventDefault();
-
+                        var rootParentId = '';
+                        var zypeModalAuthId = '#zype-modal-auth';
+                        var zypeModalSignupId = '#zype-modal-signup';
+                        var zypeModalForgotId = '#zype-modal-forgot';
+                        if(jQuery(this).data().rootParentId) {
+                            rootParentId = '#' + jQuery(this).data().rootParentId;
+                            zypeModalAuthId = [rootParentId, zypeModalAuthId].join(' ') ;
+                            zypeModalSignupId = [rootParentId, zypeModalSignupId].join(' ') ;
+                            zypeModalForgotId = [rootParentId, zypeModalForgotId].join(' ') ;
+                        }
                         switch (jQuery(this).data('type')) {
                             case 'login':
-                                jQuery('#zype-modal-auth').show();
-                                jQuery('#zype-modal-signup').hide();
-                                jQuery('#zype-modal-forgot').hide();
+                                jQuery(zypeModalAuthId).show();
+                                jQuery(zypeModalSignupId).hide();
+                                jQuery(zypeModalForgotId).hide();
                                 break;
                             case 'register':
-                                jQuery('#zype-modal-signup').show();
-                                jQuery('#zype-modal-auth').hide();
-                                jQuery('#zype-modal-forgot').hide();
+                                jQuery(zypeModalSignupId).show();
+                                jQuery(zypeModalAuthId).hide();
+                                jQuery(zypeModalForgotId).hide();
                                 break;
                             case 'forgot':
-                                jQuery('#zype-modal-forgot').show();
-                                jQuery('#zype-modal-auth').hide();
-                                jQuery('#zype-modal-signup').hide();
+                                jQuery(zypeModalForgotId).show();
+                                jQuery(zypeModalAuthId).hide();
+                                jQuery(zypeModalSignupId).hide();
                                 break;
                         }
                     });
