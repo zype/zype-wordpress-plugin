@@ -1,4 +1,4 @@
-<div id="zype-modal-auth">
+<div id="zype-modal-auth" class='zype-form'>
   <div class="content-wrap zype-form-center">
     <div class="main-heading inner-heading">
       <h1 class="title zype-title">Sign in</h1>
@@ -24,8 +24,15 @@
               </div>
               <div class="success-section"></div>
               <div class="">
-                <p class="to-forgot-password"><a href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>" class="zype_auth_markup" data-type="forgot">Forgot password?</a></p>
-                <p class="to-sign-up">Don't have an account? <a href="<?php echo get_permalink() . "?zype_auth_type=register" ?>" class="zype_auth_markup" data-type="register">Sign Up</a></p>
+                <p class="to-forgot-password">
+                  <a href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>" class="zype_auth_markup" data-type="forgot" data-root-parent-id="<?php echo $root_parent ?>">Forgot password?</a>
+                </p>
+                <p class="to-sign-up">
+                  Don't have an account?
+                  <a href="<?php echo get_permalink() . "?zype_auth_type=register" ?>" class="zype_auth_markup" data-type="register" data-root-parent-id="<?php echo $root_parent ?>">
+                    Sign Up
+                  </a>
+                </p>
               </div>
             </form>
           </div>
@@ -38,37 +45,41 @@
 <script>
   (function($){
     $(document).ready(function() {
-      var zype_ajax_form = $("#zype_login_form_ajax");
+      var rootParentId = "#<?php echo $root_parent ?>";
+      var zypeAjaxFormPath = [rootParentId, "#zype_login_form_ajax"].join(' ');;
+      var zypeSubmitButtonFormPath = [zypeAjaxFormPath, '.zype-button'].join(' ');
+      var zypeErrorSectionFormPath = [zypeAjaxFormPath, '.error-section'].join(' ');
+      var zypeSpinnerFormPath = [zypeAjaxFormPath, '.zype-spinner'].join(' ');
 
-      zype_ajax_form.ajaxForm({
+      var zypeAjaxForm = $(zypeAjaxFormPath);
+
+      zypeAjaxForm.ajaxForm({
         beforeSubmit: function() {
-          $("#zype_login_form_ajax .zype-button").append('<i class="zype-spinner"></i>');
-          $("#zype_login_form_ajax .error-section").html("");
+          $(zypeSubmitButtonFormPath).append('<i class="zype-spinner"></i>');
+          $(zypeErrorSectionFormPath).html("");
         },
         success: function(data) {
-          $('.zype-spinner').remove();
+          $(zypeSpinnerFormPath).remove();
           data = $.parseJSON(data);
           if (data.status == true) {
             if(!data.is_subscribed) {
               var planDiv = $(".subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
-                $('#zype-modal-auth').hide();
-                $('#zype-modal-signup').hide();
-                $('#zype-modal-forgot').hide();
+                $('.zype-form').hide();
               }
             }
             else {
-              $('#zype_login_form_ajax').hide();
-              $('#zype-modal-auth .main-heading .title').text('You\'re already subscribed!');
-              $('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+              $(zypeAjaxFormPath).hide();
+              $(rootParentId).find('#zype-modal-auth .main-heading .title').text('You\'re already subscribed!');
+              $(rootParentId).find('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
           } else {
-            $("#zype_login_form_ajax").find('button[type="submit"]').prop('disabled', false);
+            $(zypeAjaxFormPath).find('button[type="submit"]').prop('disabled', false);
             if (data.errors) {
-              $("#zype_login_form_ajax").find('.error-section').html(data.errors.join(","));
+              $(zypeErrorSectionFormPath).html(data.errors.join(","));
             } else {
-              $("#zype_login_form_ajax").find('.error-section').html('Something went wrong...');
+              $(zypeErrorSectionFormPath).html('Something went wrong...');
             }
           }
         }

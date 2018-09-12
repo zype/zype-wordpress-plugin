@@ -26,7 +26,8 @@ if (Config::get('zype.livestream_enabled')) {
 }
 
 add_shortcode('zype_categories', function() {
-    return Consumer\Category::categories_list();
+    $categories = new Consumer\Category();
+    return $categories->categories_list();
 });
 
 add_shortcode('zype_auth', function($attrs = array()) {
@@ -35,33 +36,35 @@ add_shortcode('zype_auth', function($attrs = array()) {
     $loginController = new Consumer\Auth();
     $profileController = new Consumer\Profile();
     $subscriptionsController = new Consumer\Subscriptions();
-    $ajax = $attrs['ajax'] == 'true' ? true : false;
-    $redirect_url = $attrs['redirect_url'];
+    $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
+    $redirect_url = isset($attrs['redirect_url']) ? $attrs['redirect_url'] : '';
+    $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
 
     switch ($type) {
         case 'login':
-            return $loginController->login($ajax);
+            return $loginController->login($ajax, $root_parent);
         case 'register':
-            return $loginController->signup($ajax);
+            return $loginController->signup($ajax, $root_parent);
         case 'forgot':
-            return $profileController->forgot_password();
+            return $profileController->forgot_password($root_parent);
         case 'plans':
-            $rootParent = $attrs['root_parent'];
-            return $subscriptionsController->plansView($rootParent, $redirect_url);
+            return $subscriptionsController->plansView($root_parent, $redirect_url);
         case 'checkout':
             return $subscriptionsController->checkoutView(Input::get('planid'), $redirect_url);
     }
 });
 
 add_shortcode('zype_signup', function($attrs = array()) {
-    $ajax = $attrs['ajax'] == 'true' ? true : false;
+    $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
+    $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
     $loginController = new Consumer\Auth();
-    return $loginController->signup($ajax);
+    return $loginController->signup($ajax, $root_parent);
 });
 
-add_shortcode('zype_forgot', function() {
+add_shortcode('zype_forgot', function($attrs = array()) {
+    $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
     $profileController = new Consumer\Profile();
-    return $profileController->forgot_password();
+    return $profileController->forgot_password($root_parent);
 });
 
 add_shortcode('zype_video', function($attrs) {

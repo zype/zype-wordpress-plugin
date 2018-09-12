@@ -10,74 +10,74 @@
     justify-content: center;
     z-index: 9999;
     display: none;
-  }
-  .subscribe-button-content {
-    width: 100%;
-    max-width: 650px;
-    padding: 25px 20px;
-    cursor: default;
-    border-radius: 5px;
-    position: relative;
-    top: -50%;
-    bottom: 20px;
-    transition: top 0.3s ease;
-  }
-  .subscribe-button-content h3 {
-    font-size: 24px;
-    line-height: 28px;
-    margin: 0 0 9px;
-    font-weight: 400;
-    color: #2c3c4c;
-    text-align: center;
-    padding-top: 0;
-  }
+}
+.subscribe-button-content {
+  width: 100%;
+  max-width: 650px;
+  padding: 25px 20px;
+  cursor: default;
+  border-radius: 5px;
+  position: relative;
+  top: -50%;
+  bottom: 20px;
+  transition: top 0.3s ease;
+}
+.subscribe-button-content h3 {
+  font-size: 24px;
+  line-height: 28px;
+  margin: 0 0 9px;
+  font-weight: 400;
+  color: #2c3c4c;
+  text-align: center;
+  padding-top: 0;
+}
 
-  .subscribe-button-content .login-sub-section {
-    text-align: center;
-  }
-  .subscribe-button-content .login-sub-section-title {
-    float: left;
-    margin-right: 5px;
-  }
-  .subscribe-button-content .login-sub-section .zype_login-wrapper {
-    border: 0;
-    width: 100%;
-    margin: 0;
-  }
-  .subscribe-button-content .login-sub-section .zype_heading {
-    background-color: transparent;
-    border: 0;
-    box-shadow: 0;
-    padding: 0;
-    text-align: left;
-  }
-  .subscribe-button-content .login-sub-section .zype_form__login {
-    padding: 25px 0;
-  }
-  .subscribe-button-content .login-sub-section > p {
-    text-align: center;
-    font-size: 14px;
-    color: #606060;
-  }
-  .subscribe-button-content .login-sub-section > a {
-    display: inline-block;
-    background-color: #222;
-    border: 0;
-    border-radius: 2px;
-    box-shadow: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    font-size: 0.875rem;
-    font-weight: 800;
-    line-height: 1;
-    padding: 1em 2em;
-    text-shadow: none;
-    transition: background 0.2s;
-  }
-  .subscribe-button-content .login-sub-section > a:hover {
-    background: #767676;
-  }
-  .subscribe-button.zype_modal_open {
-    overflow-y: auto;
-  }
+.subscribe-button-content .login-sub-section {
+  text-align: center;
+}
+.subscribe-button-content .login-sub-section-title {
+  float: left;
+  margin-right: 5px;
+}
+.subscribe-button-content .login-sub-section .zype_login-wrapper {
+  border: 0;
+  width: 100%;
+  margin: 0;
+}
+.subscribe-button-content .login-sub-section .zype_heading {
+  background-color: transparent;
+  border: 0;
+  box-shadow: 0;
+  padding: 0;
+  text-align: left;
+}
+.subscribe-button-content .login-sub-section .zype_form__login {
+  padding: 25px 0;
+}
+.subscribe-button-content .login-sub-section > p {
+  text-align: center;
+  font-size: 14px;
+  color: #606060;
+}
+.subscribe-button-content .login-sub-section > a {
+  display: inline-block;
+  background-color: #222;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 1em 2em;
+  text-shadow: none;
+  transition: background 0.2s;
+}
+.subscribe-button-content .login-sub-section > a:hover {
+  background: #767676;
+}
+.subscribe-button.zype_modal_open {
+  overflow-y: auto;
+}
