@@ -11,7 +11,6 @@
             <div class="item-list">
                 <div class="slot">
                     <p>
-                        <span class="ico"><i class="fa fa-fw fa-smile-o"></i></span>
                         If we've changed your mind, click the button below.
                     </p>
                     <a href="/" class="btn btn-primary user-profile-wrap__button" style="text-decoration: none;">Take Me
@@ -19,7 +18,6 @@
                 </div>
                 <div class="slot">
                     <p>
-                        <span class="ico"><i class="fa fa-fw fa-frown-o"></i></span>
                         If you're still determined to cancel, click the button below.
                     </p>
                     <form action="<?php zype_url('profile'); ?>/subscription/cancel/" method="post">
