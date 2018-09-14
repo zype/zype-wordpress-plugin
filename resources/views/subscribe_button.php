@@ -64,7 +64,6 @@
           $(zypeModalForgotPath).hide();
         });
 
-
         $(document).on('click', zypeJoinButtonPath, function(e) {
           e.preventDefault();
           if($(zypePlansPath).css('display') === 'none') {

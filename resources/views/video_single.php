@@ -1,19 +1,19 @@
 <?php
-$id = 'zype-video-' . $video->_id . '-' . (time() * rand(1, 1000000));
-$hours = floor($video->duration / 3600);
-$minutes = floor(($video->duration / 60) % 60);
-$seconds = $video->duration % 60;
+    $id = 'zype-video-' . $video->_id . '-' . (time() * rand(1, 1000000));
+    $hours = floor($video->duration / 3600);
+    $minutes = floor(($video->duration / 60) % 60);
+    $seconds = $video->duration % 60;
 
-$duration = '';
-if ($hours >= 1) {
-    $duration = "{$hours}h, {$minutes}m";
-} else {
-    if (!$minutes) {
-        $duration = "{$seconds}s";
+    $duration = '';
+    if ($hours >= 1) {
+        $duration = "{$hours}h, {$minutes}m";
     } else {
-        $duration = "{$minutes}m";
+        if (!$minutes) {
+            $duration = "{$seconds}s";
+        } else {
+            $duration = "{$minutes}m";
+        }
     }
-}
 ?>
 <div class="zype_video" id="<?php echo $id; ?>">
     <div class="zype_video__wrapper">

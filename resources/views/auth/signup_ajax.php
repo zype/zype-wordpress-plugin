@@ -49,7 +49,7 @@
       var zypeSpinnerFormPath = [zypeAjaxFormPath, '.zype-spinner'].join(' ');
 
       var zypeAjaxForm = $(zypeAjaxFormPath);
-      debugger
+
       zypeAjaxForm.ajaxForm({
         beforeSubmit: function() {
           $(zypeSubmitButtonFormPath).append('<i class="zype-spinner"></i>');

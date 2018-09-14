@@ -34,7 +34,7 @@
                                                data-type="checkout"
                                                data-planid="<?php echo esc_attr($plan->_id) ?>"
                                                data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
-                                               data-root-parent="<?php echo $root_parent; ?>">
+                                               data-root-parent="<?php echo esc_attr($root_parent); ?>">
                                                 <div class="zype-btn-container-plan">Continue</div>
                                             </a>
                                         </div>
