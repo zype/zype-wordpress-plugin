@@ -396,11 +396,21 @@ class Profile extends Base
         die();
     }
 
-    public function change_card()
+    public function change_credit_card()
+    {
+        $title = 'Change Credit Card';
+        $stripe_pk = $this->options['stripe_pk'];
+        print view('auth.change_credit_card', [
+            'title' => $title,
+            'stripe_pk' => $stripe_pk
+        ]);
+        exit;
+    }
+
+    public function change_credit_card_submit()
     {
         $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
-        $consumer_id = $this->request->validate('consumer_id', ['textfield']);
 
         if ($consumer_id) {
             if ($this->request->validate('payment_method_nonce', ['textfield'])) {
@@ -420,7 +430,7 @@ class Profile extends Base
             zype_flash_message('error', 'An error has occured. Please try again.');
         }
 
-        wp_redirect(get_zype_url('profile') . '/subscription/');
+        wp_redirect(get_zype_url('profile') . '/change-credit-card/');
         die();
     }
 

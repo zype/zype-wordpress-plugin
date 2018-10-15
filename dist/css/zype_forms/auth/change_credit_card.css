@@ -1,0 +1,3 @@
+#change-credit-card-form  p.zype-input-wrap > .zype-input-text.zype-card-cvc, #change-credit-card-form p.zype-input-wrap > .zype-input-text.zype-card-date {
+  width: 35%;
+}
