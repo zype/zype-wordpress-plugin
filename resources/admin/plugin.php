@@ -66,6 +66,19 @@ Action::add('zype_page_zype-users', 'ZypeMedia\Controllers\Admin@admin_users_pag
 Action::add('admin_action_zype_users', 'ZypeMedia\Controllers\Admin@admin_users_page_save');
 ### Users page end
 
+### Email Settings page start
+Page::make('zype-email-settings', 'Email Settings', 'zype')->set([
+    'capability' => 'manage_options',
+    'icon' => $icon_url,
+    'position' => 20,
+    'tabs' => true,
+    'menu' => __("Email Settings")
+]);
+
+Action::add('zype_page_zype-email-settings', 'ZypeMedia\Controllers\Admin@admin_email_settings_page');
+Action::add('admin_action_zype_email_settings', 'ZypeMedia\Controllers\Admin@admin_email_settings_page_save');
+### Email Settings page end
+
 ### Monetization page start
 Page::make('zype-monetization', 'Monetization', 'zype')->set([
     'capability' => 'manage_options',

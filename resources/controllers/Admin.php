@@ -472,6 +472,57 @@ class Admin extends Controller
         exit;
     }
 
+    public function admin_email_settings_page()
+    {
+        echo view('admin.email_settings', [
+            'options' => $this->options
+        ]);
+
+        wp_die();
+    }
+
+    public function admin_email_settings_page_save()
+    {
+        $emailTypes = array_keys($this->options['emails']);
+        $errors = [];
+        $newAttributes = [];
+        foreach($emailTypes as $emailType)
+        {
+            $emailText = $this->request->validate($emailType, ['textarea'], $this->options['emails'][$emailType]['text']);
+            $requiredPlaceholders = $this->options['emails'][$emailType]['required'];
+            if(count($requiredPlaceholders) > 0)
+            {
+                foreach($requiredPlaceholders as $required)
+                {
+                    $pos = strpos($emailText, $required);
+                    if($pos == false)
+                    {
+                        $errors[] = join(' ', ['The email', $emailType, 'is missing', $required]);
+                    }
+                    else
+                    {
+                        $this->options['emails'][$emailType]['text'] = $emailText;
+                    }
+                }
+            }
+            else
+            {
+                $this->options['emails'][$emailType]['text'] = $emailText;
+            }
+        }
+        if(count($errors) > 0)
+        {
+            zype_wp_admin_message('error', implode($errors, "\n"));
+        }
+        else
+        {
+            $this->update_options();
+            zype_wp_admin_message('updated', 'Changes successfully saved!');
+        }
+        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
+        exit();
+    }
+
     public function admin_cookie_key_page_save()
     {
         if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_cookie_key')) {
