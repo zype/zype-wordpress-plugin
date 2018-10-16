@@ -67,7 +67,8 @@ if (Config::get('zype.authentication_enabled')) {
         Route::any("{$profile_url}/reset-password/{hash}/submit", 'Consumer\Profile@reset_password_submit');
         Route::any("{$profile_url}/subscription", 'Consumer\Profile@subscription');
         Route::any("{$profile_url}/subscription/change", 'Consumer\Profile@change_subscription');
-        Route::any("{$profile_url}/subscription/change-card", 'Consumer\Profile@change_card');
+        Route::any("{$profile_url}/change-credit-card", 'Consumer\Profile@change_credit_card');
+        Route::any("{$profile_url}/change-credit-card/submit", 'Consumer\Profile@change_credit_card_submit');
         Route::any("{$profile_url}/subscription/cancel", 'Consumer\Profile@cancel_subscription');
         Route::any("{$profile_url}/rss-feeds", 'Consumer\Profile@rss_feeds');
         Route::any("{$profile_url}", 'Consumer\Profile@profile');

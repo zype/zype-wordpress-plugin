@@ -20,12 +20,12 @@
                                 <span class="text">Change Password</span>
                             </a>
                         </li>
-                        <!-- <li class="rss-feeds">
-                          <a href="<!?php echo home_url($options['profile_url']) ?>/rss-feeds/">
-                            <span class="ico"><i class="fa fa-fw fa-rss"></i></span>
-                            <span class="text">RSS Feeds</span>
-                          </a>
-                        </li> -->
+                        <li class="change-credit-card">
+                            <a href="<?php echo home_url($options['profile_url']) ?>/change-credit-card/">
+                                <span class="ico"><i class="fa fa-fw fa-credit-card"></i></span>
+                                <span class="text">Change Credit Card</span>
+                            </a>
+                        </li>
                         <li class="subscription">
                             <a href="<?php echo home_url($options['profile_url']) ?>/subscription/">
                                 <span class="ico"><i class="fa fa-fw fa-dollar"></i></span>

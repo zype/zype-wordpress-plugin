@@ -505,6 +505,11 @@ body:not(.twentyseventeen-front-page) .entry-content {
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
 
+
+.user-profile-wrap > .main-heading > .text-uppercase {
+    text-transform: uppercase !important;
+  }
+
 .user-profile-wrap > .main-heading > .title::first-letter {
     text-transform: uppercase !important;
 }

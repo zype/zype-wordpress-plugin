@@ -50,6 +50,7 @@ class HooksService extends ServiceProvider
         Asset::add('zype_single_video', 'css/zype_forms/single_video.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_subscribe_button', 'css/zype_forms/subscription_button.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_plans', 'css/zype_forms/plans.css', false, ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_change_credit_card', 'css/zype_forms/auth/change_credit_card.css', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype-style', 'css/style_plugin.css', ['slick-theme'], '1.0', 'all');
         Asset::add('zype_checkout', 'javascripts/checkout.js', false, ZYPE_WP_VERSION, 'all');
 
