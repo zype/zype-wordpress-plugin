@@ -49,7 +49,7 @@ $plans = \Zype::get_all_plans();
                 <input type="text" name="sub_short_code_btn_text" id="sub-short-code-btn-text" class="regular-text" value="<?php echo $options['sub_short_code_btn_text']; ?>" maxlength="25">
                 <p class="description">
                     Enter the text you would like to display on the 'Subscribe' button
-                    that's added to your webpage using the susbscription short code.
+                    that's added to your webpage using the subscription short code.
                     The default text is "SIGN UP" however you can add any text you would
                     like up to limit of 25 characters.
                 </p>
