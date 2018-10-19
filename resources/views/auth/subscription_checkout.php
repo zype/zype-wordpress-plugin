@@ -84,6 +84,76 @@
 </div>
 
 <script>
+    function getCardType(number)
+    {
+
+        // visa
+        var re = new RegExp("^4");
+        if (number.match(re) != null)
+            return {
+                type: "Visa",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Mastercard
+        // Updated for Mastercard 2017 BINs expansion
+        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number)) 
+            return {
+                type: "Mastercard",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // AMEX
+        re = new RegExp("^3[47]");
+        if (number.match(re) != null)
+            return {
+                type: "AMEX",
+                mask: "9999 999999 99999"
+            };
+
+        // Discover
+        re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+        if (number.match(re) != null)
+            return {
+                type: "Discover",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Diners
+        re = new RegExp("^36");
+        if (number.match(re) != null)
+            return {
+                type: "Diners",
+                mask: "9999 9999 9999 99"
+            };
+
+        // Diners - Carte Blanche
+        re = new RegExp("^30[0-5]");
+        if (number.match(re) != null)
+            return {
+                type: "Diners - Carte Blanche",
+                mask: "9999 9999 9999 99"
+            };
+
+        // JCB
+        re = new RegExp("^35(2[89]|[3-8][0-9])");
+        if (number.match(re) != null)
+            return {
+                type: "JCB",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Union Pay
+        re = new RegExp("^(62[0-9]{14,17})$");
+        if (number.match(re) != null)
+            return {
+                type: "Union Pay",
+                mask: "9999 9999 9999 9999"
+            };
+
+        return "";
+    }
+
     jQuery(document).ready(function ($) {
         <?php if (!empty($braintree_token)): ?>
         var ifFastPay = true;
@@ -159,42 +229,52 @@
         });
 
         <?php elseif (!empty($plan->stripe_id)): ?>
-        $(".zype-card-date").mask("99/99");
-        $(".zype-card-number").mask("9999 9999 9999 9999");
+            var currentCCMask = "9999 9999 9999 9999";
+            $(".zype-card-date").mask("99/99");
+            $(".zype-card-number").mask("9999 9999 9999 9999", { autoclear: false });
+            $(".zype-card-number").on('keyup', function (e) {
+                cc = e.currentTarget.value.replace(/\D/g, '')
+                mask = getCardType(cc).mask;
+                if(mask !== currentCCMask) {
+                    $(".zype-card-number").mask(mask, { autoclear: false });
+                    e.currentTarget.setSelectionRange(cc.length, cc.length);
+                    currentCCMask = mask;
+                }
+            });
 
-        Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
-        $(".zype-checkout-button").prop('disabled', false);
+            Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
+            $(".zype-checkout-button").prop('disabled', false);
 
-        $(".zype-checkout-button").click(function (e) {
-            e.preventDefault();
-            var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
+            $(".zype-checkout-button").click(function (e) {
+                e.preventDefault();
+                var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
 
-            $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
 
-            var cardDate = stripeForm.find('.zype-card-date').val();
-            var cardNumber = stripeForm.find('.zype-card-number').val();
-            var cardCVC = stripeForm.find('.zype-card-cvc').val();
+                var cardDate = stripeForm.find('.zype-card-date').val();
+                var cardNumber = stripeForm.find('.zype-card-number').val();
+                var cardCVC = stripeForm.find('.zype-card-cvc').val();
 
-            Stripe.card.createToken({
-                number: cardNumber,
-                cvc: cardCVC,
-                exp_month: cardDate.split('/')[0],
-                exp_year: cardDate.split('/')[1],
-            }, stripeTokenHandler);
+                Stripe.card.createToken({
+                    number: cardNumber,
+                    cvc: cardCVC,
+                    exp_month: cardDate.split('/')[0],
+                    exp_year: cardDate.split('/')[1],
+                }, stripeTokenHandler);
 
-            return false;
-        });
+                return false;
+            });
 
-        function stripeTokenHandler(status, response) {
-            if (response.error) {
-                $('.checkout_error').text(response.error.message);
-                $('.zype-checkout-button').prop('disabled', false);
-                $('.zype-spinner').remove();
-            } else {
-                $('#payment-form input[name="stripe_card_token"]').val(response.id);
-                sendPaymentRequest();
+            function stripeTokenHandler(status, response) {
+                if (response.error) {
+                    $('.checkout_error').text(response.error.message);
+                    $('.zype-checkout-button').prop('disabled', false);
+                    $('.zype-spinner').remove();
+                } else {
+                    $('#payment-form input[name="stripe_card_token"]').val(response.id);
+                    sendPaymentRequest();
+                }
             }
-        }
         <?php endif ?>
 
         function sendPaymentRequest() {
