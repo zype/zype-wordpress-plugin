@@ -35,7 +35,7 @@ class TaxonomyBuilder extends Wrapper
 
     /**
      * The taxonomy custom fields.
-     * 
+     *
      * @var array
      */
     protected $fields = [];
@@ -207,7 +207,7 @@ class TaxonomyBuilder extends Wrapper
      * @param null $property
      *
      * @return array
-     * 
+     *
      * @throws TaxonomyException
      */
     public function get($property = null)
@@ -376,7 +376,7 @@ class TaxonomyBuilder extends Wrapper
 
     /**
      * Return a default value for the custom fields.
-     * 
+     *
      * @param int                           $term_id
      * @param \Themosis\Field\Fields\IField $field
      * @param string                        $value
@@ -388,12 +388,14 @@ class TaxonomyBuilder extends Wrapper
         if (isset($_POST[$field['name']])) {
             // Check if a "save" method exists. The method will parse the $_POST value
             // and transform it for DB save. Ex.: transform an array to string or int...
+            $name = sanitize_text_field($_POST[$field['name']]);
+
             if (method_exists($field, 'save')) {
                 // The field save method
-                $value = $field->save($_POST[$field['name']], $term_id);
+                $value = $field->save($name, $term_id);
             } else {
                 // No "save" method, only fetch the $_POST value.
-                $value = $_POST[$field['name']];
+                $value = $name;
             }
         } else {
             // If nothing...get a default value...
@@ -405,7 +407,7 @@ class TaxonomyBuilder extends Wrapper
 
     /**
      * Save term custom field data to database.
-     * 
+     *
      * @param int $term_id
      */
     public function save($term_id)
