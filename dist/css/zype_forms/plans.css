@@ -76,7 +76,7 @@
     width: 90%;
 }
 
-#payment-form  p.zype-input-wrap > .zype-input-text.zype-card-cvc, #payment p.zype-input-wrap > .zype-input-text.zype-card-date {
+#payment-form  p.zype-input-wrap > .zype-input-text.zype-card-cvc, #payment-form p.zype-input-wrap > .zype-input-text.zype-card-date {
     margin: 0 3px !important;
     width: 195px !important;
 }
