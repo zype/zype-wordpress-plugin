@@ -56,19 +56,6 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <label for="new-rental">New rental email</label>
-                    </th>
-                    <td>
-                        <textarea cols="60" rows="4" name="new_rental" id="new-rental" class="regular-text"><?php echo $options['emails']['new_rental']['text']; ?></textarea>
-                        <p class="description">
-                            Required placeholders: <?php echo join(', ', $options['emails']['new_rental']['required']); ?>.
-                            <br>
-                            This text will be shown on the new rental email.
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
                         <label for="new-subscription">New subscription email</label>
                     </th>
                     <td>
