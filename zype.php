@@ -102,7 +102,29 @@ $zype_default_options = array(
     'zype_wp_version' => ZYPE_WP_VERSION,
     'sub_short_code_btn_text' => 'SIGN UP',
     'sub_short_code_redirect_url' => 'ddd',
-    'sub_short_code_text_after_sub' => 'MY ACCOUNT'
+    'sub_short_code_text_after_sub' => 'MY ACCOUNT',
+    'emails' => [
+        'cancel_subscription' => [
+            'text' => "We're very sorry to see you go! This email confirms your subscription has been canceled.\nPlease come back to visit if you'd like to subscribe again in the future.\nThanks.",
+            'required' => []
+        ],
+        'forgot_password' => [
+            'text' => "We received a request to reset your password. Please use the following link to set a new password for your account.\n{forgot_password_link}\nIf you did not request a password reset please disregard this email. Thanks for watching!",
+            'required' => ['{forgot_password_link}']
+        ],
+        'new_account' => [
+            'text' => "You can log in at the following URL using the email address and password you provided during account creation:\n{login_link}\nThanks again!",
+            'required' => ['{login_link}']
+        ],
+        'new_rental' => [
+            'text' => "Thank you for your rental to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name_link}', '{login_link}']
+        ],
+        'new_subscription' => [
+            'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
+            'required' => ['{login_link}']
+        ],
+    ]
 );
 
 $zype_wp_options = get_option(ZYPE_WP_OPTIONS);
