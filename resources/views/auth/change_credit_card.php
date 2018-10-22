@@ -86,9 +86,89 @@
 <?php get_footer(); ?>
 
 <script>
+    function getCardType(number)
+    {
+
+        // visa
+        var re = new RegExp("^4");
+        if (number.match(re) != null)
+            return {
+                type: "Visa",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Mastercard
+        // Updated for Mastercard 2017 BINs expansion
+        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number))
+            return {
+                type: "Mastercard",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // AMEX
+        re = new RegExp("^3[47]");
+        if (number.match(re) != null)
+            return {
+                type: "AMEX",
+                mask: "9999 999999 99999"
+            };
+
+        // Discover
+        re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+        if (number.match(re) != null)
+            return {
+                type: "Discover",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Diners
+        re = new RegExp("^36");
+        if (number.match(re) != null)
+            return {
+                type: "Diners",
+                mask: "9999 9999 9999 99"
+            };
+
+        // Diners - Carte Blanche
+        re = new RegExp("^30[0-5]");
+        if (number.match(re) != null)
+            return {
+                type: "Diners - Carte Blanche",
+                mask: "9999 9999 9999 99"
+            };
+
+        // JCB
+        re = new RegExp("^35(2[89]|[3-8][0-9])");
+        if (number.match(re) != null)
+            return {
+                type: "JCB",
+                mask: "9999 9999 9999 9999"
+            };
+
+        // Union Pay
+        re = new RegExp("^(62[0-9]{14,17})$");
+        if (number.match(re) != null)
+            return {
+                type: "Union Pay",
+                mask: "9999 9999 9999 9999"
+            };
+
+        return "";
+    }
+
     jQuery(document).ready(function ($) {
+        var currentCCMask = "9999 9999 9999 9999";
         $("#change-credit-card-form .zype-card-date").mask("99/99");
-        $("#change-credit-card-form .zype-card-number").mask("9999 9999 9999 9999");
+        $("#change-credit-card-form .zype-card-number").mask("9999 9999 9999 9999", { autoclear: false });
+        $("#change-credit-card-form .zype-card-number").on('keyup', function (e) {
+            cc = e.currentTarget.value.replace(/\D/g, '');
+            mask = getCardType(cc).mask;
+            if(mask !== currentCCMask) {
+                $(".zype-card-number").mask(mask, { autoclear: false });
+                e.currentTarget.setSelectionRange(cc.length, cc.length);
+                currentCCMask = mask;
+            }
+        });
 
         Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
         $("#change-credit-card-form .btn-holder input[type='submit']").prop('disabled', false);
