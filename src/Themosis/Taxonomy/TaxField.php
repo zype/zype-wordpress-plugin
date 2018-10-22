@@ -4,7 +4,7 @@ namespace Themosis\Taxonomy;
 
 /**
  * TaxField class.
- * 
+ *
  * Allow the user to add custom fields to a taxonomy.
  */
 class TaxField
@@ -191,7 +191,7 @@ class TaxField
 
             foreach ($cat_keys as $key) {
                 if (isset($_POST[$this->slug][$key])) {
-                    $term_meta[$key] = $_POST[$this->slug][$key];
+                    $term_meta[$key] = sanitize_key($_POST[$this->slug][$key]);
                 }
             }
 

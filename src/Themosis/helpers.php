@@ -169,7 +169,7 @@ if (!function_exists('themosis_get_post_id')) {
 
         // When saving the cpt (POST)
         if (isset($_POST['post_ID'])) {
-            $id = $_POST['post_ID'];
+            $id = sanitize_key($_POST['post_ID']);
         }
 
         return $id;
@@ -526,7 +526,7 @@ if (!function_exists('container')) {
 if (!function_exists('themosis')) {
     /**
      * Helper function to retrieve the Themosis class instance.
-     * 
+     *
      * @return Themosis
      */
     function themosis()

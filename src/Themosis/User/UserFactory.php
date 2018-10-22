@@ -357,7 +357,7 @@ class UserFactory extends Wrapper implements IUser
         }
 
         // Check nonces
-        $nonceName = (isset($_POST['_themosisnonce'])) ? $_POST['_themosisnonce'] : '_themosisnonce';
+        $nonceName = (isset($_POST['_themosisnonce'])) ? sanitize_key($_POST['_themosisnonce']) : '_themosisnonce';
         if (!wp_verify_nonce($nonceName, 'user')) {
             return;
         }
@@ -378,7 +378,7 @@ class UserFactory extends Wrapper implements IUser
     protected function register($id, $fields)
     {
         foreach ($fields as $field) {
-            $value = isset($_POST[$field['name']]) ? $_POST[$field['name']] : $this->parseValue($field);
+            $value = isset($_POST[$field['name']]) ? sanitize_text_field($_POST[$field['name']]) : $this->parseValue($field);
 
             // Validation code...
             if (isset($this->rules[$field['name']])) {

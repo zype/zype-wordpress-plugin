@@ -356,12 +356,12 @@ class PostTypeBuilder implements IPostType
                  * before processing default post_status.
                  */
                 if (isset($_POST['_status']) && !empty($_POST['_status'])) {
-                    return esc_attr($_POST['_status']);
+                    return sanitize_text_field($_POST['_status']);
                 }
 
                 // Else simply apply the selected custom status.
                 // Value return from the edit screen of the custom post type.
-                return esc_attr($_REQUEST['post_status']);
+                return sanitize_text_field($_REQUEST['post_status']);
             }
         }
 

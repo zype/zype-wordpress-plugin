@@ -245,7 +245,7 @@ class MetaboxBuilder extends Wrapper implements IMetabox
      */
     public function map_metadata($data, $raw)
     {
-        $post_id = isset($_POST['post_ID']) ? esc_attr($_POST['post_ID']) : false;
+        $post_id = isset($_POST['post_ID']) ? sanitize_key($_POST['post_ID']) : false;
 
         if (!$post_id) {
             return $data;
@@ -261,12 +261,14 @@ class MetaboxBuilder extends Wrapper implements IMetabox
             if (isset($_POST[$field['name']])) {
                 // Check if a "save" method exists. The method will parse the $_POST value
                 // and transform it for DB save. Ex.: transform an array to string or int...
+                $name = sanitize_text_field($_POST[$field['name']]);
+
                 if (method_exists($field, 'save')) {
                     // The field save method
-                    $value = $field->save($_POST[$field['name']], $post_id);
+                    $value = $field->save($name, $post_id);
                 } else {
                     // No "save" method, only fetch the $_POST value.
-                    $value = $_POST[$field['name']];
+                    $value = $name;
                 }
             } else {
                 // If nothing...setup a default value...
@@ -401,7 +403,7 @@ class MetaboxBuilder extends Wrapper implements IMetabox
             return;
         }
 
-        $nonceName = (isset($_POST[$this->nonce])) ? $_POST[$this->nonce] : $this->nonce;
+        $nonceName = (isset($_POST[$this->nonce])) ? sanitize_key($_POST[$this->nonce]) : $this->nonce;
         if (!wp_verify_nonce($nonceName, $this->nonceAction)) {
             return;
         }
@@ -484,12 +486,14 @@ class MetaboxBuilder extends Wrapper implements IMetabox
             if (isset($_POST[$field['name']])) {
                 // Check if a "save" method exists. The method will parse the $_POST value
                 // and transform it for DB save. Ex.: transform an array to string or int...
+                $name = sanitize_text_field($_POST[$field['name']]);
+
                 if (method_exists($field, 'save')) {
                     // The field save method
-                    $value = $field->save($_POST[$field['name']], $postId);
+                    $value = $field->save($name, $postId);
                 } else {
                     // No "save" method, only fetch the $_POST value.
-                    $value = $_POST[$field['name']];
+                    $value = $name;
                 }
             } else {
                 // If nothing...setup a default value...
