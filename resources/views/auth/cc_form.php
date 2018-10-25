@@ -1,87 +1,76 @@
 <div class="content-wrap zype-form-center">
-    <?php if (!empty($error)): ?>
-        <div id="choose-wrapper">
-            <div class="main-heading inner-heading">
-                <h1 class="title text-uppercase zype-title"><?php echo $error; ?></h1>
-            </div>
-            <div class="user-wrap">
-                <div class="holder-main">
-                    <div class="row">
-                        <div class="">
-                            <button type="button" class="zype_auth_markup zype-button" data-type="plans">Go back
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div id="payment-wrapper">
+        <div class="main-heading inner-heading">
+            <h1 class="title text-uppercase zype-title">Enter your billing info</h1>
         </div>
-    <?php else: ?>
-        <div id="payment-wrapper">
-            <div class="main-heading inner-heading">
-                <h1 class="title text-uppercase zype-title">Enter your billing info</h1>
-            </div>
-            <div class="user-wrap">
-                <div class="holder-main">
-                    <div class="row payment-row">
-                        <div class="">
-                            <input type="hidden" name="action" value="zype_plans">
+        <div class="user-wrap">
+            <div class="holder-main">
+                <div class="row payment-row">
+                    <div class="">
+                        <input type="hidden" name="action" value="zype_plans">
+                        <div class="holder">
+                            <input type="hidden" name="action" value="zype_checkout">
+                            <form id="payment-form">
+                                <input name="transaction_type" type="hidden" value="<?php echo $transaction_type; ?>">
+                                <input name="video_id" type="hidden" value="<?php echo $video_id; ?>">
+                                <input name="plan_id" type="hidden" value="<?php echo $plan->_id; ?>">
+                                <input name="pass_plan_id" type="hidden" value="<?php echo $pass_plan->_id; ?>">                                    
+                                <input name="email" type="hidden" value="<?php zype_current_consumer(); ?>">
+                                <input name="stripe_card_token" type="hidden">
+                                <input name="braintree_payment_nonce" type="hidden">
 
-                            <div class="holder">
-                                <input type="hidden" name="action" value="zype_checkout">
-                                <form id="payment-form">
-                                    <input name="plan_id" type="hidden" value="<?php echo $plan->_id; ?>">
-                                    <input name="email" type="hidden" value="<?php zype_current_consumer(); ?>">
-                                    <input name="stripe_card_token" type="hidden">
-                                    <input name="braintree_payment_nonce" type="hidden">
-
-                                    <p class="checkout_error" style='color: red'></p>
-                                    <?php if (!empty($braintree_token)): ?>
-                                        <input name="type" type="hidden" value="braintree">
-                                        <div id="braintree-form"></div>
-                                    <?php elseif (!empty($plan->stripe_id)): ?>
-                                        <input name="type" type="hidden" value="stripe">
-                                        <div id="stripe-form">
-                                            <p class="form-group required-row zype-input-wrap">
-                                                <input type="text" maxlength="16"
-                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                                                       placeholder="Card number"
-                                                       class="zype-input-text zype-card-number">
-                                            </p>
-                                            <p class="form-group required-row zype-input-wrap">
-                                                <input maxlength="4"
-                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                                                       type="text" placeholder="CVC"
-                                                       class="zype-input-text zype-card-cvc">
-                                                <input type="text" placeholder="MM/YY"
-                                                       class="zype-input-text zype-card-date">
-                                            </p>
-                                        </div>
-                                    <?php endif ?>
-
-                                    <div class="zype-buttons-row">
-                                        <div class="zype-buttons-column">
-                                            <button type="button" class="zype_auth_markup zype-button"
-                                                    data-type="plans"
-                                                    data-root-parent="<?php echo $root_parent; ?>">Go back
-                                            </button>
-                                        </div>
-
-                                        <div class="zype-buttons-column">
-                                            <button type="submit" class="zype-checkout-button zype-button"
-                                                    data-description="<?php echo $plan->name; ?>"
-                                                    data-interval="<?php echo $plan->interval; ?>"
-                                                    data-amount="<?php echo $plan->amount; ?>" disabled>Continue
-                                            </button>
-                                        </div>
+                                <p class="checkout_error" style='color: red'></p>
+                                <?php if (!empty($braintree_token)): ?>
+                                    <input name="type" type="hidden" value="braintree">
+                                    <div id="braintree-form"></div>
+                                <?php elseif ((!empty($plan->stripe_id)) || ($transaction_type !== ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION)): ?>
+                                    <input name="type" type="hidden" value="stripe">
+                                    <div id="stripe-form">
+                                        <p class="form-group required-row zype-input-wrap">
+                                            <input type="text" maxlength="16"
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                                    placeholder="Card number"
+                                                    class="zype-input-text zype-card-number">
+                                        </p>
+                                        <p class="form-group required-row zype-input-wrap">
+                                            <input maxlength="4"
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                                    type="text" placeholder="CVC"
+                                                    class="zype-input-text zype-card-cvc">
+                                            <input type="text" placeholder="MM/YY"
+                                                    class="zype-input-text zype-card-date">
+                                        </p>
                                     </div>
-                                </form>
-                            </div>
+                                <?php endif ?>
+
+                                <div class="zype-buttons-row">
+                                    <div class="zype-buttons-column">
+                                        <button type="button" class="zype_monetization_checkout zype-button"
+                                                data-type="paywall"
+                                                data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                data-root-parent="<?php echo $root_parent; ?>">Go back
+                                        </button>
+                                    </div>
+
+                                    <div class="zype-buttons-column">
+                                        <button type="submit" class="zype-checkout-button zype-button"
+                                            data-transaction-type="<?php echo $transaction_type; ?>"
+                                            data-description="<?php echo $plan->name; ?>"
+                                            data-interval="<?php echo $plan->interval; ?>"
+                                            data-amount="<?php echo $plan->amount; ?>"
+                                            disabled
+                                        >
+                                            Continue
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    <?php endif ?>
+    </div>
 </div>
 
 <script>
@@ -229,7 +218,7 @@
                 });
             });
 
-        <?php elseif (!empty($plan->stripe_id)): ?>
+        <?php elseif ((!empty($plan->stripe_id)) || ($transaction_type !== ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION)): ?>
             var currentCCMask = "9999 9999 9999 9999";
             $(".zype-card-date").mask("99/99");
             $(".zype-card-number").mask("9999 9999 9999 9999", { autoclear: false });
@@ -280,9 +269,18 @@
 
         function sendPaymentRequest() {
             $('.checkout_error').text('');
+            var transaction_type = $(".zype-checkout-button").data('transaction-type');
+            var subscription_type = "<?php echo ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION;?>";
+            var url = '';
+            if(subscription_type == transaction_type) {
+                url = "<?php zype_url('subscribe');?>/submit";
+            }
+            else {
+                url = "<?php zype_url('transaction');?>/submit"
+            }
 
             $.ajax({
-                url: "<?php zype_url('subscribe');?>/submit",
+                url: url,
                 type: 'post',
                 data: $('#payment-form').serialize(),
                 dataType: 'json',
@@ -292,6 +290,8 @@
                     $.each(data.errors, function (index, value) {
                         $('.checkout_error').append(value + "<br/>");
                     });
+                    $('.zype-checkout-button').prop('disabled', false);
+                    $('.zype-spinner').remove();                    
                     return;
                 }
                 if (data.success) {

@@ -76,9 +76,11 @@ $zype_default_options = array(
     'logout_url' => 'sign-out',
     'profile_url' => 'profile',
     'device_link_url' => 'link',
+    'transaction_url' => 'transaction',
     'subscribe_url' => 'subscribe',
     'rental_url' => 'rental',
     'pass_url' => 'pass',
+    'purchase_url' => 'purchase',
     'terms_url' => '',
     'braintree_environment' => '',
     'braintree_merchant_id' => '',
@@ -117,9 +119,17 @@ $zype_default_options = array(
             'required' => ['{login_link}']
         ],
         'new_rental' => [
-            'text' => "Thank you for your rental to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{video_name_link}', '{login_link}']
+            'text' => "Thank you for your rental to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name}', '{login_link}']
         ],
+        'new_purchase' => [
+            'text' => "Thank you for your purchase to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name}', '{login_link}']
+        ],
+        'new_pass' => [
+            'text' => "Thank you for buying a pass plan, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{login_link}']
+        ],        
         'new_subscription' => [
             'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
             'required' => ['{login_link}']

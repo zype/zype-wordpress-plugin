@@ -6,132 +6,99 @@ use ZypeMedia\Services\Braintree;
 
 class Transaction extends Base
 {
+    
     public function __construct()
     {
         parent::__construct();
         $this->form_message = null;
     }
 
-    public function plans()
-    {
-        $pass_plans = \Zype::get_all_pass_plans();
-
-        $this->title = 'Select a Plan';
-        $this->template = __FUNCTION__;
-    }
-
-    public function checkout()
-    {
-        $this->processTransactionSubmit();
-
-        if ($videoId = $this->request->validate('video_id', ['textfield'])) {
-            $vm = new \ZypeMedia\Models\Video;
-            $vm->find($videoId);
-
-            $video = $vm->single;
-
-            if ($video->rental_required) {
-                $this->template = 'rental_checkout';
-            }
-
-            $plan_id = $this->request->validate('plan_id', ['textfield']);
-            if ($video->pass_required && $plan_id && $pass_plan = \Zype::get_pass_plan($plan_id)) {
-                $this->template = 'pass_plan_checkout';
-            }
-
-            if (!$this->template) {
-                wp_redirect($video->permalink);
-                die();
-            }
-        }
-
-        $braintree_id = (new \ZypeMedia\Services\Auth)->get_consumer_braintree_id();
-        if ($braintree_id) {
-            $braintree_token = (new Braintree)->generateBraintreeToken($braintree_id);
-        }
-
-        $consumer_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
-
-        $this->title = 'Select a Payment Method';
-
-        return $this;
-    }
-
-    protected function processTransactionSubmit()
-    {
-        $params = $this->request->validateAll(['textfield']);
-
-        if (!empty($params['plan_id']) && !empty($params['video_id'])) {
-            $this->processPassPlanSubmit($params['video_id']);
-        } else if (!empty($params['video_id'])) {
-            $this->processRentalSubmit($params['video_id']);
-        }
-    }
-
-    protected function processPassPlanSubmit($videoId)
+    protected function checkout_success()
     {
         $form = $this->request->validateAll(['textfield']);
 
-        $braintree_nonce = $this->get_braintree_nonce($form);
+        $data = array();
 
-        // Pass plans support only Braintree method.
-        if ($braintree_nonce && !empty($form['plan_id'])) {
+        if(empty($form['transaction_type']) ||
+            !in_array($form['transaction_type'], \ZypeMedia\Controllers\Consumer\Monetization::TRANSACTION_TYPES)) {
+            $data['errors']['transaction_type'] = "Transaction Type unknown";
+        }
 
-            $newTransaction = (new \ZypeMedia\Models\Transaction())->createTransaction(\ZypeMedia\Models\Transaction::TYPE_PASS_PLAN, $videoId, 'braintree', $braintree_nonce, $form['plan_id']);
+        if (empty($form['email'])) {
+            $data['errors']['email'] = "Email is required";
+        }
 
-            if ($newTransaction === false) {
-                zype_flash_message('error', 'Please select a valid plan.');
+        if($form['transaction_type'] == \ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN &&
+            empty($form['pass_plan_id'])) {
+            $data['errors']['pass_plan'] = "Pass Plan id is required";
+        }
+
+        if (empty($form['video_id'])) {
+            $data['errors']['video_id'] = "Unknown video ID";
+        }
+
+        if (empty($form['type'])) {
+            $data['errors']['type'] = "Type is required";
+        }
+
+        if ($form['type'] == 'stripe' && empty($form['stripe_card_token'])) {
+            $data['errors']['token'] = "Token is required";
+        }
+
+        if ($form['type'] == 'braintree' && empty($form['braintree_payment_nonce'])) {
+            $data['errors']['token'] = "Nonce is required";
+        }
+
+        if (empty($data['errors'])) {
+            $za = new \ZypeMedia\Services\Auth;
+            $consumer_id = $za->get_consumer_id();
+            $access_token = $za->get_access_token();
+            $consumer = \Zype::get_consumer($consumer_id, $access_token);
+            if ($consumer && $form['email'] == $consumer->email) {
+                $sub = [
+                    'consumer_id' => $consumer_id,
+                ];
+
+                switch ($form['type']) {
+                    case 'braintree':
+                        $sub['payment_nonce'] = $form['braintree_payment_nonce'];
+                        $sub['braintree_id'] = $plan->braintree_id;
+                        break;
+                    case 'stripe':
+                        $sub['payment_nonce'] = $form['stripe_card_token'];
+                        break;
+                }
+
+                $transaction = new \ZypeMedia\Models\Transaction();
+
+                $transaction = $transaction->create_transaction($form['transaction_type'], $form['video_id'], $form['type'], $sub['payment_nonce'], $form['pass_plan_id']);
+
+                if ($transaction) {
+                    $mailer = new \ZypeMedia\Services\Mailer;
+                    $vm = (new \ZypeMedia\Models\Video);
+                    $vm->find($form['video_id']);
+                    $video = $vm->single;
+                    $mailer->new_transaction($consumer->email, $form['transaction_type'], ['video_url' => $video->permalink, 'video_title' => $video->title]);
+                    $mail_res = $mailer->send();
+
+                    $za->sync_cookie();
+
+                    $data['success'] = true;
+                } else {
+                    $data['errors']['cannot'] = 'The purchase could not be completed. Please try again later.';
+                    $data['success'] = false;
+                }
             } else {
-                $vm = (new \ZypeMedia\Models\Video);
-                $vm->find($videoId);
-                $video = $vm->single;
-                wp_redirect($video->permalink);
-            }
+                $data['errors']['email'] = 'You do not have an account, purchase is not possible.';
+                $data['success'] = false;
+            }            
         }
-    }
-
-    protected function processRentalSubmit($videoId)
-    {
-        $form = $this->request->validateAll(['textfield']);
-
-        $braintree_nonce = $this->get_braintree_nonce($form);
-
-        if ($braintree_nonce) {
-
-            $newTransaction = (new \ZypeMedia\Models\Transaction())->createTransaction(\ZypeMedia\Models\Transaction::TYPE_RENTAL, $videoId, 'braintree', $braintree_nonce);
-
-            if ($newTransaction === false) {
-                zype_flash_message('error', 'Failed to create transaction. Please try later.');
-            } else {
-
-                $vm = (new \ZypeMedia\Models\Video);
-                $vm->find($videoId);
-                $video = $vm->single;
-
-                $mailer = new \ZypeMedia\Services\Mailer;
-                $mailer->new_rental((new \ZypeMedia\Services\Auth)->get_email(), ['videoUrl' => $video->permalink, 'videoTitle' => $video->title]);
-                $mail_res = $mailer->send();
-
-                wp_redirect($video->permalink);
-            }
-        }
-    }
-
-    public function template($template)
-    {
-        $find = [
-            'zype/payment/' . $this->template . '.php',
-            'payment/' . $this->template . '.php',
-            // @deprecated 'auth' will be removed soon.
-            'zype/auth/' . $this->template . '.php',
-            'auth/' . $this->template . '.php',
-        ];
-
-        if ($locatedFile = $this->locate_file($find)) {
-            $template = $locatedFile;
+        else {
+            $data['success'] = false;
         }
 
-        return $template;
-    }
+        echo json_encode($data);
 
+        exit();
+    }
 }

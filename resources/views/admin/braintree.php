@@ -1,8 +1,6 @@
 <?php
 if (!defined('ABSPATH'))
     die();
-
-$plans = \Zype::get_all_plans();
 ?>
 
 <div class="wrap zype-admin">
@@ -13,14 +11,15 @@ $plans = \Zype::get_all_plans();
         Simply click below on each plan you would like to feature for sale on
         any subscription video content on your website. (Note, you may select multiple
         plans by cmd+click / ctrl+click on multiple selections.)</p>
-    <p>You can <a href="https://admin.zype.com/plans/new" target="_blank">easily create additional
-            subscription plans</a> in Zype
-        if you don’t see an appropriate one below.
-    </p>
     <form method="post" action="<?php echo admin_url('admin.php'); ?>">
         <input type="hidden" name="action" value="zype_braintree"/>
         <?php wp_nonce_field('zype_braintree'); ?>
 
+        <h3>Subscription Plans</h3>
+        <p>
+          You can <a href="https://admin.zype.com/plans/new" target="_blank">easily create additional subscription plans</a>
+          in Zype if you don’t see an appropriate one below.
+        </p>
         <select multiple="multiple" name="subscribe[]">
             <?php foreach ($plans as $plan) : ?>
                 <option
@@ -32,6 +31,23 @@ $plans = \Zype::get_all_plans();
                         value="<?php echo $plan->_id ?>"><?php echo $plan->name; ?></option>
             <?php endforeach; ?>
         </select>
+
+        <h3>Pass Plans</h3>
+        <p>
+          You can <a href="https://admin.zype.com/pass_plans/new" target="_blank">easily create additional pass plans</a>
+          in Zype if you don’t see an appropriate one below.
+        </p>
+        <select multiple="multiple" name="pass_plans[]">
+            <?php foreach ($pass_plans as $plan) : ?>
+                <option
+                    <?php if (isset($options['pass_plans_select']) && is_array($options['pass_plans_select']) && in_array($plan->_id, $options['pass_plans_select'])) {
+                        echo 'selected="selected"';
+                    } ?>
+
+                        id="<?php echo $plan->_id ?>"
+                        value="<?php echo $plan->_id ?>"><?php echo $plan->name; ?></option>
+            <?php endforeach; ?>
+        </select>        
         <h2>Subscription Short Code</h2>
         <p>
             The Subscription Short Code can be added to any page or post on your WordPress website to

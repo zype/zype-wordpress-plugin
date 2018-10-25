@@ -7,6 +7,7 @@ use Themosis\Facades\Route;
 $rss_url = Config::get('zype.rss_url') && is_string(Config::get('zype.rss_url'))? Config::get('zype.rss_url'): 'rss';
 $profile_url = Config::get('zype.profile_url') && is_string(Config::get('zype.profile_url'))? Config::get('zype.profile_url'): 'profile';
 $subscribe_url = Config::get('zype.subscribe_url') && is_string(Config::get('zype.subscribe_url'))? Config::get('zype.subscribe_url'): 'subscribe';
+$transaction_url = Config::get('zype.transaction_url') && is_string(Config::get('zype.transaction_url'))? Config::get('zype.transaction_url'): 'transaction';
 $device_link_url = Config::get('zype.device_link_url') && is_string(Config::get('zype.device_link_url'))? Config::get('zype.device_link_url'): 'link';
 $auth_url = Config::get('zype.auth_url') && is_string(Config::get('zype.auth_url'))? Config::get('zype.auth_url'): 'sign-in';
 
@@ -20,6 +21,9 @@ if ($subscribe_url && Config::get('zype.subscriptions_enabled')) {
     Route::any("{$subscribe_url}/checkout", 'Consumer\Subscriptions@checkout');
     Route::any("{$subscribe_url}/submit", 'Consumer\Subscriptions@checkoutSuccess');
 }
+
+// Transaction route
+Route::any("{$transaction_url}/submit", 'Consumer\Transaction@checkout_success');
 
 // Rss route
 if ($rss_url && Config::get('zype.rss_enabled')) {

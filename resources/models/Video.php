@@ -21,11 +21,18 @@ class Video extends Base
         }
     }
 
+    public function require_authentication()
+    {
+        return $this->single->subscription_required || $this->single->pass_required ||
+        $this->single->rental_required || $this->single->purchase_required;
+    }
+
     private function modify_one()
     {
         $this->single->permalink = $this->generate_permalink($this->single);
         $this->single->thumbnail_url = $this->add_thumbnail_url($this->single);
         $this->single->excerpt = $this->add_excerpt($this->single);
+        $this->single->transaction_required = $this->require_authentication();
     }
 
     private function generate_permalink($video)

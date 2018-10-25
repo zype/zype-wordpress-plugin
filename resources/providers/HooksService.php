@@ -69,6 +69,7 @@ class HooksService extends ServiceProvider
         Ajax::listen('zype_update_password', [$this, 'update_password'], 'both');
         Ajax::listen('zype_flash_messages', [$this, 'get_messages'], 'both');
         Ajax::listen('zype_auth_markup', [$this, 'zype_auth_markup'], 'both');
+        Ajax::listen('zype_checkout', [$this, 'zype_checkout'], 'both');
         Ajax::listen('zype_login', [$this, 'zype_login'], 'both');
         Ajax::listen('zype_login_ajax', [$this, 'zype_login_ajax'], 'both');
         Ajax::listen('zype_sign_up', [$this, 'zype_sign_up'], 'both');
@@ -121,6 +122,21 @@ class HooksService extends ServiceProvider
             );
         }
         exit;
+    }
+
+    public function zype_checkout()
+    {
+        $type = $this->request->validate('type', ['textfield']);
+        $transaction_type = $this->request->validate('transaction_type', ['textfield']);
+        $plan_id = $this->request->validate('plan_id', ['textfield']);
+        $video_id = $this->request->validate('video_id', ['textfield']);
+        $root_parent = $this->request->validate('root_parent', ['textfield']);
+        $redirect_url = $this->request->validate('redirectURL', ['textfield']);
+        $shortcode = <<<EX
+        [zype_video_checkout type="{$type}" transaction_type="{$transaction_type}" plan_id="{$plan_id}" root_parent="{$root_parent}" redirect_url="{$redirect_url}" video_id="{$video_id}"]
+EX;
+        echo do_shortcode($shortcode);
+        exit;        
     }
 
     public function zype_login()
