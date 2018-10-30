@@ -54,8 +54,22 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
             return $subscriptionsController->plansView($root_parent, $redirect_url);
         case 'checkout':
             $planId = $request->validate('planid', ['textfield']);
-            return $subscriptionsController->checkoutView($planId, $redirect_url);
+            return $subscriptionsController->checkoutView($planId, $redirect_url, $root_parent);
     }
+});
+
+add_shortcode('zype_video_checkout',  function ($attrs = array()) use ($request) {
+    $type = $request->sanitize($attrs['type']);
+    $video_id = isset($attrs['video_id']) ? $request->sanitize($attrs['video_id']) : '';
+    $root_parent = isset($attrs['root_parent']) ? $request->sanitize($attrs['root_parent']) : '';
+    $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
+    $monetizationController = new Consumer\Monetization($root_parent, $video_id, $redirect_url);
+    switch ($type) {
+        case 'paywall':    
+            return $monetizationController->paywall_view($attrs);
+        case 'cc_form':
+            return $monetizationController->cc_form($attrs);
+    }    
 });
 
 add_shortcode('zype_signup', function($attrs = array()) {

@@ -61,12 +61,6 @@ class Videos extends Base
             return 'Nothing found';
         }
 
-        if ($video->pass_required) {
-            $video->payment_url_segment = Transaction::TYPE_PASS_PLAN;
-        } elseif ($video->rental_required) {
-            $video->payment_url_segment = Transaction::TYPE_RENTAL;
-        }
-
         $hasUserAccessToVideo = (new Access())->checkUserVideoAccess($id);
 
         $title = $video->title;

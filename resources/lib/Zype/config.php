@@ -45,9 +45,11 @@ $options = array(
     'profile_url' => 'profile',
     'auth_url' => 'signin',
     'device_link_url' => 'link',
+    'transaction_url' => 'transaction',
     'subscribe_url' => 'subscribe',
     'rental_url' => 'rental',
     'pass_url' => 'pass',
+    'purchase_url' => 'purchase',
     'terms_url' => '',
     'playlist_pagination' => true,
     'braintree_environment' => 'sandbox',
@@ -88,6 +90,14 @@ $options = array(
             'text' => "Thank you for your rental to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
             'required' => ['{video_name_link}', '{login_link}']
         ],
+        'new_purchase' => [
+            'text' => "Thank you for your purchase to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name_link}', '{login_link}']
+        ],
+        'new_pass' => [
+            'text' => "Thank you for buying a pass plan, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{login_link}']
+        ],        
         'new_subscription' => [
             'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
             'required' => ['{login_link}']

@@ -1,6 +1,7 @@
 .zype-price-table {
     background: #fff;
     border: 1px solid #d9d8e0;
+    border-top: 0px;
     border-radius: 2px;
     margin: auto;
     display: inline-block;
@@ -13,14 +14,14 @@
     justify-content: space-between;
 }
 
-.zype-column-plans:first-child {
-    border-top: none;
-}
-
 .zype-column-plan {
     padding: 20px 25px;
     display: inline-block;
     vertical-align: middle;
+}
+
+.zype-price-table .purchase .only-title, .zype-price-table .rental .only-title{
+    margin-top: auto;
 }
 
 .zype-column-plan:first-child {

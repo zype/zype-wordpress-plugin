@@ -28,9 +28,9 @@
             </div> -->
         </div>
         <?php if (zype_audio_only()): ?>
-            <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => true, 'root_parent' => $id]); ?>
+            <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => true, 'root_parent' => $id]); ?>
         <?php else: ?>
-            <?php zype_player_embed($video, ['auth' => $video->subscription_required, 'auto_play' => false, 'audio_only' => false, 'root_parent' => $id]); ?>
+            <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => false, 'root_parent' => $id]); ?>
         <?php endif ?>
     </div>
     <?php if ($view == 'full'): ?>
@@ -62,6 +62,7 @@
         $(document).on('click', id + ' #zype_video__auth-close, ' +  id + ' #zype_modal_close', function(e) {
             $('.player-auth-required-content').css('top', '-50%');
             $('.player-auth-required').fadeOut();
+            $('body').css('overflow', '');
 
             if ($('.close_reload').val() === 'reload') {
                 location.reload();
@@ -81,8 +82,9 @@
         });
 
         $(document).on('click', id + ' .zype-join-button, ' + id + ' .zype-signin-button', function() {
-            $('.player-auth-required').fadeIn();
-            $('.player-auth-required-content').css('top', '10%');
+            $(id + ' .player-auth-required').fadeIn();
+            $(id + ' .player-auth-required-content').css('top', '10%');
+            $('body').css('overflow', 'hidden');
         });
     })(jQuery);
 </script>

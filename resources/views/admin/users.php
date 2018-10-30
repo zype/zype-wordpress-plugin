@@ -139,6 +139,16 @@
                     <p class="description"></p>
                 </td>
             </tr>
+            <tr>
+                <th scope="row">
+                    <label for="subscribe-url">Purchase URL</label>
+                </th>
+                <td>
+                    /<input type="text" name="purchase_url" id="purchase_url" class="regular-text"
+                            value="<?php echo $options['purchase_url']; ?>">
+                    <p class="description"></p>
+                </td>
+            </tr>            
             </tbody>
         </table>
 

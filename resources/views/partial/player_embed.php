@@ -4,15 +4,15 @@
     $auto_play_ = $auto_play ? '&autoplay=true' : '&autoplay=false';
     $audio_only_ = $audio_only ? '&audio=true' : '';
     $key = 'api_key=' . $options['player_key'];
-    $hasUserAccessToVideo = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
-    if (\Auth::logged_in() && $hasUserAccessToVideo) {
+    $has_access_to_video = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
+    if (\Auth::logged_in() && $has_access_to_video) {
         $key = 'access_token=' . \Auth::get_access_token();
     }
     $video_url = $options['playerHost'] . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
 ?>
 
 <div>
-    <?php if ($hasUserAccessToVideo): ?>
+    <?php if ($has_access_to_video): ?>
         <div id="zype_<?php echo $video->_id; ?>"></div>
         <script src="<?php echo $video_url; ?>"></script>
     <?php else: ?>
@@ -38,17 +38,13 @@
                 </div>
                 <img class="placeholder" src="<?php echo $video->thumbnail_url; ?>">
                 <?php endif ?>
-                <?php if (($auth_required && !\Auth::logged_in()) || (\Auth::logged_in() && $video->subscription_required && !\Auth::subscriber())): ?>
-
-                <?php endif ?>
 
                 <?php if (\Auth::logged_in()): ?>
-                    <?php if ($video->subscription_required && !\Auth::subscriber()) : ?>
+                    <?php if ($video->transaction_required) : ?>
                         <div class="overlay_player">
                             <div class="overlay-buttons">
                                 <div class="overlay-title">Unlock to watch</div>
-                                <div class="white-button zype-signin-button zype_auth_markup" data-type="plans"
-                                    data-root-parent="<?php echo $root_parent; ?>">Let's go
+                                <div class="white-button zype-signin-button">Let's go
                                 </div>
                             </div>
                         </div>
@@ -75,13 +71,15 @@
                     <?php echo do_shortcode('[zype_auth]'); ?>
                     <?php echo do_shortcode('[zype_signup]'); ?>
                     <?php echo do_shortcode('[zype_forgot]'); ?>
-                <?php else: ?>
+                <?php elseif (!$has_access_to_video): ?>
                     <?php
-                        $shortCode = '[zype_auth type="plans"';
+                        $shortCode = '[zype_video_checkout ';
                         if ($root_parent) {
-                            $shortCode .= ' root_parent="' . $root_parent;
+                            $shortCode .= 'root_parent="' . $root_parent . '"';
                         }
-                        $shortCode .= '"]';
+                        $shortCode .= ' type="paywall"';
+                        $shortCode .= ' video_id="' . esc_attr($video->_id) . '"';
+                        $shortCode .= ']';
                     ?>
                     <?php echo do_shortcode($shortCode); ?>
                 <?php endif; ?>

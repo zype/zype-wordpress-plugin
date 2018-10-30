@@ -66,7 +66,7 @@ function ZypeWP(env) {
                 action: 'zype_auth_markup',
                 type: zype_auth_type,
                 planid: zype_auth_plan_id ? zype_auth_plan_id : '0',
-                rootParent: zype_root_parent,
+                root_parent: zype_root_parent,
                 redirectURL: zype_redirect_url
             },
             success: function (response) {
@@ -77,11 +77,47 @@ function ZypeWP(env) {
                     jQuery(id).replaceWith(response);
                     self.initZypeAjaxForms();
                     self.initZypeAjaxMarkup();
+                    self.initZypeAjaxMonetization();
                 } catch (e) {
                     console.log(e);
                 }
             },
             error: function (data) {
+            }
+        });
+    };
+
+    this.zypeCheckoutRequest = function(type, transaction_type, plan_id, video_id, zype_redirect_url, zype_root_parent) {
+        var id = '';
+        id = zype_root_parent ? '#' + zype_root_parent + ' ' : '';
+        id += '.content-wrap';
+        jQuery(id).find('.checkout_error').text('');
+        jQuery.ajax({
+            url: this.env.ajax_endpoint,
+            type: 'get',
+            data: {
+                action: 'zype_checkout',
+                type: type,
+                transaction_type: transaction_type,
+                video_id: video_id,
+                plan_id: plan_id ? plan_id : '0',
+                root_parent: zype_root_parent,
+                redirectURL: zype_redirect_url
+            },
+            success: function (response) {
+                try {
+                    jQuery(id).replaceWith(response);
+                    self.initZypeAjaxForms();
+                    self.initZypeAjaxMarkup();
+                    self.initZypeAjaxMonetization();
+                } catch (e) {
+                    console.log(e);
+                }
+            },
+            error: function (data, code, error) {
+                jQuery('.zype-spinner').remove();
+                jQuery(id).find('.zype-btn-price-plan').removeClass('disabled');
+                jQuery(id).find('.checkout_error').text(error);
             }
         });
     };
@@ -132,6 +168,7 @@ function ZypeWP(env) {
 
         self.initZypeAjaxForms();
         self.initZypeAjaxMarkup();
+        self.initZypeAjaxMonetization();
     };
 
     this.initZypeAjaxForms = function () {
@@ -158,6 +195,7 @@ function ZypeWP(env) {
                         if (response.errors) {
                             zype_ajax_form.find('.error-section').html(response.errors.join(","));
                             self.initZypeAjaxMarkup();
+                            self.initZypeAjaxMonetization();
                         } else {
                             zype_ajax_form.find('.error-section').html('Something went wrong...');
                         }
@@ -237,6 +275,45 @@ function ZypeWP(env) {
                 }
             });
         }
+    };
+
+    this.initZypeAjaxMonetization = function () {
+        var zype_monetization_checkout = jQuery('.zype_monetization_checkout');
+        
+        if (zype_monetization_checkout.length) {
+            zype_monetization_checkout.off();
+
+            zype_monetization_checkout.each(function (i, item) {
+                var $item = jQuery(item);
+
+                $item.on('click', function (e) {
+                    e.preventDefault();
+
+                    if (jQuery(this).hasClass('disabled')) {
+                        return false;
+                    }
+
+                    jQuery('.zype-spinner').remove();
+
+                    if (jQuery(this).hasClass('zype-button')) {
+                        jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                    }
+
+                    if (jQuery(this).hasClass('zype-btn-price-plan')) {
+                        jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                    }
+
+                    self.zypeCheckoutRequest(
+                        jQuery(this).data('type'),
+                        jQuery(this).data('transaction-type'),
+                        jQuery(this).data('plan-id'),
+                        jQuery(this).data('video-id'),
+                        jQuery(this).data('redirect-url'),
+                        jQuery(this).data('root-parent')
+                    );
+                });
+            });
+        };
     };
 
     this.is_on_air = function () {

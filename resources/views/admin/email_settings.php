@@ -56,6 +56,32 @@
                 </tr>
                 <tr>
                     <th scope="row">
+                        <label for="new-purchase">New purchase email</label>
+                    </th>
+                    <td>
+                        <textarea cols="60" rows="4" name="new_purchase" id="new-purchase" class="regular-text"><?php echo $options['emails']['new_purchase']['text']; ?></textarea>
+                        <p class="description">
+                            Required placeholders: <?php echo join(', ', $options['emails']['new_purchase']['required']); ?>.
+                            <br>
+                            This text will be shown on the new purchase email.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="new-pass">New pass email</label>
+                    </th>
+                    <td>
+                        <textarea cols="60" rows="4" name="new_pass" id="new-pass" class="regular-text"><?php echo $options['emails']['new_pass']['text']; ?></textarea>
+                        <p class="description">
+                            Required placeholders: <?php echo join(', ', $options['emails']['new_pass']['required']); ?>.
+                            <br>
+                            This text will be shown on the new pass plan email.
+                        </p>
+                    </td>
+                </tr>                
+                <tr>
+                    <th scope="row">
                         <label for="new-subscription">New subscription email</label>
                     </th>
                     <td>

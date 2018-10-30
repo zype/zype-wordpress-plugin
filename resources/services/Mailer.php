@@ -6,6 +6,7 @@ use Themosis\Facades\Config;
 
 class Mailer
 {
+
     public function __construct()
     {
         $this->options = Config::get('zype');
@@ -24,15 +25,10 @@ class Mailer
     {
         $this->subject = $subject ? $subject : 'Thank you for signing up for ' . get_bloginfo('name') . '!';
         $this->to = $to;
-        $emailText = $this->get_email_text('new_account');
-        $profileURL = apply_filters('zype_url', 'profile');
-        $loginURL = apply_filters('zype_url', '') . '/sign-in/';
-        $placeholder = <<<HTML
-            <a href="{$profileURL}/">{$loginURL}</a>
-HTML;
-        $emailText = str_replace('{login_link}', $placeholder, $emailText);
+        $email_text = $this->get_email_text('new_account');
+        $email_text = str_replace('{login_link}', $this->get_login_placeholder(), $email_text);
         $this->body = view('email.template', [
-            'text' => $emailText,
+            'text' => $email_text,
             'title' => 'Thank you for signing up!'
         ]);
     }
@@ -41,47 +37,37 @@ HTML;
     {
         $this->subject = $subject ? $subject : 'Thank you for subscribing to ' . get_bloginfo('name') . '!';
         $this->to = $to;
-        $emailText = $this->get_email_text('new_subscription');
-        $profileURL = apply_filters('zype_url', 'profile');
-        $loginURL = apply_filters('zype_url', '') . '/sign-in/';
-        $placeholder = <<<HTML
-            <a href="{$profileURL}/">{$loginURL}</a>
-HTML;
-        $emailText = str_replace('{login_link}', $placeholder, $emailText);
+        $email_text = $this->get_email_text('new_subscription');
+        $email_text = str_replace('{login_link}', $this->get_login_placeholder(), $email_text);
         $this->body = view('email.template', [
-            'text' => $emailText,
+            'text' => $email_text,
             'title' => 'New Subscription Confirmation'
         ]);
     }
 
-    public function new_rental($to, $dictionary = null, $subject = null)
+    public function new_transaction($to, $transaction_type, $dictionary = null)
     {
-        $this->subject = $subject ? $subject : 'Thank you for your rental on ' . get_bloginfo('name') . '!';
+        $transaction_humanized = ucfirst($transaction_type);
+        $this->subject = "Thank you for your {$transaction_humanized} on " . get_bloginfo('name') . '!';
         $this->to = $to;
-        $emailText = $this->get_email_text('new_rental');
-        $videoPlaceholder = <<<HTML
-            <a href="{$dictionary['videoUrl']}/">{$dictionary['videoTitle']}</a>
-HTML;
-        $profileURL = apply_filters('zype_url', 'profile');
-        $loginURL = apply_filters('zype_url', '') . '/sign-in/';
-        $loginPlaceholder = <<<HTML
-            <a href="{$profileURL}/">{$loginURL}</a>
-HTML;
-        $emailText = str_replace('{video_name_link}', $videoPlaceholder, $emailText);
-        $emailText = str_replace('{login_link}', $loginPlaceholder, $emailText);
+        $email_text = $this->get_email_text("new_{$transaction_type}");
+        if($transaction_type != \ZypeMedia\Models\Transaction::PASS_PLAN) {
+            $email_text = str_replace('{video_name}', $dictionary['video_title'], $email_text);
+        }
+        $email_text = str_replace('{login_link}', $this->get_login_placeholder(), $email_text);
         $this->body = view('email.template', [
-            'text' => $emailText,
-            'title' => 'New Rental Confirmation'
+            'text' => $email_text,
+            'title' => "New {$transaction_humanized} Confirmation"
         ]);
     }
 
     public function cancel_subscription($to, $dictionary = null, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Subscription cancellation confirmation for ' . get_bloginfo('name') . '!';
-        $emailText = $this->get_email_text('cancel_subscription');
+        $email_text = $this->get_email_text('cancel_subscription');
         $this->to = $to;
         $this->body = view('email.template', [
-            'text' =>  $emailText,
+            'text' =>  $email_text,
             'title' => 'Subscription Cancellation'
         ]);
     }
@@ -89,15 +75,15 @@ HTML;
     public function forgot_password($to, $dictionary, $subject = null)
     {
         $this->subject = $subject ? $subject : 'Password Reset | ' . get_bloginfo('name');
-        $emailText = $this->get_email_text('forgot_password');
+        $email_text = $this->get_email_text('forgot_password');
         $profileURL = apply_filters('zype_url', 'profile');
         $placeholder = <<<HTML
             <a href="{$profileURL}/reset-password/{$dictionary['password_token']}/">{$profileURL}/reset-password/{$dictionary['password_token']}/</a>
 HTML;
-        $emailText = str_replace('{forgot_password_link}', $placeholder, $emailText);
+        $email_text = str_replace('{forgot_password_link}', $placeholder, $email_text);
         $this->to = $to;
         $this->body = view('email.template', [
-            'text' =>  $emailText,
+            'text' =>  $email_text,
             'title' => 'Forgot Your Password?'
         ]);
     }
@@ -109,8 +95,18 @@ HTML;
 
     private function get_email_text($type)
     {
-        $emailText = $this->options['emails'][$type]['text'];
-        $emailText = str_replace("\n", "<br />", $emailText);
-        return $emailText;
+        $email_text = $this->options['emails'][$type]['text'];
+        $email_text = str_replace("\n", "<br />", $email_text);
+        return $email_text;
+    }
+
+    private function get_login_placeholder()
+    {
+        $profileURL = apply_filters('zype_url', 'profile');
+        $loginURL = apply_filters('zype_url', '') . '/sign-in/';
+        $loginPlaceholder = <<<HTML
+            <a href="{$profileURL}/">{$loginURL}</a>
+HTML;
+        return $loginPlaceholder;
     }
 }

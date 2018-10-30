@@ -372,8 +372,14 @@ class Admin extends Controller
 
     public function admin_braintree_page()
     {
+
+        $plans = \Zype::get_all_plans();
+        $pass_plans = \Zype::get_all_pass_plans();
+        
         echo view('admin.braintree', [
-            'options' => $this->options
+            'options' => $this->options,
+            'plans' => $plans,
+            'pass_plans' => $pass_plans,
         ]);
 
         wp_die();
@@ -387,7 +393,16 @@ class Admin extends Controller
 
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
+            zype_wp_admin_message('updated', 'Subscription Plans successfully saved!');
+        }
+
+        if ($this->request->validate('pass_plans')) {
+
+            $new_options = ['pass_plans_select' => $this->request->validate('pass_plans')];
+
+            $this->options = array_replace($this->options, $new_options);
+            $this->update_options();
+            zype_wp_admin_message('updated', 'Pass Plans successfully saved!');
         }
 
         if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_braintree')) {
@@ -456,6 +471,7 @@ class Admin extends Controller
                 'subscribe_url' => $this->request->validate('subscribe_url', ['textfield'], $this->options['subscribe_url']),
                 'rental_url' => $this->request->validate('rental_url', ['textfield'], $this->options['rental_url']),
                 'pass_url' => $this->request->validate('pass_url', ['textfield'], $this->options['pass_url']),
+                'purchase_url' => $this->request->validate('purchase_url', ['textfield'], $this->options['purchase_url']),
                 'terms_url' => $this->request->validate('terms_url', ['textfield']),
                 'flush' => true,
             ];

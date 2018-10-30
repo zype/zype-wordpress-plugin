@@ -76,45 +76,7 @@ class Subscriptions extends Base
         return $content;
     }
 
-    public function checkout()
-    {
-        $plan_id = $this->request->validate('plan_id', ['textfield']);
-
-        if ($plan_id && $plan = \Zype::get_plan($plan_id)) {
-            $za = new \ZypeMedia\Services\Auth();
-            $consumer_id = $za->get_consumer_id();
-            $access_token = $za->get_access_token();
-            $consumer = \Zype::get_consumer($consumer_id, $access_token);
-
-            $stripe_pk = Config::get('zype.stripe_pk');
-            if ($consumer->braintree_id) {
-                $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
-            }
-        } else {
-            zype_flash_message('error', 'Please select a valid plan.');
-
-            // redirect to video single page
-            $vm = (new \ZypeMedia\Models\Video);
-            $vm->find($videoId);
-            $video = $vm->single;
-            wp_redirect($video->permalink);
-            exit();
-        }
-
-        $title = 'Select a Payment Method';
-
-        print view('auth.subscription_checkout', [
-            'plan' => $plan,
-            'braintree_token' => $braintree_token,
-            'videoId' => $videoId,
-            'stripe_pk' => $stripe_pk,
-            'title' => $title
-        ]);
-
-        exit();
-    }
-
-    public function checkoutView($plan_id, $redirect_url = null)
+    public function checkoutView($plan_id, $redirect_url = null, $root_parent = null)
     {
         $plan_id = $this->request->sanitize($plan_id, ['textfield']);
 
@@ -143,7 +105,7 @@ class Subscriptions extends Base
 
         $error = false;
         if (empty ($plan->stripe_id) && empty ($braintree_token)) {
-            $error = 'Sorry, but this plan a temporarily unavailable';
+            $error = 'Sorry, but this plan is temporarily unavailable';
         } elseif (!empty ($plan->stripe_id) && empty ($stripe_pk)) {
             $error = 'Currently it is not possible to pay through Stripe';
         }
@@ -155,6 +117,7 @@ class Subscriptions extends Base
         $content = view('auth.subscription_checkout', [
             'plan' => $plan,
             'braintree_token' => $braintree_token,
+            'root_parent' => $root_parent,
             'videoId' => $videoId,
             'stripe_pk' => $stripe_pk,
             'title' => $title,
@@ -241,75 +204,4 @@ class Subscriptions extends Base
 
         exit();
     }
-
-    public function checkout_success()
-    {
-        $form = $this->request->validateAll(['textfield']);
-
-        $braintree_nonce = $this->get_braintree_nonce($form);
-
-        if (!empty($form['email']) && !empty($form['plan_id']) && !empty($form['type']) && ($braintree_nonce || !empty($form['stripe_card_token']))) {
-            $za = new \ZypeMedia\Services\Auth;
-            $consumer_id = $za->get_consumer_id();
-            $access_token = $za->get_access_token();
-            $consumer = \Zype::get_consumer($consumer_id, $access_token);
-
-            if ($consumer && $form['email'] == $consumer->email) {
-                $sub = [
-                    'consumer_id' => $consumer_id,
-                    'plan_id' => $form['plan_id']
-                ];
-
-                switch ($form['type']) {
-                    case 'braintree':
-                        $sub['braintree_payment_nonce'] = $braintree_nonce;
-                        $sub['braintree_id'] = Config::get('zype.braintree_public_key');
-                        break;
-                    case 'stripe':
-                        $sub['stripe_card_token'] = $form['stripe_card_token'];
-                        $sub['stripe_id'] = Config::get('zype.stripe_pk');
-                        break;
-                }
-
-                $new_sub = \Zype::create_subscription($sub);
-
-                if ($new_sub) {
-                    //send email
-                    $mailer = new \ZypeMedia\Services\Mailer;
-                    $mailer->new_subscription($consumer->email);
-                    $mail_res = $mailer->send();
-
-                    $za->sync_cookie();
-
-                    wp_redirect(get_zype_url('profile'));
-                } else {
-                    zype_flash_message('error', 'An error has occured. You have not been charged.');
-                    wp_redirect(get_zype_url('profile'));
-                    exit();
-                }
-            } else {
-                zype_flash_message('error', 'An error has occured. You have not been charged.');
-                $za->logout();
-                wp_redirect(get_zype_url('profile'));
-                exit();
-            }
-        } else {
-            zype_flash_message('error', 'An error has occured. You have not been charged.');
-            wp_redirect(get_zype_url('profile'));
-            exit();
-        }
-    }
-
-    protected function get_braintree_nonce($request)
-    {
-        $braintree_nonce = null;
-        if (!empty($request['payment_method_nonce'])) {
-            $braintree_nonce = $request['payment_method_nonce'];
-        } elseif (!empty($request['braintree_payment_nonce'])) {
-            $braintree_nonce = $request['braintree_payment_nonce'];
-        }
-
-        return $braintree_nonce;
-    }
-
 }
