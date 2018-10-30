@@ -52,6 +52,7 @@ class Monetization extends Base
           if (isset($this->options['pass_plans_select'])) {
               foreach ($this->options['pass_plans_select'] as $option) {
                   $plan[] = \Zype::get_pass_plan($option);
+                  $plan[count($plan) - 1]->amount = number_format($plan[count($plan) - 1]->amount, 2);
               }
           }
           $pass_plans = $plan;
@@ -171,11 +172,11 @@ class Monetization extends Base
             'rental' => [
                 'required' => $this->video->rental_required,
                 'days' => $this->video->rental_duration,
-                'price' => $this->video->rental_price
+                'price' => number_format($this->video->rental_price, 2)
             ],
             'purchase' => [
                 'required' => $this->video->purchase_required,
-                'price' => $this->video->purchase_price
+                'price' => number_format($this->video->purchase_price, 2)
             ]
         ];
     }

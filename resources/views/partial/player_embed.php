@@ -4,15 +4,15 @@
     $auto_play_ = $auto_play ? '&autoplay=true' : '&autoplay=false';
     $audio_only_ = $audio_only ? '&audio=true' : '';
     $key = 'api_key=' . $options['player_key'];
-    $hasUserAccessToVideo = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
-    if (\Auth::logged_in() && $hasUserAccessToVideo) {
+    $has_access_to_video = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
+    if (\Auth::logged_in() && $has_access_to_video) {
         $key = 'access_token=' . \Auth::get_access_token();
     }
     $video_url = $options['playerHost'] . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
 ?>
 
 <div>
-    <?php if ($hasUserAccessToVideo): ?>
+    <?php if ($has_access_to_video): ?>
         <div id="zype_<?php echo $video->_id; ?>"></div>
         <script src="<?php echo $video_url; ?>"></script>
     <?php else: ?>
@@ -71,7 +71,7 @@
                     <?php echo do_shortcode('[zype_auth]'); ?>
                     <?php echo do_shortcode('[zype_signup]'); ?>
                     <?php echo do_shortcode('[zype_forgot]'); ?>
-                <?php else: ?>
+                <?php elseif (!$has_access_to_video): ?>
                     <?php
                         $shortCode = '[zype_video_checkout ';
                         if ($root_parent) {

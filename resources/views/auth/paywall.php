@@ -113,11 +113,7 @@
                                             </div>
                                             <div class="zype-column-plan">
                                                 <div class="zype-price-holder">
-                                                    $<?php echo $monetizations['rental']['price']; ?>
-                                                    <?php echo 'for'; ?>
-                                                    <?php if ($monetizations['rental']['days'] > 1) {
-                                                        echo $monetizations['rental']['days'];
-                                                    } ?>
+                                                    $<?php echo "{$monetizations['rental']['price']} for {$monetizations['rental']['days']} "; ?>
                                                     <?php 
                                                         echo 'day';
                                                         if ($monetizations['rental']['days'] > 1) {

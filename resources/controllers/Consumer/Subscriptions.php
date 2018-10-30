@@ -134,10 +134,6 @@ class Subscriptions extends Base
 
         $data = array();
 
-        if (empty($form['transaction_type'])) {
-            $data['errors']['email'] = "Email is required";
-        }
-
         if (empty($form['email'])) {
             $data['errors']['email'] = "Email is required";
         }
