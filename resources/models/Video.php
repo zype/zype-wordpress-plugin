@@ -97,16 +97,22 @@ class Video extends Base
         return $excerpt;
     }
 
-    public function all($params = [])
+    public function all($params = [], $with_pagination = false)
     {
-        $per_page = isset($params['per_page']) ? $params['per_page'] : null;
-        $page = isset($params['page']) ? $params['page'] : null;
-
-        $res = \Zype::get_videos($page, $per_page, $this->suppress_search);
+        $res = \Zype::get_videos($params, $this->suppress_search);
 
         if ($res) {
             $this->collection = $res->response;
             $this->pagination = $res->pagination;
+            if (!$with_pagination && $this->pagination && $this->pagination->pages > 1) {
+                for ($page = $this->pagination->current + 1; $page <= $this->pagination->pages; $page++) {
+                  $params['page'] = $page;
+                  $res = \Zype::get_videos($params, $this->suppress_search);
+                  if ($res) {
+                    $this->collection = array_merge($this->collection, $res->response);
+                  }
+                }
+              }
             $this->modify_all();
         } else {
             $this->collection = false;

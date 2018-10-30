@@ -41,13 +41,14 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
     $subscriptionsController = new Consumer\Subscriptions();
     $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
     $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
+    $show_plans = isset($attrs['show_plans']) ? $request->sanitize($attrs['show_plans'], ['bool']) : '';
     $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
 
     switch ($type) {
         case 'login':
-            return $loginController->login($ajax, $root_parent);
+            return $loginController->login($ajax, $root_parent, $redirect_url, $show_plans);
         case 'register':
-            return $loginController->signup($ajax, $root_parent);
+            return $loginController->signup($ajax, $root_parent, $redirect_url);
         case 'forgot':
             return $profileController->forgot_password($root_parent);
         case 'plans':
@@ -72,11 +73,13 @@ add_shortcode('zype_video_checkout',  function ($attrs = array()) use ($request)
     }    
 });
 
-add_shortcode('zype_signup', function($attrs = array()) {
-    $ajax = isset($attrs['ajax']) && $attrs['ajax'] == 'true' ? true : false;
-    $root_parent = isset($attrs['root_parent']) ? $attrs['root_parent'] : '';
+add_shortcode('zype_signup', function($attrs = array()) use ($request) {
+    $ajax = isset($attrs['ajax']) ? $request->sanitize($attrs['ajax'], ['bool']) : '';
+    $root_parent = isset($attrs['root_parent']) ? $request->sanitize($attrs['root_parent'], ['textfield']) : '';
+    $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url'], ['textfield']) : '';
+    $show_plans = isset($attrs['show_plans']) ? $request->sanitize($attrs['show_plans'], ['bool']) : '';
     $loginController = new Consumer\Auth();
-    return $loginController->signup($ajax, $root_parent);
+    return $loginController->signup($ajax, $root_parent, $redirect_url, $show_plans);
 });
 
 add_shortcode('zype_forgot', function($attrs = array()) {
@@ -113,6 +116,17 @@ add_shortcode('zype_playlist', function ($attrs) use ($request) {
     $videos = new Consumer\Videos();
     return $videos->single();
 });
+
+add_shortcode('zype_my_library', function ($attrs) use ($request) {
+    $videos = new Consumer\Videos();
+
+    if ($request->validate('zype_type', ['textfield']) == 'video_single') {
+        return $videos->single();
+    }
+    $page_number = $request->validate('page_number', ['textfield']);
+    return $videos->entitled($page_number);
+});
+
 
 add_shortcode('subscribe', function($attrs) {
     $subscriptionsController = new Consumer\Subscriptions();

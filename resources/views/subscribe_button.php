@@ -1,11 +1,5 @@
-<?php
-  $subscriptionShortcodeId = 'subscribe-shortcode-' . (time() * rand(1, 1000000));
-  $subscribeButtonId = 'subscribe-button-' . (time() * rand(1, 1000000));
-  $contentId = 'subscribe-button-content-' . (time() * rand(1, 1000000))
-?>
-
-<div id="<?php echo $subscriptionShortcodeId; ?>">
-  <div class="btn-holder" id="<?php echo $subscribeButtonId; ?>">
+<div id="<?php echo $subscription_shortcode_id; ?>">
+  <div class="btn-holder" id="<?php echo $subscribe_button_id; ?>">
     <button class="zype_get_all_ajax user-profile-wrap__button zype-join-button">
         <?php if (!\Auth::subscriber()): ?>
           <?php echo $btn_text ?>
@@ -18,21 +12,15 @@
   <?php if (!\Auth::subscriber()): ?>
     <div class="subscribe-button">
         <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
-        <div class="subscribe-button-content" id="<?php echo $contentId; ?>">
+        <div class="subscribe-button-content" id="<?php echo $content_id; ?>">
             <div class="login-sub-section">
                 <?php if (!\Auth::logged_in()): ?>
-                  <?php echo do_shortcode('[zype_auth root_parent="' . $contentId . '" ajax=true]');?>
-                  <?php echo do_shortcode('[zype_signup root_parent="' . $contentId . '" ajax=true]');?>
-                  <?php echo do_shortcode('[zype_forgot root_parent="' . $contentId . '" ]');?>
+                    <?php echo do_shortcode($shortcodes['login']);?>
+                    <?php echo do_shortcode($shortcodes['sign_up']);?>
+                    <?php echo do_shortcode($shortcodes['forgot_pass']);?>
                 <?php endif; ?>
                   <div id="plans" style=<?php echo (\Auth::logged_in() ? '' : 'display:none;') ?>>
-                    <?php
-                        $shortCode = '[zype_auth type="plans"';
-                        $shortCode .= ' root_parent="' . $contentId . '"';
-                        $shortCode .= ' redirect_url="' . $redirect_url;
-                        $shortCode .= '"]';
-                    ?>
-                    <?php echo do_shortcode($shortCode);?>
+                    <?php echo do_shortcode($shortcodes['plans']);?>
                   </div>
             </div>
         </div>
@@ -42,9 +30,9 @@
 
 <script type="text/javascript">
   (function($){
-    var subscriptionShortcodeId = "#<?php echo $subscriptionShortcodeId; ?>";
-    var subscribeButtonId = "#<?php echo $subscribeButtonId; ?>";
-    var subscribeButtonContentId = "#<?php echo $contentId; ?>";
+    var subscriptionShortcodeId = "#<?php echo $subscription_shortcode_id; ?>";
+    var subscribeButtonId = "#<?php echo $subscribe_button_id; ?>";
+    var subscribeButtonContentId = "#<?php echo $content_id; ?>";
 
     var zypeJoinButtonPath = subscriptionShortcodeId + ' ' + subscribeButtonId + ' .zype-join-button';
     var zypeSignInButtonPath = subscriptionShortcodeId + ' ' + subscribeButtonContentId + ' .zype-signin-button';

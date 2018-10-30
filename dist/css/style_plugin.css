@@ -359,7 +359,8 @@ body:not(.twentyseventeen-front-page) .entry-content {
 
 .site-content .player-auth-required,
 .site-content .player-signup-required,
-.site-content .subscribe-button {
+.site-content .subscribe-button,
+.site-content .my-library-sign-in-button {
     position: fixed;
     top: 0;
     left: 0;
@@ -375,7 +376,8 @@ body:not(.twentyseventeen-front-page) .entry-content {
 }
 
 .site-content .player-auth-required-content,
-.site-content .subscribe-button-content {
+.site-content .subscribe-button-content,
+.site-content .my-library-sign-in-button-content {
     max-width: 650px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
     padding: 25px 20px;
@@ -388,6 +390,25 @@ body:not(.twentyseventeen-front-page) .entry-content {
     transition: top 0.3s ease;
     margin: 0 auto;
 }
+
+
+
+.site-content .zype_player_container .player-auth-required-content h3
+.site-content .subscribe-button-content h3 {
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0 0 9px;
+    font-weight: 400;
+    color: #2c3c4c;
+    text-align: center;
+    padding-top: 0;
+}
+
+.site-content .zype_player_container .player-auth-required-content .login-sub-section,
+.site-content .subscribe-button-content .login-sub-section, {
+    text-align: center;
+}
+
 
 .site-content .player-auth-required-content h1 {
     font-weight: 900;
@@ -674,4 +695,12 @@ select.form-control {
 
 .cancellation .slot p {
     margin-bottom: 0;
+}
+
+@media(max-width: 414px) {
+    .site-content .zype_player_container .player-auth-required,
+    .site-content .subscribe-button,
+    .site-content .my-library-sign-in-button {
+        background-color: #fff;
+    }
 }

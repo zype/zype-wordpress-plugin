@@ -230,10 +230,10 @@ class Admin extends Controller
         $search = $this->request->validate('search', ['textfield']);
 
         $query['active'] = true;
-        $videos = \Zype::get_videos(null, 500);
+        $videos = \Zype::get_videos(['per_page' => 500]);
 
         if ($search) {
-            foreach ($videos as $k => $item) {
+            foreach ($videos->collection as $k => $item) {
                 if (!preg_match("/{$search}/i", $item->title)) {
                     unset($videos[$k]);
                 }
@@ -414,7 +414,12 @@ class Admin extends Controller
                 'stripe_pk'                     => $this->request->validate('stripe_pk', ['textfield'], $this->options['stripe_pk']),
                 'sub_short_code_btn_text'       => $this->request->validate('sub_short_code_btn_text', ['textfield'], $this->options['sub_short_code_btn_text']),
                 'sub_short_code_redirect_url'   => $this->request->validate('sub_short_code_redirect_url', ['textfield'], $this->options['sub_short_code_redirect_url']),
-                'sub_short_code_text_after_sub' => $this->request->validate('sub_short_code_text_after_sub', ['textfield'], $this->options['sub_short_code_text_after_sub'])
+                'sub_short_code_text_after_sub' => $this->request->validate('sub_short_code_text_after_sub', ['textfield'], $this->options['sub_short_code_text_after_sub']),
+                'my_library'                    => [
+                    'sort'          => $this->request->validate('my_library_sort', ['textfield'], $this->options['my_library']['sort']),
+                    'pagination'    => $this->request->validate('my_library_pagination', ['bool']),
+                    'sign_in_text'  => $this->request->validate('my_library_sign_in_text', ['textfield'], $this->options['my_library']['sign_in_text'])
+                ]
             ];
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();

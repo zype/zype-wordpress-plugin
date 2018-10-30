@@ -73,6 +73,21 @@ $options = array(
     'sub_short_code_btn_text' => 'SIGN UP',
     'sub_short_code_redirect_url' => '',
     'sub_short_code_text_after_sub' => 'MY ACCOUNT',
+    'my_library' => [
+        'sort' => 'created_at',
+        'pagination' => true,
+        'sign_in_text' => 'Please sign in to view your video library'
+    ],
+    'my_library_sort_options' => [
+        'created_at' => [
+            'title' => 'Newest to oldest (default)',
+            'order' => 'desc'
+        ],
+        'title' => [
+            'title' => 'A to Z',
+            'order' => 'asc'
+        ]
+    ],
     'emails' => [
         'cancel_subscription' => [
             'text' => "We're very sorry to see you go! This email confirms your subscription has been canceled.\nPlease come back to visit if you'd like to subscribe again in the future.\nThanks.",

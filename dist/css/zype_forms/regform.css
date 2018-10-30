@@ -232,7 +232,7 @@
 .zype-form-center .zype-title:first-letter {
     text-transform: uppercase !important;
 }
-.player-auth-required, .subscribe-button {
+.player-auth-required, .subscribe-button, .my-library-sign-in-button {
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
 

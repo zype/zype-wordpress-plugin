@@ -43,6 +43,7 @@
   (function($) {
     $(document).ready(function() {
       var rootParentId = "#<?php echo $root_parent ?>";
+      var showPlans = "<?php echo $show_plans ?>" === "true" ? true : false;
       var zypeAjaxFormPath = [rootParentId, "#zype_signup_form_ajax"].join(' ');;
       var zypeSubmitButtonFormPath = [zypeAjaxFormPath, 'button.zype-button[type="submit"]'].join(' ');
       var zypeErrorSectionFormPath = [zypeAjaxFormPath, '.error-section'].join(' ');
@@ -59,11 +60,18 @@
           $(zypeSpinnerFormPath).remove();
           data = $.parseJSON(data);
           if (data.status == true) {
-              var planDiv = $(".subscribe-button-content #plans")
-              if (planDiv.length > 0) {
-                planDiv.show();
-                $('.zype-form').hide();
-              }
+            if(showPlans) {
+                var planDiv = $(".subscribe-button-content #plans")
+                if (planDiv.length > 0) {
+                  planDiv.show();
+                  $('.zype-form').hide();
+                }
+            }
+            else {
+              var afterSignUpText = 'Now you can unlock some content!';
+              $(rootParentId).find('#zype-modal-signup .main-heading .title').text(afterSignUpText);
+              $(rootParentId).find('#zype-modal-signup .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="start-unlocking-btn">Let\'s starting unlocking</button><input type="hidden" class="close_reload" value="reload">');
+            }
           } else {
               $(zypeSubmitButtonFormPath).prop('disabled', false);
               if (data.errors) {
@@ -72,6 +80,15 @@
                   $(zypeErrorSectionFormPath).html('Something went wrong...');
               }
           }
+        }
+      });
+      $(document).on('click', rootParentId + ' #zype-modal-signup' + ' #start-unlocking-btn', function(e) {
+        e.preventDefault();
+        var url = '<?php echo $redirect_url ?>';
+        if (url.length > 0) {
+            window.location.replace(url);
+        } else {
+            window.location.reload();
         }
       });
    });

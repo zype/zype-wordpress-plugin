@@ -10,7 +10,7 @@ class Auth extends Base
         $this->form_message = null;
     }
 
-    public function login($ajax = false, $root_parent = null)
+    public function login($ajax = false, $root_parent = null, $redirect_url = null, $show_plans = false)
     {
         if ($this->request->method() == 'POST') {
             $username = strtolower($this->request->validate('username', ['textfield']));
@@ -29,11 +29,11 @@ class Auth extends Base
         $view = $ajax ? 'auth.login_ajax' : 'auth.login';
 
         if($ajax) {
-            $redirect_url = $this->options['sub_short_code_redirect_url'];
+            $redirect_url = $redirect_url ?: home_url();
             if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
                 $redirect_url = home_url($redirect_url);
             }
-            return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent]);
+            return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent, 'show_plans' => json_encode($show_plans)]);
         }
         else {
             return view($view, ['root_parent' => $root_parent]);
@@ -115,7 +115,7 @@ class Auth extends Base
         }
     }
 
-    public function signup($ajax = false, $root_parent = null)
+    public function signup($ajax = false, $root_parent = null, $redirect_url = null, $show_plans = false)
     {
         if ($this->request->method() == 'POST') {
             $zype_signup_email = $this->request->validate('email', ['email']);
@@ -137,11 +137,13 @@ class Auth extends Base
 
         ob_start();
         $view = $ajax ? 'auth.signup_ajax' : 'auth.signup';
-
+        $redirect_url = $redirect_url ?: home_url();
         $content = view($view, [
-            'zype_message' => $zype_message,
-            'terms_link' => $terms_link,
-            'root_parent' => $root_parent
+            'zype_message'  => $zype_message,
+            'terms_link'    => $terms_link,
+            'root_parent'   => $root_parent,
+            'redirect_url'  => $redirect_url,
+            'show_plans'    => json_encode($show_plans)
         ]);
         ob_end_clean();
         return $content;
