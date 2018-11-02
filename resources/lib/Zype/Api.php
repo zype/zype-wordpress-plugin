@@ -60,6 +60,8 @@ class Api
                 return self::$response;
             }
         }
+        # This preg_replace is for when we have an http array in the arguments. e.g.:  'id[]'
+        $url = preg_replace('/%5B[0-9]+%5D/', '', $url);
 
         $response = wp_remote_request($url, [
             'method' => $method,
