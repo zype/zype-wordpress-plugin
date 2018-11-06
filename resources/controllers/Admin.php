@@ -175,12 +175,17 @@ class Admin extends Controller
         $video_id = 0;//not exists
         $url = $this->options['playerHost'] . '/embed/' . $video_id . '?' . $key . '&';
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = wp_remote_request($url, [
+            'method' => 'GET',
+            'sslverify' => false,
+            'timeout' => '120',
+        ]);
 
-        $response = json_decode(curl_exec($ch));//expecting invalid video msg
-        if ($response->message == 'Invalid or missing authentication.')
+        $body = wp_remote_retrieve_body($response);
+        $code = wp_remote_retrieve_response_code($response);
+        $response = new \Response($body, $code);
+
+        if ($response->data->message == 'Invalid or missing authentication.')
             return false;
 
         return true;
@@ -189,13 +194,10 @@ class Admin extends Controller
 
     private function check_stripe_pk()
     {
-        $publishableKey = $this->options['stripe_pk'];
-        if (empty($publishableKey)) {
+        $publishable_key = $this->options['stripe_pk'];
+        if (empty($publishable_key)) {
             return true;
         }
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.stripe.com/v1/tokens");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $time = mktime(0, 0, 0, date('m') + 1, 1, date('Y'));
         $body = http_build_query(array(
@@ -206,14 +208,20 @@ class Admin extends Controller
                 'cvc' => 123
             )
         ));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_USERPWD, $publishableKey . ":");
 
-        $response = json_decode(curl_exec($ch), true);//expecting invalid card msg
+        $request = wp_remote_request('https://api.stripe.com/v1/tokens', [
+            'headers'   => "Authorization: Basic " . base64_encode($publishable_key . ":"),
+            'method'    => 'POST',
+            'body'      => $body,
+            'sslverify' => false,
+            'timeout'   => '120',
+        ]);
 
-        curl_close($ch);
-        if (isset($response["error"]) && substr($response["error"]["message"], 0, 24) == "Invalid API Key provided") {
+        $body = wp_remote_retrieve_body($request);
+        $code = wp_remote_retrieve_response_code($request);
+        $response = new \Response($body, $code);
+
+        if (isset($response->data->error) && strpos($response->data->error->message, 'Invalid API Key provided') !== false) {
             return false;
         }
         return true;
@@ -375,7 +383,7 @@ class Admin extends Controller
 
         $plans = \Zype::get_all_plans();
         $pass_plans = \Zype::get_all_pass_plans();
-        
+
         echo view('admin.braintree', [
             'options' => $this->options,
             'plans' => $plans,
