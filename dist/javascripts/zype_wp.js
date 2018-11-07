@@ -222,7 +222,8 @@ function ZypeWP(env) {
                         var rootParentId = '';
                         var zypeModalAuthId = '#zype-modal-auth';
                         var zypeModalSignupId = '#zype-modal-signup';
-                        var zypeModalForgotId = '#zype-modal-forgot';
+                        var zypeModalForgotId = '#zype-modal-forgot'
+
                         if(jQuery(this).data().rootParentId) {
                             rootParentId = '#' + jQuery(this).data().rootParentId;
                             zypeModalAuthId = [rootParentId, zypeModalAuthId].join(' ') ;
@@ -279,7 +280,7 @@ function ZypeWP(env) {
 
     this.initZypeAjaxMonetization = function () {
         var zype_monetization_checkout = jQuery('.zype_monetization_checkout');
-        
+
         if (zype_monetization_checkout.length) {
             zype_monetization_checkout.off();
 

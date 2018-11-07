@@ -136,12 +136,13 @@ class HooksService extends ServiceProvider
         [zype_video_checkout type="{$type}" transaction_type="{$transaction_type}" plan_id="{$plan_id}" root_parent="{$root_parent}" redirect_url="{$redirect_url}" video_id="{$video_id}"]
 EX;
         echo do_shortcode($shortcode);
-        exit;        
+        exit;
     }
 
     public function zype_login()
     {
-        return (new Consumer\Auth())->login_submit_ajax();
+        $redirect_url = $this->request->validate('redirect_url', ['textfield']);
+        return (new Consumer\Auth())->login_submit_ajax($redirect_url);
     }
 
     public function zype_login_ajax()
@@ -150,7 +151,8 @@ EX;
     }
 
     public function zype_sign_up() {
-        return (new Consumer\Auth())->signup_submit_ajax();
+        $redirect_url = $this->request->validate('redirect_url', ['textfield']);
+        return (new Consumer\Auth())->signup_submit_ajax($redirect_url);
     }
 
     public function zype_forgot_password()

@@ -10,7 +10,7 @@ class Auth extends Base
         $this->form_message = null;
     }
 
-    public function login($ajax = false, $root_parent = null)
+    public function login($ajax = false, $root_parent = null, $redirect_url = null)
     {
         if ($this->request->method() == 'POST') {
             $username = strtolower($this->request->validate('username', ['textfield']));
@@ -29,14 +29,14 @@ class Auth extends Base
         $view = $ajax ? 'auth.login_ajax' : 'auth.login';
 
         if($ajax) {
-            $redirect_url = $this->options['sub_short_code_redirect_url'];
+            $redirect_url = $redirect_url ?: home_url();
             if(isset($redirect_url) && !empty($redirect_url) && (strpos($redirect_url, 'http') !== 0)){
                 $redirect_url = home_url($redirect_url);
             }
             return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent]);
         }
         else {
-            return view($view, ['root_parent' => $root_parent]);
+            return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent]);
         }
     }
 
@@ -61,7 +61,7 @@ class Auth extends Base
         }
 
         echo view('auth.pre_auth', ['title' => 'Auth']);
-        echo view('auth.login');
+        echo view('auth.login', ['redirect_url' => home_url($this->options['profile_url'])]);
         echo view('auth.post_auth');
 
         exit;
@@ -71,13 +71,10 @@ class Auth extends Base
         $this->login_submit(true, $redirect);
     }
 
-    public function login_submit($ajax = false, $redirect = true)
+    public function login_submit($ajax = false, $redirect_url = null)
     {
         if ($ajax) {
             $errors = array();
-        }
-        if($redirect) {
-            $redirect = $this->options['profile_url'];
         }
 
         $auther = new \ZypeMedia\Services\Auth();
@@ -109,13 +106,13 @@ class Auth extends Base
                 'status' => !sizeof($errors) ? true : false,
                 'is_subscribed' => $is_subscribed,
                 'errors' => $errors,
-                'redirect' => $redirect
+                'redirect' => $redirect_url
             ));
             exit();
         }
     }
 
-    public function signup($ajax = false, $root_parent = null)
+    public function signup($ajax = false, $root_parent = null, $redirect_url = null)
     {
         if ($this->request->method() == 'POST') {
             $zype_signup_email = $this->request->validate('email', ['email']);
@@ -137,11 +134,12 @@ class Auth extends Base
 
         ob_start();
         $view = $ajax ? 'auth.signup_ajax' : 'auth.signup';
-
+        $redirect_url = $redirect_url ?: home_url();
         $content = view($view, [
             'zype_message' => $zype_message,
             'terms_link' => $terms_link,
-            'root_parent' => $root_parent
+            'root_parent' => $root_parent,
+            'redirect_url'  => $redirect_url
         ]);
         ob_end_clean();
         return $content;

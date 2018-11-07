@@ -56,6 +56,7 @@ class Videos extends Base
         $vm = new Video;
         $vm->find($id);
         $video = $vm->single;
+        $redirect_url = $this->canonical_url();
 
         if (!$video) {
             return 'Nothing found';
@@ -70,7 +71,8 @@ class Videos extends Base
             'view' => $view,
             'title' => $title,
             'hasUserAccessToVideo' => $hasUserAccessToVideo,
-            'is_subscriber' => $is_subscriber
+            'is_subscriber' => $is_subscriber,
+            'redirect_url' => $redirect_url
         ]);
     }
 }

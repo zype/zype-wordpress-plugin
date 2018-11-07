@@ -817,3 +817,19 @@ function zype_url_slug($str, $options = array())
 
     return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
 }
+
+/*
+ * Generate an ajax shortcode
+ */
+function ajax_shortcode($type, $params)
+{
+    $shortcode_params = array_map(function ($key, $value) {
+        if(is_bool($value)) {
+            $value = ($value === true) ? 'true' : 'false';
+        }
+        return "{$key}={$value}";
+    }, array_keys($params), $params);
+    $shortcode_params = join(' ', $shortcode_params);
+    $shortcode = "[{$type} " . $shortcode_params . ']';
+    return $shortcode;
+}

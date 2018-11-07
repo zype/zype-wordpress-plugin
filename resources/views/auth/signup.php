@@ -10,6 +10,7 @@
                         <form action="<?php echo admin_url('admin-ajax.php') ?>"
                               class="user-form nice-form zype_ajax_form" method="post">
                             <input type="hidden" name="action" value="zype_sign_up">
+                            <input type="hidden" name="redirect_url" value="<?php echo $redirect_url ?>">
                             <div class="error-section"><?php echo $zype_message; ?></div>
                             <div class="field-section">
                                 <div class="zype_flash_messages"></div>

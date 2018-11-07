@@ -27,11 +27,7 @@
               <!?php endif ?>
             </div> -->
         </div>
-        <?php if (zype_audio_only()): ?>
-            <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => true, 'root_parent' => $id]); ?>
-        <?php else: ?>
-            <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => false, 'root_parent' => $id]); ?>
-        <?php endif ?>
+        <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => zype_audio_only(), 'root_parent' => $id, 'redirect_url' => $redirect_url]); ?>
     </div>
     <?php if ($view == 'full'): ?>
         <section class="episode-main">

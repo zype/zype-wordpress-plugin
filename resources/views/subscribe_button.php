@@ -21,8 +21,8 @@
         <div class="subscribe-button-content" id="<?php echo $contentId; ?>">
             <div class="login-sub-section">
                 <?php if (!\Auth::logged_in()): ?>
-                  <?php echo do_shortcode('[zype_auth root_parent="' . $contentId . '" ajax=true]');?>
-                  <?php echo do_shortcode('[zype_signup root_parent="' . $contentId . '" ajax=true]');?>
+                  <?php echo do_shortcode('[zype_auth redirect_url=' . $redirect_url . ' root_parent="' . $contentId . '" ajax=true]');?>
+                  <?php echo do_shortcode('[zype_signup redirect_url=' . $redirect_url . ' root_parent="' . $contentId . '" ajax=true]');?>
                   <?php echo do_shortcode('[zype_forgot root_parent="' . $contentId . '" ]');?>
                 <?php endif; ?>
                   <div id="plans" style=<?php echo (\Auth::logged_in() ? '' : 'display:none;') ?>>

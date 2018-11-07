@@ -45,7 +45,7 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
 
     switch ($type) {
         case 'login':
-            return $loginController->login($ajax, $root_parent);
+            return $loginController->login($ajax, $root_parent, $redirect_url);
         case 'register':
             return $loginController->signup($ajax, $root_parent);
         case 'forgot':
@@ -65,11 +65,11 @@ add_shortcode('zype_video_checkout',  function ($attrs = array()) use ($request)
     $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
     $monetizationController = new Consumer\Monetization($root_parent, $video_id, $redirect_url);
     switch ($type) {
-        case 'paywall':    
+        case 'paywall':
             return $monetizationController->paywall_view($attrs);
         case 'cc_form':
             return $monetizationController->cc_form($attrs);
-    }    
+    }
 });
 
 add_shortcode('zype_signup', function($attrs = array()) {
