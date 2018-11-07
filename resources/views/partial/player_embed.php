@@ -68,20 +68,19 @@
         <div class="player-auth-required-content">
             <div class="login-sub-section">
                 <?php if (!\Auth::logged_in()): ?>
-                    <?php echo do_shortcode('[zype_auth]'); ?>
-                    <?php echo do_shortcode('[zype_signup]'); ?>
+                    <?php echo do_shortcode(ajax_shortcode('zype_auth', ['redirect_url' => $redirect_url])); ?>
+                    <?php echo do_shortcode(ajax_shortcode('zype_signup', ['redirect_url' => $redirect_url])); ?>
                     <?php echo do_shortcode('[zype_forgot]'); ?>
                 <?php elseif (!$has_access_to_video): ?>
                     <?php
-                        $shortCode = '[zype_video_checkout ';
-                        if ($root_parent) {
-                            $shortCode .= 'root_parent="' . $root_parent . '"';
-                        }
-                        $shortCode .= ' type="paywall"';
-                        $shortCode .= ' video_id="' . esc_attr($video->_id) . '"';
-                        $shortCode .= ']';
+                        $short_code = ajax_shortcode('zype_video_checkout', [
+                            'root_parent'   => $root_parent,
+                            'redirect_url'  => $redirect_url,
+                            'type'          => $paywall,
+                            'video_id'      => esc_attr($video->_id)
+                        ]);
+                        echo do_shortcode($short_code);
                     ?>
-                    <?php echo do_shortcode($shortCode); ?>
                 <?php endif; ?>
             </div>
         </div>

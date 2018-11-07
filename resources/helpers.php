@@ -818,11 +818,8 @@ function zype_url_slug($str, $options = array())
     return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
 }
 
-
 /*
  * Generate an ajax shortcode
- * Type could be zype_auth or zype_signup
- *
  */
 function ajax_shortcode($type, $params)
 {

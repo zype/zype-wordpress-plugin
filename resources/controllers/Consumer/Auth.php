@@ -36,7 +36,7 @@ class Auth extends Base
             return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent, 'show_plans' => json_encode($show_plans)]);
         }
         else {
-            return view($view, ['root_parent' => $root_parent]);
+            return view($view, ['redirect_url' => $redirect_url, 'root_parent' => $root_parent]);
         }
     }
 
@@ -61,7 +61,7 @@ class Auth extends Base
         }
 
         echo view('auth.pre_auth', ['title' => 'Auth']);
-        echo view('auth.login');
+        echo view('auth.login', ['redirect_url' => home_url($this->options['profile_url'])]);
         echo view('auth.post_auth');
 
         exit;
@@ -71,13 +71,10 @@ class Auth extends Base
         $this->login_submit(true, $redirect);
     }
 
-    public function login_submit($ajax = false, $redirect = true)
+    public function login_submit($ajax = false, $redirect_url = null)
     {
         if ($ajax) {
             $errors = array();
-        }
-        if($redirect) {
-            $redirect = $this->options['profile_url'];
         }
 
         $auther = new \ZypeMedia\Services\Auth();
@@ -109,7 +106,7 @@ class Auth extends Base
                 'status' => !sizeof($errors) ? true : false,
                 'is_subscribed' => $is_subscribed,
                 'errors' => $errors,
-                'redirect' => $redirect
+                'redirect' => $redirect_url
             ));
             exit();
         }
