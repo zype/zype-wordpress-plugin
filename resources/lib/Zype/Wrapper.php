@@ -502,12 +502,12 @@ class Wrapper
         return Api::update_consumer($id, $api_params);
     }
 
-    public static function get_all_plans()
+    public static function get_all_plans($params = [])
     {
-        $api_params = [
+        $api_params = array_merge($params,[
             'api_key' => self::$options['admin_key'],
-            'per_page' => 500,
-        ];
+            'per_page' => 500
+        ]);
 
         self::apply_sort($api_params, 'alphabetical');
 
