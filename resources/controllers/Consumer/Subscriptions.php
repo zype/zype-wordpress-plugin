@@ -25,11 +25,15 @@ class Subscriptions extends Base
         $this->title = 'Select a Plan';
         $plans = $plan;
 
-        print view('auth.plans', [
+        echo view('auth.pre_auth', ['title' => 'Auth']);
+        echo view('auth.plans', [
             'plans' => $plans,
             'title' => $this->title,
-            'options' => $this->options
+            'options' => $this->options,
+            'root_parent' => '',
+            'redirect_url' => home_url($this->options['profile_url'])
         ]);
+        echo view('auth.post_auth', ['title' => 'Auth']);
 
         exit();
     }
