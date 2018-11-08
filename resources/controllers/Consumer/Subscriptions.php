@@ -213,6 +213,7 @@ class Subscriptions extends Base
                         break;
                     case 'stripe':
                         $sub['stripe_card_token'] = $form['stripe_card_token'];
+                        $sub['coupon_code'] = $form['stripe_coupon_code'];
                         break;
                 }
 

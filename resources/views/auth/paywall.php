@@ -67,7 +67,7 @@
                                                     <div class="zype-btn-container-plan">Continue</div>
                                                 </a>
                                             </div>
-                                        </div>                                    
+                                        </div>
                                     </section>
                                 <?php endif; ?>
                                 <?php if($monetizations['pass']['required']): ?>
@@ -83,12 +83,12 @@
                                                 <div class="zype-column-plan">
                                                     <div class="zype-price-holder">
                                                         $<?php echo $plan->amount, ' for ', $plan->duration_count; ?>
-                                                        <?php 
+                                                        <?php
                                                             echo $plan->duration;
                                                             if ($plan->duration_count > 1) {
                                                                 echo 's';
                                                             }
-                                                        ?> 
+                                                        ?>
                                                     </div>
                                                     <a href="<?php echo get_permalink() ?>"
                                                     class="zype_monetization_checkout zype-btn-price-plan"
@@ -114,12 +114,12 @@
                                             <div class="zype-column-plan">
                                                 <div class="zype-price-holder">
                                                     $<?php echo "{$monetizations['rental']['price']} for {$monetizations['rental']['days']} "; ?>
-                                                    <?php 
+                                                    <?php
                                                         echo 'day';
                                                         if ($monetizations['rental']['days'] > 1) {
                                                             echo 's';
                                                         }
-                                                    ?> 
+                                                    ?>
                                                 </div>
                                                 <a href="<?php echo get_permalink() ?>"
                                                     class="zype_monetization_checkout zype-btn-price-plan"
@@ -131,9 +131,9 @@
                                                     <div class="zype-btn-container-plan">Continue</div>
                                                 </a>
                                             </div>
-                                        </div>                                    
+                                        </div>
                                     </section>
-                                <?php endif; ?>                                                             
+                                <?php endif; ?>
                             </div>
                         </div>
                     </form>

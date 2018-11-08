@@ -214,7 +214,7 @@ function ZypeWP(env) {
 
             zype_auth_markup.each(function (i, item) {
                 var $item = jQuery(item);
-                var is_in_modal = !!$item.closest('.player-auth-required').length || 
+                var is_in_modal = !!$item.closest('.player-auth-required').length ||
                     !!$item.closest('.subscribe-button').length || !!$item.closest('.my-library-sign-in-button').length;
 
                 if (is_in_modal && ['login', 'register', 'forgot'].includes(jQuery(this).data('type'))) {

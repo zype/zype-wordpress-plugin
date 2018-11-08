@@ -91,6 +91,9 @@ $zype_default_options = array(
     'rss_url' => 'rss',
     'rss_enabled' => false,
     'stripe_pk' => '',
+    'stripe' => [
+        'coupon_enabled' => true
+    ],
     'livestream_authentication_required' => false,
     'cache_time' => 600,
     'app_key' => '',
@@ -146,7 +149,7 @@ $zype_default_options = array(
         'new_pass' => [
             'text' => "Thank you for buying a pass plan, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
             'required' => ['{login_link}']
-        ],        
+        ],
         'new_subscription' => [
             'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
             'required' => ['{login_link}']
