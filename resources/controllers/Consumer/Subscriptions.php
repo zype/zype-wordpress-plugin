@@ -66,11 +66,46 @@ class Subscriptions extends Base
         $sub_short_code_text_after_sub = $this->options['sub_short_code_text_after_sub'];
         $profile_url = home_url(Config::get('zype.profile_url'));
 
+        $subscription_shortcode_id = 'subscribe-shortcode-' . (time() * rand(1, 1000000));
+        $subscribe_button_id = 'subscribe-button-' . (time() * rand(1, 1000000));
+        $content_id = 'subscribe-button-content-' . (time() * rand(1, 1000000));
+
+        $login_shortcode = ajax_shortcode('zype_auth', [
+            'type' => 'login',
+            'root_parent' => $content_id,
+            'ajax' => true,
+            'redirect_url' => $sub_short_code_redirect_url,
+            'show_plans' => true
+        ]);
+        $sign_up_shortcode = ajax_shortcode('zype_signup', [
+            'root_parent' => $content_id,
+            'ajax' => true,
+            'redirect_url' => $sub_short_code_redirect_url,
+            'show_plans' => true
+        ]);
+        $forgot_password_shortcode = ajax_shortcode('zype_forgot', [
+            'root_parent' => $content_id
+        ]);
+        $plans_shortcode = ajax_shortcode('zype_auth', [
+            'type' => 'plans',
+            'root_parent' => $content_id,
+            'redirect_url' => $sub_short_code_redirect_url
+        ]);
+
         $content = view('subscribe_button', [
             'btn_text' => $sub_short_code_btn_text,
             'redirect_url' => $sub_short_code_redirect_url,
             'btn_text_after_sub' => $sub_short_code_text_after_sub,
-            'profile_url' => $profile_url
+            'subscription_shortcode_id' => $subscription_shortcode_id,
+            'subscribe_button_id' => $subscribe_button_id,
+            'content_id' => $content_id,
+            'profile_url' => $profile_url,
+            'shortcodes'    => [
+                'login'         => $login_shortcode,
+                'sign_up'       => $sign_up_shortcode,
+                'forgot_pass'   => $forgot_password_shortcode,
+                'plans'         => $plans_shortcode
+            ]
         ]);
 
         return $content;

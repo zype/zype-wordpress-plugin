@@ -46,6 +46,7 @@
   (function($){
     $(document).ready(function() {
       var rootParentId = "#<?php echo $root_parent ?>";
+      var showPlans = "<?php echo $show_plans ?>" === "true" ? true : false;
       var zypeAjaxFormPath = [rootParentId, "#zype_login_form_ajax"].join(' ');;
       var zypeSubmitButtonFormPath = [zypeAjaxFormPath, '.zype-button'].join(' ');
       var zypeErrorSectionFormPath = [zypeAjaxFormPath, '.error-section'].join(' ');
@@ -62,8 +63,8 @@
           $(zypeSpinnerFormPath).remove();
           data = $.parseJSON(data);
           if (data.status == true) {
-            if(!data.is_subscribed) {
-              var planDiv = $(".subscribe-button-content #plans")
+            if(!data.is_subscribed && showPlans) {
+              var planDiv = $(rootParentId + " .subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
                 $('.zype-form').hide();
@@ -71,7 +72,11 @@
             }
             else {
               $(zypeAjaxFormPath).hide();
-              $(rootParentId).find('#zype-modal-auth .main-heading .title').text('You\'re already subscribed!');
+              var afterSignInText = 'You\'re already subscribed!';
+              if(!showPlans) {
+                afterSignInText = 'Now you can start enjoying your content!';
+              }
+              $(rootParentId).find('#zype-modal-auth .main-heading .title').text(afterSignInText);
               $(rootParentId).find('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
           } else {
@@ -85,7 +90,7 @@
         }
       });
 
-      $(document).on('click', '#already-subscribed-btn', function(e) {
+      $(document).on('click', rootParentId + ' #zype-modal-auth' + ' #already-subscribed-btn', function(e) {
         e.preventDefault();
         var url = '<?php echo $redirect_url ?>';
         if (url.length > 0) {

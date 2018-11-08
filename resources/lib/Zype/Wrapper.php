@@ -143,22 +143,22 @@ class Wrapper
         return Api::get_playlist($id, $api_params);
     }
 
-    public static function get_videos($page = null, $per_page = 2, $suppress_search = false)
+    public static function get_videos($params = [], $suppress_search = false)
     {
-        $api_params = [
+        $api_params = array_merge($params,[
             'api_key' => self::$options['read_only_key'],
-            'per_page' => $per_page,
-            'page' => $page,
-        ];
+        ]);
 
-        if (sizeof(self::$options['excluded_categories'] > 0)) {
+        if (!empty(self::$options['excluded_categories']) && (sizeof(self::$options['excluded_categories']) > 0)) {
             $api_params['category!'] = [];
             foreach (self::$options['excluded_categories'] as $excluded_category) {
                 $api_params['category!'][$excluded_category] = 'true';
             }
         }
 
-        self::apply_sort($api_params, 'published');
+        if(empty($api_params['sort'])) {
+            self::apply_sort($api_params, 'published');
+        }
 
         if (!$suppress_search) {
             self::apply_search($api_params);
@@ -419,6 +419,20 @@ class Wrapper
             ];
 
             return Api::get_consumer_transactions($api_params);
+        }
+
+        return false;
+    }
+
+    public static function get_consumer_entitled_videos($access_token, $params = [])
+    {
+        if ($access_token) {
+
+            $api_params = array_merge($params,[
+                'access_token' => $access_token
+            ]);
+
+            return Api::get_consumer_entitled_videos($api_params);
         }
 
         return false;

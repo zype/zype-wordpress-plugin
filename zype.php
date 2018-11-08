@@ -65,6 +65,7 @@ $zype_default_options = array(
     'authentication_enabled' => true,
     'subscriptions_enabled' => true,
     'device_link_enabled' => true,
+    'zype_saas_compatability' => false,
     'zype_saas_comfortability' => false,
     'cookie_key' => 'reset_me',
     'oauth_client_id' => '',
@@ -82,6 +83,7 @@ $zype_default_options = array(
     'pass_url' => 'pass',
     'purchase_url' => 'purchase',
     'terms_url' => '',
+    'playlist_pagination' => true,
     'braintree_environment' => '',
     'braintree_merchant_id' => '',
     'braintree_private_key' => '',
@@ -105,6 +107,21 @@ $zype_default_options = array(
     'sub_short_code_btn_text' => 'SIGN UP',
     'sub_short_code_redirect_url' => 'ddd',
     'sub_short_code_text_after_sub' => 'MY ACCOUNT',
+    'my_library' => [
+        'sort' => 'created_at',
+        'pagination' => true,
+        'sign_in_text' => 'Please sign in to view your video library'
+    ],
+    'my_library_sort_options' => [
+        'created_at' => [
+            'title' => 'Newest to oldest (default)',
+            'order' => 'desc'
+        ],
+        'title' => [
+            'title' => 'A to Z',
+            'order' => 'asc'
+        ]
+    ],
     'emails' => [
         'cancel_subscription' => [
             'text' => "We're very sorry to see you go! This email confirms your subscription has been canceled.\nPlease come back to visit if you'd like to subscribe again in the future.\nThanks.",

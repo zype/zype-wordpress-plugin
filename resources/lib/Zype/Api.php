@@ -47,10 +47,11 @@ class Api
 
     private static function request($method, $endpoint, $query, $is_auth = false, $cache = false)
     {
+        $path = $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
         if ($is_auth) {
-            $url = self::$authBaseEndpoint . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
+            $url = self::$authBaseEndpoint . $path;
         } else {
-            $url = self::$resourceBaseEndpoint . $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
+            $url = self::$resourceBaseEndpoint . $path;
 
             if ($cache && $response = get_transient('zype_api_' . substr(md5($url), 0, 15))) {
                 $body = $response['body'];
@@ -105,7 +106,7 @@ class Api
 
     private static function _get_videos($query)
     {
-        return self::request("GET", "videos", $query)->response;
+        return self::request("GET", "videos", $query);
     }
 
     private static function _get_all_pass_plans($query)
@@ -212,6 +213,11 @@ class Api
     private static function _get_consumer_transactions($query)
     {
         return self::request("GET", "transactions", $query)->response;
+    }
+
+    private static function _get_consumer_entitled_videos($query)
+    {
+        return self::request("GET", "consumer/videos", $query);
     }
 
     private static function _get_plans($query)
