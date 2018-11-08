@@ -31,7 +31,7 @@
                     }
                 ?>
                 <div class="view_all_images zype-landscape">
-                    <a href="<?php echo get_permalink() . '?zype_type=video_single&zype_video_id=' . $video->_id ?>">
+                    <a href="<?php echo get_permalink() . '?shortcode=zype_my_library&zype_type=video_single&zype_video_id=' . $video->_id ?>">
                         <div class="zype-background-thumbnail"
                                 style="background-image: url(<?php echo $background_image ?>);">
                         </div>

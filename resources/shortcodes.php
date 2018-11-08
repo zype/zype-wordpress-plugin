@@ -119,14 +119,14 @@ add_shortcode('zype_playlist', function ($attrs) use ($request) {
 
 add_shortcode('zype_my_library', function ($attrs) use ($request) {
     $videos = new Consumer\Videos();
-
-    if ($request->validate('zype_type', ['textfield']) == 'video_single') {
+    $zype_type = $request->validate('zype_type', ['textfield']);
+    $shortcode = $request->validate('shortcode', ['textfield']);
+    if ($zype_type == 'video_single' && $shortcode == 'zype_my_library') {
         return $videos->single();
     }
     $page_number = $request->validate('page_number', ['textfield']);
     return $videos->entitled($page_number);
 });
-
 
 add_shortcode('subscribe', function($attrs) {
     $subscriptionsController = new Consumer\Subscriptions();
