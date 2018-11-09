@@ -35,7 +35,7 @@ class HooksService extends ServiceProvider
         Filter::add('zype_zobject_url', [$this, 'zype_zobject_url']);
 
         // Zype assets
-        Asset::add('zype_checkoutSuccess', 'javascripts/jquery.maskedinput.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
+        Asset::add('zype_checkoutSuccess', 'javascripts/imaskjs.min.js', ['jquery'], ZYPE_WP_VERSION, 'all');
         Asset::add('zype_wp_js', 'javascripts/zype_wp.js', ['jquery'], ZYPE_WP_VERSION, true);
         Asset::add('zype_stripe_api', 'javascripts/stripe.js', false, ZYPE_WP_VERSION, 'all');
         Asset::add('zype_braintree_api', 'javascripts/dropin.min.js', false, ZYPE_WP_VERSION, 'all');
