@@ -128,7 +128,7 @@ class Base extends Controller
     {
     }
 
-    public function canonical_url($url)
+    public function canonical_url()
     {
         $url = site_url() . $this->request->validateServer('REQUEST_URI', ['textfield']);
 

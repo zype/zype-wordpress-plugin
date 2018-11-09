@@ -18,7 +18,8 @@ class Player extends Base
             'auth_required' => isset($params['auth']) ? $params['auth'] : false,
             'auto_play' => false,
             'audio_only' => isset($params['audio_only']) ? $params['audio_only'] : false,
-            'root_parent' => $params['root_parent']
+            'root_parent' => $params['root_parent'],
+            'redirect_url' => $params['redirect_url']
         ]);
     }
 
