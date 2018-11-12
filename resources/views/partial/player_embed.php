@@ -76,7 +76,7 @@
                         $short_code = ajax_shortcode('zype_video_checkout', [
                             'root_parent'   => $root_parent,
                             'redirect_url'  => $redirect_url,
-                            'type'          => $paywall,
+                            'type'          => 'paywall',
                             'video_id'      => esc_attr($video->_id)
                         ]);
                         echo do_shortcode($short_code);
