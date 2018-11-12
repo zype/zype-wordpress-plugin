@@ -238,7 +238,7 @@ class Admin extends Controller
         $search = $this->request->validate('search', ['textfield']);
 
         $query['active'] = true;
-        $videos = \Zype::get_videos(['per_page' => 500]);
+        $videos = \Zype::get_videos(['per_page' => 500])->response;
 
         if ($search) {
             foreach ($videos->collection as $k => $item) {
