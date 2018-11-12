@@ -106,7 +106,7 @@ class Api
 
     private static function _get_videos($query)
     {
-        return self::request("GET", "videos", $query)->response;
+        return self::request("GET", "videos", $query);
     }
 
     private static function _get_all_pass_plans($query)
