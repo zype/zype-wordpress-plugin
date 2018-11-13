@@ -1,7 +1,7 @@
 <div id="zype-modal-forgot" class='zype-form'>
     <div class="content-wrap signup-wrap user-action-wrap zype-form-center">
         <div class="main-heading inner-heading">
-            <h1 class="title zype-title">Forgot Password?</h1>
+            <h1 class="title zype-title zype-custom-title">Forgot Password?</h1>
         </div>
         <div class="user-wrap">
             <div class="holder-main">

@@ -22,7 +22,7 @@
                     </p>
                     <form action="<?php zype_url('profile'); ?>/subscription/cancel/" method="post">
                         <input type="hidden" name="subscription_id" value="<?php echo $zd['subscription']->_id; ?>">
-                        <input type="submit" class="btn btn-primary user-profile-wrap__button"
+                        <input type="submit" class="btn btn-primary user-profile-wrap__button zype-custom-button"
                                value="Cancel Subscription"
                                onclick="return confirm('Are you sure you want to cancel your subscription?');">
                     </form>

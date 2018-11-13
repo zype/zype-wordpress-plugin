@@ -1,7 +1,7 @@
 <div class="content-wrap zype-form-center">
     <div id="payment-wrapper">
         <div class="main-heading inner-heading">
-            <h1 class="title text-uppercase zype-title">Enter your billing info</h1>
+            <h1 class="title text-uppercase zype-title zype-custom-title">Enter your billing info</h1>
         </div>
         <div class="user-wrap">
             <div class="holder-main">
@@ -52,7 +52,7 @@
 
                                 <div class="zype-buttons-row">
                                     <div class="zype-buttons-column">
-                                        <button type="button" class="zype_monetization_checkout zype-button"
+                                        <button type="button" class="zype_monetization_checkout zype-button zype-custom-button"
                                                 data-type="paywall"
                                                 data-video-id="<?php echo esc_attr($video_id) ?>"
                                                 data-root-parent="<?php echo $root_parent; ?>">Go back
@@ -60,7 +60,7 @@
                                     </div>
 
                                     <div class="zype-buttons-column">
-                                        <button type="submit" class="zype-checkout-button zype-button"
+                                        <button type="submit" class="zype-checkout-button zype-button zype-custom-button"
                                             data-transaction-type="<?php echo $transaction_type; ?>"
                                             data-description="<?php echo $plan->name; ?>"
                                             data-interval="<?php echo $plan->interval; ?>"
@@ -318,7 +318,7 @@
                 }
                 if (data.success) {
                     $(titleSelector).text('Thanks for your payment!');
-                    $(paymentRowSelector).html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                    $(paymentRowSelector).html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button zype-custom-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
                 }
                 $(checkoutButtonSelector).prop('disabled', false);
                 $(spinnerSelector).remove();

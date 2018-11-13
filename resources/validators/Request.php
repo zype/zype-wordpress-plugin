@@ -25,13 +25,28 @@ class Request extends ThemosisRequest
 
     public function validateAll($rules = [], $default = '')
     {
+        return $this->validateHash($this->all(), $rules, $default);
+    }
+
+    public function validateHash($hash, $rules = [], $default = '')
+    {
         $data = [];
 
-        foreach ($this->all() as $key => $val) {
-            $data[$key] = $this->sanitize($val, $rules, $default);
+        foreach ($hash as $key => $val) {
+            if(is_array($val) && $this->isAssoc($val)) {
+                $data[$key] = $this->validateHash($hash[$key], $rules, $default);
+            }
+            else {
+                $data[$key] = $this->sanitize($val, $rules, $default);
+            }
         }
-
         return $data;
+    }
+
+    public function isAssoc($arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
     public function sanitize($data, $rules = [], $default = '')

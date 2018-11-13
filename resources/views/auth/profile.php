@@ -62,7 +62,7 @@
                                 <input type="email" class="form-control user-profile-wrap__inp" id="email" name="email"
                                        value="<?php echo $consumer->email; ?>" placeholder="Email">
                             </div>
-                            <input type="submit" class="btn btn-primary user-profile-wrap__button" value="Update">
+                            <input type="submit" class="btn btn-primary user-profile-wrap__button zype-custom-button" value="Update">
                         </div>
                     </form>
                 </div>

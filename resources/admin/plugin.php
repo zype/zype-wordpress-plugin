@@ -92,6 +92,19 @@ Action::add('zype_page_zype-monetization', 'ZypeMedia\Controllers\Admin@admin_br
 Action::add('admin_action_zype_braintree', 'ZypeMedia\Controllers\Admin@admin_braintree_page_save');
 ### Monetization page end
 
+### Customize UI page start
+Page::make('zype-customize-ui', 'Customize UI', 'zype')->set([
+    'capability' => 'manage_options',
+    'icon' => $icon_url,
+    'position' => 20,
+    'tabs' => true,
+    'menu' => __("Customize UI")
+]);
+
+Action::add('zype_page_zype-customize-ui', 'ZypeMedia\Controllers\Admin\CustomizeUi@index');
+Action::add('admin_action_zype_customize_ui', 'ZypeMedia\Controllers\Admin\CustomizeUi@submit');
+### Customize UI page end
+
 ### Video search page start
 Page::make('zype-video', 'Video search', 'zype')->set([
     'capability' => 'manage_options',

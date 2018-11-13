@@ -47,6 +47,8 @@
                 arrows: true,
                 adaptiveHeight: false,
                 responsive: slickCalculateResponsive($(this)),
+                prevArrow: '<button type="button" class="slick-prev fa fa-fw fa-arrow-left"></button>',
+                nextArrow: '<button type="button" class="slick-next fa fa-fw fa-arrow-right"></button>'
             });
         });
 

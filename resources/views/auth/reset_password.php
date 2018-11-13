@@ -30,7 +30,7 @@
                            placeholder="Confirm New Password">
                 </div>
 
-                <input type="submit" value="Reset Password" class="btn btn-primary user-profile-wrap__button">
+                <input type="submit" value="Reset Password" class="btn btn-primary user-profile-wrap__button zype-custom-button">
 
             </div>
         </form>

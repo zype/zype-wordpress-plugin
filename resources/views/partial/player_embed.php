@@ -63,7 +63,7 @@
             </div>
     <?php endif; ?>
 
-    <div class="player-auth-required">
+    <div class="player-auth-required zype-custom-modal">
         <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
         <div class="player-auth-required-content">
             <div class="login-sub-section">

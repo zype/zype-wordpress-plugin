@@ -72,7 +72,7 @@
                             </div>
                             <div class="btn-holder">
                                 <input type="submit"
-                                        class="btn btn-sm btn-success user-profile-wrap__button user-profile-wrap__button_subscr"
+                                        class="btn btn-sm btn-success user-profile-wrap__button user-profile-wrap__button_subscr zype-custom-button"
                                         value="Update Credit Card" disabled>
                             </div>
                         </div>

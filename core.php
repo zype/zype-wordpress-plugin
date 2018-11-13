@@ -175,6 +175,7 @@ if (!class_exists('Themosis')) {
              * Project hooks.
              * Added in their called order.
              */
+            add_action('wp_head', [$this, 'inline_css']);
             add_action('admin_enqueue_scripts', [$this, 'adminEnqueueScripts']);
             add_action('admin_head', [$this, 'adminHead']);
             add_action('template_redirect', 'redirect_canonical');
@@ -295,11 +296,27 @@ if (!class_exists('Themosis')) {
         /**
          * Enqueue Admin scripts.
          */
-        public function adminEnqueueScripts()
+        public function adminEnqueueScripts($hook)
         {
             /*
              * Make sure the media scripts are always enqueued.
              */
+            wp_enqueue_style('zype_grid', plugins_url('dist/css/admin/grid.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+
+            // Load only on ?page=mypluginname
+            if($hook === 'zype_page_zype-customize-ui') {
+                wp_enqueue_script('zype_admin_customize_ui_js', plugins_url('dist/javascripts/admin/customize_ui.js', __FILE__), false, ZYPE_WP_VERSION);
+                wp_enqueue_script('slick-js', plugins_url('dist/javascripts/slick/slick.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
+                wp_enqueue_script('slider', plugins_url('dist/javascripts/slider.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
+                wp_enqueue_style('zype_admin_customize_ui', plugins_url('dist/css/admin/customize_ui.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                wp_enqueue_style('zype_login', plugins_url('dist/css/zype_forms/regform.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                wp_enqueue_style('zype_single_video', plugins_url('dist/css/zype_forms/single_video.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                wp_enqueue_style('zype-style', plugins_url('dist/css/style_plugin.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                wp_enqueue_style('zype-plans', plugins_url('dist/css/zype_forms/plans.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                wp_enqueue_style('slick', plugins_url('dist/javascripts/slick/slick.css', __FILE__), false, ZYPE_WP_VERSION);
+                wp_enqueue_style('slick-theme', plugins_url('dist/javascripts/slick/slick-theme.css', __FILE__), ['slick'], ZYPE_WP_VERSION, 'all');
+            }
+
             wp_enqueue_media();
         }
 
@@ -327,6 +344,91 @@ if (!class_exists('Themosis')) {
 
             // Output the datas.
             echo $output;
+        }
+
+        public function inline_css()
+        {
+            $colors = Config::get('zype.colors')['user'];
+            $modal_colors = $colors['modal'];
+            $playlist_colors = $colors['playlist'];
+            $price_table = $modal_colors['price-table'];
+            $css = array(
+                '#zype_video__auth-close, #zype_video__auth-close:hover' => [
+                    'color' => $modal_colors['close-btn']
+                ],
+                '.site-content .zype-custom-modal' => [
+                    'background-color' => $modal_colors['background']
+                ],
+                '.zype-column-plans' => [
+                    'border-color' => $price_table['border'],
+                    'background-color' => $price_table['background'],
+                ],
+                '.zype-custom-title' => [
+                    'color' => $modal_colors['title']
+                ],
+                '.zype-type-plan' => [
+                    'color' => $price_table['transaction']['title']
+                ],
+                '.zype-title-plan' => [
+                    'color' => $price_table['transaction']['description']
+                ],
+                '.zype-price-holder' => [
+                    'color' => $price_table['transaction']['price']
+                ],
+                'div.zype-form-center .zype-custom-button, .user-profile-wrap__button.zype-custom-button' => [
+                    'color' => $price_table['button']['text'],
+                    'border-color' => $price_table['button']['border'],
+                    'background-color' => $price_table['button']['background']
+                ],
+                'div.zype-form-center .zype-custom-button:hover, .user-profile-wrap__button.zype-custom-button:hover' => [
+                    'color' => $price_table['button']['text'],
+                    'border-color' => $price_table['button']['border'],
+                    'background-color' => $price_table['button']['background']
+                ],
+                'div.zype-form-center .zype-custom-button:focus, .user-profile-wrap__button.zype-custom-button:focus' => [
+                    'color' => $price_table['button']['text'],
+                    'border-color' => $price_table['button']['border'],
+                    'background-color' => $price_table['button']['background']
+                ],
+                '.zype-custom-button:hover' => [
+                    'color' => $price_table['button']['text'],
+                    'border-color' => $price_table['button']['border'],
+                    'background-color' => $price_table['button']['background']
+                ],
+                // Playlist Custom UI
+                '.slick-arrow:before' => [
+                    'color' => $playlist_colors['arrow']
+                ],
+                '.slider_links .slider_links-title a' => [
+                    'color' => $playlist_colors['name']['normal']
+                ],
+                '.slider_links .slider_links-title a:focus,
+                .slider_links .slider_links-title a:active,
+                .slider_links .slider_links-title a:hover' => [
+                    'color' => $playlist_colors['name']['hover']
+                ],
+                '.get-all-playlists.slider_links-all a' => [
+                    'color' => $playlist_colors['see_all']['normal']
+                ],
+                '.get-all-playlists.slider_links-all a:focus,
+                .get-all-playlists.slider_links-all a:active,
+                .get-all-playlists.slider_links-all a:hover' => [
+                    'color' => $playlist_colors['see_all']['hover']
+                ],
+                '.item_title_block' => [
+                    'color' => $playlist_colors['video_name']
+                ]
+            );
+            $final_css = '';
+            foreach ( $css as $style => $style_array ) {
+                $final_css .= $style . '{';
+                foreach ( $style_array as $property => $value ) {
+                    $final_css .= $property . ':' . $value . ';';
+                }
+                $final_css .= '}';
+            }
+
+            echo '<style type="text/css">' .  $final_css . '</style>';
         }
     }
 }

@@ -69,7 +69,7 @@
                                 <input type="password" class="form-control user-profile-wrap__inp" id="cn-password"
                                        name="new_password_confirmation" placeholder="Confirm new password">
                             </div>
-                            <input type="submit" class="btn btn-primary user-profile-wrap__button" value="Submit">
+                            <input type="submit" class="btn btn-primary user-profile-wrap__button zype-custom-button" value="Submit">
                         </div>
                     </form>
                 </div>

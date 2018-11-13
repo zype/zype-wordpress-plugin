@@ -1,7 +1,7 @@
 <div id="zype-modal-auth" class='zype-form'>
   <div class="content-wrap zype-form-center">
     <div class="main-heading inner-heading">
-      <h1 class="title zype-title">Sign in</h1>
+      <h1 class="title zype-title zype-custom-title">Sign in</h1>
     </div>
     <div class="user-wrap">
       <div class="holder-main">
@@ -19,7 +19,7 @@
                   <input name="password" type="password" class="required zype-input-text" id="password-login" placeholder="Password">
                 </p>
                 <div class="btn-holder">
-                  <button type="submit" class="zype_get_all_ajax zype-button">Sign in</button>
+                  <button type="submit" class="zype_get_all_ajax zype-button zype-custom-button">Sign in</button>
                 </div>
               </div>
               <div class="success-section"></div>
@@ -77,7 +77,7 @@
                 afterSignInText = 'Now you can start enjoying your content!';
               }
               $(rootParentId).find('#zype-modal-auth .main-heading .title').text(afterSignInText);
-              $(rootParentId).find('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+              $(rootParentId).find('#zype-modal-auth .holder-main .row div').html('<p class="to-sign-up">Enjoy!</p><button class="zype-button zype-custom-button" id="already-subscribed-btn">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
             }
           } else {
             $(zypeAjaxFormPath).find('button[type="submit"]').prop('disabled', false);

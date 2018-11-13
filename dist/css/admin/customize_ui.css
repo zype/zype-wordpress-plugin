@@ -1,0 +1,19 @@
+#modal-close-button .element-sandbox #zype_video__auth-close {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+#modal-sandbox .player-auth-required-content {
+  margin: 20px auto;
+}
+
+#customize-ui #buttons input[name='reset'] {
+  background-color: white;
+  border-color: white;
+  text-shadow: none;
+  color: black;
+  text-shadow: 0 -1px 1px white, 1px 0 1px white, 0 1px 1px white, -1px 0 1px white;
+  padding: 0 10px 1px;
+  box-shadow: 0 1px 0 white;
+}
