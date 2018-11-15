@@ -64,7 +64,7 @@
           data = $.parseJSON(data);
           if (data.status == true) {
             if(!data.is_subscribed && showPlans) {
-              var planDiv = $(rootParentId + " .subscribe-button-content #plans")
+              var planDiv = $(rootParentId + ".subscribe-button-content #plans")
               if (planDiv.length > 0) {
                 planDiv.show();
                 $('.zype-form').hide();

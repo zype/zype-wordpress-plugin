@@ -136,6 +136,7 @@ class Monetization extends Base
             'redirect_url' => $this->redirect_url,
             'video_id' => $this->video_id,
             'stripe_ok' => $stripe_ok,
+            'coupons_enabled' => $this->options['stripe']['coupon_enabled']
         ]);
 
         return $content;

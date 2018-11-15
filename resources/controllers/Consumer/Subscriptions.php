@@ -213,12 +213,13 @@ class Subscriptions extends Base
                         break;
                     case 'stripe':
                         $sub['stripe_card_token'] = $form['stripe_card_token'];
+                        $sub['coupon_code'] = $form['stripe_coupon_code'];
                         break;
                 }
 
                 $new_sub = \Zype::create_subscription($sub);
 
-                if ($new_sub) {
+                if ($new_sub && $new_sub->success()) {
                     $mailer = new \ZypeMedia\Services\Mailer;
                     $mailer->new_subscription($consumer->email);
                     $mail_res = $mailer->send();
@@ -227,7 +228,9 @@ class Subscriptions extends Base
 
                     $data['success'] = true;
                 } else {
-                    $data['errors']['cannot'] = 'The purchase could not be completed. Please try again later.';
+                    $messageError = $new_sub->getMessage();
+                    $description = $messageError['description']?: 'The purchase could not be completed. Please try again later.';
+                    $data['errors']['cannot'] = $description;
                     $data['success'] = false;
                 }
             } else {

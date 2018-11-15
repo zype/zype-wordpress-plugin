@@ -78,12 +78,13 @@
 }
 
 #payment-form  p.zype-input-wrap > .zype-input-text.zype-card-cvc, #payment-form p.zype-input-wrap > .zype-input-text.zype-card-date {
-    margin: 0 3px !important;
-    width: 195px !important;
+    margin: 0 3px;
+    width: 195px;
 }
 
-#payment-form .zype-input-text.zype-card-number {
-    width: 400px !important;
+#payment-form .zype-input-text.zype-card-number,
+#payment-form .zype-input-text.zype-stripe-coupon {
+    width: 400px;
 }
 
 .braintree-options .braintree-option:first-child {
@@ -98,8 +99,10 @@
 }
 
 @media(max-width: 414px) {
-    .zype-input-text.zype-card-number {
-        width: 195px !important;
+    #payment-form .zype-input-text.zype-card-number,
+    #payment-form .zype-input-text.zype-stripe-coupon
+     {
+        width: 195px;
     }
 
     .zype-btn-price-plan-mob {

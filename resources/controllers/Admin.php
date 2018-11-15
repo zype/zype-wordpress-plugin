@@ -427,6 +427,9 @@ class Admin extends Controller
                     'sort'          => $this->request->validate('my_library_sort', ['textfield'], $this->options['my_library']['sort']),
                     'pagination'    => $this->request->validate('my_library_pagination', ['bool']),
                     'sign_in_text'  => $this->request->validate('my_library_sign_in_text', ['textfield'], $this->options['my_library']['sign_in_text'])
+                ],
+                'stripe'                    => [
+                    'coupon_enabled' => $this->request->validate('stripe_coupon_enabled', ['textfield'], $this->options['stripe']['coupon_enabled']),
                 ]
             ];
             $this->options = array_replace($this->options, $new_options);

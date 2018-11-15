@@ -14,7 +14,7 @@
                                 <input name="transaction_type" type="hidden" value="<?php echo $transaction_type; ?>">
                                 <input name="video_id" type="hidden" value="<?php echo $video_id; ?>">
                                 <input name="plan_id" type="hidden" value="<?php echo $plan->_id; ?>">
-                                <input name="pass_plan_id" type="hidden" value="<?php echo $pass_plan->_id; ?>">                                    
+                                <input name="pass_plan_id" type="hidden" value="<?php echo $pass_plan->_id; ?>">
                                 <input name="email" type="hidden" value="<?php zype_current_consumer(); ?>">
                                 <input name="stripe_card_token" type="hidden">
                                 <input name="braintree_payment_nonce" type="hidden">
@@ -40,6 +40,14 @@
                                             <input type="text" placeholder="MM/YY"
                                                     class="zype-input-text zype-card-date">
                                         </p>
+                                        <?php if($transaction_type == ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION): ?>
+                                            <p class="form-group zype-input-wrap">
+                                                <input type="text"
+                                                        name="stripe_coupon_code"
+                                                        placeholder="Coupon code"
+                                                        class="zype-input-text zype-stripe-coupon">
+                                            </p>
+                                        <?php endif ?>
                                     </div>
                                 <?php endif ?>
 
@@ -74,6 +82,17 @@
 </div>
 
 <script>
+    var rootParent = "#<?php echo $root_parent ?>";
+    var cardDateSelector = [rootParent, '.zype-card-date'].join(' ');
+    var cardNumberSelector = [rootParent, '.zype-card-number'].join(' ');
+    var checkoutButtonSelector = [rootParent, '.zype-checkout-button'].join(' ');
+    var paymentFormSelector = [rootParent, '#payment-form'].join(' ');
+    var checkoutErrorSelector = [rootParent, '.checkout_error'].join(' ');
+    var spinnerSelector = [rootParent, '.zype-spinner'].join(' ');
+    var paymentWrapperSelector = [rootParent, '#payment-wrapper'].join(' ');
+    var titleSelector = [paymentWrapperSelector, '.main-heading', '.title'].join(' ');
+    var paymentRowSelector = [paymentWrapperSelector, '.payment-row'].join(' ');
+
     function getCardType(number)
     {
 
@@ -87,7 +106,7 @@
 
         // Mastercard
         // Updated for Mastercard 2017 BINs expansion
-        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number)) 
+        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number))
             return {
                 type: "Mastercard",
                 mask: "9999 9999 9999 9999"
@@ -160,7 +179,7 @@
                     return;
                 }
 
-                $(".zype-checkout-button").prop('disabled', false);
+                $(checkoutButtonSelector).prop('disabled', false);
 
                 instance.on('noPaymentMethodRequestable', function (event) {
                 });
@@ -178,22 +197,22 @@
                     }
                 });
 
-                $(".zype-checkout-button").click(function (e) {
+                $(checkoutButtonSelector).click(function (e) {
                     e.preventDefault();
 
                     $(this).append('<i class="zype-spinner"></i>');
-                    $(".zype-checkout-button").prop('disabled', true);
+                    $(checkoutButtonSelector).prop('disabled', true);
 
                     if (ifFastPay && instance.isPaymentMethodRequestable() && !payloadNonce) {
                         ifFastPay = false;
                         instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
                             if (payload && typeof payload.nonce != 'undefined') {
                                 payloadNonce = payload.nonce;
-                                $('#payment-form').find('input[name="braintree_payment_nonce"]').val(payload.nonce);
+                                $(paymentFormSelector).find('input[name="braintree_payment_nonce"]').val(payload.nonce);
                                 sendPaymentRequest();
                             } else {
-                                $(".zype-checkout-button").prop('disabled', false);
-                                $('.zype-spinner').remove();
+                                $(checkoutButtonSelector).prop('disabled', false);
+                                $(spinnerSelector).remove();
                             }
                         });
 
@@ -208,11 +227,11 @@
                         instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
                             if (payload && typeof payload.nonce != 'undefined') {
                                 payloadNonce = payload.nonce;
-                                $('#payment-form').find('input[name="braintree_payment_nonce"]').val(payload.nonce);
+                                $(paymentFormSelector).find('input[name="braintree_payment_nonce"]').val(payload.nonce);
                             }
 
-                            $(".zype-checkout-button").prop('disabled', false);
-                            $('.zype-spinner').remove();
+                            $(checkoutButtonSelector).prop('disabled', false);
+                            $(spinnerSelector).remove();
                         });
                     }
                 });
@@ -220,22 +239,22 @@
 
         <?php elseif ((!empty($plan->stripe_id)) || ($transaction_type !== ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION)): ?>
             var currentCCMask = "9999 9999 9999 9999";
-            $(".zype-card-date").mask("99/99");
-            $(".zype-card-number").mask("9999 9999 9999 9999", { autoclear: false });
-            $(".zype-card-number").on('keyup', function (e) {
+            $(cardDateSelector).mask("99/99");
+            $(cardNumberSelector).mask("9999 9999 9999 9999", { autoclear: false });
+            $(cardNumberSelector).on('keyup', function (e) {
                 cc = e.currentTarget.value.replace(/\D/g, '')
                 mask = getCardType(cc).mask;
                 if(mask !== currentCCMask) {
-                    $(".zype-card-number").mask(mask, { autoclear: false });
+                    $(cardNumberSelector).mask(mask, { autoclear: false });
                     e.currentTarget.setSelectionRange(cc.length, cc.length);
                     currentCCMask = mask;
                 }
             });
 
             Stripe.setPublishableKey('<?php echo $stripe_pk ?>');
-            $(".zype-checkout-button").prop('disabled', false);
+            $(checkoutButtonSelector).prop('disabled', false);
 
-            $(".zype-checkout-button").click(function (e) {
+            $(checkoutButtonSelector).click(function (e) {
                 e.preventDefault();
                 var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
 
@@ -257,19 +276,19 @@
 
             function stripeTokenHandler(status, response) {
                 if (response.error) {
-                    $('.checkout_error').text(response.error.message);
-                    $('.zype-checkout-button').prop('disabled', false);
-                    $('.zype-spinner').remove();
+                    $(checkoutErrorSelector).text(response.error.message);
+                    $(checkoutButtonSelector).prop('disabled', false);
+                    $(spinnerSelector).remove();
                 } else {
-                    $('#payment-form input[name="stripe_card_token"]').val(response.id);
+                    $(paymentFormSelector).find('input[name="stripe_card_token"]').val(response.id);
                     sendPaymentRequest();
                 }
             }
         <?php endif ?>
 
         function sendPaymentRequest() {
-            $('.checkout_error').text('');
-            var transaction_type = $(".zype-checkout-button").data('transaction-type');
+            $(checkoutErrorSelector).text('');
+            var transaction_type = $(checkoutButtonSelector).data('transaction-type');
             var subscription_type = "<?php echo ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION;?>";
             var url = '';
             if(subscription_type == transaction_type) {
@@ -278,31 +297,30 @@
             else {
                 url = "<?php zype_url('transaction');?>/submit"
             }
-
             $.ajax({
                 url: url,
                 type: 'post',
-                data: $('#payment-form').serialize(),
+                data: $(paymentFormSelector).serialize(),
                 dataType: 'json',
                 encode: true
             }).done(function (data) {
                 if (typeof data.errors != 'undefined') {
                     $.each(data.errors, function (index, value) {
-                        $('.checkout_error').append(value + "<br/>");
+                        $(checkoutErrorSelector).append(value + "<br/>");
                     });
-                    $('.zype-checkout-button').prop('disabled', false);
-                    $('.zype-spinner').remove();                    
+                    $(checkoutButtonSelector).prop('disabled', false);
+                    $(spinnerSelector).remove();
                     return;
                 }
                 if (data.success) {
-                    $('#payment-wrapper .main-heading .title').text('Thanks for your payment!');
-                    $('#payment-wrapper .payment-row').html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                    $(titleSelector).text('Thanks for your payment!');
+                    $(paymentRowSelector).html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
                 }
-                $('.zype-checkout-button').prop('disabled', false);
-                $('.zype-spinner').remove();
+                $(checkoutButtonSelector).prop('disabled', false);
+                $(spinnerSelector).remove();
              }).fail(function (data) {
-                $('.zype-checkout-button').prop('disabled', false);
-                $('.zype-spinner').remove();
+                $(checkoutButtonSelector).prop('disabled', false);
+                $(spinnerSelector).remove();
                 console.log(data.errors);
             });
         }

@@ -47,7 +47,7 @@ if (!defined('ABSPATH'))
                         id="<?php echo $plan->_id ?>"
                         value="<?php echo $plan->_id ?>"><?php echo $plan->name; ?></option>
             <?php endforeach; ?>
-        </select>        
+        </select>
         <section class='subscription-short-code-section'>
             <h2>Subscription Short Code</h2>
             <p>
@@ -184,6 +184,25 @@ if (!defined('ABSPATH'))
                                 If the user is not logged in, a "Sign In" button and call to action will be displayed with the text typed above.
                             </p>
                         </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class='stripe-section'>
+            <h2>Stripe</h2>
+            <table class="form-table">
+                <tbody>
+                    <tr>
+                    <th scope="row">
+                        <label for="stripe-coupon-enabled">Coupons:</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="stripe_coupon_enabled" id="stripe-coupon-enabled"
+                                class="regular-checkbox"<?php echo $options['stripe']['coupon_enabled'] ? 'checked="checked"' : ''; ?>>
+                        <p class="description">
+                            Leave checked if you would like to enabled Stripe coupons.
+                        </p>
+                    </td>
                     </tr>
                 </tbody>
             </table>

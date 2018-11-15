@@ -304,27 +304,6 @@
     margin: 6px;
 }
 
-.zype-form-center .zype-input-text {
-    background: #fff !important;
-    border: 1px solid #d9d8e0 !important;
-    border-radius: 2px !important;
-    letter-spacing: .15px !important;
-    color: #272424 !important;
-    margin: 0 !important;
-    width: 500px !important;
-    height: 40px !important;
-    text-shadow: none !important;
-    font-size: 15px !important;
-    display: inline-block !important;
-}
-
-.zype-form-center .zype-input-text::-webkit-input-placeholder,
-.zype-form-center .zype-input-text::-moz-placeholder,
-.zype-form-center .zype-input-text:-ms-input-placeholder,
-.zype-form-center .zype-input-text:-moz-placeholder { /* Chrome/Opera/Safari */
-    color: #c5c3d0;
-}
-
 .zype-spinner {
     font-size: 3px !important;
     color: #00a5df !important;
