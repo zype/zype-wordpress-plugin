@@ -309,6 +309,8 @@
                     $.each(data.errors, function (index, value) {
                         $(checkoutErrorSelector).append(value + "<br/>");
                     });
+                    $(checkoutButtonSelector).prop('disabled', false);
+                    $(spinnerSelector).remove();
                     return;
                 }
                 if (data.success) {
