@@ -1,5 +1,8 @@
 <?php get_header(); ?>
-<div class="signup-wrap user-action-wrap container user-profile-wrap">
+<?php
+    $id = 'zype-profile-sub-' . $zd['consumer_id'] . '-' . (time() * rand(1, 1000000));
+?>
+<div class="signup-wrap user-action-wrap container user-profile-wrap" id="<?php echo $id; ?>">
     <div class="main-heading inner-heading">
         <strong class="title text-uppercase">My Account | Subscription</strong>
     </div>
@@ -122,7 +125,9 @@
                                             <?php echo do_shortcode('[zype_auth]'); ?>
                                             <?php echo do_shortcode('[zype_signup]'); ?>
                                         <?php else: ?>
-                                            <?php echo do_shortcode('[zype_auth type="plans"]'); ?>
+                                            <div id="plans">
+                                                <?php echo do_shortcode('[zype_auth type="plans" root_parent='. $id . ']'); ?>
+                                            </div>
                                         <?php endif ?>
                                     </div>
                                 </div>
