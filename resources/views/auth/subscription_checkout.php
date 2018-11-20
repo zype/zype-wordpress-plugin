@@ -1,4 +1,8 @@
-<div class="content-wrap zype-form-center">
+<?php
+    $id = 'sub-checkout-' . $plan->_id . '-' . (time() * rand(1, 1000000));
+?>
+
+<div class="content-wrap zype-form-center" id="<?php echo $id; ?>">
     <?php if (!empty($error)): ?>
         <div id="choose-wrapper">
             <div class="main-heading inner-heading">
@@ -42,8 +46,7 @@
                                         <input name="type" type="hidden" value="stripe">
                                         <div id="stripe-form">
                                             <p class="form-group required-row zype-input-wrap">
-                                                <input type="text" maxlength="16"
-                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                                <input type="text"
                                                        placeholder="Card number"
                                                        class="zype-input-text zype-card-number">
                                             </p>
@@ -92,85 +95,80 @@
 
 <script>
     var rootParent = "#<?php echo $root_parent ?>";
-    var cardDateSelector = [rootParent, '.zype-card-date'].join(' ');
-    var cardNumberSelector = [rootParent, '.zype-card-number'].join(' ');
-    var checkoutButtonSelector = [rootParent, '.zype-checkout-button'].join(' ');
-    var paymentFormSelector = [rootParent, '#payment-form'].join(' ');
-    var checkoutErrorSelector = [rootParent, '.checkout_error'].join(' ');
-    var spinnerSelector = [rootParent, '.zype-spinner'].join(' ');
-    var paymentWrapperSelector = [rootParent, '#payment-wrapper'].join(' ');
+    var id = "#<?php echo $id; ?>"
+    var cardDateSelector = [rootParent, id, '.zype-card-date'].join(' ');
+    var cardNumberSelector = [rootParent, id, '.zype-card-number'].join(' ');
+    var checkoutButtonSelector = [rootParent, id, '.zype-checkout-button'].join(' ');
+    var paymentFormSelector = [rootParent, id, '#payment-form'].join(' ');
+    var checkoutErrorSelector = [rootParent, id, '.checkout_error'].join(' ');
+    var spinnerSelector = [rootParent, id, '.zype-spinner'].join(' ');
+    var paymentWrapperSelector = [rootParent, id, '#payment-wrapper'].join(' ');
     var titleSelector = [paymentWrapperSelector, '.main-heading', '.title'].join(' ');
     var paymentRowSelector = [paymentWrapperSelector, '.payment-row'].join(' ');
 
-    function getCardType(number)
-    {
-
-        // visa
-        var re = new RegExp("^4");
-        if (number.match(re) != null)
-            return {
-                type: "Visa",
-                mask: "9999 9999 9999 9999"
-            };
-
-        // Mastercard
-        // Updated for Mastercard 2017 BINs expansion
-        if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(number))
-            return {
-                type: "Mastercard",
-                mask: "9999 9999 9999 9999"
-            };
-
-        // AMEX
-        re = new RegExp("^3[47]");
-        if (number.match(re) != null)
-            return {
-                type: "AMEX",
-                mask: "9999 999999 99999"
-            };
-
-        // Discover
-        re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
-        if (number.match(re) != null)
-            return {
-                type: "Discover",
-                mask: "9999 9999 9999 9999"
-            };
-
-        // Diners
-        re = new RegExp("^36");
-        if (number.match(re) != null)
-            return {
-                type: "Diners",
-                mask: "9999 9999 9999 99"
-            };
-
-        // Diners - Carte Blanche
-        re = new RegExp("^30[0-5]");
-        if (number.match(re) != null)
-            return {
-                type: "Diners - Carte Blanche",
-                mask: "9999 9999 9999 99"
-            };
-
-        // JCB
-        re = new RegExp("^35(2[89]|[3-8][0-9])");
-        if (number.match(re) != null)
-            return {
-                type: "JCB",
-                mask: "9999 9999 9999 9999"
-            };
-
-        // Union Pay
-        re = new RegExp("^(62[0-9]{14,17})$");
-        if (number.match(re) != null)
-            return {
-                type: "Union Pay",
-                mask: "9999 9999 9999 9999"
-            };
-
-        return "";
-    }
+    function mask() {
+        return [
+            // american express
+            {
+                mask: '0000 000000 00000',
+                regex: '^3[47]\\d{0,13}',
+                lazy: false
+            },
+            // discover
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^(?:6011|65\\d{0,2}|64[4-9]\\d?)\\d{0,12}',
+                lazy: false
+            },
+            // diners
+            {
+                mask: '0000 000000 0000',
+                regex: '^3(?:0([0-5]|9)|[689]\\d?)\\d{0,11}',
+                lazy: false
+            },
+            // mastercard
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^(5[1-5]\\d{0,2}|22[2-9]\\d{0,1}|2[3-7]\\d{0,2})\\d{0,12}',
+                lazy: false
+            },
+            // jcb15
+            {
+                mask: '0000 000000 00000',
+                regex: '^(?:2131|1800)\\d{0,11}',
+                lazy: false
+            },
+            // jcb
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^(?:35\\d{0,2})\\d{0,12}',
+                lazy: false
+            },
+            // maestro
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^(?:5[0678]\\d{0,2}|6304|67\\d{0,2})\\d{0,12}',
+                lazy: false
+            },
+            // visa
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^4\\d{0,15}',
+                lazy: false
+            },
+            // unionpay
+            {
+                mask: '0000 0000 0000 0000',
+                regex: '^62\\d{0,14}',
+                lazy: false
+                // Unknown
+            },
+            {
+                mask: '0000 0000 0000 0000',
+                lazy: false
+            }
+        ];
+    };
 
     jQuery(document).ready(function ($) {
         <?php if (!empty($braintree_token)): ?>
@@ -247,16 +245,28 @@
             });
 
         <?php elseif (!empty($plan->stripe_id)): ?>
-            var currentCCMask = "9999 9999 9999 9999";
-            $(cardDateSelector).mask("99/99");
-            $(cardNumberSelector).mask("9999 9999 9999 9999", { autoclear: false });
-            $(cardNumberSelector).on('keyup', function (e) {
-                cc = e.currentTarget.value.replace(/\D/g, '')
-                mask = getCardType(cc).mask;
-                if(mask !== currentCCMask) {
-                    $(cardNumberSelector).mask(mask, { autoclear: false });
-                    e.currentTarget.setSelectionRange(cc.length, cc.length);
-                    currentCCMask = mask;
+            var cardnumberMask = new IMask($(cardDateSelector)[0], {
+                mask: 'MM/YY',
+                blocks: {
+                    MM: {
+                        mask: IMask.MaskedRange,
+                        from: 1,
+                        to: 12
+                    },
+                    YY: {
+                        mask: '00',
+                    }
+                }
+            });
+            var cardnumberMask = new IMask($(cardNumberSelector)[0], {
+                mask: mask(),
+                dispatch: function (appended, dynamicMasked) {
+                    var number = (dynamicMasked.value + appended).replace(/\D/g, '');
+
+                    return dynamicMasked.compiledMasks.find(function (m) {
+                        var re = new RegExp(m.regex);
+                        return number.match(re) !== null;
+                    });
                 }
             });
 
