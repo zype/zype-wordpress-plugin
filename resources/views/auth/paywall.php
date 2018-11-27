@@ -12,59 +12,117 @@
                         <input type="hidden" name="action" value="zype_plans">
                         <div class="zype-price-table">
                             <div class="holder">
-                                <?php if($monetizations['subscription']['required']): ?>
-                                    <section id="subscription-plans-<?php echo $root_parent ?>">
-                                        <?php foreach ($subscription_plans as $plan) { ?>
-                                            <div class="zype-column-plans">
-                                                <div class="zype-column-plan">
-                                                    <div class="zype-type-plan">
-                                                        Subscribe
-                                                    </div>
-                                                    <div class="zype-title-plan"><?php echo $plan->name; ?></div>
-                                                </div>
-                                                <div class="zype-column-plan">
-                                                    <div class="zype-price-holder">
-                                                        $<?php echo $plan->amount; ?>/
-                                                        <?php if ($plan->interval_count > 1) {
-                                                            echo $plan->interval_count . ' ';
-                                                        } ?>
-                                                        <?php echo substr($plan->interval, 0, 2); ?>
-                                                        <?php if ($plan->interval_count > 1) {
-                                                            echo 's';
-                                                        } ?></div>
-                                                    <a href="<?php echo get_permalink() ?>"
-                                                    class="zype_monetization_checkout zype-btn-price-plan"
-                                                    data-type="cc_form"
-                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION ?>"
-                                                    data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-plan-id="<?php echo esc_attr($plan->_id) ?>"
-                                                    data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
-                                                    data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                        <div class="zype-btn-container-plan zype-custom-button">Continue</div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                    </section>
-                                <?php endif; ?>
-                                <?php if($monetizations['purchase']['required']): ?>
-                                    <section class='purchase' id="purchase-<?php echo $root_parent ?>">
+                                <?php foreach ($monetizations['purchase']['playlists'] as $playlist_prop) { ?>
+                                    <section class='purchase'>
                                         <div class="zype-column-plans">
                                             <div class="zype-column-plan only-title">
-                                                <div class="zype-title-plan">Purchase</div>
+                                                <div class="zype-type-plan">Purchase</div>
+                                                <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
                                             </div>
                                             <div class="zype-column-plan">
                                                 <div class="zype-price-holder">
-                                                    $<?php echo $monetizations['purchase']['price']; ?>
+                                                    $<?php echo $playlist_prop['price']; ?>
                                                 </div>
                                                 <a href="<?php echo get_permalink() ?>"
                                                     class="zype_monetization_checkout zype-btn-price-plan"
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-id="<?php echo esc_attr($playlist_prop['id']) ?>"
+                                                    data-object-type="playlist"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                    <div class="zype-btn-container-plan zype-custom-button">Continue</div>
+                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <?php } ?>
+                                <?php if($monetizations['purchase']['video']['required']): ?>
+                                    <section class='purchase' id="purchase-<?php echo $root_parent ?>">
+                                        <div class="zype-column-plans">
+                                            <div class="zype-column-plan only-title">
+                                                <div class="zype-type-plan">Purchase</div>
+                                                <div class="zype-title-plan">Video</div>
+                                            </div>
+                                            <div class="zype-column-plan">
+                                                <div class="zype-price-holder">
+                                                    $<?php echo $monetizations['purchase']['video']['price']; ?>
+                                                </div>
+                                                <a href="<?php echo get_permalink() ?>"
+                                                    class="zype_monetization_checkout zype-btn-price-plan"
+                                                    data-type="cc_form"
+                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
+                                                    data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-type="video"
+                                                    data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
+                                                    data-root-parent="<?php echo esc_attr($root_parent); ?>">
+                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <?php endif; ?>
+                                <?php foreach ($monetizations['rental']['playlists'] as $playlist_prop) { ?>
+                                    <section class='rental'>
+                                        <div class="zype-column-plans">
+                                            <div class="zype-column-plan only-title">
+                                                <div class="zype-type-plan">Rent</div>
+                                                <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
+                                            </div>
+                                            <div class="zype-column-plan">
+                                                <div class="zype-price-holder">
+                                                    $<?php echo "{$playlist_prop['price']} for {$playlist_prop['days']} "; ?>
+                                                    <?php
+                                                        echo 'day';
+                                                        if ($playlist_prop['days'] > 1) {
+                                                            echo 's';
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <a href="<?php echo get_permalink() ?>"
+                                                    class="zype_monetization_checkout zype-btn-price-plan"
+                                                    data-type="cc_form"
+                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
+                                                    data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-id="<?php echo esc_attr($playlist_prop['id']) ?>"
+                                                    data-object-type="playlist"
+                                                    data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
+                                                    data-root-parent="<?php echo esc_attr($root_parent); ?>">
+                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <?php } ?>
+                                <?php if($monetizations['rental']['video']['required']): ?>
+                                    <section class='rental' id="rental-<?php echo $root_parent ?>">
+                                        <div class="zype-column-plans">
+                                            <div class="zype-column-plan only-title">
+                                                <div class="zype-type-plan">Rent</div>
+                                                <div class="zype-title-plan">Video</div>
+                                            </div>
+                                            <div class="zype-column-plan">
+                                                <div class="zype-price-holder">
+                                                    $<?php echo "{$monetizations['rental']['video']['price']} for {$monetizations['rental']['video']['days']} "; ?>
+                                                    <?php
+                                                        echo 'day';
+                                                        if ($monetizations['rental']['video']['days'] > 1) {
+                                                            echo 's';
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <a href="<?php echo get_permalink() ?>"
+                                                    class="zype_monetization_checkout zype-btn-price-plan"
+                                                    data-type="cc_form"
+                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::RENTAL ?>"
+                                                    data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-type="video"
+                                                    data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
+                                                    data-root-parent="<?php echo esc_attr($root_parent); ?>">
+                                                    <div class="zype-btn-container-plan">Continue</div>
                                                 </a>
                                             </div>
                                         </div>
@@ -91,47 +149,58 @@
                                                         ?>
                                                     </div>
                                                     <a href="<?php echo get_permalink() ?>"
-                                                    class="zype_monetization_checkout zype-btn-price-plan"
-                                                    data-type="cc_form"
-                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN ?>"
-                                                    data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-plan-id="<?php echo esc_attr($plan->_id) ?>"
-                                                    data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
-                                                    data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                        <div class="zype-btn-container-plan zype-custom-button">Continue</div>
+                                                        class="zype_monetization_checkout zype-btn-price-plan"
+                                                        data-type="cc_form"
+                                                        data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN ?>"
+                                                        data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                        data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                        data-object-type="video"
+                                                        data-plan-id="<?php echo esc_attr($plan->_id) ?>"
+                                                        data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
+                                                        data-root-parent="<?php echo esc_attr($root_parent); ?>"
+                                                    >
+                                                        <div class="zype-btn-container-plan">Continue</div>
                                                     </a>
                                                 </div>
                                             </div>
                                         <?php } ?>
                                     </section>
                                 <?php endif; ?>
-                                <?php if($monetizations['rental']['required']): ?>
-                                    <section class='rental' id="rental-<?php echo $root_parent ?>">
-                                        <div class="zype-column-plans">
-                                            <div class="zype-column-plan only-title">
-                                                <div class="zype-title-plan">Rent</div>
-                                            </div>
-                                            <div class="zype-column-plan">
-                                                <div class="zype-price-holder">
-                                                    $<?php echo "{$monetizations['rental']['price']} for {$monetizations['rental']['days']} "; ?>
-                                                    <?php
-                                                        echo 'day';
-                                                        if ($monetizations['rental']['days'] > 1) {
-                                                            echo 's';
-                                                        }
-                                                    ?>
+                                <?php if($monetizations['subscription']['required']): ?>
+                                    <section id="subscription-plans-<?php echo $root_parent ?>">
+                                        <?php foreach ($subscription_plans as $plan) { ?>
+                                            <div class="zype-column-plans">
+                                                <div class="zype-column-plan">
+                                                    <div class="zype-type-plan">
+                                                        Subscribe
+                                                    </div>
+                                                    <div class="zype-title-plan"><?php echo $plan->name; ?></div>
                                                 </div>
-                                                <a href="<?php echo get_permalink() ?>"
+                                                <div class="zype-column-plan">
+                                                    <div class="zype-price-holder">
+                                                        $<?php echo $plan->amount; ?>/
+                                                        <?php if ($plan->interval_count > 1) {
+                                                            echo $plan->interval_count . ' ';
+                                                        } ?>
+                                                        <?php echo substr($plan->interval, 0, 2); ?>
+                                                        <?php if ($plan->interval_count > 1) {
+                                                            echo 's';
+                                                        } ?></div>
+                                                    <a href="<?php echo get_permalink() ?>"
                                                     class="zype_monetization_checkout zype-btn-price-plan"
                                                     data-type="cc_form"
-                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::RENTAL ?>"
+                                                    data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-object-type="video"
+                                                    data-plan-id="<?php echo esc_attr($plan->_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                    <div class="zype-btn-container-plan zype-custom-button">Continue</div>
-                                                </a>
+                                                        <div class="zype-btn-container-plan">Continue</div>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } ?>
                                     </section>
                                 <?php endif; ?>
                             </div>

@@ -827,7 +827,7 @@ function ajax_shortcode($type, $params)
         if(is_bool($value)) {
             $value = ($value === true) ? 'true' : 'false';
         }
-        return "{$key}={$value}";
+        return $value ? "{$key}={$value}" : '';
     }, array_keys($params), $params);
     $shortcode_params = join(' ', $shortcode_params);
     $shortcode = "[{$type} " . $shortcode_params . ']';

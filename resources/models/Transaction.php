@@ -19,30 +19,36 @@ class Transaction extends Base
         $this->single = \Zype::get_transactions(['id' => $id]);
     }
 
-    public function create_transaction($type, $video_id, $provider, $providerNonce, $plan_id = null)
+    public function create_transaction($type, $object_id, $provider, $provider_nonce, $plan_id = null, $object_type = null)
     {
         $transaction = array(
             'consumer_id' => (new \ZypeMedia\Services\Auth())->get_consumer_id(),
-            'video_id' => $video_id,
             'transaction_type' => $type,
-            'payment_nonce' => $providerNonce,
+            'payment_nonce' => $provider_nonce
         );
+
+        if($object_type === 'playlist') {
+            $transaction['playlist_id'] = $object_id;
+        }
+        else {
+            $transaction['video_id'] = $object_id;
+        }
 
         if($type == self::PASS_PLAN) {
             if ($plan_id) {
                 $transaction['pass_plan_id'] = $plan_id;
-                $pass_plan = $this->get_pass_plan($plan_id);
+                $pass_plan = \ZypeMedia\Models\V2\PassPlan::find($plan_id);
                 $transaction['amount'] = $pass_plan->amount;
             }
         }
         else {
-            $video = $this->get_video($video_id);
-            $transaction['amount'] = $video->{"{$type}_price"};
+            $object = $this->{"get_{$object_type}"}($object_id);
+            $transaction['amount'] = $object->{"{$type}_price"};
         }
 
-        $newTransaction = \Zype::create_transaction($transaction, $provider);
+        $new_transaction = \Zype::create_transaction($transaction, $provider);
 
-        return $newTransaction;
+        return $new_transaction;
     }
 
     public function valid_transaction($consumerId, $video = null)
@@ -100,19 +106,13 @@ class Transaction extends Base
     {
         $vm = (new \ZypeMedia\Models\Video);
         $vm->find($video_id);
-        if(empty($vm->single)) {
-            return false;
-        }
-        return $vm->single;
+        return $vm->single?: false;
     }
 
-    private function get_pass_plan($plan_id)
+    private function get_playlist($playlist_id)
     {
-        $plan = \Zype::get_pass_plan($plan_id);
-        if(empty($plan)) {
-            return false;
-        }
-        return $plan;
+        $playlist = \ZypeMedia\Models\V2\Playlist::find($playlist_id);
+        return $playlist?: false;
     }
 
 }

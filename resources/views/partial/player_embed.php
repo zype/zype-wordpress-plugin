@@ -4,7 +4,7 @@
     $auto_play_ = $auto_play ? '&autoplay=true' : '&autoplay=false';
     $audio_only_ = $audio_only ? '&audio=true' : '';
     $key = 'api_key=' . $options['player_key'];
-    $has_access_to_video = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id);
+    $has_access_to_video = (new ZypeMedia\Services\Access())->checkUserVideoAccess($video->_id, $playlist_id);
     if (\Auth::logged_in() && $has_access_to_video) {
         $key = 'access_token=' . \Auth::get_access_token();
     }
@@ -37,30 +37,29 @@
                     <div id="zype_<?php echo $video->_id; ?>"></div>
                 </div>
                 <img class="placeholder" src="<?php echo $video->thumbnail_url; ?>">
-                <?php endif ?>
-
-                <?php if (\Auth::logged_in()): ?>
-                    <?php if ($video->transaction_required) : ?>
-                        <div class="overlay_player">
-                            <div class="overlay-buttons">
-                                <div class="overlay-title">Unlock to watch</div>
-                                <div class="white-button zype-signin-button">Let's go
-                                </div>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <img class="play-placeholder" src="<?php echo asset_url('images/play-button.png') ?>">
-                    <?php endif ?>
-                <?php else: ?>
+        <?php endif ?>
+            <?php if (\Auth::logged_in()): ?>
+                <?php if ($video->transaction_required) : ?>
                     <div class="overlay_player">
                         <div class="overlay-buttons">
-                            <div class="overlay-title">Sign in or join to watch</div>
-                            <div class="white-button zype-signin-button">Sign in</div>
-                            <div class="empty-button zype-join-button">Join</div>
+                            <div class="overlay-title">Unlock to watch</div>
+                            <div class="white-button zype-signin-button">Let's go
+                            </div>
                         </div>
                     </div>
-                <?php endif; ?>
-            </div>
+                <?php else: ?>
+                    <img class="play-placeholder" src="<?php echo asset_url('images/play-button.png') ?>">
+                <?php endif ?>
+            <?php else: ?>
+                <div class="overlay_player">
+                    <div class="overlay-buttons">
+                        <div class="overlay-title">Sign in or join to watch</div>
+                        <div class="white-button zype-signin-button">Sign in</div>
+                        <div class="empty-button zype-join-button">Join</div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 
     <div class="player-auth-required zype-custom-modal">
@@ -77,7 +76,9 @@
                             'root_parent'   => $root_parent,
                             'redirect_url'  => $redirect_url,
                             'type'          => 'paywall',
-                            'video_id'      => esc_attr($video->_id)
+                            'video_id'     => esc_attr($video->_id),
+                            'object_id'     => esc_attr($video->_id),
+                            'object_type'   => 'video'
                         ]);
                         echo do_shortcode($short_code);
                     ?>

@@ -3,9 +3,8 @@
 namespace ZypeMedia\Controllers\Consumer;
 
 use ZypeMedia\Models\Pagination;
-use ZypeMedia\Models\Transaction;
 use ZypeMedia\Models\Video;
-use ZypeMedia\Models\Consumer\VideoEntitlement;
+use ZypeMedia\Models\V2\Consumer\VideoEntitlement;
 use ZypeMedia\Services\Access;
 
 class Videos extends Base
@@ -47,33 +46,12 @@ class Videos extends Base
 
     public function single($id = false, $view = 'full')
     {
-        $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
+        return $this->show_video($id, $view);
+    }
 
-        if (!$id) {
-            $id = $this->request->validate('zype_video_id', ['textfield']);
-        }
-
-        $vm = new Video;
-        $vm->find($id);
-        $video = $vm->single;
-        $redirect_url = $this->canonical_url();
-
-        if (!$video) {
-            return 'Nothing found';
-        }
-
-        $hasUserAccessToVideo = (new Access())->checkUserVideoAccess($id);
-
-        $title = $video->title;
-
-        return view('video_single', [
-            'video' => $video,
-            'view' => $view,
-            'title' => $title,
-            'hasUserAccessToVideo' => $hasUserAccessToVideo,
-            'is_subscriber' => $is_subscriber,
-            'redirect_url' => $redirect_url
-        ]);
+    public function single_in_playlist($video_id, $playlist_id, $view = 'full')
+    {
+        return $this->show_video($video_id, $view, $playlist_id);
     }
 
     public function entitled($page_number = 1)
@@ -120,14 +98,14 @@ class Videos extends Base
         $za = new \ZypeMedia\Services\Auth;
         $consumer_id = $za->get_consumer_id();
         $access_token = $za->get_access_token();
-        $purchase_video_entitlement = (new VideoEntitlement($access_token))->all(['per_page' => 500, 'transaction_type' => 'purchase'], false);
-        $rental_video_entitlement = (new VideoEntitlement($access_token))->all(['per_page' => 500, 'transaction_type' => 'rental'], false);
-        $video_entitlements = array_merge($purchase_video_entitlement, $rental_video_entitlement);
+        $purchase_video_entitlement = VideoEntitlement::all($access_token, ['per_page' => 500, 'transaction_type' => 'purchase'], false);
+        $rental_video_entitlement = VideoEntitlement::all($access_token, ['per_page' => 500, 'transaction_type' => 'rental'], false);
+        $video_entitlements = array_merge($purchase_video_entitlement['collection'], $rental_video_entitlement['collection']);
         $video_ids = array_map(function($video_entitlement) { return $video_entitlement->video_id; }, $video_entitlements);
         $video_ids = array_unique($video_ids);
         $videos = [];
         $pagination = [];
-        if(count($video_ids) > 1) {
+        if(count($video_ids) >= 1) {
             $sort_key = $this->options['my_library']['sort'];
             $sort_options = $this->options['my_library_sort_options'][$sort_key];
             $vm = new Video;
@@ -146,5 +124,29 @@ class Videos extends Base
             'videos'     => $videos,
             'pagination' => $pagination
         ];
+    }
+
+    private function show_video($video_id, $view, $playlist_id = '')
+    {
+        $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
+        $vm = new Video;
+        $vm->find($video_id);
+        $video = $vm->single;
+        $redirect_url = $this->canonical_url();
+
+        if (!$video) {
+            return 'Nothing found';
+        }
+
+        $title = $video->title;
+
+        return view('video_single', [
+            'video' => $video,
+            'playlist_id' => $playlist_id,
+            'view' => $view,
+            'title' => $title,
+            'is_subscriber' => $is_subscriber,
+            'redirect_url' => $redirect_url
+        ]);
     }
 }
