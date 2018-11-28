@@ -130,7 +130,7 @@ class HooksService extends ServiceProvider
         $transaction_type = $this->request->validate('transaction_type', ['textfield']);
         $plan_id = $this->request->validate('plan_id', ['textfield']);
         $video_id = $this->request->validate('video_id', ['textfield']);
-        $object_id = $this->request->validate('object_id', ['textfield']);
+        $playlist_id = $this->request->validate('playlist_id', ['textfield']);
         $object_type = $this->request->validate('object_type', ['textfield']);
         $root_parent = $this->request->validate('root_parent', ['textfield']);
         $redirect_url = $this->request->validate('redirectURL', ['textfield']);
@@ -141,8 +141,8 @@ class HooksService extends ServiceProvider
             'root_parent'       => $root_parent,
             'redirect_url'      => $redirect_url,
             'video_id'          => esc_attr($video_id),
-            'object_id'         => esc_attr($object_id),
-            'object_type'       => $object_type
+            'playlist_id'       => esc_attr($playlist_id),
+            'object_type'       => esc_attr($object_type)
         ]);
         echo do_shortcode($short_code);
         exit;

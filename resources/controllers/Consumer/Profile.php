@@ -3,6 +3,7 @@
 namespace ZypeMedia\Controllers\Consumer;
 
 use ZypeMedia\Services\Braintree;
+use ZypeMedia\Models\V2\Plan;
 
 class Profile extends Base
 {
@@ -284,9 +285,7 @@ class Profile extends Base
 
         $zd['subscription'] = \Zype::get_consumer_subscription($zd['consumer_id']);
         if (!empty($zd['subscription'])) {
-            $zd['plans'] = \Zype::get_all_plans([
-                'id[]' => $this->options['subscribe_select']
-            ]);
+            $zd['plans'] = Plan::all([], false);
             $zd['current_plan'] = \Zype::get_plan($zd['subscription']->plan_id);
 
             if (!empty($zd['subscription']->stripe_id)) {

@@ -5,6 +5,7 @@ namespace ZypeMedia\Controllers\Consumer;
 use Themosis\Facades\Config;
 use ZypeMedia\Services\Braintree;
 use ZypeMedia\Models\V2\Playlist;
+use ZypeMedia\Models\V2\Plan;
 
 class Monetization extends Base
 {
@@ -17,13 +18,14 @@ class Monetization extends Base
     private $stripe_pk = '';
     private $root_parent = '';
     private $video_id = '';
+    private $playlist_id = '';
     private $object_id = '';
     private $object_type = '';
     private $video = '';
     private $redirect_url = '';
 
     // $object_type must be 'playlist' or 'video'.
-    public function __construct($root_parent, $video_id, $object_id, $object_type, $redirect_url)
+    public function __construct($root_parent, $video_id, $playlist_id, $object_type, $redirect_url)
     {
         parent::__construct();
         $this->options = Config::get('zype');
@@ -31,37 +33,38 @@ class Monetization extends Base
         $this->form_message = null;
         $this->root_parent = $root_parent;
         $this->video_id = $video_id;
-        $this->object_id = $object_id;
+        $this->playlist_id = $playlist_id;
+        $this->object_id = $object_type === 'video' ? $video_id : $playlist_id;
         $this->object_type = $object_type;
         $this->redirect_url = $redirect_url;
-        $this->object = $this->get_object();
     }
 
     public function paywall_view()
     {
+        $this->object = $this->get_object_to_purchase();
         $monetizations = $this->get_monetizations();
         $plan = [];
         $subscription_plans = [];
         $pass_plans = [];
         if($monetizations['subscription']['required']) {
-          if (isset($this->options['subscribe_select'])) {
-              foreach ($this->options['subscribe_select'] as $option) {
-                  $plan[] = \Zype::get_plan($option);
-              }
-          }
-          $subscription_plans = $plan;
+            if (isset($this->options['subscribe_select'])) {
+                $subscription_plans = Plan::all(['id[]' => $this->options['subscribe_select']], false);
+                $subscription_plans = array_filter($subscription_plans, function($plan) {
+                    return in_array($plan->_id, $this->object->plan_ids) || $plan->global_entitlement_type();
+                });
+            }
         }
 
         $plan = [];
 
         if($monetizations['pass']['required']) {
-          if (isset($this->options['pass_plans_select'])) {
-              foreach ($this->options['pass_plans_select'] as $option) {
-                  $plan[] = \Zype::get_pass_plan($option);
-                  $plan[count($plan) - 1]->amount = number_format($plan[count($plan) - 1]->amount, 2);
-              }
-          }
-          $pass_plans = $plan;
+            if (isset($this->options['pass_plans_select'])) {
+                foreach ($this->options['pass_plans_select'] as $option) {
+                    $plan[] = \Zype::get_pass_plan($option);
+                    $plan[count($plan) - 1]->amount = number_format($plan[count($plan) - 1]->amount, 2);
+                }
+            }
+            $pass_plans = $plan;
         }
 
         $content = view('auth.paywall', [
@@ -72,7 +75,8 @@ class Monetization extends Base
             'root_parent' => $this->root_parent,
             'monetizations' => $monetizations,
             'redirect_url' => $this->redirect_url,
-            'video_id' => $this->video_id
+            'video_id' => $this->video_id,
+            'playlist_id' => $this->playlist_id
         ]);
 
         return $content;
@@ -141,6 +145,7 @@ class Monetization extends Base
             'stripe_pk' => $this->stripe_pk,
             'redirect_url' => $this->redirect_url,
             'video_id' => $this->video_id,
+            'playlist_id' => $this->playlist_id,
             'object_id' => $this->object_id,
             'object_type' => $this->object_type,
             'stripe_ok' => $stripe_ok,
@@ -171,7 +176,7 @@ class Monetization extends Base
 
     private function get_monetizations()
     {
-        $playlists = Playlist::all(['video_id' => $this->video_id], false)['collection'];
+        $playlists = Playlist::all(['video_id' => $this->video_id], false);
         $rental_playlists = array_filter($playlists, function ($playlist) {
             return $playlist->rental_required;
         });
@@ -227,15 +232,15 @@ class Monetization extends Base
         ];
     }
 
-    private function get_object()
+    private function get_object_to_purchase()
     {
         if($this->object_type === 'video') {
             $vm = new \ZypeMedia\Models\Video();
-            $vm->find($this->object_id);
+            $vm->find($this->video_id);
             $object = $vm->single;
         }
         else {
-            $object = \ZypeMedia\Models\V2\Playlist::find($this->object_id);
+            $object = \ZypeMedia\Models\V2\Playlist::find($this->playlist_id);
         }
         return $object;
     }

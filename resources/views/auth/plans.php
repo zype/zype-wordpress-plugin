@@ -23,6 +23,7 @@
                                                     Subscribe
                                                 </div>
                                                 <div class="zype-title-plan"><?php echo $plan->name; ?></div>
+                                                <div class="zype-entitlement-type-plan"><?php echo ucfirst($plan->entitlement_type) . ' plan'; ?></div>
                                             </div>
                                             <div class="zype-column-plan">
                                                 <div class="zype-price-holder">

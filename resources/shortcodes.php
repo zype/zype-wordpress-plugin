@@ -62,11 +62,11 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
 add_shortcode('zype_video_checkout',  function ($attrs = array()) use ($request) {
     $type = $request->sanitize($attrs['type']);
     $video_id = isset($attrs['video_id']) ? $request->sanitize($attrs['video_id']) : '';
-    $object_id = isset($attrs['object_id']) ? $request->sanitize($attrs['object_id']) : '';
+    $playlist_id = isset($attrs['playlist_id']) ? $request->sanitize($attrs['playlist_id']) : '';
     $object_type = isset($attrs['object_type']) ? $request->sanitize($attrs['object_type']) : '';
     $root_parent = isset($attrs['root_parent']) ? $request->sanitize($attrs['root_parent']) : '';
     $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
-    $monetizationController = new Consumer\Monetization($root_parent, $video_id, $object_id, $object_type, $redirect_url);
+    $monetizationController = new Consumer\Monetization($root_parent, $video_id, $playlist_id, $object_type, $redirect_url);
     switch ($type) {
         case 'paywall':
             return $monetizationController->paywall_view();
@@ -104,20 +104,28 @@ add_shortcode('zype_video', function ($attrs) use ($request) {
 });
 
 add_shortcode('zype_playlist', function ($attrs) use ($request) {
-    $playlist_id = $request->sanitize($attrs['id'], ['textfield']);
+    $shortcode_playlist_id = $request->sanitize($attrs['id'], ['textfield']);
 
-    if (!$playlist_id) {
-        return;
-    }
+    if (!$shortcode_playlist_id) return;
 
-    if ($request->validate('zype_type', ['textfield']) != 'video_single') {
-        $gridscreen = new Consumer\Gridscreen();
-        return $gridscreen->index(null, $playlist_id);
-    }
-
-    $videos = new Consumer\Videos();
+    $current_playlist_id = $request->validate('playlist_id', ['textfield']);
+    $type = $request->validate('zype_type', ['textfield']);
+    $video_in_playlist = false;
     $video_id = $request->validate('zype_video_id', ['textfield']);
-    return $videos->single_in_playlist($video_id, $playlist_id);
+
+    if ($video_id) {
+        $video_in_playlist = \ZypeMedia\Models\V2\Playlist::has_video($shortcode_playlist_id, $video_id);
+    }
+
+    if ($type == 'video_single' && $video_in_playlist) {
+        $videos = new Consumer\Videos();
+        $view = $videos->single_in_playlist($video_id, $current_playlist_id);
+    }
+    else {
+        $gridscreen = new Consumer\Gridscreen();
+        $view = $gridscreen->index(null, $shortcode_playlist_id);
+    }
+    return $view;
 });
 
 add_shortcode('zype_my_library', function ($attrs) use ($request) {

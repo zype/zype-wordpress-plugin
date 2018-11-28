@@ -20,52 +20,52 @@ class Base {
         }
     }
 
-    protected static function load_model($object)
+    protected static function load_model($object, $class_to_instanciate = '')
     {
-        $class_name = static::class;
-        if(is_array($object)){
-            return array_map(function ($element) use ($class_name) {
-                return new $class_name($element);
+        $class_to_instanciate = $class_to_instanciate ?: static::class;
+        if(is_array($object)) {
+            return array_map(function ($element) use ($class_to_instanciate) {
+                return new $class_to_instanciate($element);
             }, $object);
         }
         else {
-            return new $class_name($object);
+            return new $class_to_instanciate($object);
         }
     }
 
-    protected static function get_all($params, $with_pagination, $wrapper_method)
+    protected static function get_all($params, $with_pagination, $wrapper_method, $wrapper_class = '\Zype', $class_to_instanciate = '')
     {
         $collection = false;
         $pagination = false;
-        $res = self::call_wrapper_method($params, $wrapper_method);
+        $res = self::call_wrapper_method($params, $wrapper_method, $wrapper_class);
         if ($res) {
-            $collection = self::load_model($res->response);
+            $collection = self::load_model($res->response, $class_to_instanciate);
             $pagination = $res->pagination;
             if (!$with_pagination && $pagination && $pagination->pages > 1) {
                 for ($page = $pagination->current + 1; $page <= $pagination->pages; $page++) {
                     $params['page'] = $page;
-                    $res = self::call_wrapper_method($params, $wrapper_method);
+                    $res = self::call_wrapper_method($params, $wrapper_method, $wrapper_class);
                     if ($res) {
-                        $response = self::load_model($res->response);
+                        $response = self::load_model($res->response, $class_to_instanciate);
                         $collection = array_merge($collection, $response);
                     }
                 }
             }
         }
 
-        return [
+        return $with_pagination ? [
             'collection' => $collection,
             'pagination' => $pagination
-        ];
+        ] : $collection;
     }
 
-    private static function call_wrapper_method($params, $wrapper_method)
+    private static function call_wrapper_method($params, $wrapper_method, $wrapper_class)
     {
         if(array_is_sequential($params)) {
-            $res = call_user_func(array('\Zype', $wrapper_method), ...$params);
+            $res = call_user_func(array($wrapper_class, $wrapper_method), ...$params);
         }
         else {
-            $res = call_user_func(array('\Zype', $wrapper_method), $params);
+            $res = call_user_func(array($wrapper_class, $wrapper_method), $params);
         }
         return $res;
     }

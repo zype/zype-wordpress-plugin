@@ -35,7 +35,7 @@ class Access extends Component
 
         $hasAccess = true;
         if ($video->subscription_required) {
-            if ((new \ZypeMedia\Services\Auth)->subscriber()) {
+            if (\ZypeMedia\Services\Auth::subscriber($playlist_id)) {
                 return true;
             }
             $hasAccess = false;
@@ -69,13 +69,14 @@ class Access extends Component
         $za = new \ZypeMedia\Services\Auth;
         $access_token = $za->get_access_token();
         if($access_token) {
-            $video_res = VideoEntitlement::all($access_token, ['video_id' => $video_id], false);
-            $video_entitled = count($video_res['collection']) > 0;
+            $video_entitlements = VideoEntitlement::all($access_token, ['video_id' => $video_id], false);
+            $entitled_videos_count = count($video_entitlements) > 0;
+            $playlist_entitlements = [];
             # If it doesn't have entitlements for the video, we should check if the consumer has a playlist entitlement
-            if(!$video_entitled && $playlist_id) {
-                $playlist_res = PlaylistEntitlement::all($access_token, ['playlist_id' => $playlist_id], false);
+            if(!$entitled_videos_count && $playlist_id) {
+                $playlist_entitlements = PlaylistEntitlement::all($access_token, ['playlist_id' => $playlist_id], false);
             }
-            return $video_entitled || count($playlist_res['collection']) > 0;
+            return $entitled_videos_count || count($playlist_entitlements) > 0;
         }
         else {
             return false;

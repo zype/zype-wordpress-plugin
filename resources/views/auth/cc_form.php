@@ -56,7 +56,7 @@
                                         <button type="button" class="zype_monetization_checkout zype-button zype-custom-button"
                                                 data-type="paywall"
                                                 data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                data-playlist-id="<?php echo esc_attr($playlist_id) ?>"
                                                 data-object-type="video"
                                                 data-redirect-url="<?php echo $redirect_url ?>"
                                                 data-root-parent="<?php echo $root_parent; ?>">Go back

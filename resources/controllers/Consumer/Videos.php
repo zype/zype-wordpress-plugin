@@ -100,7 +100,7 @@ class Videos extends Base
         $access_token = $za->get_access_token();
         $purchase_video_entitlement = VideoEntitlement::all($access_token, ['per_page' => 500, 'transaction_type' => 'purchase'], false);
         $rental_video_entitlement = VideoEntitlement::all($access_token, ['per_page' => 500, 'transaction_type' => 'rental'], false);
-        $video_entitlements = array_merge($purchase_video_entitlement['collection'], $rental_video_entitlement['collection']);
+        $video_entitlements = array_merge($purchase_video_entitlement, $rental_video_entitlement);
         $video_ids = array_map(function($video_entitlement) { return $video_entitlement->video_id; }, $video_entitlements);
         $video_ids = array_unique($video_ids);
         $videos = [];
@@ -128,7 +128,6 @@ class Videos extends Base
 
     private function show_video($video_id, $view, $playlist_id = '')
     {
-        $is_subscriber = (new \ZypeMedia\Services\Auth)->subscriber();
         $vm = new Video;
         $vm->find($video_id);
         $video = $vm->single;
@@ -145,7 +144,6 @@ class Videos extends Base
             'playlist_id' => $playlist_id,
             'view' => $view,
             'title' => $title,
-            'is_subscriber' => $is_subscriber,
             'redirect_url' => $redirect_url
         ]);
     }
