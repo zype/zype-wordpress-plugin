@@ -38,10 +38,4 @@ class CustomizeUi extends \ZypeMedia\Controllers\Controller
         wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
         exit;
     }
-
-    private function update_options()
-    {
-        update_option('zype_wp', $this->options);
-        $this->options = get_option('zype_wp');
-    }
 }

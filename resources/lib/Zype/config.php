@@ -94,32 +94,39 @@ $options = array(
     'emails' => [
         'cancel_subscription' => [
             'text' => "We're very sorry to see you go! This email confirms your subscription has been canceled.\nPlease come back to visit if you'd like to subscribe again in the future.\nThanks.",
-            'required' => []
+            'required' => [],
+            'enabled' => true
         ],
         'forgot_password' => [
             'text' => "We received a request to reset your password. Please use the following link to set a new password for your account.\n{forgot_password_link}\nIf you did not request a password reset please disregard this email. Thanks for watching!",
-            'required' => ['{forgot_password_link}']
+            'required' => ['{forgot_password_link}'],
+            'enabled' => true
         ],
         'new_account' => [
             'text' => "You can log in at the following URL using the email address and password you provided during account creation:\n{login_link}\nThanks again!",
-            'required' => ['{login_link}']
+            'required' => ['{login_link}'],
+            'enabled' => true
         ],
         'new_rental' => [
-            'text' => "Thank you for your rental to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{video_name_link}', '{login_link}']
+            'text' => "Thank you for your rental to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name}', '{login_link}'],
+            'enabled' => true
         ],
         'new_purchase' => [
-            'text' => "Thank you for your purchase to {video_name_link}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{video_name_link}', '{login_link}']
+            'text' => "Thank you for your purchase to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{video_name}', '{login_link}'],
+            'enabled' => true
         ],
         'new_pass' => [
             'text' => "Thank you for buying a pass plan, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{login_link}']
+            'required' => ['{login_link}'],
+            'enabled' => true
         ],
         'new_subscription' => [
             'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
-            'required' => ['{login_link}']
-        ],
+            'required' => ['{login_link}'],
+            'enabled' => true
+        ]
     ],
     'colors' => [
         'default' => [

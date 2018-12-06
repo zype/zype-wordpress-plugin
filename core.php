@@ -304,20 +304,29 @@ if (!class_exists('Themosis')) {
             wp_enqueue_style('zype_grid', plugins_url('dist/css/admin/grid.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
 
             // Load only on ?page=mypluginname
-            if($hook === 'zype_page_zype-customize-ui') {
-                wp_enqueue_script('zype_admin_customize_ui_js', plugins_url('dist/javascripts/admin/customize_ui.js', __FILE__), false, ZYPE_WP_VERSION);
-                wp_enqueue_script('slick-js', plugins_url('dist/javascripts/slick/slick.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
-                wp_enqueue_script('slider', plugins_url('dist/javascripts/slider.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
-                wp_enqueue_style('zype_admin_customize_ui', plugins_url('dist/css/admin/customize_ui.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
-                wp_enqueue_style('zype_login', plugins_url('dist/css/zype_forms/regform.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
-                wp_enqueue_style('zype_single_video', plugins_url('dist/css/zype_forms/single_video.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
-                wp_enqueue_style('zype-style', plugins_url('dist/css/style_plugin.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
-                wp_enqueue_style('zype-plans', plugins_url('dist/css/zype_forms/plans.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
-                wp_enqueue_style('slick', plugins_url('dist/javascripts/slick/slick.css', __FILE__), false, ZYPE_WP_VERSION);
-                wp_enqueue_style('slick-theme', plugins_url('dist/javascripts/slick/slick-theme.css', __FILE__), ['slick'], ZYPE_WP_VERSION, 'all');
+            switch ($hook) {
+                case 'zype_page_zype-customize-ui':
+                    $this->load_customize_ui_assets();
+                    break;
+                case 'zype_page_zype-email-settings':
+                    wp_enqueue_style('zype_admin_email_settings', plugins_url('dist/css/admin/email_settings.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+                    break;
             }
-
             wp_enqueue_media();
+        }
+
+        private function load_customize_ui_assets()
+        {
+            wp_enqueue_script('zype_admin_customize_ui_js', plugins_url('dist/javascripts/admin/customize_ui.js', __FILE__), false, ZYPE_WP_VERSION);
+            wp_enqueue_script('slick-js', plugins_url('dist/javascripts/slick/slick.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
+            wp_enqueue_script('slider', plugins_url('dist/javascripts/slider.js', __FILE__), ['jquery'], ZYPE_WP_VERSION);
+            wp_enqueue_style('zype_admin_customize_ui', plugins_url('dist/css/admin/customize_ui.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+            wp_enqueue_style('zype_login', plugins_url('dist/css/zype_forms/regform.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+            wp_enqueue_style('zype_single_video', plugins_url('dist/css/zype_forms/single_video.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+            wp_enqueue_style('zype-style', plugins_url('dist/css/style_plugin.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+            wp_enqueue_style('zype-plans', plugins_url('dist/css/zype_forms/plans.css', __FILE__), false, ZYPE_WP_VERSION, 'all');
+            wp_enqueue_style('slick', plugins_url('dist/javascripts/slick/slick.css', __FILE__), false, ZYPE_WP_VERSION);
+            wp_enqueue_style('slick-theme', plugins_url('dist/javascripts/slick/slick-theme.css', __FILE__), ['slick'], ZYPE_WP_VERSION, 'all');
         }
 
         /**

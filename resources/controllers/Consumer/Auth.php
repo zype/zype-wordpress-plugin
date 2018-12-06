@@ -176,7 +176,6 @@ class Auth extends Base
                         //send email
                         $mailer = new \ZypeMedia\Services\Mailer;
                         $mailer->new_account($email);
-                        $mail_res = $mailer->send();
                     } else {
                         $auther->logout();
                         $this->form_message = zype_flash_message('times', 'An error occured during account authorization. Please try again.');

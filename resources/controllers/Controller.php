@@ -18,4 +18,9 @@ class Controller extends BaseController
         $this->request = Request::capture();
     }
 
+    protected function update_options()
+    {
+        update_option('zype_wp', $this->options);
+        $this->options = get_option('zype_wp');
+    }
 }

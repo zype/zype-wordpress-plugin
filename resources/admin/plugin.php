@@ -40,19 +40,6 @@ if (!empty($options['invalid_key'])) {
 }
 ### Settings page end
 
-### Playlists page start
-/*Page::make('zype-grid-screen', 'Playlists', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("Playlists")
-]);
-
-Action::add('zype_page_zype-grid-screen', 'ZypeMedia\Controllers\Admin@admin_grid_screen_page');
-Action::add('admin_action_zype_grid_screen', 'ZypeMedia\Controllers\Admin@admin_grid_screen_page_save');*/
-### Playlists page end
-
 ### Users page start
 Page::make('zype-users', 'Users', 'zype')->set([
     'capability' => 'manage_options',
@@ -75,8 +62,8 @@ Page::make('zype-email-settings', 'Email Settings', 'zype')->set([
     'menu' => __("Email Settings")
 ]);
 
-Action::add('zype_page_zype-email-settings', 'ZypeMedia\Controllers\Admin@admin_email_settings_page');
-Action::add('admin_action_zype_email_settings', 'ZypeMedia\Controllers\Admin@admin_email_settings_page_save');
+Action::add('zype_page_zype-email-settings', 'ZypeMedia\Controllers\Admin\EmailSettings@index');
+Action::add('admin_action_zype_email_settings', 'ZypeMedia\Controllers\Admin\EmailSettings@submit');
 ### Email Settings page end
 
 ### Monetization page start
@@ -128,72 +115,6 @@ Page::make('zype-playlist', 'Playlist search', 'zype')->set([
 
 Action::add('zype_page_zype-playlist', 'ZypeMedia\Controllers\Admin@admin_playlist_search_page');
 ### Playlist search page end
-
-### Videos page start
-/*Page::make('zype', 'Video Settings (Beta)', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("Video Settings (Beta)")
-]);
-
-
-Action::add('toplevel_page_zype', 'ZypeMedia\Controllers\Admin@admin_videos_page');
-Action::add('admin_action_zype_videos', 'ZypeMedia\Controllers\Admin@admin_videos_page_save');*/
-### Videos page end
-
-### Livestream page start
-/*Page::make('zype-livestream', 'Livestream (Beta)', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("Livestream (Beta)")
-]);
-
-Action::add('zype_page_zype-livestream', 'ZypeMedia\Controllers\Admin@admin_livestream_page');
-Action::add('admin_action_zype_livestream', 'ZypeMedia\Controllers\Admin@admin_livestream_page_save');*/
-### Livestream page end
-
-### zObjects page start
-/*Page::make('zype-zobjects', 'zObjects (Beta)', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("zObjects (Beta)")
-]);
-
-Action::add('zype_page_zype-zobjects', 'ZypeMedia\Controllers\Admin@admin_zobjects_page');
-Action::add('admin_action_zype_zobjects', 'ZypeMedia\Controllers\Admin@admin_zobjects_page_save');*/
-### zObjects page end
-
-### Categories page start
-/*Page::make('zype-categories', 'Categories (Beta)', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("Categories (Beta)")
-]);
-
-Action::add('zype_page_zype-categories', 'ZypeMedia\Controllers\Admin@admin_categories_page');
-Action::add('admin_action_zype_categories', 'ZypeMedia\Controllers\Admin@admin_categories_page_save');*/
-### Categories page end
-
-### General page start
-/*Page::make('zype-general', 'General (Beta)', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("General (Beta)")
-]);
-
-Action::add('zype_page_zype-general', 'ZypeMedia\Controllers\Admin@admin_general_page');
-Action::add('admin_action_zype_general', 'ZypeMedia\Controllers\Admin@admin_general_save');*/
-### General page end
 
 ### Notice hook start
 Action::add('admin_notices', 'zype_wp_admin_notices');
