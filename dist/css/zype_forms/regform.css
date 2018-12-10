@@ -218,37 +218,36 @@
     box-shadow: none;
 }
 
-.zype-form-center .zype-title {
-    color: #272424 !important;
-    letter-spacing: .3px !important;
-    margin-bottom: 32px !important;
-    line-height: 35px !important;
-    font-size: 35px !important;
-    font-weight: 100 !important;
-    text-transform: lowercase !important;
-    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
+.zype-form-center h1.title.zype-title {
+    letter-spacing: .3px;
+    margin-bottom: 32px;
+    line-height: 35px;
+    font-size: 35px;
+    font-weight: 100;
+    text-transform: lowercase;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
 }
 
 .zype-form-center .zype-title:first-letter {
-    text-transform: uppercase !important;
+    text-transform: uppercase;
 }
 .player-auth-required, .subscribe-button, .my-library-sign-in-button {
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif !important;
 }
 
 .zype-form-center .zype-button {
-    text-transform: uppercase !important;
-    color: #00a5df !important;
-    letter-spacing: 1.3px !important;
-    border: 2px solid #00a5df !important;
-    border-radius: 2px !important;
-    padding: 15px 100px !important;
-    margin: 20px 0 0 !important;
-    background: #fff !important;
-    font-size: 12px !important;
-    height: auto !important;
-    line-height: 20px !important;
-    text-shadow: none !important;
+    text-transform: uppercase;
+    color: #00a5df;
+    letter-spacing: 1.3px;
+    border: 2px solid #00a5df;
+    border-radius: 2px;
+    padding: 15px 100px;
+    margin: 20px 0 0;
+    background: #fff;
+    font-size: 12px;
+    height: auto;
+    line-height: 20px;
+    text-shadow: none;
 }
 
 .zype-form-center .zype-button-text {

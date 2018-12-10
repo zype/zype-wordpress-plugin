@@ -1,6 +1,6 @@
 <div id="<?php echo $subscription_shortcode_id; ?>">
   <div class="btn-holder" id="<?php echo $subscribe_button_id; ?>">
-    <button class="zype_get_all_ajax user-profile-wrap__button zype-join-button">
+    <button class="zype_get_all_ajax user-profile-wrap__button zype-join-button zype-custom-button">
         <?php if (!\Auth::subscriber()): ?>
           <?php echo $btn_text ?>
         <?php else: ?>
@@ -10,7 +10,7 @@
   </div>
 
   <?php if (!\Auth::subscriber()): ?>
-    <div class="subscribe-button">
+    <div class="subscribe-button zype-custom-modal">
         <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
         <div class="subscribe-button-content" id="<?php echo $content_id; ?>">
             <div class="login-sub-section">

@@ -1,7 +1,7 @@
 <div id="zype-modal-signup" class='zype-form'>
   <div class="content-wrap signup-wrap user-action-wrap zype-form-center">
     <div class="main-heading inner-heading">
-      <h1 class="title zype-title">Create my login</h1>
+      <h1 class="title zype-title zype-custom-title">Create my login</h1>
     </div>
     <div class="user-wrap">
       <div class="holder-main">
@@ -24,7 +24,7 @@
                 <?php if (isset($terms_link) && $terms_link): ?>
                   <div class="signup-note">By clicking Create My Login, you agree to our <a href="<?php echo esc_url($terms_link) ?>" target="_blank">Terms of Service</a></div>
                 <?php endif; ?>
-                <button type="submit" class="zype-button">Create my login</button>
+                <button type="submit" class="zype-button zype-custom-button">Create my login</button>
                 <p class="to-sign-in">
                   Already have an account?
                   <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>" class="zype_auth_markup" data-type="login" data-id="0" data-root-parent-id="<?php echo $root_parent; ?>">

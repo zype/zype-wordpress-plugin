@@ -120,5 +120,61 @@ $options = array(
             'text' => "Thank you for subscribing, we hope you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again!",
             'required' => ['{login_link}']
         ],
+    ],
+    'colors' => [
+        'default' => [
+            'modal' => [
+                'background' => '#FFFFFF',
+                'title' => '#272424',
+                'close-btn' => '#AAAAAA',
+                'price-table' => [
+                    'border' => '#D9D8E0',
+                    'background' => '#FFFFFF',
+                    'transaction' => [
+                        'title' => '#272424',
+                        'description' => '#60626B',
+                        'price' => '#60626B'
+                    ],
+                    'button' => [
+                        'border' => '#00A5DF',
+                        'text' => '#00A5DF',
+                        'background' => '#FFFFFF'
+                    ]
+                ]
+            ],
+            'playlist' => [
+                'arrow' => '#C9CFD8',
+                'name' => '#6E7075',
+                'video_name' => '#5B5E64',
+                'see_all' => '#9D9FA5'
+            ]
+        ],
+        'user' => [
+            'modal' => [
+                'background' => '#FFFFFF',
+                'title' => '#272424',
+                'close-btn' => '#AAAAAA',
+                'price-table' => [
+                    'border' => '#D9D8E0',
+                    'background' => '#FFFFFF',
+                    'transaction' => [
+                        'title' => '#272424',
+                        'description' => '#60626B',
+                        'price' => '#60626B'
+                    ],
+                    'button' => [
+                        'border' => '#00A5DF',
+                        'text' => '#00A5DF',
+                        'background' => '#FFFFFF'
+                    ]
+                ]
+            ],
+            'playlist' => [
+                'arrow' => '#C9CFD8',
+                'name' => '#6E7075',
+                'video_name' => '#5B5E64',
+                'see_all' => '#9D9FA5'
+            ]
+        ],
     ]
 );

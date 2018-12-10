@@ -1,6 +1,6 @@
 <div class="content-wrap zype-form-center">
     <div class="main-heading inner-heading">
-        <h1 class="title text-uppercase zype-title">Choose how to unlock your content</h1>
+        <h1 class="title text-uppercase zype-title zype-custom-title">Choose how to unlock your content</h1>
         <p class="checkout_error" style='color: red'></p>
     </div>
     <div class="user-wrap">
@@ -40,7 +40,7 @@
                                                     data-plan-id="<?php echo esc_attr($plan->_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                        <div class="zype-btn-container-plan">Continue</div>
+                                                        <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                     </a>
                                                 </div>
                                             </div>
@@ -64,7 +64,7 @@
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                    <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                 </a>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                                     data-plan-id="<?php echo esc_attr($plan->_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                        <div class="zype-btn-container-plan">Continue</div>
+                                                        <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                     </a>
                                                 </div>
                                             </div>
@@ -128,7 +128,7 @@
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
-                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                    <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                 </a>
                                             </div>
                                         </div>

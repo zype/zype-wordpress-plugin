@@ -5,11 +5,11 @@
 <div id="<?php echo $id; ?>">
     <div class="content-wrap zype-form-center">
         <div class="main-heading inner-heading">
-            <h1 class="title text-uppercase zype-title">Choose how to unlock your content</h1>
+            <h1 class="title text-uppercase zype-title zype-custom-title">Choose how to unlock your content</h1>
         </div>
         <div class="user-wrap">
             <div class="holder-main">
-                <div class="row">
+                <div class="row-plan">
                     <div class="">
                         <form action="<?php echo admin_url('admin-ajax.php') ?>" class="user-form nice-form zype_ajax_form"
                             method="post">
@@ -40,7 +40,7 @@
                                                 data-planid="<?php echo esc_attr($plan->_id) ?>"
                                                 data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                 data-root-parent="<?php echo esc_attr($root_parent . ' #' . $id); ?>">
-                                                    <div class="zype-btn-container-plan">Continue</div>
+                                                    <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                 </a>
                                             </div>
                                         </div>

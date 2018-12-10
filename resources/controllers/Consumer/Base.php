@@ -19,7 +19,6 @@ class Base extends Controller
 
         Action::add('template_include', [$this, 'template']);
         Action::add('wp_title', [$this, 'wp_title'], 0, 2);
-        Action::add('wp_head', [$this, 'wp_head'], 0, 2);
         Action::add('aioseop_canonical_url', [$this, 'canonical_url']);
         Action::add('body_class', [$this, 'add_body_class']);
     }
@@ -122,10 +121,6 @@ class Base extends Controller
         $classes[] = strtolower(end($data));
 
         return $classes;
-    }
-
-    public function wp_head()
-    {
     }
 
     public function canonical_url()

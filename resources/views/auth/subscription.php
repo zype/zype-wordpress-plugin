@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="btn-holder">
                                                 <input type="submit"
-                                                       class="btn btn-sm btn-success user-profile-wrap__button user-profile-wrap__button_subscr"
+                                                       class="btn btn-sm btn-success user-profile-wrap__button user-profile-wrap__button_subscr zype-custom-button"
                                                        value="Update Subscription">
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                     <p>You cannot undo this action.</p>
                                 <?php } ?>
                                 <br>
-                                <a class="btn btn-sm btn-danger user-profile-wrap__button user-profile-wrap__button_subscr"
+                                <a class="btn btn-sm btn-danger user-profile-wrap__button user-profile-wrap__button_subscr zype-custom-button"
                                    href="<?php zype_url('profile'); ?>/subscription/cancel/">Cancel Subscription</a>
                             </div>
                         <?php } else { ?>
@@ -117,7 +117,7 @@
                             <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to
                                     subscribe.</a></p>
 
-                            <div class="player-auth-required">
+                            <div class="player-auth-required zype-custom-modal">
                                 <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
                                 <div class="player-auth-required-content">
                                     <div class="login-sub-section">

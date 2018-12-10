@@ -1,15 +1,19 @@
 .zype-price-table {
     background: #fff;
-    border: 1px solid #d9d8e0;
-    border-top: 0px;
-    border-radius: 2px;
+    border: 0px;
     margin: auto;
     display: inline-block;
     font-weight: 400;
 }
 
+.zype-price-table section:not(:last-child) .zype-column-plans,
+.zype-price-table section:last-child .zype-column-plans:not(:last-child),
+#plans .zype-price-table .zype-column-plans:not(:last-child) {
+    border-bottom: 0px;
+}
+
 .zype-column-plans {
-    border-top: solid 1px #d9d8e0;
+    border: 1px solid #d9d8e0;
     display: flex;
     justify-content: space-between;
 }
@@ -49,7 +53,7 @@
 
 .zype-btn-container-plan {
     border-radius: 2px;
-    border: 2px solid #00a5df;
+    border: 2px solid #00A5DF;
     display: inline-block;
     margin-left: 10px;
     padding: 12px 20px;
@@ -70,7 +74,7 @@
 
 .zype-btn-container-plan-mob {
     border-radius: 2px;
-    border: 2px solid #00a5df;
+    border: 2px solid #00A5DF;
     margin-left: 10px;
     padding: 12px 20px;
     margin: 0 auto 10px auto;
@@ -88,14 +92,14 @@
 }
 
 .braintree-options .braintree-option:first-child {
-    border-top: 2px solid #00a5df;
+    border-top: 2px solid #00A5DF;
 }
 
 .braintree-options .braintree-option {
     border-top: none;
-    border-left: 2px solid #00a5df;
-    border-right: 2px solid #00a5df;
-    border-bottom: 2px solid #00a5df;
+    border-left: 2px solid #00A5DF;
+    border-right: 2px solid #00A5DF;
+    border-bottom: 2px solid #00A5DF;
 }
 
 @media(max-width: 414px) {
