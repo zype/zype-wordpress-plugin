@@ -30,10 +30,10 @@
                             <div class="">
                                 <p class="to-forgot-password"><a
                                             href="<?php echo get_permalink() . "?zype_auth_type=forgot" ?>"
-                                            class="zype_auth_markup" data-type="forgot">Forgot password?</a></p>
+                                            class="zype_auth_markup" data-root-parent-id="<?php echo $root_parent ?>" data-type="forgot">Forgot password?</a></p>
                                 <p class="to-sign-up">Don't have an account? <a
                                             href="<?php echo get_permalink() . "?zype_auth_type=register" ?>"
-                                            class="zype_auth_markup" data-type="register">Sign Up</a></p>
+                                            class="zype_auth_markup" data-root-parent-id="<?php echo $root_parent ?>" data-type="register">Sign Up</a></p>
                             </div>
                         </form>
                     </div>
