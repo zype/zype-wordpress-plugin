@@ -40,19 +40,6 @@ if (!empty($options['invalid_key'])) {
 }
 ### Settings page end
 
-### Playlists page start
-/*Page::make('zype-grid-screen', 'Playlists', 'zype')->set([
-    'capability' => 'manage_options',
-    'icon'       => $icon_url,
-    'position'   => 20,
-    'tabs'       => true,
-    'menu'       => __("Playlists")
-]);
-
-Action::add('zype_page_zype-grid-screen', 'ZypeMedia\Controllers\Admin@admin_grid_screen_page');
-Action::add('admin_action_zype_grid_screen', 'ZypeMedia\Controllers\Admin@admin_grid_screen_page_save');*/
-### Playlists page end
-
 ### Users page start
 Page::make('zype-users', 'Users', 'zype')->set([
     'capability' => 'manage_options',
