@@ -156,7 +156,7 @@ $zype_default_options = array(
         ],
     ],
     'colors' => [
-        'default' => [
+        'light-theme' => [
             'modal' => [
                 'background' => '#FFFFFF',
                 'title' => '#272424',
@@ -186,6 +186,39 @@ $zype_default_options = array(
                 'see_all' => [
                     'normal' => '#9D9FA5',
                     'hover' => '#BFC3CB'
+                ]
+            ]
+        ],
+        'dark-theme' => [
+            'modal' => [
+                'background' => '#000000',
+                'title' => '#D8DBDB',
+                'close-btn' => '#555555',
+                'price-table' => [
+                    'border' => '#26271F',
+                    'background' => '#000000',
+                    'transaction' => [
+                        'title' => '#D8DBDB',
+                        'description' => '#9F9D94',
+                        'price' => '#9F9D94'
+                    ],
+                    'button' => [
+                        'border' => '#00A5DF',
+                        'text' => '#00A5DF',
+                        'background' => '#000000'
+                    ]
+                ]
+            ],
+            'playlist' => [
+                'arrow' => '#363027',
+                'name' => [
+                    'normal' => '#BAB7B3',
+                    'hover' => '#918F8A'
+                ],
+                'video_name' => '#A4A19B',
+                'see_all' => [
+                    'normal' => '#62605A',
+                    'hover' => '#403C34'
                 ]
             ]
         ],
@@ -221,7 +254,7 @@ $zype_default_options = array(
                     'hover' => '#BFC3CB'
                 ]
             ]
-        ],
+        ]
     ]
 );
 

@@ -5,7 +5,7 @@
     </p>
     <form method='post' action='<?php echo admin_url('admin.php'); ?>'>
         <input type='hidden' name='action' value='zype_customize_ui'>
-        <input type='hidden' name='reset' value='false'>
+        <input type='hidden' name='theme' value='false'>
         <?php wp_nonce_field('zype_customize_ui'); ?>
         <div class="container-fluid">
             <h3>Modal</h3>
@@ -243,12 +243,17 @@
                 </div>
             </div>
         </div>
-        <div class="row middle-xs" id="buttons">
-            <div class="col-xs-2">
-                <input type='submit' name='submit' id='submit' class='button button-primary' value='Save Changes'>
-            </div>
-            <div class="col-xs-2">
-                <input type='submit' name='reset-btn' id='reset' class='button button-primary' value='Reset to default'>
+        <div class="container-fluid">
+            <div class="row middle-xs" id="buttons">
+                <div class="col-xs-2">
+                    <input type='submit' name='submit' id='submit' class='button button-primary' value='Save Changes'>
+                </div>
+                <div class="col-xs-2">
+                    <input type='submit' name='light_theme' id='light-theme' class='button button-primary theme-selection' value='Light Theme'>
+                </div>
+                <div class="col-xs-2">
+                    <input type='submit' name='dark_theme' id='dark-theme' class='button button-primary theme-selection' value='Dark Theme'>
+                </div>
             </div>
         </div>
     </form>
