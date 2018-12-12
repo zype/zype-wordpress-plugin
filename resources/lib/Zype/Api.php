@@ -48,6 +48,7 @@ class Api
     private static function request($method, $endpoint, $query, $is_auth = false, $cache = false)
     {
         $path = $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
+        $cache = false;
         if ($is_auth) {
             $url = self::$authBaseEndpoint . $path;
         } else {
@@ -96,7 +97,7 @@ class Api
 
     private static function _get_playlists($query)
     {
-        return self::request("GET", "playlists", $query, false, true)->response;
+        return self::request("GET", "playlists", $query, false, true);
     }
 
     private static function _get_playlist($id, $query)
@@ -122,6 +123,11 @@ class Api
     private static function _get_video($id, $query)
     {
         return self::request("GET", "videos/{$id}", $query)->response;
+    }
+
+    private static function _get_video_entitlement($id, $query)
+    {
+        return self::request("GET", "videos/{$id}/entitled", $query);
     }
 
     private static function _get_zobject_types($query)
@@ -218,6 +224,11 @@ class Api
     private static function _get_consumer_entitled_videos($query)
     {
         return self::request("GET", "consumer/videos", $query);
+    }
+
+    private static function _get_consumer_entitled_playlists($query)
+    {
+        return self::request("GET", "consumer/playlists", $query);
     }
 
     private static function _get_plans($query)

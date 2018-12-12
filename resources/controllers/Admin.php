@@ -241,7 +241,7 @@ class Admin extends Controller
         $videos = \Zype::get_videos(['per_page' => 500])->response;
 
         if ($search) {
-            foreach ($videos->collection as $k => $item) {
+            foreach ($videos as $k => $item) {
                 if (!preg_match("/{$search}/i", $item->title)) {
                     unset($videos[$k]);
                 }

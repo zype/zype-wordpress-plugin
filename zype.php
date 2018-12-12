@@ -139,12 +139,12 @@ $zype_default_options = array(
             'required' => ['{login_link}']
         ],
         'new_rental' => [
-            'text' => "Thank you for your rental to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{video_name}', '{login_link}']
+            'text' => "Thank you for your rental to {object_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{object_name}', '{login_link}']
         ],
         'new_purchase' => [
-            'text' => "Thank you for your purchase to {video_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
-            'required' => ['{video_name}', '{login_link}']
+            'text' => "Thank you for your purchase to {object_name}, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",
+            'required' => ['{object_name}', '{login_link}']
         ],
         'new_pass' => [
             'text' => "Thank you for buying a pass plan, we know you'll enjoy it!\nYou can log in with the email address and password you provided at the following URL: \n{login_link}\nThanks again",

@@ -15,6 +15,7 @@ class Player extends Base
     {
         $this->do_embed([
             'video' => $this->video,
+            'playlist_id' => $params['playlist_id'],
             'auth_required' => isset($params['auth']) ? $params['auth'] : false,
             'auto_play' => false,
             'audio_only' => isset($params['audio_only']) ? $params['audio_only'] : false,

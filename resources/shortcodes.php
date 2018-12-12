@@ -62,12 +62,14 @@ add_shortcode('zype_auth', function ($attrs = array()) use ($request) {
 add_shortcode('zype_video_checkout',  function ($attrs = array()) use ($request) {
     $type = $request->sanitize($attrs['type']);
     $video_id = isset($attrs['video_id']) ? $request->sanitize($attrs['video_id']) : '';
+    $object_id = isset($attrs['object_id']) ? $request->sanitize($attrs['object_id']) : '';
+    $object_type = isset($attrs['object_type']) ? $request->sanitize($attrs['object_type']) : '';
     $root_parent = isset($attrs['root_parent']) ? $request->sanitize($attrs['root_parent']) : '';
     $redirect_url = isset($attrs['redirect_url']) ? $request->sanitize($attrs['redirect_url']) : '';
-    $monetizationController = new Consumer\Monetization($root_parent, $video_id, $redirect_url);
+    $monetizationController = new Consumer\Monetization($root_parent, $video_id, $object_id, $object_type, $redirect_url);
     switch ($type) {
         case 'paywall':
-            return $monetizationController->paywall_view($attrs);
+            return $monetizationController->paywall_view();
         case 'cc_form':
             return $monetizationController->cc_form($attrs);
     }
@@ -102,27 +104,29 @@ add_shortcode('zype_video', function ($attrs) use ($request) {
 });
 
 add_shortcode('zype_playlist', function ($attrs) use ($request) {
-    $id = $request->sanitize($attrs['id'], ['textfield']);
+    $playlist_id = $request->sanitize($attrs['id'], ['textfield']);
 
-    if (!$id) {
+    if (!$playlist_id) {
         return;
     }
 
     if ($request->validate('zype_type', ['textfield']) != 'video_single') {
         $gridscreen = new Consumer\Gridscreen();
-        return $gridscreen->index(null, $id);
+        return $gridscreen->index(null, $playlist_id);
     }
 
     $videos = new Consumer\Videos();
-    return $videos->single();
+    $video_id = $request->validate('zype_video_id', ['textfield']);
+    return $videos->single_in_playlist($video_id, $playlist_id);
 });
 
 add_shortcode('zype_my_library', function ($attrs) use ($request) {
     $videos = new Consumer\Videos();
     $zype_type = $request->validate('zype_type', ['textfield']);
     $shortcode = $request->validate('shortcode', ['textfield']);
+    $zype_video_id = $request->validate('zype_video_id', ['textfield']);
     if ($zype_type == 'video_single' && $shortcode == 'zype_my_library') {
-        return $videos->single();
+        return $videos->single($zype_video_id);
     }
     $page_number = $request->validate('page_number', ['textfield']);
     return $videos->entitled($page_number);

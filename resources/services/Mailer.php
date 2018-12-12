@@ -52,7 +52,7 @@ class Mailer
         $this->to = $to;
         $email_text = $this->get_email_text("new_{$transaction_type}");
         if($transaction_type != \ZypeMedia\Models\Transaction::PASS_PLAN) {
-            $email_text = str_replace('{video_name}', $dictionary['video_title'], $email_text);
+            $email_text = str_replace('{object_name}', $dictionary['object_title'], $email_text);
         }
         $email_text = str_replace('{login_link}', $this->get_login_placeholder(), $email_text);
         $this->body = view('email.template', [

@@ -2,6 +2,9 @@
 
 namespace ZypeMedia\Services;
 
+use ZypeMedia\Models\V2\Consumer\VideoEntitlement;
+use ZypeMedia\Models\V2\Consumer\PlaylistEntitlement;
+
 class Access extends Component
 {
 
@@ -11,19 +14,17 @@ class Access extends Component
     }
 
     /**
-     * Method checks 3 levels of access: subscription, pass plan, rental.
+     * Method checks 3 levels of access: subscription, pass plan, rental and purchase.
      * The user should have at least 1 payment access.
      *
      * @param string $video_id Video id.
-     * @param null|string $user_id Consumer id.
+     * @param null|string $playlist_id Playlist where the user is seeing the video.
      *
      * @return boolean
      */
-    public function checkUserVideoAccess($video_id, $user_id = null)
+    public function checkUserVideoAccess($video_id, $playlist_id = null)
     {
-        if (!$user_id) {
-            $user_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
-        }
+        $user_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
         $transaction = (new \ZypeMedia\Models\Transaction);
 
         $vm = new \ZypeMedia\Models\Video;
@@ -47,13 +48,37 @@ class Access extends Component
             $hasAccess = false;
         }
 
-        if ($video->rental_required || $video->purchase_required) {
-            if ($transaction->valid_transaction($user_id, $video)) {
+        /*
+         *  If $has_access is false I have to check if it still has a video entitlement.
+         *  No matter if rental_required or purchase_required are true, bc it could
+         *  belong to a playlist where rental_required or purchase_required are true
+        */
+        if (!$hasAccess || $video->rental_required || $video->purchase_required) {
+            if ($this->check_entitlements($video_id, $playlist_id)) {
                 return true;
             }
-            $hasAccess = false;
+            else {
+                $hasAccess = false;
+            }
         }
-
         return $hasAccess;
+    }
+
+    private function check_entitlements($video_id, $playlist_id)
+    {
+        $za = new \ZypeMedia\Services\Auth;
+        $access_token = $za->get_access_token();
+        if($access_token) {
+            $video_res = VideoEntitlement::all($access_token, ['video_id' => $video_id], false);
+            $video_entitled = count($video_res['collection']) > 0;
+            # If it doesn't have entitlements for the video, we should check if the consumer has a playlist entitlement
+            if(!$video_entitled && $playlist_id) {
+                $playlist_res = PlaylistEntitlement::all($access_token, ['playlist_id' => $playlist_id], false);
+            }
+            return $video_entitled || count($playlist_res['collection']) > 0;
+        }
+        else {
+            return false;
+        }
     }
 }

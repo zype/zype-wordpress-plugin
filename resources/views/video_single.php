@@ -19,15 +19,20 @@
     <div class="zype_video__wrapper">
         <div class="zype_video__heading">
             <h1><?php echo $video->title; ?></h1>
-            <!-- <div class="zype_play_sample">
-              <!?php if (zype_audio_only()): ?>
-                <a href="<!?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&zype_video_id=<!?php echo $video->_id ?>" class="btn btn-lg btn-primary">Watch Video</a>
-              <!?php else: ?>
-                <a href="<!?php echo get_permalink() ?>?zype_wp=true&zype_type=video_single&audio=true&zype_video_id=<!?php echo $video->_id ?>" class="btn btn-lg btn-primary">Listen to Audio</a>
-              <!?php endif ?>
-            </div> -->
         </div>
-        <?php zype_player_embed($video, ['auth' => $video->transaction_required, 'auto_play' => false, 'audio_only' => zype_audio_only(), 'root_parent' => $id, 'redirect_url' => $redirect_url]); ?>
+        <?php
+            zype_player_embed(
+                $video,
+                [
+                    'auth' => $video->transaction_required,
+                    'playlist_id' => $playlist_id,
+                    'auto_play' => false,
+                    'audio_only' => zype_audio_only(),
+                    'root_parent' => $id,
+                    'redirect_url' => $redirect_url
+                ]
+            );
+        ?>
     </div>
     <?php if ($view == 'full'): ?>
         <section class="episode-main">

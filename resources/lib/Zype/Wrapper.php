@@ -93,6 +93,22 @@ class Wrapper
         return Api::get_playlist_videos($id, $api_params);
     }
 
+    public static function get_playlists($params)
+    {
+        $sort = isset($params['sort']) ? $params['sort'] : 'alphabetical';
+
+        $api_params = array_merge($params,[
+            'api_key' => self::$options['read_only_key'],
+            'sort' => $sort
+        ]);
+
+
+        self::apply_sort($api_params, $sort);
+        self::apply_search($api_params);
+
+        return Api::get_playlists($api_params);
+    }
+
     public static function get_playlists_by($by, $page = null, $per_page = 500, $sort = null, $order = null)
     {
         if ($sort == null) {
@@ -114,7 +130,7 @@ class Wrapper
         self::apply_sort($api_params, $sort);
         self::apply_search($api_params);
 
-        return Api::get_playlists($api_params);
+        return Api::get_playlists($api_params)->response;
     }
 
     private static function apply_search(&$params)
@@ -433,6 +449,34 @@ class Wrapper
             ]);
 
             return Api::get_consumer_entitled_videos($api_params);
+        }
+
+        return false;
+    }
+
+    public static function get_consumer_entitled_playlists($access_token, $params = [])
+    {
+        if ($access_token) {
+
+            $api_params = array_merge($params,[
+                'access_token' => $access_token
+            ]);
+
+            return Api::get_consumer_entitled_playlists($api_params);
+        }
+
+        return false;
+    }
+
+    public static function get_video_entitlement($access_token, $video_id, $params = [])
+    {
+        if ($access_token) {
+
+            $api_params = array_merge($params,[
+                'access_token' => $access_token
+            ]);
+
+            return Api::get_video_entitlement($video_id ,$api_params);
         }
 
         return false;

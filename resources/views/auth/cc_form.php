@@ -12,7 +12,8 @@
                             <input type="hidden" name="action" value="zype_checkout">
                             <form id="payment-form">
                                 <input name="transaction_type" type="hidden" value="<?php echo $transaction_type; ?>">
-                                <input name="video_id" type="hidden" value="<?php echo $video_id; ?>">
+                                <input name="object_type" type="hidden" value="<?php echo $object_type; ?>">
+                                <input name="object_id" type="hidden" value="<?php echo $object_id; ?>">
                                 <input name="plan_id" type="hidden" value="<?php echo $plan->_id; ?>">
                                 <input name="pass_plan_id" type="hidden" value="<?php echo $pass_plan->_id; ?>">
                                 <input name="email" type="hidden" value="<?php zype_current_consumer(); ?>">
@@ -55,6 +56,9 @@
                                         <button type="button" class="zype_monetization_checkout zype-button zype-custom-button"
                                                 data-type="paywall"
                                                 data-video-id="<?php echo esc_attr($video_id) ?>"
+                                                data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                data-object-type="video"
+                                                data-redirect-url="<?php echo $redirect_url ?>"
                                                 data-root-parent="<?php echo $root_parent; ?>">Go back
                                         </button>
                                     </div>

@@ -6,7 +6,7 @@ use ZypeMedia\Services\Braintree;
 
 class Transaction extends Base
 {
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -33,8 +33,8 @@ class Transaction extends Base
             $data['errors']['pass_plan'] = "Pass Plan id is required";
         }
 
-        if (empty($form['video_id'])) {
-            $data['errors']['video_id'] = "Unknown video ID";
+        if (empty($form['object_id'])) {
+            $data['errors']['video_id'] = "Unknown video or playlist ID";
         }
 
         if (empty($form['type'])) {
@@ -71,14 +71,12 @@ class Transaction extends Base
 
                 $transaction = new \ZypeMedia\Models\Transaction();
 
-                $transaction = $transaction->create_transaction($form['transaction_type'], $form['video_id'], $form['type'], $sub['payment_nonce'], $form['pass_plan_id']);
+                $transaction = $transaction->create_transaction($form['transaction_type'], $form['object_id'], $form['type'], $sub['payment_nonce'], $form['pass_plan_id'], $form['object_type']);
 
                 if ($transaction) {
                     $mailer = new \ZypeMedia\Services\Mailer;
-                    $vm = (new \ZypeMedia\Models\Video);
-                    $vm->find($form['video_id']);
-                    $video = $vm->single;
-                    $mailer->new_transaction($consumer->email, $form['transaction_type'], ['video_url' => $video->permalink, 'video_title' => $video->title]);
+                    $object = $this->get_object($form['object_id'], $form['object_type']);
+                    $mailer->new_transaction($consumer->email, $form['transaction_type'], ['object_title' => $object->title]);
                     $mail_res = $mailer->send();
 
                     $za->sync_cookie();
@@ -91,7 +89,7 @@ class Transaction extends Base
             } else {
                 $data['errors']['email'] = 'You do not have an account, purchase is not possible.';
                 $data['success'] = false;
-            }            
+            }
         }
         else {
             $data['success'] = false;
@@ -100,5 +98,18 @@ class Transaction extends Base
         echo json_encode($data);
 
         exit();
+    }
+
+    private function get_object($object_id, $object_type)
+    {
+        if($object_type === 'video') {
+            $vm = new \ZypeMedia\Models\Video();
+            $vm->find($object_id);
+            $object = $vm->single;
+        }
+        else {
+            $object = \ZypeMedia\Models\V2\Playlist::find($object_id);
+        }
+        return $object;
     }
 }
