@@ -138,8 +138,7 @@ class Profile extends Base
                 if ($update_consumer) {
                     //send email
                     $mailer = new \ZypeMedia\Services\Mailer;
-                    $mailer->forgot_password($email, ['password_token' => $pw_token]);
-                    $mail_res = $mailer->send();
+                    $mail_res = $mailer->forgot_password($email, ['password_token' => $pw_token]);
                     if ($mail_res) {
                         zype_form_message('check', 'You should receive a password reset email shortly.');
                         $errors[] = 'You should receive a password reset email shortly.';
@@ -389,7 +388,6 @@ class Profile extends Base
 
         $mailer = new \ZypeMedia\Services\Mailer;
         $mailer->cancel_subscription($email);
-        $mail_res = $mailer->send();
 
         $za->sync_cookie();
         zype_flash_message('success', 'Your subscription has been successfully canceled.');

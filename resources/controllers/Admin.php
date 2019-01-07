@@ -10,76 +10,6 @@ class Admin extends Controller
         parent::__construct();
     }
 
-    public function admin_videos_page()
-    {
-        $allow_rss_feed = false;
-        $zm = (new \ZypeMedia\Models\zObject('rss feed settings'));
-        $zm->all_by(['title' => 'default'], ['per_page' => 1]);
-        if ($zm->collection && sizeof($zm->collection) > 0) {
-            $allow_rss_feed = true;
-        }
-
-        $categories = \Zype::get_all_categories();
-        echo view('admin.videos', [
-            'options' => $this->options,
-            'categories' => $categories,
-            'allow_rss_feed' => $allow_rss_feed
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_videos_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_videos')) {
-            $new_options = [
-                'rss_enabled' => $this->request->validate('rss_enabled', ['bool']),
-                'rss_url' => $this->request->validate('rss_url', ['textfield'], $this->options['rss_url']),
-                'audio_only_enabled' => $this->request->validate('audio_only_enabled', ['bool']),
-                'excluded_categories' => is_array($this->request->validate('excluded_categories')) ? $this->request->validate('excluded_categories') : [],
-                'flush' => true,
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
-    private function update_options()
-    {
-        update_option('zype_wp', $this->options);
-        $this->options = get_option('zype_wp');
-    }
-
-    public function admin_grid_screen_page()
-    {
-        echo view('admin.grid_screen', [
-            'options' => $this->options
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_grid_screen_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_grid_screen')) {
-            $new_options = [
-                'grid_screen_parent' => $this->request->validate('grid_screen_parent', ['textfield']),
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
     public function admin_api_keys_page()
     {
         echo view('admin.api_keys', [
@@ -277,107 +207,6 @@ class Admin extends Controller
         wp_die();
     }
 
-    public function admin_categories_page()
-    {
-        $categories = \Zype::get_all_categories();
-        $zm = (new \ZypeMedia\Models\zObject('rss feed settings'));
-        $zm->all(['per_page' => 500]);
-        $feed_settings = $zm->collection ? $zm->collection : array();
-        $available_feeds = [];
-        foreach ($feed_settings as $feed_setting) {
-            if ($feed_setting->category_name != '') {
-                if (array_key_exists($feed_setting->category_name, $available_feeds)) {
-                    array_push($available_feeds[$feed_setting->category_name], $feed_setting->category_value);
-                } else {
-                    $available_feeds[$feed_setting->category_name] = [$feed_setting->category_value];
-                }
-            }
-        }
-
-        echo view('admin.categories', [
-            'options' => $this->options,
-            'categories' => $categories,
-            'feed_settings' => $feed_settings,
-            'available_feeds' => $available_feeds,
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_categories_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_categories')) {
-            $new_options = [
-                'categories' => is_array($this->request->validate('categories')) ? $this->request->validate('categories') : [],
-                'flush' => true,
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
-    public function admin_zobjects_page()
-    {
-        $zobjects = \Zype::get_all_zobject_types();
-
-        echo view('admin.zobjects', [
-            'options' => $this->options,
-            'zobjects' => $zobjects
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_zobjects_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_zobjects')) {
-            $new_options = [
-                'zobjects' => is_array($this->request->validate('zobjects')) ? $this->request->validate('zobjects') : [],
-                'flush' => true,
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
-    public function admin_livestream_page()
-    {
-        echo view('admin.livestream', [
-            'options' => $this->options
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_livestream_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_livestream')) {
-            $new_options = [
-                'livestream_enabled' => $this->request->validate('livestream_enabled', ['bool']),
-                'livestream_url' => $this->request->validate('livestream_url', ['url:http, https']) ?: $this->options['livestream_url'],
-                'livestream_authentication_required' => $this->request->validate('livestream_authentication_required', ['bool']),
-                'flush' => true,
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
     public function admin_braintree_page()
     {
 
@@ -504,57 +333,6 @@ class Admin extends Controller
         exit;
     }
 
-    public function admin_email_settings_page()
-    {
-        echo view('admin.email_settings', [
-            'options' => $this->options
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_email_settings_page_save()
-    {
-        $emailTypes = array_keys($this->options['emails']);
-        $errors = [];
-        $newAttributes = [];
-        foreach($emailTypes as $emailType)
-        {
-            $emailText = $this->request->validate($emailType, ['textarea'], $this->options['emails'][$emailType]['text']);
-            $requiredPlaceholders = $this->options['emails'][$emailType]['required'];
-            if(count($requiredPlaceholders) > 0)
-            {
-                foreach($requiredPlaceholders as $required)
-                {
-                    $pos = strpos($emailText, $required);
-                    if($pos == false)
-                    {
-                        $errors[] = join(' ', ['The email', $emailType, 'is missing', $required]);
-                    }
-                    else
-                    {
-                        $this->options['emails'][$emailType]['text'] = $emailText;
-                    }
-                }
-            }
-            else
-            {
-                $this->options['emails'][$emailType]['text'] = $emailText;
-            }
-        }
-        if(count($errors) > 0)
-        {
-            zype_wp_admin_message('error', implode($errors, "\n"));
-        }
-        else
-        {
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit();
-    }
-
     public function admin_cookie_key_page_save()
     {
         if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_cookie_key')) {
@@ -569,34 +347,9 @@ class Admin extends Controller
         exit;
     }
 
-    public function admin_general_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_general')) {
-            $new_options = [
-                'cache_time' => $this->request->validate('cache_time', ['num'], $this->options['cache_time']),
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
     public function admin_api_explorer_page()
     {
         echo view('admin.api_explorer', [
-            'options' => $this->options
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_general_page()
-    {
-        echo view('admin.general', [
             'options' => $this->options
         ]);
 

@@ -76,8 +76,7 @@ class Transaction extends Base
                 if ($transaction) {
                     $mailer = new \ZypeMedia\Services\Mailer;
                     $object = $this->get_object($form['object_id'], $form['object_type']);
-                    $mailer->new_transaction($consumer->email, $form['transaction_type'], ['object_title' => $object->title]);
-                    $mail_res = $mailer->send();
+                    $mail_res = $mailer->new_transaction($consumer->email, $form['transaction_type'], ['object_title' => $object->title]);
 
                     $za->sync_cookie();
 

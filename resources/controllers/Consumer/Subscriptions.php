@@ -221,8 +221,7 @@ class Subscriptions extends Base
 
                 if ($new_sub && $new_sub->success()) {
                     $mailer = new \ZypeMedia\Services\Mailer;
-                    $mailer->new_subscription($consumer->email);
-                    $mail_res = $mailer->send();
+                    $mail_res = $mailer->new_subscription($consumer->email);
 
                     $za->sync_cookie();
 

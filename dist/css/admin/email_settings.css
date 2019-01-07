@@ -1,0 +1,7 @@
+#email-settings .container {
+  margin-top: 20px;
+}
+
+#email-settings .email-title, #email-settings .email-description {
+  font-size: 14px;
+}
