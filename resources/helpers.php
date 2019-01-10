@@ -711,6 +711,12 @@ function zypeRequest() {
     return $request;
 }
 
+add_action( 'phpmailer_init', 'fix_my_email_return_path' );
+
+function fix_my_email_return_path($phpmailer) {
+    $phpmailer->Sender = $phpmailer->From;
+}
+
 /*
  * Plugin get asset url.
  */
