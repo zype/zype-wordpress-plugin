@@ -77,7 +77,7 @@ div.slider_links > div.get-all-playlists.slider_links-all > a {
     margin-left: 3px;
 }
 
-.slider_slide_second {
+.slider_slide_first, .slider_slide_second {
     margin: 0 3px;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -85,30 +85,15 @@ div.slider_links > div.get-all-playlists.slider_links-all > a {
     overflow: hidden;
 }
 
-.slider_slide_second:hover {
+.slider_slide_first:hover, .slider_slide_second:hover {
     opacity: 0.7;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
-}
-
-.slider_slide_first {
-    margin: 0 3px;
-    -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-    overflow: hidden;
 }
 
 body:not(.twentyseventeen-front-page) .entry-content {
     margin: 0 40px !important;
-}
-
-.slider_slide_first:hover {
-    opacity: 0.7;
-    -webkit-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
 }
 
 .playlist-with-content button.slick-prev,

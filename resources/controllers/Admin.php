@@ -57,31 +57,6 @@ class Admin extends Controller
         $this->options = get_option('zype_wp');
     }
 
-    public function admin_grid_screen_page()
-    {
-        echo view('admin.grid_screen', [
-            'options' => $this->options
-        ]);
-
-        wp_die();
-    }
-
-    public function admin_grid_screen_page_save()
-    {
-        if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_grid_screen')) {
-            $new_options = [
-                'grid_screen_parent' => $this->request->validate('grid_screen_parent', ['textfield']),
-            ];
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Changes successfully saved!');
-        } else {
-            zype_wp_admin_message('error', 'Something has gone wrong.');
-        }
-        wp_redirect($this->request->validateServer('HTTP_REFERER', ['textfield']));
-        exit;
-    }
-
     public function admin_api_keys_page()
     {
         echo view('admin.api_keys', [

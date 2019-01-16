@@ -123,7 +123,7 @@ add_shortcode('zype_playlist', function ($attrs) use ($request) {
     }
     else {
         $gridscreen = new Consumer\Gridscreen();
-        $view = $gridscreen->index(null, $shortcode_playlist_id);
+        $view = $gridscreen->index($shortcode_playlist_id);
     }
     return $view;
 });

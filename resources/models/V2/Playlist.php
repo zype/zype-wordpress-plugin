@@ -3,6 +3,7 @@
 namespace ZypeMedia\Models\V2;
 
 use Zype\Api\Playlist as PlaylistApi;
+use Zype\Api\Video;
 
 class Playlist extends Base
 {
@@ -39,6 +40,6 @@ class Playlist extends Base
 
     public static function videos($params, $with_pagination = true)
     {
-        return parent::get_all($params, $with_pagination, 'videos', '\Zype\Api\Playlist', '\ZypeMedia\Models\V2\Video');
+        return parent::get_all($params, $with_pagination, 'videos', 'Zype\Api\Playlist', '\ZypeMedia\Models\V2\Video');
     }
 }
