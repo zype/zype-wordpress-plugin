@@ -15,8 +15,8 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  $(document).on("click", "input#reset[type='submit']", function(e) {
-    $("#customize-ui input[name='reset']").val(true);
+  $(document).on("click", "input.theme-selection[type='submit']", function(e) {
+    $("#customize-ui input[name='theme']").val(e.currentTarget.id);
   });
 
 });

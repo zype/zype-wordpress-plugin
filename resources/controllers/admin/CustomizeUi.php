@@ -23,12 +23,12 @@ class CustomizeUi extends \ZypeMedia\Controllers\Controller
     {
         if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_customize_ui')) {
             $form = $this->request->validateAll(['textfield']);
-            if($form['reset'] === 'false') {
+            if($form['theme'] === 'false') {
                 $this->options['colors']['user']['modal'] = array_replace($this->options['colors']['user']['modal'], $form['modal']);
                 $this->options['colors']['user']['playlist'] = array_replace($this->options['colors']['user']['playlist'], $form['playlist']);
             }
             else {
-                $this->options['colors']['user'] = $this->options['colors']['default'];
+                $this->options['colors']['user'] = $this->options['colors'][$form['theme']];
             }
             $this->update_options();
             zype_wp_admin_message('updated', 'Changes successfully saved!');
