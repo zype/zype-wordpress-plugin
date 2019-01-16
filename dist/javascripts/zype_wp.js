@@ -87,7 +87,7 @@ function ZypeWP(env) {
         });
     };
 
-    this.zypeCheckoutRequest = function(type, transaction_type, plan_id, video_id, object_id, object_type, zype_redirect_url, zype_root_parent) {
+    this.zypeCheckoutRequest = function(type, transaction_type, plan_id, video_id, playlist_id, object_type, zype_redirect_url, zype_root_parent) {
         var id = '';
         id = zype_root_parent ? '#' + zype_root_parent + ' ' : '';
         id += '.content-wrap';
@@ -100,8 +100,8 @@ function ZypeWP(env) {
                 type: type,
                 transaction_type: transaction_type,
                 video_id: video_id,
-                object_id: object_id,
                 object_type: object_type,
+                playlist_id: playlist_id,
                 plan_id: plan_id ? plan_id : '0',
                 root_parent: zype_root_parent,
                 redirectURL: zype_redirect_url
@@ -312,7 +312,7 @@ function ZypeWP(env) {
                         jQuery(this).data('transaction-type'),
                         jQuery(this).data('plan-id'),
                         jQuery(this).data('video-id'),
-                        jQuery(this).data('object-id'),
+                        jQuery(this).data('playlist-id'),
                         jQuery(this).data('object-type'),
                         jQuery(this).data('redirect-url'),
                         jQuery(this).data('root-parent'),

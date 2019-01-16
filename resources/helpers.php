@@ -346,16 +346,6 @@ function zype_extract_category_thumbnails($videos, $categoryName = 'Show', $thum
 
 }
 
-function zype_get_all_pass_plans()
-{
-    return \Zype::get_all_pass_plans();
-}
-
-function zype_get_all_plans()
-{
-    return \Zype::get_all_plans();
-}
-
 add_filter('widget_text', 'do_shortcode');
 add_theme_support('post-thumbnails');
 add_theme_support('html5', ['search-form']);

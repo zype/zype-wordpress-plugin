@@ -2,6 +2,8 @@
 
 namespace ZypeMedia\Controllers;
 
+use ZypeMedia\Models\V2\Plan;
+
 class Admin extends Controller
 {
 
@@ -72,7 +74,7 @@ class Admin extends Controller
             $invalid_keys[] = 'app_key';
         unset($playlists);
 
-        $plans = \Zype\Core\Wrapper::get_all_plans();
+        $plans = Plan::all([], false);
         if ($plans === false)
             $invalid_keys[] = 'admin_key';
         unset($plans);
@@ -209,8 +211,7 @@ class Admin extends Controller
 
     public function admin_braintree_page()
     {
-
-        $plans = \Zype::get_all_plans();
+        $plans = Plan::all([], false);
         $pass_plans = \Zype::get_all_pass_plans();
 
         echo view('admin.braintree', [

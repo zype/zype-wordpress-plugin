@@ -393,11 +393,15 @@ class Wrapper
         return Api::is_on_air($api_params);
     }
 
-    public static function get_consumer($id, $token)
+    public static function get_consumer($id, $token = '')
     {
-        $api_params = [
-            'access_token' => $token,
-        ];
+        $api_params = [];
+        if($token) {
+            $api_params['access_token'] = $token;
+        }
+        else {
+            $api_params['api_key'] = self::$options['admin_key'];
+        }
 
         return Api::get_consumer($id, $api_params);
     }

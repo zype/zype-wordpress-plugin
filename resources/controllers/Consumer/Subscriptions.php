@@ -4,6 +4,7 @@ namespace ZypeMedia\Controllers\Consumer;
 
 use Themosis\Facades\Config;
 use ZypeMedia\Services\Braintree;
+use ZypeMedia\Models\V2\Plan;
 
 class Subscriptions extends Base
 {
@@ -15,15 +16,14 @@ class Subscriptions extends Base
 
     public function plans()
     {
-        $plan = [];
+        $plans = [];
         $this->options = Config::get('zype');
         if (isset($this->options['subscribe_select'])) {
-            foreach ($this->options['subscribe_select'] as $option) {
-                $plan[] = \Zype::get_plan($option);
-            }
+            $plan_ids = \ZypeMedia\Services\Auth::remaning_plans();
+            $plans = Plan::all(['id[]' => $plan_ids, ''], false);
         }
+
         $this->title = 'Select a Plan';
-        $plans = $plan;
 
         echo view('auth.pre_auth', ['title' => 'Auth']);
         echo view('auth.plans', [
@@ -41,16 +41,13 @@ class Subscriptions extends Base
     public function plansView($root_parent, $redirect_url = null)
     {
         $stripe_pk = Config::get('zype.stripe_pk');
-        $plan = [];
-        $this->options = Config::get('zype');
+        $plans = [];
         if (isset($this->options['subscribe_select'])) {
-            foreach ($this->options['subscribe_select'] as $option) {
-                $plan[] = \Zype::get_plan($option);
-            }
+            $plan_ids = \ZypeMedia\Services\Auth::remaning_plans();
+            $plans = Plan::all(['id[]' => $plan_ids, ''], false);
         }
 
         $this->title = 'Select a Plan';
-        $plans = $plan;
 
         $content = view('auth.plans', [
             'plans' => $plans,

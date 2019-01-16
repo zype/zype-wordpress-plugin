@@ -77,7 +77,7 @@
                             'redirect_url'  => $redirect_url,
                             'type'          => 'paywall',
                             'video_id'     => esc_attr($video->_id),
-                            'object_id'     => esc_attr($video->_id),
+                            'playlist_id'     => esc_attr($playlist_id),
                             'object_type'   => 'video'
                         ]);
                         echo do_shortcode($short_code);

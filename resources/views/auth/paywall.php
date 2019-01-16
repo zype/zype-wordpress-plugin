@@ -28,7 +28,7 @@
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-object-id="<?php echo esc_attr($playlist_prop['id']) ?>"
+                                                    data-playlist-id="<?php echo esc_attr($playlist_prop['id'])?>"
                                                     data-object-type="playlist"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
@@ -54,7 +54,7 @@
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-playlist-id="<?php echo esc_attr($playlist_id)?>"
                                                     data-object-type="video"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
@@ -86,7 +86,7 @@
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PURCHASE ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-object-id="<?php echo esc_attr($playlist_prop['id']) ?>"
+                                                    data-playlist-id="<?php echo esc_attr($playlist_prop['id'])?>"
                                                     data-object-type="playlist"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
@@ -118,7 +118,7 @@
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::RENTAL ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-playlist-id="<?php echo esc_attr($playlist_id)?>"
                                                     data-object-type="video"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
                                                     data-root-parent="<?php echo esc_attr($root_parent); ?>">
@@ -153,7 +153,7 @@
                                                         data-type="cc_form"
                                                         data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN ?>"
                                                         data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                        data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                        data-playlist-id="<?php echo esc_attr($playlist_id)?>"
                                                         data-object-type="video"
                                                         data-plan-id="<?php echo esc_attr($plan->_id) ?>"
                                                         data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
@@ -175,6 +175,7 @@
                                                         Subscribe
                                                     </div>
                                                     <div class="zype-title-plan"><?php echo $plan->name; ?></div>
+                                                    <div class="zype-entitlement-type-plan"><?php echo ucfirst($plan->entitlement_type) . ' plan'; ?></div>
                                                 </div>
                                                 <div class="zype-column-plan">
                                                     <div class="zype-price-holder">
@@ -191,7 +192,7 @@
                                                     data-type="cc_form"
                                                     data-transaction-type="<?php echo ZypeMedia\Controllers\Consumer\Monetization::SUBSCRIPTION ?>"
                                                     data-video-id="<?php echo esc_attr($video_id) ?>"
-                                                    data-object-id="<?php echo esc_attr($video_id) ?>"
+                                                    data-playlist-id="<?php echo esc_attr($playlist_id)?>"
                                                     data-object-type="video"
                                                     data-plan-id="<?php echo esc_attr($plan->_id) ?>"
                                                     data-redirect-url="<?php echo esc_attr($redirect_url) ?>"

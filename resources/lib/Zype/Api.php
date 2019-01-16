@@ -45,10 +45,13 @@ class Api
         }
     }
 
-    private static function request($method, $endpoint, $query, $is_auth = false, $cache = false)
+    protected static function request($method, $endpoint, $query, $is_auth = false, $cache = false)
     {
+        if(!self::has_authentication($query)) {
+            $query['app_key'] = self::$options['app_key'];
+        }
         $path = $endpoint . ($method == 'GET' ? '?' . http_build_query($query) : '');
-        $cache = false;
+
         if ($is_auth) {
             $url = self::$authBaseEndpoint . $path;
         } else {
@@ -89,6 +92,17 @@ class Api
         return self::$response;
     }
 
+    /**
+     * @return string path to use for the request
+     */
+    protected static function get_path($id = null)
+    {
+      $path = static::RESOURCE_PATH;
+      if(isset($id)) {
+        $path .= '/' . $id;
+      }
+      return $path;
+    }
 
     private static function _get_playlist_videos($id, $query)
     {
@@ -233,7 +247,7 @@ class Api
 
     private static function _get_plans($query)
     {
-        return self::request("GET", "plans", $query)->response;
+        return self::request("GET", "plans", $query);
     }
 
     private static function _get_plan($id, $query)
@@ -290,5 +304,11 @@ class Api
         }
 
         return 'no';
+    }
+
+    protected static function has_authentication($params)
+    {
+        return isset($params['api_key']) || isset($params['read_only_key']) ||
+            isset($params['app_key']) || isset($params['access_token']);
     }
 }

@@ -4,6 +4,8 @@ namespace ZypeMedia\Services;
 
 use Firebase\JWT\JWT;
 use Themosis\Facades\Config;
+use ZypeMedia\Models\V2\Consumer;
+use ZypeMedia\Models\V2\Plan;
 
 class Auth extends Component
 {
@@ -183,15 +185,35 @@ class Auth extends Component
         return false;
     }
 
-    public static function subscriber()
+    public static function subscriber($playlist_id = '')
     {
         $cookie = self::get_cookie();
 
-        if (isset($cookie['user_subscription_count']) && $cookie['user_subscription_count'] > -0) {
+        if(isset($cookie['global_subscription_count']) && $cookie['global_subscription_count'] > -0) {
             return true;
         }
+        if(!$playlist_id || !isset($cookie['tiered_subscriptions']) || empty($cookie['tiered_subscriptions'])) return false;
 
-        return false;
+        $params = [
+            'id[]' => array_column($cookie['tiered_subscriptions'], 'id')
+        ];
+        $plans = Plan::all($params, false);
+        $playlist_subscription = array_reduce($plans, function($accum, $plan) use ($playlist_id) {
+            return $accum = $accum || in_array($playlist_id, $plan->playlist_ids);
+        }, false);
+
+        return $playlist_subscription;
+    }
+
+
+    public static function remaning_plans()
+    {
+        $cookie = self::get_cookie();
+        $plan_ids = Config::get('zype.subscribe_select');
+
+        if(!isset($cookie['tiered_subscriptions']) || empty($cookie['tiered_subscriptions'])) return $plan_ids;
+        $tiered_plan_ids = array_column($cookie['tiered_subscriptions'], 'id');
+        return array_diff($plan_ids, $tiered_plan_ids);
     }
 
     public static function login($username, $password, $remember_me = false)
@@ -205,16 +227,17 @@ class Auth extends Component
     private static function parse_auth_response($login, $username)
     {
         if (isset($login->access_token) && isset($login->refresh_token) && isset($login->expires_in)) {
-            $consumerId = \Zype::find_consumer_by_token($login->access_token);
-            if ($consumerId) {
-                $consumer = \Zype::get_consumer($consumerId, $login->access_token);
+            $consumer_id = \Zype::find_consumer_by_token($login->access_token);
+            if ($consumer_id) {
+                $consumer = Consumer::find($consumer_id);
                 if ($consumer && strcasecmp($consumer->email, $username) === 0) {
                     $expires = time() + $login->expires_in;
                     self::set_cookie_vals([
                         'user_id' => $consumer->_id,
                         'user_rss_token' => $consumer->rss_token,
                         'user_email' => $consumer->email,
-                        'user_subscription_count' => $consumer->subscription_count,
+                        'global_subscription_count' => $consumer->global_subscriptions_count(),
+                        'tiered_subscriptions' => $consumer->tiered_subscriptions(),
                         'user_name' => $consumer->name,
                         'refresh_token' => $login->refresh_token,
                         'access_token' => $login->access_token,
@@ -272,16 +295,17 @@ class Auth extends Component
 
     public static function authenticate_with_access_token($accessToken, $refreshToken = '')
     {
-        $consumerId = \Zype::find_consumer_by_token($accessToken);
-        if ($consumerId) {
-            $consumer = \Zype::get_consumer($consumerId, $accessToken);
+        $consumer_id = \Zype::find_consumer_by_token($accessToken);
+        if ($consumer_id) {
+            $consumer = Consumer::find($consumer_id);
             if ($consumer) {
                 $expires = time();
                 self::set_cookie_vals([
                     'user_id' => $consumer->_id,
                     'user_rss_token' => $consumer->rss_token,
                     'user_email' => $consumer->email,
-                    'user_subscription_count' => $consumer->subscription_count,
+                    'global_subscription_count' => $consumer->global_subscriptions_count(),
+                    'tiered_subscriptions' => $consumer->tiered_subscriptions(),
                     'user_name' => $consumer->name,
                     'refresh_token' => $refreshToken,
                     'access_token' => $accessToken,
@@ -298,13 +322,13 @@ class Auth extends Component
     public static function sync_cookie()
     {
         $cookie = self::get_cookie();
-        $access_token = self::get_access_token();
-        $consumer = \Zype::get_consumer($cookie['user_id'], $access_token);
+        $consumer = Consumer::find($cookie['user_id']);
         if ($consumer) {
             self::set_cookie_vals([
                 'user_id' => $consumer->_id,
                 'user_email' => $consumer->email,
-                'user_subscription_count' => $consumer->subscription_count,
+                'global_subscription_count' => $consumer->global_subscriptions_count(),
+                'tiered_subscriptions' => $consumer->tiered_subscriptions(),
                 'user_name' => $consumer->name,
             ]);
         }

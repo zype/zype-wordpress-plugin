@@ -39,7 +39,7 @@
 
                         ?>
                         <div class="view_all_images zype-<?php echo $thumbnail_layout ?>">
-                            <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $cont->_id ?>">
+                            <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $cont->_id  . '&playlist_id=' . $parent_id?>">
                                 <div class="zype-background-thumbnail"
                                      style="background-image: url(<?php echo $background_image ?>);">
                                 </div>
@@ -110,7 +110,7 @@
                                         <?php else: ?>
                                             <?php if ($sub->parent_id == $cont->_id): ?>
                                                 <div class="slider_slide_second">
-                                                    <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $sub->_id ?>">
+                                                    <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $sub->_id  . '&playlist_id=' . $sub->parent_id ?>">
                                                         <div class="zype-background-thumbnail"
                                                              style="background-image: url(<?php echo $background_image ?>);">
                                                         </div>
@@ -166,7 +166,7 @@
                         </div>
                     <?php else: ?>
                         <div class="view_all_images zype-<?php echo $thumbnail_layout ?>">
-                            <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $cont->_id ?>">
+                            <a href="<?php echo get_permalink() . '?zype_wp=true&zype_type=video_single&zype_video_id=' . $cont->_id . '&playlist_id=' . $parent_id?>">
                                 <div class="zype-background-thumbnail"
                                      style="background-image: url(<?php echo $background_image ?>);">
                                 </div>
