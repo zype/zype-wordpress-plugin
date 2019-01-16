@@ -71,15 +71,16 @@
         });
 
         $(document).on('click', id + ' .zype-signin-button', function() {
-            $('#zype-modal-auth').show();
-            $('#zype-modal-signup').hide();
-            $('#zype-modal-forgot').hide();
+            debugger
+            $(id + ' #zype-modal-auth').show();
+            $(id + ' #zype-modal-signup').hide();
+            $(id + ' #zype-modal-forgot').hide();
         });
 
         $(document).on('click', id + ' .zype-join-button', function() {
-            $('#zype-modal-signup').show();
-            $('#zype-modal-auth').hide();
-            $('#zype-modal-forgot').hide();
+            $(id + ' #zype-modal-signup').show();
+            $(id + ' #zype-modal-auth').hide();
+            $(id + ' #zype-modal-forgot').hide();
         });
 
         $(document).on('click', id + ' .zype-join-button, ' + id + ' .zype-signin-button', function() {

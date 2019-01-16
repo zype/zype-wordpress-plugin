@@ -33,10 +33,13 @@
                                                 href="<?php echo esc_url($terms_link) ?>" target="_blank">Terms of
                                             Service</a></div>
                                 <?php endif; ?>
-                                <button type="submit" class="zype-button zype-custom-button">Create my login</button>
-                                <p class="to-sign-in">Already have an account? <a
-                                            href="<?php echo get_permalink() . "?zype_auth_type=login" ?>"
-                                            class="zype_auth_markup" data-type="login" data-id="0">Sign In</a></p>
+                                <button type="submit" class="zype-button">Create my login</button>
+                                <p class="to-sign-in">Already have an account?
+                                    <a href="<?php echo get_permalink() . "?zype_auth_type=login" ?>"
+                                            class="zype_auth_markup" data-type="login" data-root-parent-id="<?php echo $root_parent ?>">
+                                        Sign In
+                                    </a>
+                                </p>
                             </div>
                         </form>
                     </div>
