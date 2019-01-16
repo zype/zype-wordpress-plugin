@@ -69,7 +69,7 @@ class Admin extends Controller
 
         $wrapper = new \Zype\Core\Wrapper($this->options);//refresh options
 
-        $playlists = \Zype\Core\Wrapper::get_playlists_by(array());
+        $playlists = \Zype\Core\Wrapper::get_playlists_by([]);
         if ($playlists === false)
             $invalid_keys[] = 'app_key';
         unset($playlists);
