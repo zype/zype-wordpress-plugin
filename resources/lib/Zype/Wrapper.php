@@ -88,8 +88,6 @@ class Wrapper
             'page' => $page,
         ];
 
-        self::apply_sort($api_params, 'alphabetical');
-
         return Api::get_playlist_videos($id, $api_params);
     }
 
