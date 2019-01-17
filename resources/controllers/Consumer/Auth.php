@@ -61,7 +61,7 @@ class Auth extends Base
         }
 
         echo view('auth.pre_auth', ['title' => 'Auth']);
-        echo view('auth.login', ['redirect_url' => home_url($this->options['profile_url'])]);
+        echo view('auth.login', ['redirect_url' => home_url($this->options['profile_url']), 'root_parent' => '']);
         echo view('auth.post_auth');
 
         exit;
