@@ -4,7 +4,10 @@ $getvalidation_icon = function ($key) use ($options) {
     if (is_array($options['invalid_key']) && array_search($key, $options['invalid_key']) !== false) {
         return '<span alt="f158" style="color:red" class="' . $key . ' dashicons dashicons-no red"></span>';
     }
-    return '<span alt="f147" style="color:green" class="' . $key . ' dashicons dashicons-yes"></span>';
+    elseif (!empty($options[$key])) {
+        return '<span alt="f147" style="color:green" class="' . $key . ' dashicons dashicons-yes"></span>';
+    }
+    return;
 }
 ?>
 <div class="wrap zype-admin">

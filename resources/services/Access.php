@@ -69,14 +69,14 @@ class Access extends Component
         $za = new \ZypeMedia\Services\Auth;
         $access_token = $za->get_access_token();
         if($access_token) {
-            $video_entitlements = VideoEntitlement::all($access_token, ['video_id' => $video_id], false);
-            $entitled_videos_count = count($video_entitlements) > 0;
+            $video_entitlements = VideoEntitlement::get($video_id, $access_token);
+            $is_entitled = $video_entitlements->code === 200;
             $playlist_entitlements = [];
             # If it doesn't have entitlements for the video, we should check if the consumer has a playlist entitlement
-            if(!$entitled_videos_count && $playlist_id) {
+            if(!$is_entitled && $playlist_id) {
                 $playlist_entitlements = PlaylistEntitlement::all($access_token, ['playlist_id' => $playlist_id], false);
             }
-            return $entitled_videos_count || count($playlist_entitlements) > 0;
+            return $is_entitled || count($playlist_entitlements) > 0;
         }
         else {
             return false;

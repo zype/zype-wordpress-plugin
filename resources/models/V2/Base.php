@@ -20,6 +20,11 @@ class Base {
         }
     }
 
+    public function type()
+    {
+        return get_class($this);
+    }
+
     protected static function load_model($object, $class_to_instanciate = '')
     {
         $class_to_instanciate = $class_to_instanciate ?: static::class;
@@ -33,10 +38,23 @@ class Base {
         }
     }
 
+    protected static function find($id)
+    {
+        $single = \Zype\Api\Playlist::retrieve($id);
+        return $single ? self::load_model($single->response) : false;
+    }
+
+    /**
+     * @param array|string $params, it could be: string, associative array or sequential array
+     * if is a sequential array, it would be composed by a string (first element) and an associative array (second element)
+     *
+     * @return all objects for given class
+     */
     protected static function get_all($params, $with_pagination, $wrapper_method, $wrapper_class = '\Zype', $class_to_instanciate = '')
     {
         $collection = false;
         $pagination = false;
+        $params = self::set_pagination_params($with_pagination, $params);
         $res = self::call_wrapper_method($params, $wrapper_method, $wrapper_class);
         if ($res) {
             $collection = self::load_model($res->response, $class_to_instanciate);
@@ -59,9 +77,26 @@ class Base {
         ] : $collection;
     }
 
+    private static function set_pagination_params($with_pagination, $params)
+    {
+        if($with_pagination) return $params;
+        if(is_array($params)) {
+            if(array_is_sequential($params)) {
+                $params[1]['per_page'] = 500;
+            }
+            else {
+                $params['per_page'] = 500;
+            }
+        }
+        else {
+            $params = [$params, ['per_page' => 500]];
+        }
+        return $params;
+    }
+
     private static function call_wrapper_method($params, $wrapper_method, $wrapper_class)
     {
-        if(array_is_sequential($params)) {
+        if(is_array($params) && array_is_sequential($params)) {
             $res = call_user_func(array($wrapper_class, $wrapper_method), ...$params);
         }
         else {
