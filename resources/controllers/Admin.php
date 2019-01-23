@@ -70,7 +70,7 @@ class Admin extends Controller
         $wrapper = new \Zype\Core\Wrapper($this->options);//refresh options
 
         $playlists = \Zype\Core\Wrapper::get_playlists_by([]);
-        if ($playlists === false)
+        if (!$playlists->success())
             $invalid_keys[] = 'app_key';
         unset($playlists);
 
@@ -192,7 +192,7 @@ class Admin extends Controller
         $search = $this->request->validate('search', ['textfield']);
 
         $query['active'] = true;
-        $playlists = \Zype::get_playlists_by($query, 1, 500, 'priority', 'asc');
+        $playlists = \Zype::get_playlists_by($query, 1, 500, 'priority', 'asc')->response;
 
         if ($search) {
             foreach ($playlists as $k => $item) {
