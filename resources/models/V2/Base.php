@@ -56,7 +56,7 @@ class Base {
         $pagination = false;
         $params = self::set_pagination_params($with_pagination, $params);
         $res = self::call_wrapper_method($params, $wrapper_method, $wrapper_class);
-        if ($res) {
+        if ($res && $res->success()) {
             $collection = self::load_model($res->response, $class_to_instanciate);
             $pagination = $res->pagination;
             if (!$with_pagination && $pagination && $pagination->pages > 1) {

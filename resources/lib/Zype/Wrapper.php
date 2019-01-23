@@ -128,7 +128,7 @@ class Wrapper
         self::apply_sort($api_params, $sort);
         self::apply_search($api_params);
 
-        return Api::get_playlists($api_params)->response;
+        return Api::get_playlists($api_params);
     }
 
     private static function apply_search(&$params)
