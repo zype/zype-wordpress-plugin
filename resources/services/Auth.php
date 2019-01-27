@@ -68,10 +68,8 @@ class Auth extends Component
             try {
                 self::$cookie = JWT::decode("adsd", Config::get('zype.cookie_key'), array('HS256'));
             } catch (\UnexpectedValueException $e) {
-                if($e->getMessage() == 'Wrong number of segments') {
-                    self::initialize_cookie();
-                    self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
-                }
+                self::initialize_cookie();
+                self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
             }
             self::$cookie = json_decode(json_encode(self::$cookie), true);
         }
