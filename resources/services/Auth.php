@@ -65,7 +65,12 @@ class Auth extends Component
     private static function decrypt_cookie()
     {
         if (self::$request->cookies->get('zype_wp')) {
-            self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
+            try {
+                self::$cookie = JWT::decode("adsd", Config::get('zype.cookie_key'), array('HS256'));
+            } catch (\UnexpectedValueException $e) {
+                self::initialize_cookie();
+                self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
+            }
             self::$cookie = json_decode(json_encode(self::$cookie), true);
         }
 
