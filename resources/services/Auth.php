@@ -66,7 +66,7 @@ class Auth extends Component
     {
         if (self::$request->cookies->get('zype_wp')) {
             try {
-                self::$cookie = JWT::decode("adsd", Config::get('zype.cookie_key'), array('HS256'));
+                self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
             } catch (\UnexpectedValueException $e) {
                 self::initialize_cookie();
                 self::$cookie = JWT::decode(self::$request->validateCookie('zype_wp', ['textfield']), Config::get('zype.cookie_key'), array('HS256'));
