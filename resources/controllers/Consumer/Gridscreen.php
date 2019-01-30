@@ -29,7 +29,6 @@ class Gridscreen extends Base
         $videos_count = $parent_playlist->playlist_item_count;
         $content = $this->get_content($parent_id, $pagination, $videos_count);
         $subcontent = [];
-        $type = $content[0]->type();
         if ($videos_count === 0 && is_array($content) && !$pagination) {
             foreach ($content as $playlist) {
                 $subcontent[$playlist->_id] = $this->get_content($playlist->_id, false, $playlist->playlist_item_count);
