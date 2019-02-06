@@ -111,4 +111,6 @@
     display: none;
 }
 
-
+.slider-list .slick-arrow {
+    width: auto
+}
