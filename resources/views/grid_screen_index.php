@@ -95,7 +95,7 @@
                                         <div class="slider_slide_first">
                                             <?php if (preg_match('/.*Playlist$/', $sub->type())): ?>
                                                 <!--$sub is a playlist-->
-                                                <a href="<?php echo get_permalink() . '?pagination=true&zype_parent=' . $sub->_id?>">
+                                                <a href="<?php echo get_permalink() . '?pagination=' . $playlist_pagination_enabled . '&zype_parent=' . $sub->_id?>">
                                                     <div class="zype-background-thumbnail"
                                                             style="background-image: url(<?php echo $background_image ?>);">
                                                     </div>
@@ -148,7 +148,7 @@
 
                     <div class="view_all_images zype-<?php echo $thumbnail_layout ?>">
                         <?php if (preg_match('/.*Playlist$/', $cont->type())): ?>
-                            <a href="<?php echo get_permalink() . '?pagination=true&zype_parent=' . $id?>">
+                            <a href="<?php echo get_permalink() . '?pagination=' . $playlist_pagination_enabled . '&zype_parent=' . $id?>">
                                 <div class="zype-background-thumbnail"
                                     style="background-image: url(<?php echo $background_image ?>);">
                                 </div>
