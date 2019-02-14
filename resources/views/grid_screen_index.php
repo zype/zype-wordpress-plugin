@@ -44,8 +44,9 @@
                                 </div>
                             </a>
 
-                            <div title="<?php echo $cont->title ?>"
-                                 class="item_title_block"><?php echo $cont->title ?></div>
+                            <div title="<?php echo $cont->title ?>" class="item_title_block">
+                                <?php echo $cont->title ?>
+                            </div>
                         </div>
                     <?php else: ?>
                         <!-- $cont is a playlist -->
