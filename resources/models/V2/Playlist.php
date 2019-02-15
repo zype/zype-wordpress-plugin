@@ -34,7 +34,9 @@ class Playlist extends Base
             ['q' => $video_id, 'playlist_id.inclusive' => $playlist_id],
             false, 'all', 'Zype\Api\Video', '\ZypeMedia\Models\V2\Video'
         );
-        $video_ids = array_column($videos, '_id');
+        $video_ids = array_map(function($video) {
+            return $video->_id;
+        }, $videos);
         return in_array($video_id, $video_ids);
     }
 
