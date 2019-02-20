@@ -114,8 +114,9 @@
                             </div>
                         <?php } else { ?>
                             <p>You do not currently have a subscription.</p>
-                            <p><a href="" class="zype_auth_markup zype-signin-button" data-type="plans">Click here to
-                                    subscribe.</a></p>
+                            <p>
+                                <a href="" class="zype_auth_markup zype-signin-button" data-type="plans" data-root-parent="<?php echo $id; ?>">Click here to subscribe.</a>
+                            </p>
 
                             <div class="player-auth-required zype-custom-modal">
                                 <i id="zype_video__auth-close" class="fa fa-3x fa-times"></i>
