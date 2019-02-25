@@ -71,7 +71,6 @@
         });
 
         $(document).on('click', id + ' .zype-signin-button', function() {
-            debugger
             $(id + ' #zype-modal-auth').show();
             $(id + ' #zype-modal-signup').hide();
             $(id + ' #zype-modal-forgot').hide();
