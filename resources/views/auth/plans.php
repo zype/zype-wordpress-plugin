@@ -1,5 +1,6 @@
 <?php
     $id = 'plans-' . (time() * rand(1, 1000000));
+    $continueId = empty($root_parent) ? $id : $root_parent . ' #' . $id;
 ?>
 
 <div id="<?php echo $id; ?>">
@@ -40,7 +41,7 @@
                                                 data-type="checkout"
                                                 data-planid="<?php echo esc_attr($plan->_id) ?>"
                                                 data-redirect-url="<?php echo esc_attr($redirect_url) ?>"
-                                                data-root-parent="<?php echo esc_attr($root_parent . ' #' . $id); ?>">
+                                                data-root-parent="<?php echo esc_attr($continueId); ?>">
                                                     <div class="zype-btn-container-plan zype-custom-button">Continue</div>
                                                 </a>
                                             </div>
