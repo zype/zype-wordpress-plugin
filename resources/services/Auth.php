@@ -167,7 +167,9 @@ class Auth extends Component
 
     public static function logout()
     {
-        self::initialize_cookie(true);
+        setcookie('zype_wp', null, strtotime('-1 day'), '/');
+        self::$request->cookies->set('zype_wp', null);
+        self::$cookie = null;
     }
 
     public static function get_email()
