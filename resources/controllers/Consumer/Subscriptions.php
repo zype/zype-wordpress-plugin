@@ -16,6 +16,11 @@ class Subscriptions extends Base
 
     public function plans()
     {
+        if (!\Auth::logged_in()) {
+            wp_redirect(home_url($this->options['auth_url']));
+            exit;
+        }
+
         $plans = [];
         $this->options = Config::get('zype');
         if (isset($this->options['subscribe_select'])) {
