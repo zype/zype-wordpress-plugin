@@ -4,6 +4,7 @@ namespace ZypeMedia\Services;
 
 use ZypeMedia\Models\V2\Consumer\VideoEntitlement;
 use ZypeMedia\Models\V2\Consumer\PlaylistEntitlement;
+use ZypeMedia\Models\V2\Account;
 
 class Access extends Component
 {
@@ -26,6 +27,7 @@ class Access extends Component
     {
         $user_id = (new \ZypeMedia\Services\Auth)->get_consumer_id();
         $transaction = (new \ZypeMedia\Models\Transaction);
+        $site = Account::find();
 
         $vm = new \ZypeMedia\Models\Video;
         $vm->find($video_id);
@@ -53,7 +55,7 @@ class Access extends Component
          *  No matter if rental_required or purchase_required are true, bc it could
          *  belong to a playlist where rental_required or purchase_required are true
         */
-        if (!$hasAccess || $video->rental_required || $video->purchase_required) {
+        if (!$hasAccess || $video->rental_required || $video->purchase_required || $site->playlist_bundle_enabled) {
             if ($this->check_entitlements($video_id, $playlist_id)) {
                 return true;
             }
