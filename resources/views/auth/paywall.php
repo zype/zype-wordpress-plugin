@@ -17,7 +17,9 @@
                                         <div class="zype-column-plans">
                                             <div class="zype-column-plan only-title">
                                                 <div class="zype-type-plan">Purchase</div>
-                                                <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
+                                                <div class="zype-title-plan">
+                                                    All  <?php echo $playlist_prop['playlist_item_count'] . ' ' .  $playlist_prop['name']; ?> videos
+                                                </div>
                                             </div>
                                             <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
@@ -69,7 +71,9 @@
                                         <div class="zype-column-plans">
                                             <div class="zype-column-plan only-title">
                                                 <div class="zype-type-plan">Rent</div>
-                                                <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
+                                                <div class="zype-title-plan">
+                                                    All  <?php echo $playlist_prop['playlist_item_count'] . ' ' .  $playlist_prop['name']; ?> videos
+                                                </div>
                                             </div>
                                             <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
