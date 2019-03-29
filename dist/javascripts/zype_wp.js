@@ -180,7 +180,7 @@ function ZypeWP(env) {
             zype_ajax_form.off();
             zype_ajax_form.ajaxForm({
                 beforeSubmit: function () {
-                    zype_ajax_form.find('button[type="submit"]').append('<i class="zype-spinner"></i>').prop('disabled', true);
+                    zype_ajax_form.find('button[type="submit"]').append('<div class="zype-spinner"></div>').prop('disabled', true);
                 },
                 dataType: "json",
                 success: function (response) {
@@ -262,11 +262,11 @@ function ZypeWP(env) {
                         jQuery('.zype-spinner').remove();
 
                         if (jQuery(this).hasClass('zype-button')) {
-                            jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                            jQuery(this).prop('disabled', true).append('<div class="zype-spinner"></div>');
                         }
 
                         if (jQuery(this).hasClass('zype-btn-price-plan')) {
-                            jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                            jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<div class="zype-spinner"></div>');
                         }
 
                         self.zypeAuthMarkupRequest(
@@ -300,11 +300,11 @@ function ZypeWP(env) {
                     jQuery('.zype-spinner').remove();
 
                     if (jQuery(this).hasClass('zype-button')) {
-                        jQuery(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                        jQuery(this).prop('disabled', true).append('<div class="zype-spinner"></div>');
                     }
 
                     if (jQuery(this).hasClass('zype-btn-price-plan')) {
-                        jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<i class="zype-spinner"></i>');
+                        jQuery(this).addClass('disabled').find('.zype-btn-container-plan').append('<div class="zype-spinner"></div>');
                     }
 
                     self.zypeCheckoutRequest(

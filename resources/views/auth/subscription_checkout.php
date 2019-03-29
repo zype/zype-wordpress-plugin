@@ -207,7 +207,7 @@
                 $(checkoutButtonSelector).click(function (e) {
                     e.preventDefault();
 
-                    $(this).append('<i class="zype-spinner"></i>');
+                    $(this).append('<div class="zype-spinner"></div>');
                     $(checkoutButtonSelector).prop('disabled', true);
 
                     if (ifFastPay && instance.isPaymentMethodRequestable() && !payloadNonce) {
@@ -277,7 +277,7 @@
                 e.preventDefault();
                 var stripeForm = $(this).closest('#payment-form').children('#stripe-form');
 
-                $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+                $(this).prop('disabled', true).append('<div class="zype-spinner"></div>');
 
                 var cardDate = stripeForm.find('.zype-card-date').val();
                 var cardNumber = stripeForm.find('.zype-card-number').val();

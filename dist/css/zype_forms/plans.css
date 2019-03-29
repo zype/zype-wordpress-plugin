@@ -24,6 +24,10 @@
     vertical-align: middle;
 }
 
+.plan-continue-button {
+    padding: 20px 10px;
+}
+
 .zype-price-table .purchase .only-title, .zype-price-table .rental .only-title{
     margin-top: auto;
 }

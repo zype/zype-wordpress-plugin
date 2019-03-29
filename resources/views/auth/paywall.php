@@ -19,7 +19,7 @@
                                                 <div class="zype-type-plan">Purchase</div>
                                                 <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
                                             </div>
-                                            <div class="zype-column-plan">
+                                            <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
                                                     $<?php echo $playlist_prop['price']; ?>
                                                 </div>
@@ -45,7 +45,7 @@
                                                 <div class="zype-type-plan">Purchase</div>
                                                 <div class="zype-title-plan">Video</div>
                                             </div>
-                                            <div class="zype-column-plan">
+                                            <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
                                                     $<?php echo $monetizations['purchase']['video']['price']; ?>
                                                 </div>
@@ -71,7 +71,7 @@
                                                 <div class="zype-type-plan">Rent</div>
                                                 <div class="zype-title-plan">Playlist Bundle: <?php echo $playlist_prop['name']; ?></div>
                                             </div>
-                                            <div class="zype-column-plan">
+                                            <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
                                                     $<?php echo "{$playlist_prop['price']} for {$playlist_prop['days']} "; ?>
                                                     <?php
@@ -103,7 +103,7 @@
                                                 <div class="zype-type-plan">Rent</div>
                                                 <div class="zype-title-plan">Video</div>
                                             </div>
-                                            <div class="zype-column-plan">
+                                            <div class="zype-column-plan plan-continue-button">
                                                 <div class="zype-price-holder">
                                                     $<?php echo "{$monetizations['rental']['video']['price']} for {$monetizations['rental']['video']['days']} "; ?>
                                                     <?php
@@ -132,13 +132,13 @@
                                     <section id="pass-plans-<?php echo $root_parent ?>">
                                         <?php foreach ($pass_plans as $plan) { ?>
                                             <div class="zype-column-plans">
-                                                <div class="zype-column-plan">
+                                                <div class="zype-column-plan plan-continue-button">
                                                     <div class="zype-type-plan">
                                                         Buy Pass
                                                     </div>
                                                     <div class="zype-title-plan"><?php echo $plan->name; ?></div>
                                                 </div>
-                                                <div class="zype-column-plan">
+                                                <div class="zype-column-plan plan-continue-button">
                                                     <div class="zype-price-holder">
                                                         $<?php echo $plan->amount, ' for ', $plan->duration_count; ?>
                                                         <?php
@@ -170,14 +170,14 @@
                                     <section id="subscription-plans-<?php echo $root_parent ?>">
                                         <?php foreach ($subscription_plans as $plan) { ?>
                                             <div class="zype-column-plans">
-                                                <div class="zype-column-plan">
+                                                <div class="zype-column-plan plan-continue-button">
                                                     <div class="zype-type-plan">
                                                         Subscribe
                                                     </div>
                                                     <div class="zype-title-plan"><?php echo $plan->name; ?></div>
                                                     <div class="zype-entitlement-type-plan"><?php echo ucfirst($plan->entitlement_type) . ' plan'; ?></div>
                                                 </div>
-                                                <div class="zype-column-plan">
+                                                <div class="zype-column-plan plan-continue-button">
                                                     <div class="zype-price-holder">
                                                         $<?php echo $plan->amount; ?>/
                                                         <?php if ($plan->interval_count > 1) {
