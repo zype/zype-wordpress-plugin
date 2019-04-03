@@ -183,7 +183,7 @@
             $('.request-error').text('');
             var stripeForm = $(this).closest('#change-credit-card-form').find('#stripe-form');
 
-            $(this).prop('disabled', true).append('<i class="zype-spinner"></i>');
+            $(this).prop('disabled', true).append('<div class="zype-spinner"></div>');
 
             var cardDate = stripeForm.find('.zype-card-date').val();
             var cardNumber = stripeForm.find('.zype-card-number').val();

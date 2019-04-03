@@ -53,7 +53,7 @@
 
       zypeAjaxForm.ajaxForm({
         beforeSubmit: function() {
-          $(zypeSubmitButtonFormPath).append('<i class="zype-spinner"></i>');
+          $(zypeSubmitButtonFormPath).append('<div class="zype-spinner"></div>');
           $(zypeErrorSectionFormPath).html("");
         },
         success: function(data) {

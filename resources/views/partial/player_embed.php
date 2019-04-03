@@ -39,7 +39,7 @@
                 <img class="placeholder" src="<?php echo $video->thumbnail_url; ?>">
         <?php endif ?>
             <?php if (\Auth::logged_in()): ?>
-                <?php if ($video->transaction_required) : ?>
+                <?php if (!$has_access_to_video) : ?>
                     <div class="overlay_player">
                         <div class="overlay-buttons">
                             <div class="overlay-title">Unlock to watch</div>

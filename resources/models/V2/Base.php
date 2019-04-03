@@ -38,12 +38,6 @@ class Base {
         }
     }
 
-    protected static function find($id)
-    {
-        $single = \Zype\Api\Playlist::retrieve($id);
-        return $single ? self::load_model($single->response) : false;
-    }
-
     /**
      * @param array|string $params, it could be: string, associative array or sequential array
      * if is a sequential array, it would be composed by a string (first element) and an associative array (second element)

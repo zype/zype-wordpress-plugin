@@ -2,6 +2,8 @@
 
 namespace ZypeMedia\Models;
 
+use ZypeMedia\Models\V2\Account;
+
 class Video extends Base
 {
     public $suppress_search = false;
@@ -21,7 +23,7 @@ class Video extends Base
         }
     }
 
-    public function require_authentication()
+    public function transaction_required()
     {
         return $this->single->subscription_required || $this->single->pass_required ||
         $this->single->rental_required || $this->single->purchase_required;
@@ -32,7 +34,7 @@ class Video extends Base
         $this->single->permalink = $this->generate_permalink($this->single);
         $this->single->thumbnail_url = $this->add_thumbnail_url($this->single);
         $this->single->excerpt = $this->add_excerpt($this->single);
-        $this->single->transaction_required = $this->require_authentication();
+        $this->single->transaction_required = $this->transaction_required();
     }
 
     private function generate_permalink($video)

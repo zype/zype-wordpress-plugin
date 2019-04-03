@@ -217,6 +217,7 @@ class Monetization extends Base
             'required' => $object->rental_required,
             'days' => $object->rental_duration,
             'price' => number_format($object->rental_price, 2),
+            'playlist_item_count' => isset($object->playlist_item_count) ? $object->playlist_item_count : null,
             'name' => $object->title,
             'id' => $object->_id
         ];
@@ -227,6 +228,7 @@ class Monetization extends Base
         return [
             'required' => $object->purchase_required,
             'price' => number_format($object->purchase_price, 2),
+            'playlist_item_count' => isset($object->playlist_item_count) ? $object->playlist_item_count : null,
             'name' => $object->title,
             'id' => $object->_id
         ];
