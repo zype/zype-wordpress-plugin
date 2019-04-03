@@ -29,6 +29,24 @@
         overflow: hidden;
         padding: 0 15px;
         transition: height .25s cubic-bezier(0.0, 0.0, 0.2, 1);
+        .video-preview-close-button-sandbox {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          color: #aaa;
+          font-weight: bold !important;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          line-height: 36px;
+          padding-left: 1px;
+          cursor: pointer;
+          -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease;
+        }
         h1 {
           margin: 0;
           font-size: 18px;

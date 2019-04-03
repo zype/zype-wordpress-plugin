@@ -361,6 +361,11 @@ if (!class_exists('Themosis')) {
             $modal_colors = $colors['modal'];
             $playlist_colors = $colors['playlist'];
             $price_table = $modal_colors['price-table'];
+            $buttons_css = [
+                'color' => $price_table['button']['text'],
+                'border-color' => $price_table['button']['border'],
+                'background-color' => $price_table['button']['background']
+            ];
             $css = array(
                 '#zype_video__auth-close, #zype_video__auth-close:hover' => [
                     'color' => $modal_colors['close-btn']
@@ -384,26 +389,10 @@ if (!class_exists('Themosis')) {
                 '.zype-price-holder' => [
                     'color' => $price_table['transaction']['price']
                 ],
-                'div.zype-form-center .zype-custom-button, .user-profile-wrap__button.zype-custom-button' => [
-                    'color' => $price_table['button']['text'],
-                    'border-color' => $price_table['button']['border'],
-                    'background-color' => $price_table['button']['background']
-                ],
-                'div.zype-form-center .zype-custom-button:hover, .user-profile-wrap__button.zype-custom-button:hover' => [
-                    'color' => $price_table['button']['text'],
-                    'border-color' => $price_table['button']['border'],
-                    'background-color' => $price_table['button']['background']
-                ],
-                'div.zype-form-center .zype-custom-button:focus, .user-profile-wrap__button.zype-custom-button:focus' => [
-                    'color' => $price_table['button']['text'],
-                    'border-color' => $price_table['button']['border'],
-                    'background-color' => $price_table['button']['background']
-                ],
-                '.zype-custom-button:hover' => [
-                    'color' => $price_table['button']['text'],
-                    'border-color' => $price_table['button']['border'],
-                    'background-color' => $price_table['button']['background']
-                ],
+                'div.zype-form-center .zype-custom-button, .play-trailer-button .zype-btn-container-plan, div.zype-form-center .zype-btn-container-plan, .user-profile-wrap__button.zype-custom-button' => $buttons_css,
+                'div.zype-form-center .zype-custom-button:hover, .play-trailer-button .zype-btn-container-plan:hover, div.zype-form-center .zype-btn-container-plan:hover, .user-profile-wrap__button.zype-custom-button:hover' => $buttons_css,
+                'div.zype-form-center .zype-custom-button:focus, .play-trailer-button .zype-btn-container-plan:focus, div.zype-form-center .zype-btn-container-plan:focus, .user-profile-wrap__button.zype-custom-button:focus' => $buttons_css,
+                '.zype-custom-button:hover' => $buttons_css,
                 // Playlist Custom UI
                 '.slick-arrow:before' => [
                     'color' => $playlist_colors['arrow']
