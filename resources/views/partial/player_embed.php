@@ -9,6 +9,7 @@
         $key = 'access_token=' . \Auth::get_access_token();
     }
     $video_url = $options['playerHost'] . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
+    $preview_video_url = $options['playerHost'] . '/embed/' . $video->preview_ids[0] . '.js?' . $key . '&autoplay=false';
 ?>
 
 <div>
@@ -43,7 +44,8 @@
                     <div class="overlay_player">
                         <div class="overlay-buttons">
                             <div class="overlay-title">Unlock to watch</div>
-                            <div class="white-button zype-signin-button">Let's go
+                            <div class="white-button zype-signin-button">
+                                Let's go
                             </div>
                         </div>
                     </div>
@@ -60,6 +62,12 @@
                 </div>
             <?php endif; ?>
         </div>
+        <?php if (count($video->preview_ids) === 1) : ?>
+            <div class="preview-video-player">
+                <div id="zype_<?php echo $video->preview_ids[0]; ?>"></div>
+                <script src="<?php echo $preview_video_url; ?>"></script>
+            </div>
+        <?php endif ?>
     <?php endif; ?>
 
     <div class="player-auth-required zype-custom-modal">
@@ -87,3 +95,37 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function($){
+        var videoIdSelector = "#zype-video-<?php echo $video->_id; ?>"
+        var rootParent = "#<?php echo $root_parent; ?>";
+        var playTrailerButtonSelector = rootParent + ' section.episode-main .head .play-trailer-button button';
+        var previewPlayerSelector = rootParent + ' .preview-video-player';
+        var videoPlayerSelector = rootParent + ' .zype_player_container';
+        var previewPlayButtonSelector = '.preview-video-player .vjs-play-control.vjs-control.vjs-button';
+        var previewVideoUrl = "<?php echo $preview_video_url; ?>";
+        var closePreviewButton = "<i class='fa fa-2x fa-times video-preview-close-button-sandbox'></i>";
+        var playingTrailer = false;
+        $(previewPlayerSelector).css('display', 'none');
+
+        // Listener for when the user open the trailer
+        $(document).on('click', playTrailerButtonSelector, function(e) {
+            if(playingTrailer) return;
+            playingTrailer = true;
+            $(previewPlayerSelector).css('display', 'block');
+            $(videoPlayerSelector).css('display', 'none');
+            $(rootParent + '.zype_video .zype_video__heading').append(closePreviewButton);
+            if(!($(previewPlayButtonSelector).hasClass('vjs-playing'))) $(previewPlayButtonSelector).click();
+        });
+
+        // Listener for when the user close the trailer
+        $(document).on('click', rootParent + '.zype_video .zype_video__heading .video-preview-close-button-sandbox', function(e) {
+            playingTrailer = false;
+            $(previewPlayerSelector).css('display', 'none');
+            $(videoPlayerSelector).css('display', 'block');
+            if($(previewPlayButtonSelector).hasClass('vjs-playing')) $(previewPlayButtonSelector).click();
+            $(rootParent + '.zype_video .zype_video__heading .video-preview-close-button-sandbox').remove();
+        });
+    })(jQuery);
+</script>

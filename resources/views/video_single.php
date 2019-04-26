@@ -38,6 +38,11 @@
         <section class="episode-main">
             <div class="head">
                 <h2><?php echo $video->title; ?></h2>
+                <?php if (count($video->preview_ids) === 1) : ?>
+                    <div class="play-trailer-button">
+                        <button class="zype-btn-container-plan" type="button">Play Trailer</button>
+                    </div>
+                <?php endif ?>
             </div>
             <div class="head">
                 <h5 class="duration-title">Duration <?php echo $duration ?></h5>
