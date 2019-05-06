@@ -9,7 +9,10 @@
         $key = 'access_token=' . \Auth::get_access_token();
     }
     $video_url = $options['playerHost'] . '/embed/' . $video->_id . '.js?' . $key . $auto_play_ . $audio_only_;
-    $preview_video_url = $options['playerHost'] . '/embed/' . $video->preview_ids[0] . '.js?' . $key . '&autoplay=false';
+    $preview_video_url = '';
+    if (count($video->preview_ids) === 1) {
+        $preview_video_url = $options['playerHost'] . '/embed/' . $video->preview_ids[0] . '.js?' . $key . '&autoplay=false';
+    }
 ?>
 
 <div>
