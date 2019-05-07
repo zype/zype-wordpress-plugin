@@ -17,8 +17,16 @@
 
 <div>
     <?php if ($has_access_to_video): ?>
-        <div id="zype_<?php echo $video->_id; ?>"></div>
-        <script src="<?php echo $video_url; ?>"></script>
+        <div class="video-player">
+            <div id="zype_<?php echo $video->_id; ?>"></div>
+            <script src="<?php echo $video_url; ?>"></script>
+        </div>
+        <?php if (count($video->preview_ids) === 1) : ?>
+            <div class="preview-video-player">
+                <div id="zype_<?php echo $video->preview_ids[0]; ?>"></div>
+                <script src="<?php echo $preview_video_url; ?>"></script>
+            </div>
+        <?php endif ?>
     <?php else: ?>
         <?php if ($audio_only): ?>
             <div
@@ -105,7 +113,10 @@
         var rootParent = "#<?php echo $root_parent; ?>";
         var playTrailerButtonSelector = rootParent + ' section.episode-main .head .play-trailer-button button';
         var previewPlayerSelector = rootParent + ' .preview-video-player';
-        var videoPlayerSelector = rootParent + ' .zype_player_container';
+
+        var videoPlayerSelect = rootParent + ' div.video-player';
+        var videoPlayButtonSelector = rootParent + ' div.video-player .vjs-play-control.vjs-control.vjs-button';
+        var videoUnlockSelector = rootParent + ' .zype_player_container';
         var previewPlayButtonSelector = '.preview-video-player .vjs-play-control.vjs-control.vjs-button';
         var previewVideoUrl = "<?php echo $preview_video_url; ?>";
         var closePreviewButton = "<i class='fa fa-2x fa-times video-preview-close-button-sandbox'></i>";
@@ -117,16 +128,20 @@
             if(playingTrailer) return;
             playingTrailer = true;
             $(previewPlayerSelector).css('display', 'block');
-            $(videoPlayerSelector).css('display', 'none');
+            $(videoUnlockSelector).css('display', 'none');
+            $(videoPlayerSelect).css('display', 'none');
             $(rootParent + '.zype_video .zype_video__heading').append(closePreviewButton);
             if(!($(previewPlayButtonSelector).hasClass('vjs-playing'))) $(previewPlayButtonSelector).click();
+            if(($(videoPlayButtonSelector).hasClass('vjs-playing'))) $(videoPlayButtonSelector).click();
+
         });
 
         // Listener for when the user close the trailer
         $(document).on('click', rootParent + '.zype_video .zype_video__heading .video-preview-close-button-sandbox', function(e) {
             playingTrailer = false;
             $(previewPlayerSelector).css('display', 'none');
-            $(videoPlayerSelector).css('display', 'block');
+            $(videoUnlockSelector).css('display', 'block');
+            $(videoPlayerSelect).css('display', 'block');
             if($(previewPlayButtonSelector).hasClass('vjs-playing')) $(previewPlayButtonSelector).click();
             $(rootParent + '.zype_video .zype_video__heading .video-preview-close-button-sandbox').remove();
         });
