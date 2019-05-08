@@ -33,6 +33,7 @@
     border-radius: 2px;
     display: inline-block;
     margin-left: 10px;
+    height: 100%;
 }
 
 .site-content .zype_video__wrapper + section.episode-main .head h2 {
