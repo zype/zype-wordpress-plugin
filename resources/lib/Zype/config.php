@@ -64,6 +64,7 @@ $options = array(
     ],
     'livestream_authentication_required' => false,
     'cache_time' => 600,
+    'last_transaction_created_at' => 0,
     'app_key' => '',
     'embed_key' => '',
     'endpoint' => '',

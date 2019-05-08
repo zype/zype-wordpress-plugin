@@ -48,6 +48,9 @@ class Transaction extends Base
 
         $new_transaction = \Zype::create_transaction($transaction, $provider);
 
+        $this->options['last_transaction_created_at'] = current_time('timestamp');
+        update_option('zype_wp', $this->options);
+
         return $new_transaction;
     }
 

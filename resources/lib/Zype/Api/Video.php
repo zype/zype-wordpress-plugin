@@ -14,6 +14,7 @@ class Video extends \Api
     public static function entitled($id, $access_token)
     {
         $path = self::get_path($id) . '/entitled';
-        return parent::request("GET", $path, ['access_token' => $access_token], false, true);
+        $cache = (current_time('timestamp') - self::$options['last_transaction_created_at']) > self::$options['cache_time'];
+        return parent::request("GET", $path, ['access_token' => $access_token], false, $cache);
     }
 }

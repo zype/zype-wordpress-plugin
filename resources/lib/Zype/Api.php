@@ -5,9 +5,9 @@ class Api
 
     private static $authBaseEndpoint;
     private static $resourceBaseEndpoint;
-    private static $options;
     private static $response;
     private static $body;
+    protected static $options;
 
     /**
      * Api options.
