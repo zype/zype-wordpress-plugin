@@ -5,6 +5,7 @@ namespace ZypeMedia\Services;
 use ZypeMedia\Models\V2\Consumer\VideoEntitlement;
 use ZypeMedia\Models\V2\Consumer\PlaylistEntitlement;
 use ZypeMedia\Models\V2\Account;
+use ZypeMedia\Models\V2\Playlist;
 
 class Access extends Component
 {
@@ -55,8 +56,8 @@ class Access extends Component
          *  No matter if rental_required or purchase_required are true, bc it could
          *  belong to a playlist where rental_required or purchase_required are true
         */
-        if (!$hasAccess || $video->rental_required || $video->purchase_required || $site->playlist_bundle_enabled) {
-            if ($this->check_entitlements($video_id, $playlist_id)) {
+        if (!$hasAccess || $this->should_check_entitlements($video, $site->playlist_bundle_enabled)) {
+            if ($this->is_allowed_to_watch($video_id, $playlist_id)) {
                 return true;
             }
             else {
@@ -66,7 +67,26 @@ class Access extends Component
         return $hasAccess;
     }
 
-    private function check_entitlements($video_id, $playlist_id)
+    // If the site has enabled playlist_bundle_enabled,
+    // we should check if the playlist has monetization options ON
+    private function should_check_entitlements($video, $playlist_bundle_enabled) {
+        return $video->rental_required || $video->purchase_required ||
+            ($playlist_bundle_enabled && $this->playlist_monetization_required($video->_id));
+    }
+
+    private function playlist_monetization_required($video_id)
+    {
+        $playlists = Playlist::all(['video_id' => $video_id], false);
+        $rental_playlists = array_filter($playlists, function ($playlist) {
+            return $playlist->rental_required;
+        });
+        $purchase_playlists  = array_filter($playlists, function ($playlist) {
+            return $playlist->purchase_required;
+        });
+        return count($rental_playlists) + count($purchase_playlists);
+    }
+
+    private function is_allowed_to_watch($video_id, $playlist_id)
     {
         $za = new \ZypeMedia\Services\Auth;
         $access_token = $za->get_access_token();

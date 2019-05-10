@@ -15,6 +15,6 @@ class Account extends \Api
     {
         $options = Config::get('zype');
         $path = self::get_path() . '.' . $format;
-        return self::request("GET", $path, ['api_key' => $options['admin_key']], false, true);
+        return self::request("GET", $path, ['api_key' => $options['admin_key']], false, false);
     }
 }
