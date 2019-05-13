@@ -370,7 +370,7 @@ if (!class_exists('Themosis')) {
                 '#zype_video__auth-close, #zype_video__auth-close:hover' => [
                     'color' => $modal_colors['close-btn']
                 ],
-                '.site-content .zype-custom-modal' => [
+                'body .zype-custom-modal' => [
                     'background-color' => $modal_colors['background']
                 ],
                 '.zype-column-plans' => [

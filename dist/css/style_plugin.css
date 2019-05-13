@@ -301,14 +301,14 @@ body:not(.twentyseventeen-front-page) .entry-content {
     justify-content: start;
 }
 
-.site-content .player-auth-required {
+body .player-auth-required {
     overflow: auto;
 }
 
-.site-content .player-auth-required,
-.site-content .player-signup-required,
-.site-content .subscribe-button,
-.site-content .my-library-sign-in-button {
+body .player-auth-required,
+body .player-signup-required,
+body .subscribe-button,
+body .my-library-sign-in-button {
     position: fixed;
     top: 0;
     left: 0;
@@ -319,13 +319,13 @@ body:not(.twentyseventeen-front-page) .entry-content {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 1000000;
     display: none;
 }
 
-.site-content .player-auth-required-content,
-.site-content .subscribe-button-content,
-.site-content .my-library-sign-in-button-content {
+body .player-auth-required-content,
+body .subscribe-button-content,
+body .my-library-sign-in-button-content {
     max-width: 650px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
     padding: 25px 20px;
@@ -341,8 +341,8 @@ body:not(.twentyseventeen-front-page) .entry-content {
 
 
 
-.site-content .zype_player_container .player-auth-required-content h3
-.site-content .subscribe-button-content h3 {
+body .zype_player_container .player-auth-required-content h3
+body .subscribe-button-content h3 {
     font-size: 24px;
     line-height: 28px;
     margin: 0 0 9px;
@@ -352,13 +352,13 @@ body:not(.twentyseventeen-front-page) .entry-content {
     padding-top: 0;
 }
 
-.site-content .zype_player_container .player-auth-required-content .login-sub-section,
-.site-content .subscribe-button-content .login-sub-section, {
+body .zype_player_container .player-auth-required-content .login-sub-section,
+body .subscribe-button-content .login-sub-section, {
     text-align: center;
 }
 
 
-.site-content .player-auth-required-content h1 {
+body .player-auth-required-content h1 {
     font-weight: 900;
 }
 
@@ -644,9 +644,9 @@ select.form-control {
 }
 
 @media(max-width: 414px) {
-    .site-content .zype_player_container .player-auth-required,
-    .site-content .subscribe-button,
-    .site-content .my-library-sign-in-button {
+    body .zype_player_container .player-auth-required,
+    body .subscribe-button,
+    body .my-library-sign-in-button {
         background-color: #fff;
     }
 }

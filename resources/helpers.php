@@ -667,17 +667,6 @@ function zype_search_and_sort_querystring()
     return $querystring;
 }
 
-function current_menu_item($classes = [], $item = false)
-{
-    $current_url = trailingslashit(get_site_url(null, filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING)));
-    if (strstr($current_url, $item->url)) {
-        $classes[] = 'current-menu-item';
-    }
-    return $classes;
-}
-
-add_filter('nav_menu_css_class', 'current_menu_item', 10, 2);
-
 function zype_wp_enqueue_scripts()
 {
     wp_enqueue_script('jquery');
