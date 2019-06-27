@@ -82,7 +82,7 @@
         </div>
     </div>
 </div>
-<?php get_footer(); ?>
+
 
 <script>
     function mask() {
@@ -211,3 +211,5 @@
         }
     });
 </script>
+
+<?php get_footer(); ?>

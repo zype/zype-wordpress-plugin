@@ -218,58 +218,16 @@ class HooksService extends ServiceProvider
 
     public function update_password()
     {
-        $za = new Auth;
-        $consumer_id = $za->get_consumer_id();
-        $access_token = $za->get_access_token();
-        $email = $za->get_email();
-
-        $updated = false;
-        $auth = false;
-        $new_password = false;
-
         $current_password = $this->request->validate('current_password', ['textfield']);
-        if ($current_password) {
-            $auth = (new Auth)->login($email, $current_password);
-        }
-
         $new_password_raw = $this->request->validate('new_password', ['textfield']);
         $new_password_confirmation_raw = $this->request->validate('new_password_confirmation', ['textfield']);
-        if ($auth && $new_password_raw && $new_password_confirmation_raw) {
-            $new_password = $this->validate_password($new_password_raw, $new_password_confirmation_raw);
-            $access_token = $za->get_access_token();
-        }
-
-        if ($auth && $new_password) {
-            $fields['password'] = $new_password;
-            $updated = \Zype::update_consumer($consumer_id, $access_token, $fields);
-        }
-
-        wp_redirect(home_url($this->options['profile_url'] . "/change-password"));
-        exit;
-    }
-
-    private function validate_password($password, $password_confirmation)
-    {
-        $password = filter_var($password, FILTER_SANITIZE_STRING);
-        $password_confirmation = filter_var($password_confirmation, FILTER_SANITIZE_STRING);
-
-        if ($password != $password_confirmation) {
-            return false;
-        }
-        if (strlen($password) < 8) {
-            return false;
-        }
-        if (!preg_match('/[A-Z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[a-z]/', $password)) {
-            return false;
-        }
-        if (!preg_match('/[0-9]/', $password)) {
-            return false;
-        }
-
-        return $password;
+        $errors = (new Consumer\Auth())->update_password($current_password, $new_password_raw, $new_password_confirmation_raw);
+        echo json_encode(
+            array(
+                'errors' => $errors,
+            )
+        );
+        exit();
     }
 
     public function authorize_from_widget()

@@ -154,11 +154,13 @@ class Auth extends Base
 
         if ($this->request->get('email') && $this->request->get('password') && $this->request->get('name')) {
             $confirmPassword = $this->request->validate('confirm_password', ['textfield']) ?: $this->request->validate('password', ['textfield']);
-
-            if ($this->validate_password($this->request->validate('password', ['textfield']), $confirmPassword)) {
+            $password = $this->request->validate('password', ['textfield']);
+            $password_validation = $this->validate_password($password, $confirmPassword);
+            $errors = $password_validation['errors'];
+            if (count($errors) == 0) {
                 $name = $this->request->validate('name', ['textfield']);
                 $email = $this->request->validate('email', ['email']);
-                $password = $this->request->validate('password', ['textfield']);
+                $password = $password_validation['password'];
 
                 $response = \Zype::create_consumer([
                     'email' => $email,
@@ -191,11 +193,8 @@ class Auth extends Base
                         $this->form_message = zype_flash_message('times', $message);
                 }
             } else {
-                $message = 'Your password must be at least 8 characters.';
-                if ($ajax)
-                    $errors[] = $message;
-                else
-                    $this->form_message = zype_flash_message('times', $message);
+                $messages = join($errors, "\n");;
+                $this->form_message = zype_flash_message('times', $messages);
             }
         } else {
             $message = 'Please fill out all required fields.';
@@ -215,20 +214,69 @@ class Auth extends Base
         }
     }
 
+    public function update_password($current_password, $new_password_raw, $new_password_confirmation_raw)
+    {
+        $za = new \ZypeMedia\Services\Auth;
+        $consumer_id = $za->get_consumer_id();
+        $access_token = $za->get_access_token();
+        $email = $za->get_email();
+        $errors = [];
+
+        $updated = false;
+        $auth = false;
+        $new_password = false;
+
+        if ($current_password) {
+            $auth = (new \ZypeMedia\Services\Auth)->login($email, $current_password);
+        }
+
+        if (!$auth) {
+            array_push($errors, 'The current password is invalid');
+        }
+        else if ($new_password_raw && $new_password_confirmation_raw) {
+            $password_validation = $this->validate_password($new_password_raw, $new_password_confirmation_raw);
+            $new_password = $password_validation['password'];
+            $errors = $password_validation['errors'];
+            $access_token = $za->get_access_token();
+
+            if(count($errors) == 0) {
+                $fields['password'] = $new_password;
+                $updated = \Zype::update_consumer($consumer_id, $access_token, $fields);
+            }
+        }
+        else {
+            array_push($errors, 'Some inputs are missing');
+        }
+
+        return $errors;
+    }
+
     private function validate_password($password, $password_confirmation)
     {
         $password = filter_var($password, FILTER_SANITIZE_STRING);
         $password_confirmation = filter_var($password_confirmation, FILTER_SANITIZE_STRING);
+        $errors = [];
 
         if ($password != $password_confirmation) {
-            return false;
+            array_push($errors, 'The passwords don\'t match');
+        }
+        if (strlen($password) < 8) {
+            array_push($errors, 'Your password must be at least 8 characters');
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            array_push($errors, 'Your password must include an uppercase letter');
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            array_push($errors, 'Your password must include a lowercase letter');
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            array_push($errors, 'Your password must include a number');
         }
 
-        if (mb_strlen($password) < 8) {
-            return false;
-        }
-
-        return $password;
+        return [
+            "errors" => $errors,
+            "password" => $password
+        ];
     }
 
     public function signup_submit_ajax()

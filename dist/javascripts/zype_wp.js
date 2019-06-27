@@ -195,7 +195,7 @@ function ZypeWP(env) {
                     } else {
                         zype_ajax_form.find('button[type="submit"]').prop('disabled', false);
                         if (response.errors) {
-                            zype_ajax_form.find('.error-section').html(response.errors.join(","));
+                            zype_ajax_form.find('.error-section').html(response.errors.join("<br>"));
                             self.initZypeAjaxMarkup();
                             self.initZypeAjaxMonetization();
                         } else {

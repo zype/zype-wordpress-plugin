@@ -48,10 +48,13 @@
                 </div>
                 <div class="user-profile-wrap__block">
                     <form action="<?php echo admin_url('admin-ajax.php'); ?>" class="user-form nice-form validate-form"
-                          method="post">
+                          method="post" id="change-password-form">
                         <input type="hidden" name="action" value="zype_update_password">
                         <div class="success-section"></div>
                         <div class="error-section"></div>
+                        <div class="password-note user-profile-wrap__note">
+                            Must contain at least 8 characters including a number, an uppercase letter, and a lowercase letter.
+                        </div>
                         <div class="field-section">
                             <div class="zype_flash_messages"></div>
                             <div class="form-group user-profile-wrap__field">
@@ -62,14 +65,13 @@
                                 <input type="password" class="form-control user-profile-wrap__inp" id="n-password"
                                        name="new_password" placeholder="New password">
                             </div>
-                            <div class="password-note user-profile-wrap__note">Must contain at least 8 characters
-                                including a number, an uppercase letter, and a lowercase letter.
-                            </div>
                             <div class="form-group user-profile-wrap__field">
                                 <input type="password" class="form-control user-profile-wrap__inp" id="cn-password"
                                        name="new_password_confirmation" placeholder="Confirm new password">
                             </div>
-                            <input type="submit" class="btn btn-primary user-profile-wrap__button zype-custom-button" value="Submit">
+                            <button type="submit" class="btn btn-primary user-profile-wrap__button zype-custom-button">
+                                Submit
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -77,4 +79,43 @@
         </div>
     </div>
 </div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        var zypeAjaxFormPath = "form#change-password-form";
+        var zypeErrorSectionFormPath = [zypeAjaxFormPath, ".error-section"].join(' ');
+        var zypeSuccessSectionFormPath = [zypeAjaxFormPath, ".success-section"].join(' ');
+        var zypeSubmitButtonFormPath = [zypeAjaxFormPath, ".zype-custom-button"].join(' ');
+        var zypeSpinnerFormPath      = [zypeAjaxFormPath, ".zype-spinner"].join(' ');
+
+        var zypeCurrentPasswordInput = [zypeAjaxFormPath, "#c-password"].join(' ');
+        var zypeNewPasswordInput = [zypeAjaxFormPath, "#n-password"].join(' ');
+        var zypeConfirmNewPasswordInput = [zypeAjaxFormPath, "#cn-password"].join(' ');
+
+        var zypeAjaxForm = $(zypeAjaxFormPath);
+
+        zypeAjaxForm.ajaxForm({
+            beforeSubmit: function() {
+                $(zypeSubmitButtonFormPath).attr('disabled', true);
+                $(zypeSubmitButtonFormPath).append('<div class="zype-spinner"></div>');
+                $(zypeErrorSectionFormPath).html("");
+                $(zypeSuccessSectionFormPath).html("");
+            },
+            success: function(data) {
+                $(zypeSpinnerFormPath).remove();
+                $(zypeSubmitButtonFormPath).attr('disabled', false);
+                data = $.parseJSON(data);
+                if (data.errors.length > 0) {
+                    $(zypeErrorSectionFormPath).html(data.errors.join("<br>"));
+                } else {
+                    $(zypeSuccessSectionFormPath).html('Password changed successfully');
+                    $(zypeCurrentPasswordInput).val('');
+                    $(zypeNewPasswordInput).val('');
+                    $(zypeConfirmNewPasswordInput).val('');
+                }
+            }
+        })
+    })
+</script>
+
 <?php get_footer(); ?>
