@@ -82,7 +82,7 @@
           } else {
             $(zypeAjaxFormPath).find('button[type="submit"]').prop('disabled', false);
             if (data.errors) {
-              $(zypeErrorSectionFormPath).html(data.errors.join(","));
+              $(zypeErrorSectionFormPath).html(data.errors.join("<br>"));
             } else {
               $(zypeErrorSectionFormPath).html('Something went wrong...');
             }
