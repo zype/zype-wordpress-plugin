@@ -14,6 +14,7 @@ class Subscriptions extends Base
         $this->form_message = null;
     }
 
+    # This one is only call when accessing /subscribe
     public function plans()
     {
         if (!\Auth::logged_in()) {
@@ -43,6 +44,7 @@ class Subscriptions extends Base
         exit();
     }
 
+    # This one is only call when accessing profile/subscription/
     public function plansView($root_parent, $redirect_url = null)
     {
         $stripe_pk = Config::get('zype.stripe_pk');
