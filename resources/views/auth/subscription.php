@@ -147,7 +147,6 @@
         var form_id;
         var handler = StripeCheckout.configure({
             key: '<?php echo $zd['stripe_pk']; ?>',
-            image: '<?php echo site_url(); ?>/mstile-70x70.png',
             token: function (token) {
                 $(form_id + ' input[name="email"]').val(token.email);
                 $(form_id + ' input[name="stripe_card_token"]').val(token.id);
