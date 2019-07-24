@@ -9,10 +9,10 @@ class Braintree extends Component
     {
         parent::__construct();
 
-        \Braintree_Configuration::environment($this->options['braintree_environment']);
-        \Braintree_Configuration::merchantId($this->options['braintree_merchant_id']);
-        \Braintree_Configuration::publicKey($this->options['braintree_public_key']);
-        \Braintree_Configuration::privateKey($this->options['braintree_private_key']);
+        \Braintree_Configuration::environment(self::$options['braintree_environment']);
+        \Braintree_Configuration::merchantId(self::$options['braintree_merchant_id']);
+        \Braintree_Configuration::publicKey(self::$options['braintree_public_key']);
+        \Braintree_Configuration::privateKey(self::$options['braintree_private_key']);
     }
 
     public function generateBraintreeToken($customerId = null)
@@ -22,11 +22,7 @@ class Braintree extends Component
         $params = [];
 
         try {
-            if ($customerId) {
-                \Braintree_Customer::find($customerId);
-                $params['customerId'] = $customerId;
-            }
-
+            $params['customerId'] = $customerId;
             $braintree_token = \Braintree_ClientToken::generate($params);
         } catch (\Braintree_Exception_NotFound $e) {
             return false;

@@ -6,8 +6,14 @@ class Consumer extends Base
 {
     public static function find($id)
     {
-        $single = \Zype::get_consumer($id);
-        return $single ? self::load_model($single) : false;
+        $single = \Zype\Api\Consumer::retrieve($id);
+        return $single ? self::load_model($single->response) : false;
+    }
+
+    public static function get_braintree_customer($id)
+    {
+        $single = \Zype\Api\Consumer::braintree($id);
+        return $single;
     }
 
     public function global_subscriptions_count()
