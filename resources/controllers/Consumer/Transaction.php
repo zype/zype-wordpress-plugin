@@ -77,10 +77,14 @@ class Transaction extends Base
                     $mailer = new \ZypeMedia\Services\Mailer;
                     $object = $this->get_object($form['object_id'], $form['object_type']);
                     $mail_res = $mailer->new_transaction($consumer->email, $form['transaction_type'], ['object_title' => $object->title]);
+                    $transaction_msg = $this->transaction_message($transaction->data->response, $object);
 
                     $za->sync_cookie();
 
-                    $data['success'] = true;
+                    $data = [
+                        'success' => true,
+                        'message' => $transaction_msg
+                    ];
                 } else {
                     $data['errors']['cannot'] = 'The purchase could not be completed. Please try again later.';
                     $data['success'] = false;
@@ -110,5 +114,22 @@ class Transaction extends Base
             $object = \ZypeMedia\Models\V2\Playlist::find($object_id);
         }
         return $object;
+    }
+
+    private function transaction_message($transaction, $object)
+    {
+        $amount = \Money::format($transaction->amount, $transaction->currency);
+        $msg = '';
+        if($transaction->transaction_type == \ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN) {
+            $msg = "You have purchased a Pass Plan for {$amount}.";
+        }
+        elseif($transaction->transaction_type == \ZypeMedia\Controllers\Consumer\Monetization::PURCHASE) {
+            $msg = "You have purchased {$object->title} for {$amount}.";
+        }
+        else {
+            $msg = "You have rented {$object->title} for {$amount} for {$object->rental_duration} days.";
+        }
+
+        return $msg;
     }
 }

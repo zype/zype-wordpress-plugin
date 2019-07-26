@@ -76,7 +76,7 @@ class ViewServiceProvider extends ServiceProvider
 
     /**
      * Register the Twig engine to the EngineResolver.
-     * 
+     *
      * @param string         $engine
      * @param EngineResolver $resolver
      */
@@ -119,6 +119,7 @@ class ViewServiceProvider extends ServiceProvider
         // Check if debug constant exists and set to true.
         if (defined('WP_DEBUG') && WP_DEBUG) {
             $container['twig']->enableDebug();
+
         }
 
         // Provides WordPress functions and more to Twig templates.
