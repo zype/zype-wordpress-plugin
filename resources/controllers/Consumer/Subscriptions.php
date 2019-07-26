@@ -230,9 +230,13 @@ class Subscriptions extends Base
                     $mailer = new \ZypeMedia\Services\Mailer;
                     $mail_res = $mailer->new_subscription($consumer->email);
 
+                    $subscription_msg = $this->subscription_message($new_sub->data->response, $plan);
                     $za->sync_cookie();
 
-                    $data['success'] = true;
+                    $data = [
+                        'success' => true,
+                        'message' => $subscription_msg
+                    ];
                 } else {
                     $messageError = $new_sub->getMessage();
                     $description = $messageError['description']?: 'The purchase could not be completed. Please try again later.';
@@ -251,5 +255,42 @@ class Subscriptions extends Base
         echo json_encode($data);
 
         exit();
+    }
+
+    private function subscription_message($subscription, $plan)
+    {
+        $msg = [];
+        $currency_formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $plan_amount = $currency_formatter->formatCurrency($plan->amount, $plan->currency);
+        if($plan->interval_count > 1) {
+            array_push($msg, "You have subscribed to {$plan->name} for {$plan_amount} per {$plan->interval_count} {{str_plural($plan->interval)}}.");
+        }
+        else {
+            array_push($msg, "You have subscribed to {$plan->name} for {$plan_amount} per {$plan->interval}.");
+        }
+
+        if($plan->trial_period_days > 0) {
+            array_push($msg, "Your trial period will last for {$plan->trial_period_days} days.");
+        }
+        if($subscription->coupon_code) {
+            if($subscription->discount_amount) {
+                $coupon_value = $currency_formatter->formatCurrency($subscription->discount_amount / 100, $plan->currency);
+            }
+            else {
+                $coupon_value = "{$subscription->discount_percent}%";
+            }
+            # Coupon duration can be: once, forever, or repeating
+            if($subscription->discount_duration == 'forever') {
+                $time = 'for every payments';
+            }
+            elseif($subscription->discount_duration == 'repeating') {
+                $time = "on the first {$subscription->discount_duration_months} months";
+            }
+            else {
+                $time = 'on your first payment';
+            }
+            array_push($msg, "You applied a coupon code for {$coupon_value} discount {$time}.");
+        }
+        return join('<br>', $msg);
     }
 }
