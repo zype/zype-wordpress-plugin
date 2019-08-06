@@ -324,19 +324,29 @@ class Profile extends Base
 
         $subscription_id = $this->request->validate('subscription_id', ['textfield']);
         $new_plan_id = $this->request->validate('new_plan_id', ['textfield']);
+        $new_plan = Plan::find($new_plan_id);
         $res = false;
 
+        $new_plan_type = empty($new_plan->stripe_id) && !empty($new_plan->braintree_id) ? 'Braintree' : 'Stripe';
+        $current_plan_type = empty($subscription->stripe_id) && !empty($subscription->braintree_id) ? 'Braintree' : 'Stripe';
+
         if ($subscription && $subscription_id && ($subscription->_id == $subscription_id)) {
-            $res = \Zype::change_subscription($subscription->_id, [
-                'plan_id' => $new_plan_id
-            ]);
+            if($new_plan_type == $current_plan_type) {
+                $res = \Zype::change_subscription($subscription->_id, [
+                    'plan_id' => $new_plan_id
+                ]);
+            }
+            else {
+                $error = "In order to update your subscription to the plan you currently have selected, you must cancel your current subscription first.";
+            }
         }
 
         if ($res) {
             $za->sync_cookie();
             zype_flash_message('success', 'Your subscription has been successfully updated.');
         } else {
-            zype_flash_message('error', 'An error has occured. Please try again.');
+            $error = $error?: 'An error has occured. Please try again.';
+            zype_flash_message('error', $error);
         }
         wp_redirect(get_zype_url('profile') . '/subscription/');
         die();
