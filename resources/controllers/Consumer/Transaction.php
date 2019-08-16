@@ -118,8 +118,7 @@ class Transaction extends Base
 
     private function transaction_message($transaction, $object)
     {
-        $currency_formatter = new \NumberFormatter('en-US', \NumberFormatter::CURRENCY);
-        $amount = $currency_formatter->formatCurrency($transaction->amount, $transaction->currency);
+        $amount = \Money::format($transaction->amount, $transaction->currency);
         $msg = '';
         if($transaction->transaction_type == \ZypeMedia\Controllers\Consumer\Monetization::PASS_PLAN) {
             $msg = "You have purchased a Pass Plan for {$amount}.";

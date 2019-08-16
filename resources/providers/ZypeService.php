@@ -21,6 +21,8 @@ class ZypeService extends ServiceProvider
             throw new \Exception('Not found library Zype');
         }
 
+        require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Money.php');
+
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/ApiOperations/Create.php');
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/ApiOperations/Retrieve.php');
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/ApiOperations/Update.php');
