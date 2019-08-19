@@ -260,8 +260,7 @@ class Subscriptions extends Base
     private function subscription_message($subscription, $plan)
     {
         $msg = [];
-        $currency_formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $plan_amount = $currency_formatter->formatCurrency($plan->amount, $plan->currency);
+        $plan_amount = \Money::format($plan->amount, $transaction->currency);
         if($plan->interval_count > 1) {
             array_push($msg, "You have subscribed to {$plan->name} for {$plan_amount} per {$plan->interval_count} {{str_plural($plan->interval)}}.");
         }
@@ -274,7 +273,7 @@ class Subscriptions extends Base
         }
         if($subscription->coupon_code) {
             if($subscription->discount_amount) {
-                $coupon_value = $currency_formatter->formatCurrency($subscription->discount_amount / 100, $plan->currency);
+                $coupon_value = \Money::format($subscription->discount_amount / 100, $plan->currency);
             }
             else {
                 $coupon_value = "{$subscription->discount_percent}%";
