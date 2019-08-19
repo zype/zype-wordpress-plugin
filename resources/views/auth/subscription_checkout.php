@@ -325,7 +325,7 @@
             if (data.success) {
                 jQuery(titleSelector).text('Thanks for your payment!');
                 var description = payment_msg(data);
-                $(paymentRowSelector).html(description);
+                jQuery(paymentRowSelector).html(description);
             }
             jQuery(checkoutButtonSelector).prop('disabled', false);
             jQuery(spinnerSelector).remove();
