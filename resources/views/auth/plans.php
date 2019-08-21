@@ -28,7 +28,7 @@
                                             </div>
                                             <div class="zype-column-plan">
                                                 <div class="zype-price-holder">
-                                                    $<?php echo $plan->amount; ?>/
+                                                    <?php echo \Money::format($plan->amount, $plan->currency); ?>/
                                                     <?php if ($plan->interval_count > 1) {
                                                         echo $plan->interval_count . ' ';
                                                     } ?>

@@ -67,7 +67,7 @@ class Money
             'IDR' => array(NULL,2,',','.',0),          //  Indonesia, Rupiah
             'IRR' => array(NULL,2,'.',',',0),          //  Iranian Rial
             'JMD' => array(NULL,2,'.',',',0),          //  Jamaican Dollar
-            'JPY' => array('¥',0,'',',',0),        //  Japan, Yen
+            'JPY' => array('¥',0,'',',',0),            //  Japan, Yen
             'JOD' => array(NULL,3,'.',',',0),          //  Jordanian Dinar
             'KES' => array(NULL,2,'.',',',0),          //  Kenyan Shilling
             'KWD' => array(NULL,3,'.',',',0),          //  Kuwaiti Dinar
@@ -82,7 +82,7 @@ class Money
             'MZM' => array(NULL,2,',','.',0),          //  Mozambique Metical
             'NPR' => array(NULL,2,'.',',',0),          //  Nepalese Rupee
             'ANG' => array(NULL,2,'.',',',0),          //  Netherlands Antillian Guilder
-            'ILS' => array('₪',2,'.',',',0),     //  New Israeli Shekel ₪
+            'ILS' => array('₪',2,'.',',',0),           //  New Israeli Shekel ₪
             'TRY' => array(NULL,2,'.',',',0),          //  New Turkish Lira
             'NZD' => array('NZ$',2,'.',',',0),         //  New Zealand Dollar
             'NOK' => array('kr',2,',','.',1),          //  Norwegian Krone
@@ -91,7 +91,7 @@ class Money
             'UYU' => array(NULL,2,',','.',0),          //  Peso Uruguayo
             'PHP' => array(NULL,2,'.',',',0),          //  Philippine Peso
             'PLN' => array(NULL,2,'.',' ',0),          //  Poland, Zloty
-            'GBP' => array('£',2,'.',',',0),     //  Pound Sterling
+            'GBP' => array('£',2,'.',',',0),           //  Pound Sterling
             'OMR' => array(NULL,3,'.',',',0),          //  Rial Omani
             'RON' => array(NULL,2,',','.',0),          //  Romania, New Leu
             'ROL' => array(NULL,2,',','.',0),          //  Romania, Old Leu
@@ -101,21 +101,21 @@ class Money
             'SKK' => array(NULL,2,',',' ',0),          //  Slovak Koruna
             'SIT' => array(NULL,2,',','.',0),          //  Slovenia, Tolar
             'ZAR' => array('R',2,'.',' ',0),           //  South Africa, Rand
-            'KRW' => array('₩',0,'',',',0),      //  South Korea, Won ₩
+            'KRW' => array('₩',0,'',',',0),            //  South Korea, Won ₩
             'SZL' => array(NULL,2,'.',', ',0),         //  Swaziland, Lilangeni
             'SEK' => array('kr',2,',','.',1),          //  Swedish Krona
             'CHF' => array('SFr ',2,'.','\'',0),       //  Swiss Franc
             'TWD' => ['NT$',2,'.',',',0],              //  Taiwan Dollar
             'TZS' => array(NULL,2,'.',',',0),          //  Tanzanian Shilling
-            'THB' => array('฿',2,'.',',',1),     //  Thailand, Baht ฿
+            'THB' => array('฿',2,'.',',',1),           //  Thailand, Baht ฿
             'TOP' => array(NULL,2,'.',',',0),          //  Tonga, Paanga
-            'AED' => array(NULL,2,'.',',',0),          //  UAE Dirham
+            'AED' => array("د.إ",2,'.',',',0),         //  UAE Dirham
             'UAH' => array(NULL,2,',',' ',0),          //  Ukraine, Hryvnia
             'USD' => array('$',2,'.',',',0),           //  US Dollar
             'VUV' => array(NULL,0,'',',',0),           //  Vanuatu, Vatu
             'VEF' => array(NULL,2,',','.',0),          //  Venezuela Bolivares Fuertes
             'VEB' => array(NULL,2,',','.',0),          //  Venezuela, Bolivar
-            'VND' => array('₫',0,'','.',0),     //  Viet Nam, Dong ₫
+            'VND' => array('₫',0,'','.',0),            //  Viet Nam, Dong ₫
             'ZWD' => array(NULL,2,'.',' ',0),          //  Zimbabwe Dollar
         );
 

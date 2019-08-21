@@ -260,7 +260,7 @@ class Subscriptions extends Base
     private function subscription_message($subscription, $plan)
     {
         $msg = [];
-        $plan_amount = \Money::format($plan->amount, $transaction->currency);
+        $plan_amount = \Money::format($plan->amount, $subscription->currency);
         if($plan->interval_count > 1) {
             array_push($msg, "You have subscribed to {$plan->name} for {$plan_amount} per {$plan->interval_count} {{str_plural($plan->interval)}}.");
         }
