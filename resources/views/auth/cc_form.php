@@ -322,7 +322,8 @@
                 }
                 if (data.success) {
                     $(titleSelector).text('Thanks for your payment!');
-                    $(paymentRowSelector).html('<p class="to-sign-up">You\'ve successfully unlocked your content. Enjoy!</p><button class="zype-button zype-custom-button" id="zype_modal_close">Let\'s starting watching</button><input type="hidden" class="close_reload" value="reload">');
+                    var description = payment_msg(data);
+                    $(paymentRowSelector).html(description);
                 }
                 $(checkoutButtonSelector).prop('disabled', false);
                 $(spinnerSelector).remove();
@@ -346,5 +347,17 @@
         $(window).on('popstate', function () {
             handler.close();
         });
+
+        function payment_msg(data) {
+            return '<p class="to-sign-up">' +
+                data.message +
+                '<br><br> You\'ve successfully unlocked your content. Enjoy!' +
+                '</p>' +
+                '<button class="zype-button zype-custom-button" id="zype_modal_close">' +
+                '    Let\'s starting watching' +
+                '</button>' +
+                '<input type="hidden" class="close_reload" value="reload">'
+
+        }
     });
 </script>
