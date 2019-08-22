@@ -30,7 +30,7 @@ class Admin extends Controller
                 'embed_key' => $this->request->validate('embed_key', ['textfield']),
                 'player_key' => $this->request->validate('player_key', ['textfield']),
                 'read_only_key' => $this->request->validate('read_only_key', ['textfield']),
-                'braintree_environment' => $this->request->validate('braintree_environment', ['textfield']),
+                'braintree_environment' => strtolower($this->request->validate('braintree_environment', ['textfield'])),
                 'braintree_merchant_id' => $this->request->validate('braintree_merchant_id', ['textfield']),
                 'braintree_private_key' => $this->request->validate('braintree_private_key', ['textfield']),
                 'braintree_public_key' => $this->request->validate('braintree_public_key', ['textfield']),

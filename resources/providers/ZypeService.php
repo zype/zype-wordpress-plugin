@@ -29,6 +29,7 @@ class ZypeService extends ServiceProvider
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Api/Account.php');
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Api/Playlist.php');
         require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Api/Video.php');
+        require_once(themosis_path('plugin.zypemedia.resources') . 'lib/Zype/Api/Consumer.php');
         class_alias('Zype\Core\Wrapper', 'Zype', true);
 
         new \Zype(Config::get('zype'));

@@ -5,6 +5,7 @@ namespace ZypeMedia\Controllers\Consumer;
 use Themosis\Facades\Config;
 use ZypeMedia\Services\Braintree;
 use ZypeMedia\Models\V2\Plan;
+use ZypeMedia\Models\V2\Consumer;
 
 class Subscriptions extends Base
 {
@@ -127,12 +128,15 @@ class Subscriptions extends Base
             $za = new \ZypeMedia\Services\Auth;
             $consumer_id = $za->get_consumer_id();
             $access_token = $za->get_access_token();
-            $consumer = \Zype::get_consumer($consumer_id, $access_token);
+            if($plan->stripe_id) {
+                $zype_consumer = Consumer::find($consumer_id);
+            }
+            elseif ($plan->braintree_id) {
+                $braintree_consumer = Consumer::get_braintree_customer($consumer_id);
+                $braintree_token = (new Braintree())->generateBraintreeToken($braintree_consumer->data->response->id);
+            }
 
             $stripe_pk = Config::get('zype.stripe_pk');
-            if ($consumer->braintree_id) {
-                $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
-            }
         } else {
             zype_flash_message('error', 'Please select a valid plan.');
 
@@ -213,7 +217,6 @@ class Subscriptions extends Base
                 switch ($form['type']) {
                     case 'braintree':
                         $sub['braintree_payment_nonce'] = $form['braintree_payment_nonce'];
-                        $sub['braintree_id'] = $plan->braintree_id;
                         break;
                     case 'stripe':
                         $sub['stripe_card_token'] = $form['stripe_card_token'];

@@ -62,7 +62,7 @@
                                     } ?></p>
                                 <br>
                             </div>
-                            <?php if (!empty($zd['subscription']->stripe_id)) { ?>
+                            <?php if (!empty($zd['subscription']->stripe_id) || !empty($zd['subscription']->braintree_id)) { ?>
                                 <div class="slot">
                                     <strong class="title">Change Plan: </strong>
                                     <p>Note: After changing your plan your billing will automatically update to reflect
@@ -104,8 +104,7 @@
                             <div class="slot">
                                 <strong class="title">Cancel Subscription: </strong>
                                 <?php if (empty($zd['subscription']->stripe_id)) { ?>
-                                    <p>If you cancel your subscription your subscription will terminate immediately and
-                                        you will not be refunded a prorated amount.</p>
+                                    <p>If you cancel your subscription your subscription will terminate immediately and you will not be refunded a prorated amount.</p>
                                     <p>You cannot undo this action.</p>
                                 <?php } ?>
                                 <br>
@@ -147,7 +146,6 @@
         var form_id;
         var handler = StripeCheckout.configure({
             key: '<?php echo $zd['stripe_pk']; ?>',
-            image: '<?php echo site_url(); ?>/mstile-70x70.png',
             token: function (token) {
                 $(form_id + ' input[name="email"]').val(token.email);
                 $(form_id + ' input[name="stripe_card_token"]').val(token.id);

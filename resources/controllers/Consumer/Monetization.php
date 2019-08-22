@@ -6,6 +6,7 @@ use Themosis\Facades\Config;
 use ZypeMedia\Services\Braintree;
 use ZypeMedia\Models\V2\Playlist;
 use ZypeMedia\Models\V2\Plan;
+use ZypeMedia\Models\V2\Consumer;
 
 class Monetization extends Base
 {
@@ -87,7 +88,7 @@ class Monetization extends Base
         $error = false;
         $transaction_type = isset($attrs['transaction_type']) ? $this->request->sanitize($attrs['transaction_type'], ['textfield']) : '';
         $plan_id = isset($attrs['plan_id']) ? $this->request->sanitize($attrs['plan_id'], ['textfield']) : '';
-        $stripe_ok = true;
+
         if(!in_array($transaction_type, self::TRANSACTION_TYPES)) {
             $error = 'Please select a valid transaction.';
             status_header(400, $error);
@@ -100,28 +101,19 @@ class Monetization extends Base
             return new WP_Error('stripe_unavailable', $error);
         }
         else {
-            $za = new \ZypeMedia\Services\Auth;
-            $consumer_id = $za->get_consumer_id();
-            $access_token = $za->get_access_token();
-            $consumer = \Zype::get_consumer($consumer_id, $access_token);
-            if ($consumer->braintree_id) {
-                $braintree_token = (new Braintree())->generateBraintreeToken($consumer->braintree_id);
-            }
-
             if($transaction_type == self::SUBSCRIPTION) {
-                $plan = $this->get_subscription($plan_id);
-                if(!$plan) {
-                    $error = 'Please select a valid plan.';
-                    status_header(400, $error);
-                    return new WP_Error('invalid_plan', $error);
+                $za = new \ZypeMedia\Services\Auth;
+                $consumer_id = $za->get_consumer_id();
+                $plan = $this->get_plan($plan_id);
+
+                if ($plan->braintree_id) {
+                    $braintree_consumer = Consumer::get_braintree_customer($consumer_id);
+                    $braintree_token = (new Braintree())->generateBraintreeToken($braintree_consumer->data->response->id);
                 }
                 elseif (empty($plan->stripe_id) && empty($braintree_token)) {
                     $error = 'Sorry, but this plan is temporarily unavailable';
                     status_header(400, $error);
                     return new WP_Error('unavailable_plan', $error);
-                }
-                if(empty($plan->stripe_id)) {
-                    $stripe_ok = false;
                 }
             } elseif ($transaction_type == self::PASS_PLAN) {
                 $pass_plan = $this->get_pass_plan($plan_id);
@@ -148,14 +140,13 @@ class Monetization extends Base
             'playlist_id' => $this->playlist_id,
             'object_id' => $this->object_id,
             'object_type' => $this->object_type,
-            'stripe_ok' => $stripe_ok,
             'coupons_enabled' => $this->options['stripe']['coupon_enabled']
         ]);
 
         return $content;
     }
 
-    private function get_subscription($plan_id)
+    private function get_plan($plan_id)
     {
         $plan = \Zype::get_plan($plan_id);
         if(empty($plan)) {
