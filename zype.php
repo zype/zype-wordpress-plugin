@@ -3,7 +3,7 @@
  * Plugin Name: Zype
  * Plugin URI: https://www.zype.com/
  * Description: Using the Zype plugin, you can sell subscriptions for premium video content, track analytics for video engagement, insert playlists and videos using shortcodes, and even broadcast live events with just a few clicks.
- * Version: 2.5.16
+ * Version: 2.6.0
  * Author: Zype
  * Author URI: http://zype.com/
  * Text Domain: plugin-textdomain.
