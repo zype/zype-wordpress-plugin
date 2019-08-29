@@ -15,6 +15,8 @@
     }
 ?>
 
+<script src="https://resources.zype.com/player/<?php echo $theo_player_version;?>/zypeplayer.js"></script>
+
 <div>
     <?php if ($has_access_to_video): ?>
         <div class="video-player">

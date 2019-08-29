@@ -2,6 +2,8 @@
 
 namespace ZypeMedia\Models;
 
+use ZypeMedia\Models\V2\Account;
+
 class Player extends Base
 {
 
@@ -27,6 +29,8 @@ class Player extends Base
     public function do_embed($params)
     {
         $params['options'] = $this->options;
+        $site = \ZypeMedia\Models\V2\Account::find();
+        $params['theo_player_version'] = $site->theoplayer_version;
         print view('partial/player_embed', $params);
     }
 
