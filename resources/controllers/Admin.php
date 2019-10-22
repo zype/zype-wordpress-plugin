@@ -225,9 +225,12 @@ class Admin extends Controller
 
     public function admin_braintree_page_save()
     {
-        if ($this->request->validate('subscribe')) {
+        // Set Subscriptions plans
+        $subscription_plans = $this->request->validate('subscribe') ?: [];
+        $new_options = ['subscribe_select' => $subscription_plans];
 
-            $new_options = ['subscribe_select' => $this->request->validate('subscribe')];
+        $this->options = array_replace($this->options, $new_options);
+        zype_wp_admin_message('updated', 'Subscription Plans successfully saved!');
 
         // Set Pass plans
         $pass_plans = $this->request->validate('pass_plans') ?: [];
