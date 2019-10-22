@@ -229,19 +229,13 @@ class Admin extends Controller
 
             $new_options = ['subscribe_select' => $this->request->validate('subscribe')];
 
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Subscription Plans successfully saved!');
-        }
+        // Set Pass plans
+        $pass_plans = $this->request->validate('pass_plans') ?: [];
+        $new_options = ['pass_plans_select' => $pass_plans];
 
-        if ($this->request->validate('pass_plans')) {
-
-            $new_options = ['pass_plans_select' => $this->request->validate('pass_plans')];
-
-            $this->options = array_replace($this->options, $new_options);
-            $this->update_options();
-            zype_wp_admin_message('updated', 'Pass Plans successfully saved!');
-        }
+        $this->options = array_replace($this->options, $new_options);
+        $this->update_options();
+        zype_wp_admin_message('updated', 'Pass Plans successfully saved!');
 
         if (wp_verify_nonce($this->request->validate('_wpnonce'), 'zype_braintree')) {
             $new_options   = [
