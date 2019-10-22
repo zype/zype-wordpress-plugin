@@ -25,7 +25,7 @@ class Subscriptions extends Base
 
         $plans = [];
         $this->options = Config::get('zype');
-        if (isset($this->options['subscribe_select'])) {
+        if (isset($this->options['subscribe_select']) && !empty($this->options['subscribe_select'])) {
             $plan_ids = \ZypeMedia\Services\Auth::remaning_plans();
             $plans = Plan::all(['id[]' => $plan_ids, ''], false);
         }

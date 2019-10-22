@@ -48,7 +48,7 @@ class Monetization extends Base
         $subscription_plans = [];
         $pass_plans = [];
         if($monetizations['subscription']['required']) {
-            if (isset($this->options['subscribe_select'])) {
+            if (isset($this->options['subscribe_select']) && !empty($this->options['subscribe_select'])) {
                 $subscription_plans = Plan::all(['id[]' => $this->options['subscribe_select']], false);
                 $subscription_plans = array_filter($subscription_plans, function($plan) {
                     return in_array($plan->_id, $this->object->plan_ids) || $plan->global_entitlement_type();

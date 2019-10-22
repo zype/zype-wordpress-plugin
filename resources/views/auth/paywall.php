@@ -132,7 +132,7 @@
                                         </div>
                                     </section>
                                 <?php endif; ?>
-                                <?php if($monetizations['pass']['required']): ?>
+                                <?php if($monetizations['pass']['required'] && !empty($pass_plans)): ?>
                                     <section id="pass-plans-<?php echo $root_parent ?>">
                                         <?php foreach ($pass_plans as $plan) { ?>
                                             <div class="zype-column-plans">
@@ -170,7 +170,7 @@
                                         <?php } ?>
                                     </section>
                                 <?php endif; ?>
-                                <?php if($monetizations['subscription']['required']): ?>
+                                <?php if($monetizations['subscription']['required'] && !empty($subscription_plans)): ?>
                                     <section id="subscription-plans-<?php echo $root_parent ?>">
                                         <?php foreach ($subscription_plans as $plan) { ?>
                                             <div class="zype-column-plans">

@@ -12,7 +12,8 @@
     border-bottom: 0px;
 }
 
-.zype-column-plans {
+.zype-column-plans,
+.zype-price-table section:first-child:last-child .zype-column-plans {
     border: 1px solid #d9d8e0;
     display: flex;
     justify-content: space-between;
