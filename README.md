@@ -1,5 +1,26 @@
 Don't know what Zype is? <a href="http://www.zype.com/" target="_blank">Learn more about Zype here</a>.
 
+# Table of Contents
+
+- [Zype Wordpress Plugin](#zype-wordpress-plugin)
+  - [Demo Website](#demo-website)
+  - [Key Features & Capabilities](#features-capabilities)
+  - [Monetization Supported](#monetization-supported)
+- [Instalation](#installation)
+  - [Requirements and Prerequisites](#requirements)
+  - [Installation via prebundled zip archive (Recommended)](#installation-zip)
+  - [Installation via cloning the repo (Optional for developers)](#installation-devs)
+  - [Configurationn](#configuration)
+- [Website Integration](#website-integration)
+  - [Shortcodes](#shortcodes)
+  - [URL rewrites](#url-rewrites)
+- [Contributing to the repo](#contributing-to-the-repo)
+  - [How to start the project](#how-to-start-project)
+  - [Creating a new release](#new-release)
+- [Support](#support)
+- [Versioning](#versioning)
+- [License](#license)
+
 # Zype Wordpress Plugin
 
 This free plugin allows you to turn your WordPress website into an eye-catching, easy to use video streaming destination integrated with the Zype platform with minimal coding and configuration. The plugin is built with PHP and the Zype API. With brief setup you can begin streaming video on your website.
@@ -8,39 +29,38 @@ Using the plugin you can sell subscriptions for premium video content, track ana
 
 The Zype cloud service provides publishing, monetization, streaming, audience management, and analytics software that is integrated into hundreds of web, mobile, and OTT apps and engaged by millions of viewers every month.
 
-## Demo Website
-Full functionality of the plugin can be viewed on <a href="https://zypeplugin.com/" target="_blank">Zype Plugin</a> demo website.
 
-<a href="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU"><img src="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
+  ## Demo Website
+  Full functionality of the plugin can be viewed on <a href="https://zypeplugin.com/" target="_blank">Zype Plugin</a> demo website.
 
-## Key Features & Capabilities
+  <a href="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU"><img src="https://drive.google.com/uc?export=view&id=1YM2U2oq4I4kqDCH2FF2zEJEwo9EgOJwU" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
 
-- Easily add videos and playlist galleries to any page or post using shortcodes.
-- Responsive design instantly works on mobile and desktop with any theme.
-- Stream your content from a wide range of sources including native video uploads, YouTube, Vimeo, Hulu, and more.
-- Your branding front and center with your own custom branded HTML5 video player.
-- Generate revenue with built-in subscription paywalls to make more money from your premium content.
-- Maximize ad revenue with preroll, midroll, and postroll ads, including support for dynamic ad pairing.
-- Broadcast high quality Live Streams anywhere on your website with just a few clicks.
-- Improve discovery and navigation for your audience by displaying playlist galleries showcasing your entire video library.
+  ## Key Features & Capabilities <a name="features-capabilities"></a>
 
-## Monetization Supported
+  - Easily add videos and playlist galleries to any page or post using shortcodes.
+  - Responsive design instantly works on mobile and desktop with any theme.
+  - Stream your content from a wide range of sources including native video uploads, YouTube, Vimeo, Hulu, and more.
+  - Your branding front and center with your own custom branded HTML5 video player.
+  - Generate revenue with built-in subscription paywalls to make more money from your premium content.
+  - Maximize ad revenue with preroll, midroll, and postroll ads, including support for dynamic ad pairing.
+  - Broadcast high quality Live Streams anywhere on your website with just a few clicks.
+  - Improve discovery and navigation for your audience by displaying playlist galleries showcasing your entire video library.
 
-- Subscription
-- Ads
+  ## Monetization Supported
+
+  - Subscription
+  - Ads
 
 # Installation
 
-## Requirements and Prerequisites
+## Requirements and Prerequisites <a name="requirements"></a>
 
 - A valid and current Zype account
 - Requires WordPress version: 4.6 or higher | Tested up to: 4.9.5
 - Requires PHP: 5.6
 
-##
 
-
-## Installation via prebundled zip archive (Recommended)
+## Installation via prebundled zip archive (Recommended) <a name="installation-zip"></a>
 
 Download latest release from Google Drive link in [releases](https://github.com/zype/zype-wordpress-plugin/releases) section in Github
 
@@ -50,7 +70,7 @@ Download latest release from Google Drive link in [releases](https://github.com/
 4. Click Install Now button.
 5. Click Activate Plugin button for activating the Zype.
 
-## Installation via cloning the repo (Optional for developers)
+## Installation via cloning the repo (Optional for developers) <a name="installation-devs"></a>
 
 Clone or download zype-wordpress-plugin repo. If you downloaded the ZIP file, you need to unzip the file.
 
@@ -81,9 +101,9 @@ Enhanced Playlists
 Monetization
 - In order to use subscription monetization on your Wordpress website, you must have a Braintree or Stripe account and have your Braintree / Stripe settings configured in the plugin as well as in the Zype platform.
 
-## Website Integration
+# Website Integration
 
-### Shortcodes
+## Shortcodes
 Shortcodes can be inserted anywere on your Wordpress website and will render underlying functionality based on plugin configuration.
 - [zype_video id='Insert Video ID'] Will render a single video from your Zype account
 - [zype_playlist id='Insert Playlist ID'] Will render a playlist and all nested content from your Zype account
@@ -91,27 +111,63 @@ Shortcodes can be inserted anywere on your Wordpress website and will render und
 - [zype_auth] Will render login/signup functionality.
 - [zype_signup] Will render signup functionality
 
-### URL rewrites
+## URL rewrites
 URL rewrites add new pages to your website.
 
-## Contributing to the repo
+# Contributing to the repo
 
 We welcome contributions to Zype Wordpress Plugin. If you have any suggestions or notice any bugs you can raise an issue. If you have any changes to the code base that you want to see added, you can fork the repository, then submit a pull request with your changes explaining what you changed, why you believe it should be added, and how one would test these changes. Thank you in advance to the community!
 
-## Support
+## How to start the project
+
+Since the project is dockerized just runnning the following will have a wordpress running with the Zypw Wordpress plugin:
+
+```bash
+docker-compose build && docker-compose up -d
+```
+
+Also you will probably need to change the `Permalink Settings` to `Post name` if not the routes from `resources/routes.php` won't work
+
+## Debugging
+
+### VS Code
+
+In your launch.json add the following configuration:
+
+```json
+{
+  "name": "Listen for XDebug",
+  "type": "php",
+  "request": "launch",
+  "port": 9000,
+  "pathMappings": {
+    "/var/www/html/wp-content/plugins/zype-plugin": "${workspaceRoot}",
+  }
+}
+```
+
+And just lick play on
+
+## Creating new release <a name="new-release"></a>
+
+If you want to create a release you must remove:
+
+1. Once your code is in master, create a new version: `git tag X.X.X` and push the tag to the repo.
+2. Duplicate the project folder and rename the copy to something like `zype-wordpress-plugin-vX.X.X`
+3. Remove the `.git` folder, the `docker-compose.yml` and `Dockerfile` files.
+4. Compress the folder into a zip file.
+5. Go to the [releases](https://github.com/zype/zype-wordpress-plugin/releases) page and create the release `Zype Wordpress Plugin vX.X.X` and upload the zipped file to the release.
+
+# Support
 
 If you need more information on how the Zype API works, you can read [documentation here](http://dev.zype.com/api_docs/intro/). If you have any other questions, feel free to contact us at [support@zype.com](mailto:support@zype.com).
 
-## Versioning
+# Versioning
 
 For the versions available, see the [tags on this repository](https://github.com/zype/zype-wordpress-plugin/tags).
 
-## Authors
-* **Aleksandr Stolbov** - *Initial Work* - [Osoro](https://github.com/Osoro)
-* **Andrey Kasatkin** - *Product Lead* - [Svetliy](https://github.com/svetdev)
-
 See also the list of [contributors](https://github.com/zype/zype-wordpress-plugin/graphs/contributors) who participated in this project.
 
-## License
+# License
 
 This project is licensed under the GPL-2.0 License - see the [LICENSE](LICENSE) file for details
