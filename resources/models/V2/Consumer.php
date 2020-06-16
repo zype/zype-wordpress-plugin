@@ -10,6 +10,12 @@ class Consumer extends Base
         return $single ? self::load_model($single->response) : false;
     }
 
+    public static function find_not_cached($id)
+    {
+        $single = \Zype\Api\Consumer::retrieve($id, ['cache' => false]);
+        return $single ? self::load_model($single->response) : false;
+    }
+
     public static function get_braintree_customer($id)
     {
         $single = \Zype\Api\Consumer::braintree($id);

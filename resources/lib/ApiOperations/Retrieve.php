@@ -9,12 +9,17 @@ trait Retrieve
 {
     /**
      * @param string $id The ID of the resource to retrieve
+     * @param array $options, possible options
+     *  $format: 'json', 'xml', 'csv. 'json' by default
+     *  $cache: true or false. true by default
      *
      * @return The object for the given class
      */
-    public static function retrieve($id, $format = 'json')
+    public static function retrieve($id, $options = ['format' => 'json', 'cache' => true])
     {
-        $path = self::get_path($id) . '.' . $format;
-        return self::request("GET", $path, null, false, true);
+        $options['format'] = $options['format']?: 'json';
+        $options['cache'] = isset($options['cache']) ? $options['cache'] : true;
+        $path = self::get_path($id) . '.' . $options['format'];
+        return self::request("GET", $path, null, false, $options['cache']);
     }
 }

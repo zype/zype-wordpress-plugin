@@ -196,7 +196,7 @@ class Auth extends Component
     {
         $cookie = self::get_cookie();
 
-        if(isset($cookie['global_subscription_count']) && $cookie['global_subscription_count'] > -0) {
+        if(isset($cookie['global_subscription_count']) && $cookie['global_subscription_count'] > 0) {
             return true;
         }
         if(!$playlist_id || !isset($cookie['tiered_subscriptions']) || empty($cookie['tiered_subscriptions'])) return false;
@@ -329,7 +329,7 @@ class Auth extends Component
     public static function sync_cookie()
     {
         $cookie = self::get_cookie();
-        $consumer = Consumer::find($cookie['user_id']);
+        $consumer = Consumer::find_not_cached($cookie['user_id']);
         if ($consumer) {
             self::set_cookie_vals([
                 'user_id' => $consumer->_id,
