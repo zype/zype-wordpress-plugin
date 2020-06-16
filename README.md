@@ -15,7 +15,7 @@ Don't know what Zype is? <a href="http://www.zype.com/" target="_blank">Learn mo
   - [Shortcodes](#shortcodes)
   - [URL rewrites](#url-rewrites)
 - [Contributing to the repo](#contributing-to-the-repo)
-  - [How to start the project](#how-to-start-project)
+  - [How to start the project](#how-to-start-the-project)
   - [Creating a new release](#new-release)
 - [Support](#support)
 - [Versioning](#versioning)
