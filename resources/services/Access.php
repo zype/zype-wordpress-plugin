@@ -38,7 +38,8 @@ class Access extends Component
 
         $hasAccess = true;
         if ($video->subscription_required) {
-            if (\ZypeMedia\Services\Auth::subscriber($playlist_id)) {
+            $is_subscribed = \ZypeMedia\Services\Auth::subscriber($playlist_id);
+            if ($is_subscribed) {
                 return true;
             }
             $hasAccess = false;
