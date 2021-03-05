@@ -59,8 +59,19 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 - Requires WordPress version: 4.6 or higher | Tested up to: 4.9.5
 - Requires PHP: 5.6
 
+## Installation via docker compose(Recommended for developers)
 
-## Installation via prebundled zip archive (Recommended) <a name="installation-zip"></a>
+The repo includes a dockerfile ready to download the dependencies and run the aplication(with xdebug v3 support for debugging). To setup everything you only need to run:
+
+```
+  docker-compose build
+  docker-compose up -d
+  docker-compose exec wordpress bash -c "cd /var/www/html/wp-content/plugins/zype-plugin && composer install --no-scripts"
+```
+
+The `composer install` step downloads the project dependencies, so is actually only needed to run the first time and whenever you add a new dependency.
+
+## Installation via prebundled zip archive <a name="installation-zip"></a>
 
 Download latest release from Google Drive link in [releases](https://github.com/zype/zype-wordpress-plugin/releases) section in Github
 
@@ -126,7 +137,20 @@ Since the project is dockerized just runnning the following will have a wordpres
 docker-compose build && docker-compose up -d
 ```
 
+if this is the first time you run the project (or if you added a new dependency) remember that you must download the dependencies (check _Installation via docker compose_ section to see the command to download them)
+
 Also you will probably need to change the `Permalink Settings` to `Post name` if not the routes from `resources/routes.php` won't work
+
+## Creating Initial user
+The first time you start the app it will ask you to sign up a new user. If by some reason you removed it from the DB or you just want to do a fresh start you can remove the volumes and build the images again from scratch:
+
+``` 
+docker-compose kill && docker-compose rm
+docker volume rm zype-wordpress-plugin_db zype-wordpress-plugin_wordpress
+docker rmi zype-wordpress-plugin_wordpress
+docker-compose build
+docker-compose up -d
+```
 
 ## Debugging
 
@@ -136,17 +160,24 @@ In your launch.json add the following configuration:
 
 ```json
 {
-  "name": "Listen for XDebug",
-  "type": "php",
-  "request": "launch",
-  "port": 9000,
-  "pathMappings": {
-    "/var/www/html/wp-content/plugins/zype-plugin": "${workspaceRoot}",
-  }
+    "name": "Listen for XDebug",
+    "type": "php",
+    "request": "launch",
+    "port": 9000,
+    "log": true,
+    "pathMappings": {
+      "/var/www/html/wp-content/plugins/zype-plugin": "${workspaceRoot}"
+    },
+    "xdebugSettings": {
+        "max_data": 65535,
+        "show_hidden": 1,
+        "max_children": 100,
+        "max_depth": 5
+    }
 }
 ```
 
-And just lick play on
+And just click play on
 
 ## Creating new release <a name="new-release"></a>
 
@@ -171,3 +202,7 @@ See also the list of [contributors](https://github.com/zype/zype-wordpress-plugi
 # License
 
 This project is licensed under the GPL-2.0 License - see the [LICENSE](LICENSE) file for details
+
+# Production account
+
+There's a Zype production account https://zypeplugin.com/
