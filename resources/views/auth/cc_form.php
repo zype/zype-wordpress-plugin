@@ -1,7 +1,7 @@
 <div class="content-wrap zype-form-center">
     <div id="payment-wrapper">
         <div class="main-heading inner-heading">
-            <h1 class="title text-uppercase zype-title zype-custom-title">Enter your billing info</h1>
+            <h1 class="title zype-title zype-custom-title text-uppercase">Enter your billing info</h1>
         </div>
         <div class="user-wrap">
             <div class="holder-main">

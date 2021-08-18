@@ -144,7 +144,7 @@ Also you will probably need to change the `Permalink Settings` to `Post name` if
 ## Creating Initial user
 The first time you start the app it will ask you to sign up a new user. If by some reason you removed it from the DB or you just want to do a fresh start you can remove the volumes and build the images again from scratch:
 
-``` 
+```
 docker-compose kill && docker-compose rm
 docker volume rm zype-wordpress-plugin_db zype-wordpress-plugin_wordpress
 docker rmi zype-wordpress-plugin_wordpress

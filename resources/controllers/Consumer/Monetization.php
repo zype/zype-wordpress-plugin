@@ -17,6 +17,7 @@ class Monetization extends Base
     const TRANSACTION_TYPES = [self::SUBSCRIPTION, self::PURCHASE, self::PASS_PLAN, self::RENTAL];
 
     private $stripe_pk = '';
+    private $braintree_enabled = '';
     private $root_parent = '';
     private $video_id = '';
     private $playlist_id = '';
@@ -31,6 +32,7 @@ class Monetization extends Base
         parent::__construct();
         $this->options = Config::get('zype');
         $this->stripe_pk = $this->options['stripe_pk'];
+        $this->braintree_enabled = $this->options['braintree_enabled'];
         $this->form_message = null;
         $this->root_parent = $root_parent;
         $this->video_id = $video_id;
@@ -92,13 +94,13 @@ class Monetization extends Base
         if(!in_array($transaction_type, self::TRANSACTION_TYPES)) {
             $error = 'Please select a valid transaction.';
             status_header(400, $error);
-            return new WP_Error('invalid_transaction_type', $error);
+            return $error;
         }
 
-        if(empty($this->stripe_pk)) {
-            $error = 'Currently it is not possible to pay through Stripe';
+        if(empty($this->stripe_pk) && !$this->braintree_enabled) {
+            $error = "Contact the administrator, there's no payment provider set";
             status_header(400, $error);
-            return new WP_Error('stripe_unavailable', $error);
+            return $error;
         }
         else {
             if($transaction_type == self::SUBSCRIPTION) {
@@ -113,14 +115,14 @@ class Monetization extends Base
                 elseif (empty($plan->stripe_id) && empty($braintree_token)) {
                     $error = 'Sorry, but this plan is temporarily unavailable';
                     status_header(400, $error);
-                    return new WP_Error('unavailable_plan', $error);
+                    return $error;
                 }
             } elseif ($transaction_type == self::PASS_PLAN) {
                 $pass_plan = $this->get_pass_plan($plan_id);
                 if(!$pass_plan) {
                     $error = 'Please select a valid pass plan.';
                     status_header(400, $error);
-                    return new WP_Error('invalid_pass_plan', $error);
+                    return $error;
                 }
             }
 

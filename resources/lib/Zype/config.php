@@ -56,6 +56,7 @@ $options = array(
     'braintree_merchant_id' => '',
     'braintree_private_key' => '',
     'braintree_public_key' => '',
+    'braintree_enabled' => false,
     'rss_url' => 'rss',
     'rss_enabled' => false,
     'stripe_pk' => '',

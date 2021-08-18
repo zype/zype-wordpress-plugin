@@ -50,6 +50,11 @@ class Admin extends Controller
                 $new_options['playerHost'] = $this->zypeEnvironmentSettings[$zype_environment]['playerHost'];
             }
 
+            $new_options['braintree_enabled'] = isset($new_options['braintree_environment']) &&
+                isset($new_options['braintree_merchant_id']) &&
+                isset($new_options['braintree_private_key']) &&
+                isset($new_options['braintree_public_key']);
+
             $this->options = array_replace($this->options, $new_options);
             $this->update_options();
 
