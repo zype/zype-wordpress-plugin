@@ -1,11 +1,11 @@
-FROM wordpress:5.2.4
+FROM wordpress:5.8
 
 # Install Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Install XDebug
 RUN pecl install -f xdebug \
-&& echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\nxdebug.mode=debug\nxdebug.start_with_request=yes" > /usr/local/etc/php/conf.d/xdebug.ini;
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\nxdebug.mode=debug\nxdebug.start_with_request=yes" > /usr/local/etc/php/conf.d/xdebug.ini;
 
 RUN apt-get update \
     && apt-get install -y net-tools iproute2 \
