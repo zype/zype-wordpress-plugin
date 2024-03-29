@@ -61,13 +61,15 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 
 ## Installation via docker compose(Recommended for developers)
 
-The repo includes a dockerfile ready to download the dependencies and run the aplication(with xdebug v3 support for debugging). To setup everything you only need to run:
+The repo includes a Dockerfile ready to download the dependencies and run the application(with xdebug v3 support for debugging). To setup everything you only need to run:
 
 ```
   docker-compose build
   docker-compose up -d
   docker-compose exec wordpress bash -c "cd /var/www/html/wp-content/plugins/zype-plugin && composer install --no-scripts"
 ```
+
+**NOTE: Make sure to change the database credentials in the Dockerfile before installation**
 
 The `composer install` step downloads the project dependencies, so is actually only needed to run the first time and whenever you add a new dependency.
 
