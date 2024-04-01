@@ -61,7 +61,11 @@ The Zype cloud service provides publishing, monetization, streaming, audience ma
 
 ## Installation via docker compose(Recommended for developers)
 
-The repo includes a dockerfile ready to download the dependencies and run the aplication(with xdebug v3 support for debugging). To setup everything you only need to run:
+The repo includes a Dockerfile ready to download the dependencies and run the application(with xdebug v3 support for debugging).
+
+**NOTE: Make sure to change the database credentials in the Dockerfile before installation**
+
+To setup everything you only need to run:
 
 ```
   docker-compose build
